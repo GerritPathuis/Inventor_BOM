@@ -1,4 +1,8 @@
 ﻿Imports System.IO
+Imports System
+Imports System.Type
+Imports System.Activator
+Imports System.Runtime.InteropServices
 Imports Inventor
 Imports Microsoft.Office.Interop.Excel
 Imports Microsoft.Office.Interop
@@ -47,17 +51,22 @@ Public Class Form1
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
         Qbom()
+
     End Sub
 
     Private Sub Qbom()
-        TextBox2.Clear()
+        DataGridView1.ColumnCount = 10
+        DataGridView1.ColumnHeadersVisible = True
 
         Dim oDoc As Inventor.Document
         Dim invApp As Inventor.Application
 
+        'Process.Start("C:\Program Files\Autodesk\Inventor 2018\Bin\Inventor.exe")
+        ' Threading.Thread.Sleep(2000) 'Give Inventor some time to start-up
+        invApp = Marshal.GetActiveObject("Inventor.Application")
 
-        invApp = CType(GetObject(, "Inventor.Application"), Inventor.Application)
-            invApp.SilentOperation = vbTrue
+        'invApp = CType(GetObject(, "Inventor.Application"), Inventor.Application)
+        invApp.SilentOperation = vbTrue
             oDoc = CType(invApp.Documents.Open(filepath1, False), Document)
         Try
             Dim oBOM As Inventor.BOM
@@ -117,41 +126,40 @@ Public Class Form1
         SaveFileDialog1.InitialDirectory = filepath3
         SaveFileDialog1.FileName = "Inventor_BOM.xls"
         SaveFileDialog1.ShowDialog()
-
+        Write_excel()
     End Sub
     Private Sub Write_excel()
         Dim xlApp As New Excel.Application
         Dim xlWorkBook As Excel.Workbook
         Dim xlWorksheet As Excel.Worksheet
         Dim fname As String
+        Dim str As String
 
         xlApp = CreateObject("Excel.Application")
         xlWorkBook = xlApp.Workbooks.Add(Type.Missing)
         xlWorksheet = xlWorkBook.Worksheets(1)
 
-        xlApp.Visible = True
+        xlApp.Visible = False
         xlApp.DisplayAlerts = False 'Suppress excel messages
 
-        If IO.File.Exists(TextBox1.Text) = True Then
-            Try
-                For col = 1 To DataGridView1.Columns.Count
-                    For row = 1 To DataGridView1.Rows.Count
-                        xlWorksheet.Cells(0, 2) = DataGridView1.Rows.Item(row).Cells(col).Value
-                    Next
+        Try
+            For vert = 1 To DataGridView1.Rows.Count - 1
+                For hor = 1 To DataGridView1.Columns.Count - 1
+                    str = DataGridView1.Rows.Item(vert - 1).Cells(hor).Value.ToString
+                    xlWorksheet.Cells(vert, hor) = str
                 Next
-                fname = SaveFileDialog1.FileName
-                xlWorkBook.SaveAs(fname, FileFormat:=XlFileFormat.xlWorkbookNormal)
-                xlApp.Quit()
+            Next
+            fname = SaveFileDialog1.FileName
+            xlWorkBook.SaveAs(fname, FileFormat:=XlFileFormat.xlWorkbookNormal)
+            xlApp.Quit()
 
-                ReleaseObject(xlApp)
-                ReleaseObject(xlWorkBook)
-                ReleaseObject(xlWorksheet)
-            Catch ex As Exception
-                MessageBox.Show("Problem writing excel " & ex.Message)
+            ReleaseObject(xlApp)
+            ReleaseObject(xlWorkBook)
+            ReleaseObject(xlWorksheet)
+        Catch ex As Exception
+            MessageBox.Show("Problem writing excel " & ex.Message)
             End Try
-        Else
-            MessageBox.Show("OK file is written ")
-        End If
+
     End Sub
 
     Private Sub ReleaseObject(ByVal obj As Object)
