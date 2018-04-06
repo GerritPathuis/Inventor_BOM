@@ -55,7 +55,7 @@ Public Class Form1
     End Sub
 
     Private Sub Qbom()
-        DataGridView1.ColumnCount = 10
+        DataGridView1.ColumnCount = 14
         DataGridView1.ColumnHeadersVisible = True
 
         Dim oDoc As Inventor.Document
@@ -94,7 +94,9 @@ Public Class Form1
             DataGridView1.Columns(7).HeaderText = "DOC_STATUS"
             DataGridView1.Columns(8).HeaderText = "DOC_REV"
             DataGridView1.Columns(9).HeaderText = "PART_MATERIAL"
-
+            DataGridView1.Columns(10).HeaderText = "IT_TP"
+            DataGridView1.Columns(11).HeaderText = "LENGTH"
+            DataGridView1.Columns(12).HeaderText = "IT_CL"
 
             For i = 1 To oBOMView.BOMRows.Count
                 r = i - 1
@@ -113,7 +115,11 @@ Public Class Form1
                 DataGridView1.Rows.Item(r).Cells(6).Value = oPropSet.Item("ITEM_NR").Value
                 DataGridView1.Rows.Item(r).Cells(7).Value = oPropSet.Item("DOC_STATUS").Value
                 DataGridView1.Rows.Item(r).Cells(8).Value = oPropSet.Item("DOC_REV").Value
-                DataGridView1.Rows.Item(r).Cells(9).Value = oPropSet.Item("PART_MATERIAL").Value & vbCrLf
+                DataGridView1.Rows.Item(r).Cells(9).Value = oPropSet.Item("PART_MATERIAL").Value
+                DataGridView1.Rows.Item(r).Cells(10).Value = oPropSet.Item("IT_TP").Value
+                'DataGridView1.Rows.Item(r).Cells(11).Value = oPropSet.Item("LG").Value
+                'DataGridView1.Rows.Item(r).Cells(12).Value = oPropSet.Item("IT_TP").Value
+
             Next
         Catch Ex As Exception
             MessageBox.Show("Inventor not running or No BOM in this drawing ")

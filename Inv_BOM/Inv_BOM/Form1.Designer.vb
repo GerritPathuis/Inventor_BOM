@@ -31,12 +31,12 @@ Partial Class Form1
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
-        Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
@@ -56,7 +56,7 @@ Partial Class Form1
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(233, 33)
         Me.Button2.TabIndex = 4
-        Me.Button2.Text = "Select iam file"
+        Me.Button2.Text = "Select iam file (assembly)"
         Me.Button2.UseVisualStyleBackColor = True
         '
         'Button1
@@ -65,7 +65,7 @@ Partial Class Form1
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(233, 33)
         Me.Button1.TabIndex = 5
-        Me.Button1.Text = "Select ipt file"
+        Me.Button1.Text = "Select ipt file (part)"
         Me.Button1.UseVisualStyleBackColor = True
         '
         'Button3
@@ -83,7 +83,7 @@ Partial Class Form1
         Me.Button4.Name = "Button4"
         Me.Button4.Size = New System.Drawing.Size(233, 33)
         Me.Button4.TabIndex = 7
-        Me.Button4.Text = "Write excel"
+        Me.Button4.Text = "Write to excel file"
         Me.Button4.UseVisualStyleBackColor = True
         '
         'TabControl1
