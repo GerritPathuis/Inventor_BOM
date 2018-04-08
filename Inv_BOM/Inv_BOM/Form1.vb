@@ -113,28 +113,38 @@ Public Class Form1
 
             For i = 1 To oBOMView.BOMRows.Count
                 r = i - 1
+
                 oRow = oBOMView.BOMRows.Item(i)
                 oCompDef = oRow.ComponentDefinitions.Item(1)
                 oPropSet = oCompDef.Document.PropertySets.Item("Design Tracking Properties")
                 DataGridView1.Rows.Add()
 
                 DataGridView1.Rows.Item(r).Cells(0).Value = filen
+
                 DataGridView1.Rows.Item(r).Cells(1).Value = oRow.ItemNumber
                 DataGridView1.Rows.Item(r).Cells(2).Value = oRow.ItemQuantity
+
+
                 DataGridView1.Rows.Item(r).Cells(3).Value = oPropSet.Item("Part Number").Value
                 DataGridView1.Rows.Item(r).Cells(4).Value = oPropSet.Item("Description").Value
                 DataGridView1.Rows.Item(r).Cells(5).Value = oPropSet.Item("Stock Number").Value
 
-                oPropSet = oCompDef.Document.PropertySets.Item("Inventor User Defined Properties")
-                DataGridView1.Rows.Item(r).Cells(6).Value = oPropSet.Item("DOC_NUMBER").Value
-                DataGridView1.Rows.Item(r).Cells(7).Value = oPropSet.Item("ITEM_NR").Value
-                DataGridView1.Rows.Item(r).Cells(8).Value = oPropSet.Item("DOC_STATUS").Value
-                DataGridView1.Rows.Item(r).Cells(9).Value = oPropSet.Item("DOC_REV").Value
-                DataGridView1.Rows.Item(r).Cells(10).Value = oPropSet.Item("PART_MATERIAL").Value
-                DataGridView1.Rows.Item(r).Cells(11).Value = oPropSet.Item("IT_TP").Value
-                'DataGridView1.Rows.Item(r).Cells(12).Value = oPropSet.Item("LG").Value
-                'DataGridView1.Rows.Item(r).Cells(13).Value = oPropSet.Item("IT_TP").Value
 
+                '--------- CUSTOM Properties ------------------------
+                oPropSet = oCompDef.Document.PropertySets.Item("Inventor User Defined Properties")
+                If oPropSet.Count = 0 Then
+                    MessageBox.Show("The are NO 'Custom' properties present in this file")
+                Else
+                    DataGridView1.Rows.Item(r).Cells(6).Value = oPropSet.Item("DOC_NUMBER").Value
+                    DataGridView1.Rows.Item(r).Cells(7).Value = oPropSet.Item("ITEM_NR").Value
+                    DataGridView1.Rows.Item(r).Cells(8).Value = oPropSet.Item("DOC_STATUS").Value
+                    DataGridView1.Rows.Item(r).Cells(9).Value = oPropSet.Item("DOC_REV").Value
+                    DataGridView1.Rows.Item(r).Cells(10).Value = oPropSet.Item("PART_MATERIAL").Value
+                    DataGridView1.Rows.Item(r).Cells(11).Value = oPropSet.Item("IT_TP").Value
+                    'DataGridView1.Rows.Item(r).Cells(12).Value = oPropSet.Item("LG").Value
+                    'DataGridView1.Rows.Item(r).Cells(13).Value = oPropSet.Item("IT_TP").Value
+                End If
+                '-----------------------------------------------------
             Next
         Catch Ex As Exception
                 MessageBox.Show("No BOM in this drawing ")
