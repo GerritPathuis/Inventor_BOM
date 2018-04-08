@@ -55,19 +55,31 @@ Public Class Form1
     End Sub
 
     Private Sub Qbom()
-        DataGridView1.ColumnCount = 14
+        Dim information As System.IO.FileInfo
+        Dim filen As String
+
+        DataGridView1.ColumnCount = 15
         DataGridView1.ColumnHeadersVisible = True
+
+        '-------- inventor must be running----
+        Dim p() As Process
+        p = Process.GetProcessesByName("Inventor")
+        If p.Count = 0 Then
+            MessageBox.Show("Inventor is not running")
+            Exit Sub
+        End If
+
+        '------- get file inf0-----------
+        information = My.Computer.FileSystem.GetFileInfo(filepath1)
+        filen = information.Name
 
         Dim oDoc As Inventor.Document
         Dim invApp As Inventor.Application
 
-        'Process.Start("C:\Program Files\Autodesk\Inventor 2018\Bin\Inventor.exe")
-        ' Threading.Thread.Sleep(2000) 'Give Inventor some time to start-up
         invApp = Marshal.GetActiveObject("Inventor.Application")
 
-        'invApp = CType(GetObject(, "Inventor.Application"), Inventor.Application)
         invApp.SilentOperation = vbTrue
-            oDoc = CType(invApp.Documents.Open(filepath1, False), Document)
+        oDoc = CType(invApp.Documents.Open(filepath1, False), Document)
         Try
             Dim oBOM As Inventor.BOM
             oBOM = oDoc.ComponentDefinition.BOM
@@ -83,20 +95,21 @@ Public Class Form1
             Dim oPropSet As PropertySet
             Dim i, r As Integer
 
-            DataGridView1.Columns(0).HeaderText = "Item "
-            DataGridView1.Columns(1).HeaderText = "Qty"
-            DataGridView1.Columns(2).HeaderText = "Part"
-            DataGridView1.Columns(3).HeaderText = "Desc"
-            DataGridView1.Columns(4).HeaderText = "Stock"
+            DataGridView1.Columns(0).HeaderText = "File"
+            DataGridView1.Columns(1).HeaderText = "Item "
+            DataGridView1.Columns(2).HeaderText = "Qty"
+            DataGridView1.Columns(3).HeaderText = "Part"
+            DataGridView1.Columns(4).HeaderText = "Desc"
+            DataGridView1.Columns(5).HeaderText = "Stock"
 
-            DataGridView1.Columns(5).HeaderText = "DOC_NUMBER"
-            DataGridView1.Columns(6).HeaderText = "ITEM_NR"
-            DataGridView1.Columns(7).HeaderText = "DOC_STATUS"
-            DataGridView1.Columns(8).HeaderText = "DOC_REV"
-            DataGridView1.Columns(9).HeaderText = "PART_MATERIAL"
-            DataGridView1.Columns(10).HeaderText = "IT_TP"
-            DataGridView1.Columns(11).HeaderText = "LENGTH"
-            DataGridView1.Columns(12).HeaderText = "IT_CL"
+            DataGridView1.Columns(6).HeaderText = "DOC_NUMBER"
+            DataGridView1.Columns(7).HeaderText = "ITEM_NR"
+            DataGridView1.Columns(8).HeaderText = "DOC_STATUS"
+            DataGridView1.Columns(9).HeaderText = "DOC_REV"
+            DataGridView1.Columns(10).HeaderText = "PART_MATERIAL"
+            DataGridView1.Columns(11).HeaderText = "IT_TP"
+            DataGridView1.Columns(12).HeaderText = "LENGTH"
+            DataGridView1.Columns(13).HeaderText = "IT_CL"
 
             For i = 1 To oBOMView.BOMRows.Count
                 r = i - 1
@@ -104,26 +117,28 @@ Public Class Form1
                 oCompDef = oRow.ComponentDefinitions.Item(1)
                 oPropSet = oCompDef.Document.PropertySets.Item("Design Tracking Properties")
                 DataGridView1.Rows.Add()
-                DataGridView1.Rows.Item(r).Cells(0).Value = oRow.ItemNumber
-                DataGridView1.Rows.Item(r).Cells(1).Value = oRow.ItemQuantity
-                DataGridView1.Rows.Item(r).Cells(2).Value = oPropSet.Item("Part Number").Value
-                DataGridView1.Rows.Item(r).Cells(3).Value = oPropSet.Item("Description").Value
-                DataGridView1.Rows.Item(r).Cells(4).Value = oPropSet.Item("Stock Number").Value
+
+                DataGridView1.Rows.Item(r).Cells(0).Value = filen
+                DataGridView1.Rows.Item(r).Cells(1).Value = oRow.ItemNumber
+                DataGridView1.Rows.Item(r).Cells(2).Value = oRow.ItemQuantity
+                DataGridView1.Rows.Item(r).Cells(3).Value = oPropSet.Item("Part Number").Value
+                DataGridView1.Rows.Item(r).Cells(4).Value = oPropSet.Item("Description").Value
+                DataGridView1.Rows.Item(r).Cells(5).Value = oPropSet.Item("Stock Number").Value
 
                 oPropSet = oCompDef.Document.PropertySets.Item("Inventor User Defined Properties")
-                DataGridView1.Rows.Item(r).Cells(5).Value = oPropSet.Item("DOC_NUMBER").Value
-                DataGridView1.Rows.Item(r).Cells(6).Value = oPropSet.Item("ITEM_NR").Value
-                DataGridView1.Rows.Item(r).Cells(7).Value = oPropSet.Item("DOC_STATUS").Value
-                DataGridView1.Rows.Item(r).Cells(8).Value = oPropSet.Item("DOC_REV").Value
-                DataGridView1.Rows.Item(r).Cells(9).Value = oPropSet.Item("PART_MATERIAL").Value
-                DataGridView1.Rows.Item(r).Cells(10).Value = oPropSet.Item("IT_TP").Value
-                'DataGridView1.Rows.Item(r).Cells(11).Value = oPropSet.Item("LG").Value
-                'DataGridView1.Rows.Item(r).Cells(12).Value = oPropSet.Item("IT_TP").Value
+                DataGridView1.Rows.Item(r).Cells(6).Value = oPropSet.Item("DOC_NUMBER").Value
+                DataGridView1.Rows.Item(r).Cells(7).Value = oPropSet.Item("ITEM_NR").Value
+                DataGridView1.Rows.Item(r).Cells(8).Value = oPropSet.Item("DOC_STATUS").Value
+                DataGridView1.Rows.Item(r).Cells(9).Value = oPropSet.Item("DOC_REV").Value
+                DataGridView1.Rows.Item(r).Cells(10).Value = oPropSet.Item("PART_MATERIAL").Value
+                DataGridView1.Rows.Item(r).Cells(11).Value = oPropSet.Item("IT_TP").Value
+                'DataGridView1.Rows.Item(r).Cells(12).Value = oPropSet.Item("LG").Value
+                'DataGridView1.Rows.Item(r).Cells(13).Value = oPropSet.Item("IT_TP").Value
 
             Next
         Catch Ex As Exception
-            MessageBox.Show("Inventor not running or No BOM in this drawing ")
-        Finally
+                MessageBox.Show("No BOM in this drawing ")
+            Finally
         End Try
     End Sub
 
