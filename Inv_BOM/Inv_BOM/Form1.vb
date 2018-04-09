@@ -277,9 +277,20 @@ Public Class Form1
             GC.Collect()
         End Try
     End Sub
-    'see https://forums.autodesk.com/t5/inventor-customization/ilogic-list-all-custom-properties/td-p/6218163
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
+        List_all_properties()
+    End Sub
+    'see https://forums.autodesk.com/t5/inventor-customization/ilogic-list-all-custom-properties/td-p/6218163
+    Private Sub List_all_properties()
+        '-------- inventor must be running----
+        Dim p() As Process
+        p = Process.GetProcessesByName("Inventor")
+        If p.Count = 0 Then
+            MessageBox.Show("Inventor is not running")
+            Exit Sub
+        End If
 
+        '-------- Now list properties--------
         Dim oDoc As Inventor.Document
         Dim invApp As Inventor.Application
 
