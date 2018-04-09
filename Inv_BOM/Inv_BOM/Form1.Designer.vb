@@ -29,6 +29,13 @@ Partial Class Form1
         Me.Button4 = New System.Windows.Forms.Button()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.RadioButton4 = New System.Windows.Forms.RadioButton()
+        Me.RadioButton3 = New System.Windows.Forms.RadioButton()
+        Me.RadioButton2 = New System.Windows.Forms.RadioButton()
+        Me.RadioButton1 = New System.Windows.Forms.RadioButton()
+        Me.Button5 = New System.Windows.Forms.Button()
+        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
         Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -39,6 +46,7 @@ Partial Class Form1
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -80,7 +88,7 @@ Partial Class Form1
         'Button4
         '
         Me.Button4.BackColor = System.Drawing.Color.Transparent
-        Me.Button4.Location = New System.Drawing.Point(6, 170)
+        Me.Button4.Location = New System.Drawing.Point(8, 170)
         Me.Button4.Name = "Button4"
         Me.Button4.Size = New System.Drawing.Size(233, 33)
         Me.Button4.TabIndex = 7
@@ -100,6 +108,8 @@ Partial Class Form1
         '
         'TabPage1
         '
+        Me.TabPage1.Controls.Add(Me.GroupBox1)
+        Me.TabPage1.Controls.Add(Me.CheckBox1)
         Me.TabPage1.Controls.Add(Me.TextBox1)
         Me.TabPage1.Controls.Add(Me.Button4)
         Me.TabPage1.Controls.Add(Me.Button1)
@@ -112,6 +122,85 @@ Partial Class Form1
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Select file"
         Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.RadioButton4)
+        Me.GroupBox1.Controls.Add(Me.RadioButton3)
+        Me.GroupBox1.Controls.Add(Me.RadioButton2)
+        Me.GroupBox1.Controls.Add(Me.RadioButton1)
+        Me.GroupBox1.Controls.Add(Me.Button5)
+        Me.GroupBox1.Location = New System.Drawing.Point(398, 32)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(293, 224)
+        Me.GroupBox1.TabIndex = 10
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "Tools"
+        '
+        'RadioButton4
+        '
+        Me.RadioButton4.AutoSize = True
+        Me.RadioButton4.Location = New System.Drawing.Point(18, 103)
+        Me.RadioButton4.Name = "RadioButton4"
+        Me.RadioButton4.Size = New System.Drawing.Size(153, 17)
+        Me.RadioButton4.TabIndex = 13
+        Me.RadioButton4.Text = "Design Tracking Properties"
+        Me.RadioButton4.UseVisualStyleBackColor = True
+        '
+        'RadioButton3
+        '
+        Me.RadioButton3.AutoSize = True
+        Me.RadioButton3.Location = New System.Drawing.Point(18, 76)
+        Me.RadioButton3.Name = "RadioButton3"
+        Me.RadioButton3.Size = New System.Drawing.Size(217, 17)
+        Me.RadioButton3.TabIndex = 12
+        Me.RadioButton3.Text = "Inventor Document Summary Information"
+        Me.RadioButton3.UseVisualStyleBackColor = True
+        '
+        'RadioButton2
+        '
+        Me.RadioButton2.AutoSize = True
+        Me.RadioButton2.Location = New System.Drawing.Point(18, 49)
+        Me.RadioButton2.Name = "RadioButton2"
+        Me.RadioButton2.Size = New System.Drawing.Size(165, 17)
+        Me.RadioButton2.TabIndex = 11
+        Me.RadioButton2.Text = "Inventor Summary Information"
+        Me.RadioButton2.UseVisualStyleBackColor = True
+        '
+        'RadioButton1
+        '
+        Me.RadioButton1.AutoSize = True
+        Me.RadioButton1.Checked = True
+        Me.RadioButton1.Location = New System.Drawing.Point(18, 26)
+        Me.RadioButton1.Name = "RadioButton1"
+        Me.RadioButton1.Size = New System.Drawing.Size(110, 17)
+        Me.RadioButton1.TabIndex = 10
+        Me.RadioButton1.TabStop = True
+        Me.RadioButton1.Text = "Custom Properties"
+        Me.RadioButton1.UseVisualStyleBackColor = True
+        '
+        'Button5
+        '
+        Me.Button5.BackColor = System.Drawing.Color.Transparent
+        Me.Button5.Location = New System.Drawing.Point(18, 138)
+        Me.Button5.Name = "Button5"
+        Me.Button5.Size = New System.Drawing.Size(257, 66)
+        Me.Button5.TabIndex = 9
+        Me.Button5.Text = "List all properties"
+        Me.Button5.UseVisualStyleBackColor = False
+        '
+        'CheckBox1
+        '
+        Me.CheckBox1.AutoSize = True
+        Me.CheckBox1.Checked = True
+        Me.CheckBox1.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CheckBox1.Location = New System.Drawing.Point(8, 265)
+        Me.CheckBox1.Name = "CheckBox1"
+        Me.CheckBox1.Size = New System.Drawing.Size(120, 20)
+        Me.CheckBox1.TabIndex = 8
+        Me.CheckBox1.Text = "Silent operation"
+        Me.CheckBox1.UseVisualStyleBackColor = True
         '
         'TabPage2
         '
@@ -170,6 +259,8 @@ Partial Class Form1
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage1.PerformLayout()
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
         Me.TabPage2.ResumeLayout(False)
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -190,4 +281,11 @@ Partial Class Form1
     Friend WithEvents Column3 As DataGridViewTextBoxColumn
     Friend WithEvents Column4 As DataGridViewTextBoxColumn
     Friend WithEvents Column5 As DataGridViewTextBoxColumn
+    Friend WithEvents CheckBox1 As CheckBox
+    Friend WithEvents Button5 As Button
+    Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents RadioButton2 As RadioButton
+    Friend WithEvents RadioButton1 As RadioButton
+    Friend WithEvents RadioButton4 As RadioButton
+    Friend WithEvents RadioButton3 As RadioButton
 End Class
