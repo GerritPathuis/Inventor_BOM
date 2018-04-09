@@ -1,20 +1,11 @@
-﻿Imports System.IO
-Imports System
-Imports System.Type
-Imports System.Activator
-Imports System.Runtime.InteropServices
+﻿Imports System.Runtime.InteropServices
 Imports Inventor
 Imports Microsoft.Office.Interop.Excel
 Imports Microsoft.Office.Interop
 
-
 Public Class Form1
     Public filepath1 As String = "C:\Repos\Inventor_IDW\Read_IDW\Part.ipt"
-    Public filepath2 As String = "C:\Repos\Inventor_IDW\READ_IDW\Part_update2.ipt"
     Public filepath3 As String = "c:\MyDir"
-    Public filepath4 As String = "C:\Temp\Flat_2.dxf"
-    Public filepath5 As String = "C:\Temp\BOM"
-
 
     Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click
         Find_directory(1)   'ipt files
@@ -147,8 +138,8 @@ Public Class Form1
                 '-----------------------------------------------------
             Next
         Catch Ex As Exception
-                MessageBox.Show("No BOM in this drawing ")
-            Finally
+            MessageBox.Show("No BOM in this drawing ")
+        Finally
         End Try
     End Sub
 
@@ -166,6 +157,8 @@ Public Class Form1
         Dim fname As String
         Dim str As String
 
+        Button4.BackColor = Color.Red
+
         xlApp = CreateObject("Excel.Application")
         xlWorkBook = xlApp.Workbooks.Add(Type.Missing)
         xlWorksheet = xlWorkBook.Worksheets(1)
@@ -176,7 +169,7 @@ Public Class Form1
         Try
             For vert = 1 To DataGridView1.Rows.Count - 1
                 For hor = 1 To DataGridView1.Columns.Count - 1
-                    str = DataGridView1.Rows.Item(vert - 1).Cells(hor).Value.ToString
+                    str = DataGridView1.Rows.Item(vert - 1).Cells(hor).Value
                     xlWorksheet.Cells(vert, hor) = str
                 Next
             Next
@@ -189,7 +182,7 @@ Public Class Form1
             ReleaseObject(xlWorksheet)
         Catch ex As Exception
             MessageBox.Show("Problem writing excel " & ex.Message)
-            End Try
+        End Try
 
     End Sub
 
