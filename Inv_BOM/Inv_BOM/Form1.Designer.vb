@@ -79,12 +79,13 @@ Partial Class Form1
         '
         'Button4
         '
+        Me.Button4.BackColor = System.Drawing.Color.Transparent
         Me.Button4.Location = New System.Drawing.Point(6, 170)
         Me.Button4.Name = "Button4"
         Me.Button4.Size = New System.Drawing.Size(233, 33)
         Me.Button4.TabIndex = 7
         Me.Button4.Text = "Write to excel file"
-        Me.Button4.UseVisualStyleBackColor = True
+        Me.Button4.UseVisualStyleBackColor = False
         '
         'TabControl1
         '

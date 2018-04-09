@@ -43,3 +43,7 @@ C:\Repositories\Inventor_BOM\Inv_BOM\Inv_BOM\bin\Debug\Inv_BOM.exe.config
 C:\Repositories\Inventor_BOM\Inv_BOM\Inv_BOM\bin\Debug\Inv_BOM.exe
 C:\Repositories\Inventor_BOM\Inv_BOM\Inv_BOM\bin\Debug\Inv_BOM.pdb
 C:\Repositories\Inventor_BOM\Inv_BOM\Inv_BOM\bin\Debug\Inv_BOM.xml
+C:\Repos\Inventor_BOM\Inventor_BOM\Inv_BOM\Inv_BOM\bin\Debug\Inv_BOM.exe.manifest
+C:\Repos\Inventor_BOM\Inventor_BOM\Inv_BOM\Inv_BOM\bin\Debug\Inv_BOM.application
+C:\Repos\Inventor_BOM\Inventor_BOM\Inv_BOM\Inv_BOM\obj\Debug\Inv_BOM.exe.manifest
+C:\Repos\Inventor_BOM\Inventor_BOM\Inv_BOM\Inv_BOM\obj\Debug\Inv_BOM.application

@@ -1,7 +1,10 @@
-﻿Imports System.Runtime.InteropServices
+﻿Imports System.IO
+Imports System.String
+Imports System.Runtime.InteropServices
 Imports Inventor
 Imports Microsoft.Office.Interop.Excel
 Imports Microsoft.Office.Interop
+Imports System.ComponentModel
 
 Public Class Form1
     Public filepath1 As String = "C:\Repos\Inventor_IDW\Read_IDW\Part.ipt"
@@ -41,8 +44,9 @@ Public Class Form1
     End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        Button3.BackColor = System.Drawing.Color.Yellow
         Qbom()
-
+        Button3.BackColor = System.Drawing.Color.Transparent
     End Sub
 
     Private Sub Qbom()
@@ -115,7 +119,6 @@ Public Class Form1
                 DataGridView1.Rows.Item(r).Cells(1).Value = oRow.ItemNumber
                 DataGridView1.Rows.Item(r).Cells(2).Value = oRow.ItemQuantity
 
-
                 DataGridView1.Rows.Item(r).Cells(3).Value = oPropSet.Item("Part Number").Value
                 DataGridView1.Rows.Item(r).Cells(4).Value = oPropSet.Item("Description").Value
                 DataGridView1.Rows.Item(r).Cells(5).Value = oPropSet.Item("Stock Number").Value
@@ -148,7 +151,9 @@ Public Class Form1
         SaveFileDialog1.InitialDirectory = filepath3
         SaveFileDialog1.FileName = "Inventor_BOM.xls"
         SaveFileDialog1.ShowDialog()
+        Button4.BackColor = System.Drawing.Color.Yellow
         Write_excel()
+        Button4.BackColor = System.Drawing.Color.Transparent
     End Sub
     Private Sub Write_excel()
         Dim xlApp As New Excel.Application
@@ -157,8 +162,6 @@ Public Class Form1
         Dim fname As String
         Dim str As String
 
-        Button4.BackColor = Color.Red
-
         xlApp = CreateObject("Excel.Application")
         xlWorkBook = xlApp.Workbooks.Add(Type.Missing)
         xlWorksheet = xlWorkBook.Worksheets(1)
@@ -166,11 +169,17 @@ Public Class Form1
         xlApp.Visible = False
         xlApp.DisplayAlerts = False 'Suppress excel messages
 
+        '-------- Header text to excel -------------
+        For hor = 1 To DataGridView1.Columns.Count - 1
+            xlWorksheet.Cells(1, hor) = DataGridView1.Columns(hor - 1).HeaderText
+        Next
+
+        '-------- Cell text to excel -------------
         Try
             For vert = 1 To DataGridView1.Rows.Count - 1
                 For hor = 1 To DataGridView1.Columns.Count - 1
                     str = DataGridView1.Rows.Item(vert - 1).Cells(hor).Value
-                    xlWorksheet.Cells(vert, hor) = str
+                    xlWorksheet.Cells(vert + 1, hor) = str
                 Next
             Next
             fname = SaveFileDialog1.FileName
