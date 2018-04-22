@@ -367,6 +367,13 @@ Public Class Form1
         oApp.SilentOperation = vbTrue
         objDrawDoc = CType(oApp.Documents.Open(filepath1, False), Document)
 
+        '--------- determine object type -------
+        Dim eDocumentType As DocumentTypeEnum = objDrawDoc.DocumentType
+        If eDocumentType <> DocumentTypeEnum.kDrawingDocumentObject Then
+            MessageBox.Show("Please Select a IDW file ")
+            Exit Sub
+        End If
+
         TextBox2.Text &= "objDrawDoc is " & objDrawDoc.ToString & vbCrLf
 
         '------- Title blocks-----------------
@@ -375,8 +382,8 @@ Public Class Form1
         Dim objTitleBlkDef As TitleBlockDefinition = Nothing
         For Each objTitleBlkDef In colTitleBlkDefs
             TextBox2.Text &= "objTitleBlkDef name = " & objTitleBlkDef.Name & vbCrLf
-            If objTitleBlkDef.Name = "DIN" Then
-                TextBox2.Text &= "Found Title Block DIN !" & vbCrLf
+            If objTitleBlkDef.Name = "VTK" Then
+                TextBox2.Text &= "VTK Title Block found !" & vbCrLf
                 Exit For
             End If
         Next

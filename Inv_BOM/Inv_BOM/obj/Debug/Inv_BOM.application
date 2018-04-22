@@ -14,14 +14,14 @@
     <framework targetVersion="4.6.1" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="Inv_BOM.exe.manifest" size="3452">
+    <dependentAssembly dependencyType="install" codebase="Inv_BOM.exe.manifest" size="3453">
       <assemblyIdentity name="Inv_BOM.exe" version="1.0.0.1" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>irE8PS1mtj2LEYqE5G7jSF14r9qvpAw9NZzFHLYJwTE=</dsig:DigestValue>
+        <dsig:DigestValue>UP2z7cFW9W6P9tHAXkm7W04CfSMi0PXdPBQdMuQcfg4=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
