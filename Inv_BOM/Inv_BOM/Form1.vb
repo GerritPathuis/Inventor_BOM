@@ -11,14 +11,19 @@ Public Class Form1
     Public filepath3 As String = "c:\MyDir"
 
     Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click
-        Find_directory(1)   'ipt files
+        Open_file(1)   'ipt files
     End Sub
-
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        Find_directory(2)    'iam files
+        Open_file(2)    'iam files
+    End Sub
+    Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
+        Open_file(4)    'idw files
+    End Sub
+    Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
+        Open_file(5)    'dwg files
     End Sub
 
-    Private Sub Find_directory(keuze As Integer)
+    Private Sub Open_file(keuze As Integer)
 
         ' Dim myStream As Stream = Nothing
         Dim openFileDialog1 As New OpenFileDialog With {
@@ -27,6 +32,7 @@ Public Class Form1
                & "|Assembly File (*.iam)|*.iam" _
                & "|Presentation File (*.ipn)|*.ipn" _
                & "|Drawing File (*.idw)|*.idw" _
+               & "|Drawing File (*.dwg)|*.dwg" _
                & "|Design element File (*.ide)|*.ide",
                .FilterIndex = keuze,                ' *.ipt files
                .RestoreDirectory = True
@@ -337,6 +343,55 @@ Public Class Form1
             AllPros = AllPros & vbLf & item
         Next
         MsgBox(AllPros)
+    End Sub
+
+    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
+        ChgTitleBlkDef()
+    End Sub
+    Private Sub ChgTitleBlkDef()
+        'http://adndevblog.typepad.com/manufacturing/2012/12/inventor-change-text-items-in-titleblockdefinition.html
+        TextBox2.Clear()
+
+        Dim oApp As Inventor.Application
+        oApp = CType(GetObject(, "Inventor.Application"), Inventor.Application)
+        oApp.SilentOperation = vbTrue
+
+        Dim objDrawDoc As DrawingDocument = CType(oApp.ActiveDocument, DrawingDocument)
+        objDrawDoc = CType(oApp.Documents.Open(filepath1, False), Document)
+        TextBox2.Text &= "objDrawDoc is " & objDrawDoc.ToString & vbCrLf
+
+        Dim colTitleBlkDefs As TitleBlockDefinitions = objDrawDoc.TitleBlockDefinitions
+
+        Dim objTitleBlkDef As TitleBlockDefinition = Nothing
+        For Each objTitleBlkDef In colTitleBlkDefs
+            TextBox2.Text &= "objTitleBlkDef name = " & objTitleBlkDef.Name & vbCrLf
+            If objTitleBlkDef.Name = "DIN" Then
+                TextBox2.Text &= "Found Title Block DIN !" & vbCrLf
+                Exit For
+            End If
+        Next
+
+        TextBox2.Text &= "----------------" & vbCrLf
+
+        ' If we are here we have the title block of interest.
+        ' Get the title block sketch and set it active
+
+        Dim objDrwSketch As DrawingSketch = Nothing
+        objTitleBlkDef.Edit(objDrwSketch)
+
+        Dim colTextBoxes As Inventor.TextBoxes = objDrwSketch.TextBoxes
+
+        For Each objTextBox As Inventor.TextBox In colTextBoxes
+            TextBox2.Text &= "objTextBox.Text = " & objTextBox.Text & vbCrLf
+            If objTextBox.Text = "<TITLE>" Then
+                TextBox2.Text &= "TITLE is !" & objTextBox.Text & vbCrLf
+                'objTextBox.Text = "Captain CAD Engineering"
+                Exit For
+            End If
+        Next
+        objTitleBlkDef.ExitEdit(False)
+
+        Beep()
     End Sub
 
 
