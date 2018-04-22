@@ -297,8 +297,8 @@ Public Class Form1
         End If
 
         '-------- Now list properties--------
-        Dim oDoc As Inventor.Document
         Dim invApp As Inventor.Application
+        Dim oDoc As Inventor.Document
 
         invApp = Marshal.GetActiveObject("Inventor.Application")
         invApp.SilentOperation = vbTrue
@@ -352,14 +352,24 @@ Public Class Form1
         'http://adndevblog.typepad.com/manufacturing/2012/12/inventor-change-text-items-in-titleblockdefinition.html
         TextBox2.Clear()
 
-        Dim oApp As Inventor.Application
-        oApp = CType(GetObject(, "Inventor.Application"), Inventor.Application)
-        oApp.SilentOperation = vbTrue
+        '-------- inventor must be running----
+        Dim p() As Process
+        p = Process.GetProcessesByName("Inventor")
+        If p.Count = 0 Then
+            MessageBox.Show("Inventor is not running")
+            Exit Sub
+        End If
 
-        Dim objDrawDoc As DrawingDocument = CType(oApp.ActiveDocument, DrawingDocument)
+        Dim oApp As Inventor.Application
+        Dim objDrawDoc As Inventor.Document
+
+        oApp = Marshal.GetActiveObject("Inventor.Application")
+        oApp.SilentOperation = vbTrue
         objDrawDoc = CType(oApp.Documents.Open(filepath1, False), Document)
+
         TextBox2.Text &= "objDrawDoc is " & objDrawDoc.ToString & vbCrLf
 
+        '------- Title blocks-----------------
         Dim colTitleBlkDefs As TitleBlockDefinitions = objDrawDoc.TitleBlockDefinitions
 
         Dim objTitleBlkDef As TitleBlockDefinition = Nothing
