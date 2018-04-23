@@ -42,6 +42,7 @@ Public Class Form1
             Try
                 filepath1 = openFileDialog1.FileName
                 TextBox1.Text = filepath1.ToString
+                Get_dwg_art_nr()
             Catch Ex As Exception
                 MessageBox.Show("Cannot read file from disk. Original error: " & Ex.Message)
             Finally
@@ -411,6 +412,32 @@ Public Class Form1
         Beep()
     End Sub
 
+    Private Sub Get_dwg_art_nr()
+        Dim s As String
+        Dim length As Integer
+        Dim searchDoc As String = "_D"
+        Dim searchArt As String = "_A"
+
+        TextBox3.Text = ""
+        TextBox4.Text = ""
+
+        s = TextBox1.Text
+        length = s.Length
+        If length > 9 Then
+            s = s.Substring(length - 22, 18)
+            MessageBox.Show(s)
+            Dim startindex As Integer = s.IndexOf(searchDoc)
+            Dim endIndex As Integer = startindex + 7
+            Dim substring As String = s.Substring(startindex, endIndex + searchDoc.Length - startindex)
+            TextBox3.Text = substring.Substring(1, 8)
+
+            startindex = s.IndexOf(searchArt)
+            endIndex = startindex + 7
+            substring = s.Substring(startindex, endIndex + searchArt.Length - startindex)
+            TextBox4.Text = substring.Substring(1, 8)
+        End If
+
+    End Sub
 
 End Class
 
