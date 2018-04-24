@@ -279,7 +279,7 @@ Public Class Form1
                         str = "-"
                     End If
                     'TextBox2.Text &= "hor=" & hor.ToString & " vert=" & vert.ToString & " str= " & str & vbCrLf
-                    xlWorksheet.Cells(vert + 1, hor + 1) = str
+                    xlWorksheet.Cells(vert + 2, hor + 1) = str
                 Next
             Next
             ' MessageBox.Show("save....")
