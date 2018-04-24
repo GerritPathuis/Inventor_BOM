@@ -79,7 +79,6 @@ Public Class Form1
 
         Dim oDoc As Inventor.Document
         Dim invApp As Inventor.Application
-
         invApp = Marshal.GetActiveObject("Inventor.Application")
 
         invApp.SilentOperation = vbTrue
@@ -220,7 +219,7 @@ Public Class Form1
 
             Next
         Catch Ex As Exception
-            MessageBox.Show("No BOM in this drawing ")
+            MessageBox.Show("No BOM in this IAM model")
         Finally
         End Try
     End Sub
@@ -413,30 +412,36 @@ Public Class Form1
     End Sub
 
     Private Sub Get_dwg_art_nr()
-        Dim s As String
+        Dim s, substring As String
         Dim length As Integer
         Dim searchDoc As String = "_D"
         Dim searchArt As String = "_A"
+        Dim startindex, endIndex As Integer
+
+
 
         TextBox3.Text = ""
         TextBox4.Text = ""
 
         s = TextBox1.Text
         length = s.Length
-        If length > 9 Then
+        If length >= 23 Then
             s = s.Substring(length - 22, 18)
-            MessageBox.Show(s)
-            Dim startindex As Integer = s.IndexOf(searchDoc)
-            Dim endIndex As Integer = startindex + 7
-            Dim substring As String = s.Substring(startindex, endIndex + searchDoc.Length - startindex)
-            TextBox3.Text = substring.Substring(1, 8)
+            'MessageBox.Show(s)
+            startindex = s.IndexOf(searchDoc)
+            endIndex = startindex + 7
+            If startindex >= 0 Then
+                substring = s.Substring(startindex, endIndex + searchDoc.Length - startindex)
+                TextBox3.Text = substring.Substring(1, 8)
+            End If
 
             startindex = s.IndexOf(searchArt)
             endIndex = startindex + 7
-            substring = s.Substring(startindex, endIndex + searchArt.Length - startindex)
-            TextBox4.Text = substring.Substring(1, 8)
+            If startindex >= 0 Then
+                substring = s.Substring(startindex, endIndex + searchArt.Length - startindex)
+                TextBox4.Text = substring.Substring(1, 8)
+            End If
         End If
-
     End Sub
 
 End Class

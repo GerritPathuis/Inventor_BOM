@@ -29,6 +29,8 @@ Partial Class Form1
         Me.Button4 = New System.Windows.Forms.Button()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.TextBox4 = New System.Windows.Forms.TextBox()
+        Me.TextBox3 = New System.Windows.Forms.TextBox()
         Me.Button8 = New System.Windows.Forms.Button()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.TextBox2 = New System.Windows.Forms.TextBox()
@@ -49,8 +51,6 @@ Partial Class Form1
         Me.Column4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
-        Me.TextBox3 = New System.Windows.Forms.TextBox()
-        Me.TextBox4 = New System.Windows.Forms.TextBox()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -73,7 +73,7 @@ Partial Class Form1
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(233, 33)
         Me.Button2.TabIndex = 4
-        Me.Button2.Text = "Select iam file (Inventor assembly)"
+        Me.Button2.Text = "Select IAM file (Inventor assembly)"
         Me.Button2.UseVisualStyleBackColor = False
         '
         'Button1
@@ -83,7 +83,7 @@ Partial Class Form1
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(233, 33)
         Me.Button1.TabIndex = 5
-        Me.Button1.Text = "Select ipt file (Inventor part)"
+        Me.Button1.Text = "Select IPT file (Inventor part)"
         Me.Button1.UseVisualStyleBackColor = False
         '
         'Button3
@@ -92,7 +92,7 @@ Partial Class Form1
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(233, 33)
         Me.Button3.TabIndex = 6
-        Me.Button3.Text = "BOM"
+        Me.Button3.Text = "BOM in IAM"
         Me.Button3.UseVisualStyleBackColor = True
         '
         'Button4
@@ -138,6 +138,20 @@ Partial Class Form1
         Me.TabPage1.Text = "Select file"
         Me.TabPage1.UseVisualStyleBackColor = True
         '
+        'TextBox4
+        '
+        Me.TextBox4.Location = New System.Drawing.Point(286, 76)
+        Me.TextBox4.Name = "TextBox4"
+        Me.TextBox4.Size = New System.Drawing.Size(141, 20)
+        Me.TextBox4.TabIndex = 15
+        '
+        'TextBox3
+        '
+        Me.TextBox3.Location = New System.Drawing.Point(286, 50)
+        Me.TextBox3.Name = "TextBox3"
+        Me.TextBox3.Size = New System.Drawing.Size(141, 20)
+        Me.TextBox3.TabIndex = 14
+        '
         'Button8
         '
         Me.Button8.BackColor = System.Drawing.Color.Yellow
@@ -145,7 +159,7 @@ Partial Class Form1
         Me.Button8.Name = "Button8"
         Me.Button8.Size = New System.Drawing.Size(233, 33)
         Me.Button8.TabIndex = 13
-        Me.Button8.Text = "Select idw file (Inventor dwg)"
+        Me.Button8.Text = "Select IDW file (Inventor dwg)"
         Me.Button8.UseVisualStyleBackColor = False
         '
         'GroupBox2
@@ -198,7 +212,7 @@ Partial Class Form1
         Me.GroupBox1.Size = New System.Drawing.Size(293, 177)
         Me.GroupBox1.TabIndex = 10
         Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "Tools"
+        Me.GroupBox1.Text = "Tools for assembly (IAM)"
         '
         'RadioButton4
         '
@@ -310,20 +324,6 @@ Partial Class Form1
         '
         Me.Column5.HeaderText = "Column5"
         Me.Column5.Name = "Column5"
-        '
-        'TextBox3
-        '
-        Me.TextBox3.Location = New System.Drawing.Point(286, 50)
-        Me.TextBox3.Name = "TextBox3"
-        Me.TextBox3.Size = New System.Drawing.Size(141, 20)
-        Me.TextBox3.TabIndex = 14
-        '
-        'TextBox4
-        '
-        Me.TextBox4.Location = New System.Drawing.Point(286, 76)
-        Me.TextBox4.Name = "TextBox4"
-        Me.TextBox4.Size = New System.Drawing.Size(141, 20)
-        Me.TextBox4.TabIndex = 15
         '
         'Form1
         '
