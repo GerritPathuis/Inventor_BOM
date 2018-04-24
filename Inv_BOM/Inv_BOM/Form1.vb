@@ -51,7 +51,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
-        Button3.BackColor = System.Drawing.Color.Yellow
+        Button3.BackColor = System.Drawing.Color.Green
         DataGridView1.ClearSelection()
         Qbom()
         Button3.BackColor = System.Drawing.Color.Transparent
@@ -61,7 +61,7 @@ Public Class Form1
         Dim information As System.IO.FileInfo
         Dim filen As String
 
-        DataGridView1.ColumnCount = 19
+        DataGridView1.ColumnCount = 21
         DataGridView1.ColumnHeadersVisible = True
         DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
 
@@ -73,7 +73,7 @@ Public Class Form1
             Exit Sub
         End If
 
-        '------- get file inf0-----------
+        '------- get file info -----------
         information = My.Computer.FileSystem.GetFileInfo(filepath1)
         filen = information.Name
 
@@ -99,25 +99,27 @@ Public Class Form1
             Dim i, r As Integer
 
             DataGridView1.Columns(0).HeaderText = "File"
-            DataGridView1.Columns(1).HeaderText = "Item "
-            DataGridView1.Columns(2).HeaderText = "Qty"
-            DataGridView1.Columns(3).HeaderText = "Part"
-            DataGridView1.Columns(4).HeaderText = "Desc"
-            DataGridView1.Columns(5).HeaderText = "Stock"
+            DataGridView1.Columns(1).HeaderText = "D_no"
+            DataGridView1.Columns(2).HeaderText = "A_no"
+            DataGridView1.Columns(3).HeaderText = "Item "
+            DataGridView1.Columns(4).HeaderText = "Qty"
+            DataGridView1.Columns(5).HeaderText = "Part"
+            DataGridView1.Columns(6).HeaderText = "Desc"
+            DataGridView1.Columns(7).HeaderText = "Stock"
 
-            DataGridView1.Columns(6).HeaderText = "DOC_NUMBER"
-            DataGridView1.Columns(7).HeaderText = "ITEM_NR"
-            DataGridView1.Columns(8).HeaderText = "DOC_STATUS"
-            DataGridView1.Columns(9).HeaderText = "DOC_REV"
-            DataGridView1.Columns(10).HeaderText = "PART_MATERIAL"
-            DataGridView1.Columns(11).HeaderText = "IT_TP"
-            DataGridView1.Columns(12).HeaderText = "LENGTH"
-            DataGridView1.Columns(13).HeaderText = "Part Icon"
+            DataGridView1.Columns(8).HeaderText = "DOC_NUMBER"
+            DataGridView1.Columns(9).HeaderText = "ITEM_NR"
+            DataGridView1.Columns(10).HeaderText = "DOC_STATUS"
+            DataGridView1.Columns(11).HeaderText = "DOC_REV"
+            DataGridView1.Columns(12).HeaderText = "PART_MATERIAL"
+            DataGridView1.Columns(13).HeaderText = "IT_TP"
+            DataGridView1.Columns(14).HeaderText = "LENGTH"
+            DataGridView1.Columns(15).HeaderText = "Part Icon"
 
-            DataGridView1.Columns(14).HeaderText = "Title"
-            DataGridView1.Columns(15).HeaderText = "Subject"
-            DataGridView1.Columns(16).HeaderText = "Author"
-            DataGridView1.Columns(17).HeaderText = "Comments"
+            DataGridView1.Columns(16).HeaderText = "Title"
+            DataGridView1.Columns(17).HeaderText = "Subject"
+            DataGridView1.Columns(18).HeaderText = "Author"
+            DataGridView1.Columns(19).HeaderText = "Comments"
 
             For i = 1 To oBOMView.BOMRows.Count
                 r = i - 1
@@ -131,15 +133,19 @@ Public Class Form1
 
                 DataGridView1.Rows.Item(r).Cells(0).Value = filen
 
-                DataGridView1.Rows.Item(r).Cells(1).Value = oRow.ItemNumber
-                DataGridView1.Rows.Item(r).Cells(2).Value = oRow.ItemQuantity
+                DataGridView1.Rows.Item(r).Cells(1).Value = TextBox3.Text
+                DataGridView1.Rows.Item(r).Cells(2).Value = TextBox4.Text
 
-                DataGridView1.Rows.Item(r).Cells(3).Value = oPropSet.Item("Part Number").Value
-                DataGridView1.Rows.Item(r).Cells(4).Value = oPropSet.Item("Description").Value
-                DataGridView1.Rows.Item(r).Cells(5).Value = oPropSet.Item("Stock Number").Value
+                DataGridView1.Rows.Item(r).Cells(3).Value = oRow.ItemNumber
+                DataGridView1.Rows.Item(r).Cells(4).Value = oRow.ItemQuantity
+
+                DataGridView1.Rows.Item(r).Cells(5).Value = oPropSet.Item("Part Number").Value
+                DataGridView1.Rows.Item(r).Cells(6).Value = oPropSet.Item("Description").Value
+                DataGridView1.Rows.Item(r).Cells(7).Value = oPropSet.Item("Stock Number").Value
                 Try
-                    DataGridView1.Rows.Item(r).Cells(13).Value = oPropSet.Item(31).Name & " " & oPropSet.Item(32).Name
+                    DataGridView1.Rows.Item(r).Cells(15).Value = oPropSet.Item(31).Name & " " & oPropSet.Item(32).Name
                 Catch Ex As Exception
+                    DataGridView1.Rows.Item(r).Cells(15).Value = "?"
                     If Not CheckBox1.Checked Then MessageBox.Show("Part Icon not found")
                 End Try
 
@@ -149,38 +155,45 @@ Public Class Form1
                     MessageBox.Show("The are NO 'Custom' properties present in this file")
                 Else
                     Try
-                        DataGridView1.Rows.Item(r).Cells(6).Value = oPropSet.Item("DOC_NUMBER").Value
+                        DataGridView1.Rows.Item(r).Cells(8).Value = oPropSet.Item("DOC_NUMBER").Value
                     Catch Ex As Exception
+                        DataGridView1.Rows.Item(r).Cells(8).Value = "?"
                         If Not CheckBox1.Checked Then MessageBox.Show("DOC_NUMBER not found")
                     End Try
                     Try
-                        DataGridView1.Rows.Item(r).Cells(7).Value = oPropSet.Item("ITEM_NR").Value
+                        DataGridView1.Rows.Item(r).Cells(9).Value = oPropSet.Item("ITEM_NR").Value
                     Catch Ex As Exception
+                        DataGridView1.Rows.Item(r).Cells(9).Value = "?"
                         If Not CheckBox1.Checked Then MessageBox.Show("ITEM_NR not found")
                     End Try
                     Try
-                        DataGridView1.Rows.Item(r).Cells(8).Value = oPropSet.Item("DOC_STATUS").Value
+                        DataGridView1.Rows.Item(r).Cells(10).Value = oPropSet.Item("DOC_STATUS").Value
                     Catch Ex As Exception
+                        DataGridView1.Rows.Item(r).Cells(10).Value = "?"
                         If Not CheckBox1.Checked Then MessageBox.Show("DOC_STATUS not found")
                     End Try
                     Try
-                        DataGridView1.Rows.Item(r).Cells(9).Value = oPropSet.Item("DOC_REV").Value
+                        DataGridView1.Rows.Item(r).Cells(11).Value = oPropSet.Item("DOC_REV").Value
                     Catch Ex As Exception
+                        DataGridView1.Rows.Item(r).Cells(11).Value = "?"
                         If Not CheckBox1.Checked Then MessageBox.Show("DOC_REV not found")
                     End Try
                     Try
-                        DataGridView1.Rows.Item(r).Cells(10).Value = oPropSet.Item("PART_MATERIAL").Value
+                        DataGridView1.Rows.Item(r).Cells(12).Value = oPropSet.Item("PART_MATERIAL").Value
                     Catch Ex As Exception
+                        DataGridView1.Rows.Item(r).Cells(12).Value = "?"
                         If Not CheckBox1.Checked Then MessageBox.Show("PART_MATERIAL not found")
                     End Try
                     Try
-                        DataGridView1.Rows.Item(r).Cells(11).Value = oPropSet.Item("IT_TP").Value
+                        DataGridView1.Rows.Item(r).Cells(13).Value = oPropSet.Item("IT_TP").Value
                     Catch Ex As Exception
+                        DataGridView1.Rows.Item(r).Cells(13).Value = "?"
                         If Not CheckBox1.Checked Then MessageBox.Show("IT_TP not found")
                     End Try
                     Try
-                        DataGridView1.Rows.Item(r).Cells(12).Value = oPropSet.Item("LG").Value
+                        DataGridView1.Rows.Item(r).Cells(14).Value = oPropSet.Item("LG").Value
                     Catch Ex As Exception
+                        DataGridView1.Rows.Item(r).Cells(14).Value = "-"
                         If Not CheckBox1.Checked Then MessageBox.Show("LENGTH not found")
                     End Try
 
@@ -192,31 +205,30 @@ Public Class Form1
                     MessageBox.Show("The are NO 'Inventor Summary Information' present in this file")
                 Else
                     Try
-                        DataGridView1.Rows.Item(r).Cells(14).Value = oPropSet.Item("Title").Value
+                        DataGridView1.Rows.Item(r).Cells(16).Value = oPropSet.Item("Title").Value
                     Catch Ex As Exception
                         If Not CheckBox1.Checked Then MessageBox.Show("Title not found")
                     End Try
 
                     Try
-                        DataGridView1.Rows.Item(r).Cells(15).Value = oPropSet.Item("Subject").Value
+                        DataGridView1.Rows.Item(r).Cells(17).Value = oPropSet.Item("Subject").Value
                     Catch Ex As Exception
                         If Not CheckBox1.Checked Then MessageBox.Show("Subject not found")
                     End Try
 
                     Try
-                        DataGridView1.Rows.Item(r).Cells(16).Value = oPropSet.Item("Author").Value
+                        DataGridView1.Rows.Item(r).Cells(18).Value = oPropSet.Item("Author").Value
                     Catch Ex As Exception
                         If Not CheckBox1.Checked Then MessageBox.Show("Author not found")
                     End Try
 
                     Try
-                        DataGridView1.Rows.Item(r).Cells(17).Value = oPropSet.Item(17).GetType.ToString
+                        DataGridView1.Rows.Item(r).Cells(19).Value = oPropSet.Item("Comments").Value
                     Catch Ex As Exception
                         If Not CheckBox1.Checked Then MessageBox.Show("Comments not found")
                     End Try
                 End If
                 '-----------------------------------------------------
-
             Next
         Catch Ex As Exception
             MessageBox.Show("No BOM in this IAM model")
@@ -225,11 +237,11 @@ Public Class Form1
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+        Button4.BackColor = System.Drawing.Color.Green
         SaveFileDialog1.Title = "Please Select a File"
         SaveFileDialog1.InitialDirectory = filepath3
-        SaveFileDialog1.FileName = "Inventor_BOM.xls"
+        SaveFileDialog1.FileName = "_BOM" & "_" & TextBox3.Text & "_" & TextBox4.Text & ".xls"
         SaveFileDialog1.ShowDialog()
-        Button4.BackColor = System.Drawing.Color.Yellow
         Write_excel()
         Button4.BackColor = System.Drawing.Color.Transparent
     End Sub
@@ -240,6 +252,8 @@ Public Class Form1
         Dim fname As String
         Dim str As String
 
+        TextBox2.Clear()
+
         xlApp = CreateObject("Excel.Application")
         xlWorkBook = xlApp.Workbooks.Add(Type.Missing)
         xlWorksheet = xlWorkBook.Worksheets(1)
@@ -247,21 +261,31 @@ Public Class Form1
         xlApp.Visible = False
         xlApp.DisplayAlerts = False 'Suppress excel messages
 
-        '-------- Header text to excel -------------
-        For hor = 1 To DataGridView1.Columns.Count - 1
-            xlWorksheet.Cells(1, hor) = DataGridView1.Columns(hor - 1).HeaderText
+        '-------- Header text to excel -------------tr
+        For hor = 0 To 19
+            str = DataGridView1.Columns(hor).HeaderText
+            xlWorksheet.Cells(1, hor + 1) = str
         Next
+
+        'TextBox2.Text &= "Rows...." & DataGridView1.Rows.Count
+        'TextBox2.Text &= "Columns...." & DataGridView1.Columns.Count
 
         '-------- Cell_text to excel -------------
         Try
-            For vert = 1 To DataGridView1.Rows.Count - 1
-                For hor = 1 To DataGridView1.Columns.Count - 1
-                    str = DataGridView1.Rows.Item(vert - 1).Cells(hor).Value
-                    xlWorksheet.Cells(vert + 1, hor) = str
+            For vert = 0 To DataGridView1.Rows.Count - 2
+                For hor = 0 To 19
+                    str = DataGridView1.Rows.Item(vert).Cells(hor).Value.ToString
+                    If str = Nothing Then
+                        str = "-"
+                    End If
+                    'TextBox2.Text &= "hor=" & hor.ToString & " vert=" & vert.ToString & " str= " & str & vbCrLf
+                    xlWorksheet.Cells(vert + 1, hor + 1) = str
                 Next
             Next
+            ' MessageBox.Show("save....")
             fname = SaveFileDialog1.FileName
             xlWorkBook.SaveAs(fname, FileFormat:=XlFileFormat.xlWorkbookNormal)
+
             xlApp.Quit()
 
             ReleaseObject(xlApp)
@@ -388,8 +412,6 @@ Public Class Form1
             End If
         Next
 
-        TextBox2.Text &= "----------------" & vbCrLf
-
         ' If we are here we have the title block of interest.
         ' Get the title block sketch and set it active
 
@@ -408,7 +430,6 @@ Public Class Form1
         Next
         objTitleBlkDef.ExitEdit(False)
 
-        Beep()
     End Sub
 
     Private Sub Get_dwg_art_nr()
@@ -417,8 +438,6 @@ Public Class Form1
         Dim searchDoc As String = "_D"
         Dim searchArt As String = "_A"
         Dim startindex, endIndex As Integer
-
-
 
         TextBox3.Text = ""
         TextBox4.Text = ""
