@@ -96,7 +96,7 @@ Public Class Form1
             Dim oRow As BOMRow
             Dim oCompDef As ComponentDefinition
             Dim oPropSet As PropertySet
-            Dim i, r As Integer
+            Dim i, j, r As Integer
 
             DataGridView1.Columns(0).HeaderText = "File"
             DataGridView1.Columns(1).HeaderText = "D_no"
@@ -124,7 +124,7 @@ Public Class Form1
             For i = 1 To oBOMView.BOMRows.Count
                 r = i - 1
 
-                '--------- Design Tracking Properties ------------------------
+                '================= Design Tracking Properties ==========================
                 oRow = oBOMView.BOMRows.Item(i)
                 oCompDef = oRow.ComponentDefinitions.Item(1)
 
@@ -139,94 +139,66 @@ Public Class Form1
                 DataGridView1.Rows.Item(r).Cells(3).Value = oRow.ItemNumber
                 DataGridView1.Rows.Item(r).Cells(4).Value = oRow.ItemQuantity
 
-                DataGridView1.Rows.Item(r).Cells(5).Value = oPropSet.Item("Part Number").Value
-                DataGridView1.Rows.Item(r).Cells(6).Value = oPropSet.Item("Description").Value
-                DataGridView1.Rows.Item(r).Cells(7).Value = oPropSet.Item("Stock Number").Value
-                Try
-                    DataGridView1.Rows.Item(r).Cells(15).Value = oPropSet.Item(31).Name & " " & oPropSet.Item(32).Name
-                Catch Ex As Exception
-                    DataGridView1.Rows.Item(r).Cells(15).Value = "?"
-                    If Not CheckBox1.Checked Then MessageBox.Show("Part Icon not found")
-                End Try
+                Dim design_track() As String =
+                {"Part Number",
+                "Description",
+                "Stock Number",
+                "Part Icon"}
+                If oPropSet.Count = 0 Then
+                    MessageBox.Show("The are NO 'Design Tracking' properties present in this file")
+                Else
+                    For j = 0 To design_track.Length - 1
+                        Try
+                            DataGridView1.Rows.Item(r).Cells(j + 5).Value = oPropSet.Item(design_track(j)).Value
+                        Catch Ex As Exception
+                            DataGridView1.Rows.Item(r).Cells(j + 5).Value = "?"
+                            If Not CheckBox1.Checked Then MessageBox.Show(design_track(j) & " not found")
+                        End Try
+                    Next
+                End If
 
-                '--------- CUSTOM Properties ------------------------
+                '================== CUSTOM Properties ============================
+                Dim custom() As String =
+                {"DOC_NUMBER",
+                "ITEM_NR",
+                "DOC_STATUS",
+                "DOC_REV",
+                "PART_MATERIAL",
+                "IT_TP",
+                "LG"}
+
                 oPropSet = oCompDef.Document.PropertySets.Item("Inventor User Defined Properties")
                 If oPropSet.Count = 0 Then
                     MessageBox.Show("The are NO 'Custom' properties present in this file")
                 Else
-                    Try
-                        DataGridView1.Rows.Item(r).Cells(8).Value = oPropSet.Item("DOC_NUMBER").Value
-                    Catch Ex As Exception
-                        DataGridView1.Rows.Item(r).Cells(8).Value = "?"
-                        If Not CheckBox1.Checked Then MessageBox.Show("DOC_NUMBER not found")
-                    End Try
-                    Try
-                        DataGridView1.Rows.Item(r).Cells(9).Value = oPropSet.Item("ITEM_NR").Value
-                    Catch Ex As Exception
-                        DataGridView1.Rows.Item(r).Cells(9).Value = "?"
-                        If Not CheckBox1.Checked Then MessageBox.Show("ITEM_NR not found")
-                    End Try
-                    Try
-                        DataGridView1.Rows.Item(r).Cells(10).Value = oPropSet.Item("DOC_STATUS").Value
-                    Catch Ex As Exception
-                        DataGridView1.Rows.Item(r).Cells(10).Value = "?"
-                        If Not CheckBox1.Checked Then MessageBox.Show("DOC_STATUS not found")
-                    End Try
-                    Try
-                        DataGridView1.Rows.Item(r).Cells(11).Value = oPropSet.Item("DOC_REV").Value
-                    Catch Ex As Exception
-                        DataGridView1.Rows.Item(r).Cells(11).Value = "?"
-                        If Not CheckBox1.Checked Then MessageBox.Show("DOC_REV not found")
-                    End Try
-                    Try
-                        DataGridView1.Rows.Item(r).Cells(12).Value = oPropSet.Item("PART_MATERIAL").Value
-                    Catch Ex As Exception
-                        DataGridView1.Rows.Item(r).Cells(12).Value = "?"
-                        If Not CheckBox1.Checked Then MessageBox.Show("PART_MATERIAL not found")
-                    End Try
-                    Try
-                        DataGridView1.Rows.Item(r).Cells(13).Value = oPropSet.Item("IT_TP").Value
-                    Catch Ex As Exception
-                        DataGridView1.Rows.Item(r).Cells(13).Value = "?"
-                        If Not CheckBox1.Checked Then MessageBox.Show("IT_TP not found")
-                    End Try
-                    Try
-                        DataGridView1.Rows.Item(r).Cells(14).Value = oPropSet.Item("LG").Value
-                    Catch Ex As Exception
-                        DataGridView1.Rows.Item(r).Cells(14).Value = "-"
-                        If Not CheckBox1.Checked Then MessageBox.Show("LENGTH not found")
-                    End Try
-
+                    For j = 0 To custom.Length - 1
+                        Try
+                            DataGridView1.Rows.Item(r).Cells(j + 8).Value = oPropSet.Item(custom(j)).Value
+                        Catch Ex As Exception
+                            DataGridView1.Rows.Item(r).Cells(j + 8).Value = "?"
+                            If Not CheckBox1.Checked Then MessageBox.Show(custom(j) & " not found")
+                        End Try
+                    Next
                 End If
 
-                '--------- Inventor Summary Information ---------------- 
+                '========== Inventor Summary Information ===============
+                Dim summary() As String =
+                {"Title",
+                "Subject",
+                "Author",
+                "Comments"}
                 oPropSet = oCompDef.Document.PropertySets.Item("Inventor Summary Information")
                 If oPropSet.Count = 0 Then
                     MessageBox.Show("The are NO 'Inventor Summary Information' present in this file")
                 Else
-                    Try
-                        DataGridView1.Rows.Item(r).Cells(16).Value = oPropSet.Item("Title").Value
-                    Catch Ex As Exception
-                        If Not CheckBox1.Checked Then MessageBox.Show("Title not found")
-                    End Try
-
-                    Try
-                        DataGridView1.Rows.Item(r).Cells(17).Value = oPropSet.Item("Subject").Value
-                    Catch Ex As Exception
-                        If Not CheckBox1.Checked Then MessageBox.Show("Subject not found")
-                    End Try
-
-                    Try
-                        DataGridView1.Rows.Item(r).Cells(18).Value = oPropSet.Item("Author").Value
-                    Catch Ex As Exception
-                        If Not CheckBox1.Checked Then MessageBox.Show("Author not found")
-                    End Try
-
-                    Try
-                        DataGridView1.Rows.Item(r).Cells(19).Value = oPropSet.Item("Comments").Value
-                    Catch Ex As Exception
-                        If Not CheckBox1.Checked Then MessageBox.Show("Comments not found")
-                    End Try
+                    For j = 0 To summary.Length - 1
+                        Try
+                            DataGridView1.Rows.Item(r).Cells(j + 16).Value = oPropSet.Item(summary(j)).Value
+                        Catch Ex As Exception
+                            DataGridView1.Rows.Item(r).Cells(j + 16).Value = "?"
+                            If Not CheckBox1.Checked Then MessageBox.Show(summary(j) & " not found")
+                        End Try
+                    Next
                 End If
                 '-----------------------------------------------------
             Next
