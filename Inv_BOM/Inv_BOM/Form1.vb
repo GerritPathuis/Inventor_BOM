@@ -83,6 +83,14 @@ Public Class Form1
 
         invApp.SilentOperation = vbTrue
         oDoc = CType(invApp.Documents.Open(filepath1, False), Document)
+
+        '--------- determine object type -------
+        Dim eDocumentType As DocumentTypeEnum = oDoc.DocumentType
+        If eDocumentType <> DocumentTypeEnum.kAssemblyDocumentObject Then
+            MessageBox.Show("Please Select a IAM file ")
+            Exit Sub
+        End If
+
         Try
             Dim oBOM As Inventor.BOM
             oBOM = oDoc.ComponentDefinition.BOM
@@ -342,9 +350,9 @@ Public Class Form1
     End Sub
 
     Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
-        ChgTitleBlkDef()
+        Content_title_Block()
     End Sub
-    Private Sub ChgTitleBlkDef()
+    Private Sub Content_title_Block()
         'http://adndevblog.typepad.com/manufacturing/2012/12/inventor-change-text-items-in-titleblockdefinition.html
         TextBox2.Clear()
 
@@ -356,52 +364,80 @@ Public Class Form1
             Exit Sub
         End If
 
-        Dim oApp As Inventor.Application
-        Dim objDrawDoc As Inventor.Document
+        Dim invApp As Inventor.Application
+        Dim oDoc As Inventor.Document
 
-        oApp = Marshal.GetActiveObject("Inventor.Application")
-        oApp.SilentOperation = vbTrue
-        objDrawDoc = CType(oApp.Documents.Open(filepath1, False), Document)
+        invApp = Marshal.GetActiveObject("Inventor.Application")
+        invApp.SilentOperation = vbTrue
+        oDoc = CType(invApp.Documents.Open(filepath1, False), Document)
 
         '--------- determine object type -------
-        Dim eDocumentType As DocumentTypeEnum = objDrawDoc.DocumentType
+        Dim eDocumentType As DocumentTypeEnum = oDoc.DocumentType
         If eDocumentType <> DocumentTypeEnum.kDrawingDocumentObject Then
             MessageBox.Show("Please Select a IDW file ")
             Exit Sub
         End If
 
-        TextBox2.Text &= "objDrawDoc is " & objDrawDoc.ToString & vbCrLf
+        'TextBox2.Text &= "oDoc is " & oDoc.ToString & vbCrLf
 
         '------- Title blocks-----------------
-        Dim colTitleBlkDefs As TitleBlockDefinitions = objDrawDoc.TitleBlockDefinitions
+        'Dim colTitleBlkDefs As TitleBlockDefinitions = oDoc.TitleBlockDefinitions
+        'Dim name_title_block As String
+        'Dim objTitleBlkDef As TitleBlockDefinition = Nothing
 
-        Dim objTitleBlkDef As TitleBlockDefinition = Nothing
-        For Each objTitleBlkDef In colTitleBlkDefs
-            TextBox2.Text &= "objTitleBlkDef name = " & objTitleBlkDef.Name & vbCrLf
-            If objTitleBlkDef.Name = "VTK" Then
-                TextBox2.Text &= "VTK Title Block found !" & vbCrLf
+        'name_title_block = TextBox5.Text    'name of the Titl block
+        'For Each objTitleBlkDef In colTitleBlkDefs
+        '    TextBox2.Text &= "objTitleBlkDef name = " & objTitleBlkDef.Name & vbCrLf
+        '    If objTitleBlkDef.Name = name_title_block Then
+        '        TextBox2.Text &= name_title_block & " Title Block found !" & vbCrLf
+        '        Exit For
+        '    End If
+        'Next
+
+        '' If we are here we have the title block of interest.
+        '' Get the title block sketch and set it active
+        'Dim objDrwSketch As DrawingSketch = Nothing
+        'objTitleBlkDef.Edit(objDrwSketch)
+
+        'Dim colTextBoxes As Inventor.TextBoxes = objDrwSketch.TextBoxes
+
+        'For Each objTextBox As Inventor.TextBox In colTextBoxes
+        '    TextBox2.Text &= "objTextBox.Text = " & objTextBox.Text & vbCrLf
+        '    If objTextBox.Text = "<TITLE>" Then
+        '        TextBox2.Text &= "TITLE is !" & objTextBox.Text & vbCrLf
+        '        'objTextBox.Text = "Captain CAD Engineering"
+        '        'Exit For
+        '    End If
+        'Next
+        'objTitleBlkDef.ExitEdit(False)
+
+        '=================================================================================
+        'https://forums.autodesk.com/t5/inventor-customization/copy-titleblock-prompted-entries-to-custom-iproperty/td-p/7491136
+
+        Dim oSheet As Sheet
+        oSheet = oDoc.ActiveSheet
+        Dim oTB1 As TitleBlock
+        oTB1 = oSheet.TitleBlock
+        Dim titleDef As TitleBlockDefinition
+        titleDef = oTB1.Definition
+        Dim oPrompt As Inventor.TextBox
+
+        oPrompt = Nothing
+        ' Find the Prompted Entry called Make in the Title Block
+        For Each defText As Inventor.TextBox In titleDef.Sketch.TextBoxes
+            If defText.Text = "<PART NUMBER>" Then
+                oPrompt = defText
                 Exit For
             End If
         Next
 
-        ' If we are here we have the title block of interest.
-        ' Get the title block sketch and set it active
+        Dim partno As String
+        partno = oTB1.GetResultText(oPrompt)
+        TextBox2.Text &= "PART NUMBER= " & partno & vbCrLf
+    End Sub
 
-        Dim objDrwSketch As DrawingSketch = Nothing
-        objTitleBlkDef.Edit(objDrwSketch)
-
-        Dim colTextBoxes As Inventor.TextBoxes = objDrwSketch.TextBoxes
-
-        For Each objTextBox As Inventor.TextBox In colTextBoxes
-            TextBox2.Text &= "objTextBox.Text = " & objTextBox.Text & vbCrLf
-            If objTextBox.Text = "<TITLE>" Then
-                TextBox2.Text &= "TITLE is !" & objTextBox.Text & vbCrLf
-                'objTextBox.Text = "Captain CAD Engineering"
-                Exit For
-            End If
-        Next
-        objTitleBlkDef.ExitEdit(False)
-
+    Private Sub getresulttext(titleBlock As TitleBlock)
+        Throw New NotImplementedException()
     End Sub
 
     Private Sub Get_dwg_art_nr()
