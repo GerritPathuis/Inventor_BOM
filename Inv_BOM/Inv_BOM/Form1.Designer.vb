@@ -34,6 +34,8 @@ Partial Class Form1
         Me.TextBox4 = New System.Windows.Forms.TextBox()
         Me.TextBox3 = New System.Windows.Forms.TextBox()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.Button9 = New System.Windows.Forms.Button()
+        Me.TextBox6 = New System.Windows.Forms.TextBox()
         Me.Button8 = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.TextBox5 = New System.Windows.Forms.TextBox()
@@ -54,9 +56,8 @@ Partial Class Form1
         Me.Column4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
-        Me.TextBox6 = New System.Windows.Forms.TextBox()
-        Me.Button9 = New System.Windows.Forms.Button()
-        Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.Button10 = New System.Windows.Forms.Button()
+        Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
@@ -183,6 +184,7 @@ Partial Class Form1
         '
         'GroupBox2
         '
+        Me.GroupBox2.Controls.Add(Me.Button10)
         Me.GroupBox2.Controls.Add(Me.Button9)
         Me.GroupBox2.Controls.Add(Me.TextBox6)
         Me.GroupBox2.Controls.Add(Me.Button8)
@@ -196,6 +198,23 @@ Partial Class Form1
         Me.GroupBox2.TabIndex = 12
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "IDW title block"
+        '
+        'Button9
+        '
+        Me.Button9.Location = New System.Drawing.Point(6, 45)
+        Me.Button9.Name = "Button9"
+        Me.Button9.Size = New System.Drawing.Size(156, 23)
+        Me.Button9.TabIndex = 15
+        Me.Button9.Text = "Process work Directory"
+        Me.Button9.UseVisualStyleBackColor = True
+        '
+        'TextBox6
+        '
+        Me.TextBox6.Location = New System.Drawing.Point(6, 19)
+        Me.TextBox6.Name = "TextBox6"
+        Me.TextBox6.Size = New System.Drawing.Size(233, 20)
+        Me.TextBox6.TabIndex = 14
+        Me.TextBox6.Text = "C:\Inventor_tst"
         '
         'Button8
         '
@@ -323,7 +342,7 @@ Partial Class Form1
         Me.TabPage2.Location = New System.Drawing.Point(4, 22)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(540, 477)
+        Me.TabPage2.Size = New System.Drawing.Size(586, 534)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "BOM list"
         Me.TabPage2.UseVisualStyleBackColor = True
@@ -335,7 +354,7 @@ Partial Class Form1
         Me.DataGridView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView1.Location = New System.Drawing.Point(3, 3)
         Me.DataGridView1.Name = "DataGridView1"
-        Me.DataGridView1.Size = New System.Drawing.Size(534, 471)
+        Me.DataGridView1.Size = New System.Drawing.Size(580, 528)
         Me.DataGridView1.TabIndex = 3
         '
         'Column1
@@ -363,26 +382,14 @@ Partial Class Form1
         Me.Column5.HeaderText = "Column5"
         Me.Column5.Name = "Column5"
         '
-        'TextBox6
+        'Button10
         '
-        Me.TextBox6.Location = New System.Drawing.Point(6, 19)
-        Me.TextBox6.Name = "TextBox6"
-        Me.TextBox6.Size = New System.Drawing.Size(233, 20)
-        Me.TextBox6.TabIndex = 14
-        Me.TextBox6.Text = "C:\Inventor_tst"
-        '
-        'Button9
-        '
-        Me.Button9.Location = New System.Drawing.Point(6, 45)
-        Me.Button9.Name = "Button9"
-        Me.Button9.Size = New System.Drawing.Size(233, 23)
-        Me.Button9.TabIndex = 15
-        Me.Button9.Text = "Process work Directory"
-        Me.Button9.UseVisualStyleBackColor = True
-        '
-        'OpenFileDialog1
-        '
-        Me.OpenFileDialog1.FileName = "OpenFileDialog1"
+        Me.Button10.Location = New System.Drawing.Point(168, 45)
+        Me.Button10.Name = "Button10"
+        Me.Button10.Size = New System.Drawing.Size(71, 22)
+        Me.Button10.TabIndex = 16
+        Me.Button10.Text = "Browse"
+        Me.Button10.UseVisualStyleBackColor = True
         '
         'Form1
         '
@@ -440,5 +447,6 @@ Partial Class Form1
     Friend WithEvents TextBox5 As TextBox
     Friend WithEvents Button9 As Button
     Friend WithEvents TextBox6 As TextBox
-    Friend WithEvents OpenFileDialog1 As OpenFileDialog
+    Friend WithEvents Button10 As Button
+    Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
 End Class

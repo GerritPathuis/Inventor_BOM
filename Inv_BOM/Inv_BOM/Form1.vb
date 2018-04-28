@@ -499,6 +499,12 @@ Public Class Form1
         End If
     End Sub
 
+    Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click
+        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
+            TextBox6.Text = FolderBrowserDialog1.SelectedPath
+        End If
+    End Sub
+
 End Class
 
 
