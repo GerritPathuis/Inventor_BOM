@@ -7,24 +7,29 @@ Imports Microsoft.Office.Interop
 Imports System.ComponentModel
 
 Public Class Form1
+    Public title_counter As Integer
     Public filepath1 As String = "C:\Repos\Inventor_IDW\Read_IDW\Part.ipt"
     Public filepath3 As String = "c:\MyDir"
 
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        DataGridView2.ColumnCount = 5
+        DataGridView2.RowCount = 1000
+
+        DataGridView2.Columns(0).HeaderText = "File"
+        DataGridView2.Columns(1).HeaderText = "D_no"
+        DataGridView2.Columns(2).HeaderText = "A_no"
+    End Sub
     Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click
         Open_file(1)   'ipt files
     End Sub
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         Open_file(2)    'iam files
     End Sub
-    Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
-        Open_file(4)    'idw files
-    End Sub
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
         Open_file(5)    'dwg files
     End Sub
 
     Private Sub Open_file(keuze As Integer)
-        TextBox2.Clear()
         ' Dim myStream As Stream = Nothing
         Dim openFileDialog1 As New OpenFileDialog With {
                .InitialDirectory = "c:\Inventor test files\",
@@ -93,11 +98,6 @@ Public Class Form1
 
         '-------------READ TITLE BLOCK----------------------------------------
         ' ---- Note: there is no title block in an IAmmodel file -------------
-
-
-
-
-
 
         '---------- Read BOM --------------------------
         Try
@@ -241,8 +241,6 @@ Public Class Form1
         Dim fname As String
         Dim str As String
 
-        TextBox2.Clear()
-
         xlApp = CreateObject("Excel.Application")
         xlWorkBook = xlApp.Workbooks.Add(Type.Missing)
         xlWorksheet = xlWorkBook.Worksheets(1)
@@ -337,8 +335,6 @@ Public Class Form1
                     oPropSet = oPropsets.Item(RadioButton4.Text)
             End Select
 
-            'oPropSet = oPropsets.Item("Inventor User Defined Properties")
-
             Dim oPro As Inventor.Property
             For Each oPro In oPropSet
                 Dim Found As Boolean = False
@@ -358,12 +354,8 @@ Public Class Form1
         MsgBox(AllPros)
     End Sub
 
-    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
-        Read_title_Block(TextBox1.Text)
-    End Sub
     Public Sub Read_title_Block(ByVal path As String)
         'http://adndevblog.typepad.com/manufacturing/2012/12/inventor-change-text-items-in-titleblockdefinition.html
-
 
         '-------- inventor must be running----
         Dim p() As Process
@@ -381,13 +373,11 @@ Public Class Form1
         Try
             oDoc = CType(invApp.Documents.Open(path, False), Document)
 
-
             '--------- determine object type -------
             Dim eDocumentType As DocumentTypeEnum = oDoc.DocumentType
             If eDocumentType <> DocumentTypeEnum.kDrawingDocumentObject Then
                 MessageBox.Show("Please Select a IDW file ")
             Else
-
                 '=================================================================================
                 'https://forums.autodesk.com/t5/inventor-customization/copy-titleblock-prompted-entries-to-custom-iproperty/td-p/7491136
 
@@ -401,20 +391,20 @@ Public Class Form1
 
                 ' Find the Prompted Entry called Make in the Title Block
                 For Each defText As Inventor.TextBox In titleDef.Sketch.TextBoxes
-                    If defText.Text = "<PART NUMBER>" Then
-                        oPrompt = defText
-                        TextBox2.Text &= "PART= " & oTB1.GetResultText(oPrompt) & vbCrLf
-                    End If
+                    DataGridView2.Rows.Item(title_counter).Cells(0).Value = path
                     If defText.Text = "<TITLE>" Then
                         oPrompt = defText
-                        TextBox2.Text &= "TITLE= " & oTB1.GetResultText(oPrompt) & vbCrLf
+                        DataGridView2.Rows.Item(title_counter).Cells(1).Value = "Title= " & oTB1.GetResultText(oPrompt)
+                    End If
+                    If defText.Text = "<PART NUMBER>" Then
+                        oPrompt = defText
+                        DataGridView2.Rows.Item(title_counter).Cells(2).Value = "A_no= " & oTB1.GetResultText(oPrompt)
                     End If
                 Next
             End If
             oDoc.Close()
         Catch
         End Try
-
     End Sub
 
     Private Sub Getresulttext(titleBlock As TitleBlock)
@@ -453,14 +443,15 @@ Public Class Form1
     End Sub
 
     Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
-        TextBox2.Clear()
+        Button9.BackColor = System.Drawing.Color.Green
+        title_counter = -1   'Reset counter
+
         'Select work directory
         'https://msdn.microsoft.com/en-us/library/07wt70x2(v=vs.110).aspx
         Dim pathfile As String
         pathfile = TextBox6.Text
 
-        If IO.File.Exists(pathfile) Then
-            ' This pathfile is a file.
+        If IO.File.Exists(pathfile) Then ' This pathfile is a file.
             ProcessFile(pathfile)
         Else
             If Directory.Exists(pathfile) Then
@@ -469,7 +460,7 @@ Public Class Form1
                 MessageBox.Show(pathfile & " is not a valid file or directory.")
             End If
         End If
-
+        Button9.BackColor = System.Drawing.Color.Transparent
     End Sub
     ' Process all files in the directory passed in, recurse on any directories 
     ' that are found, and process the files they contain.
@@ -488,17 +479,18 @@ Public Class Form1
         For Each subdirectory In subdirectoryEntries
             ProcessDirectory(subdirectory)
         Next subdirectory
-    End Sub 
+    End Sub
 
-    ' Insert logic for processing found files here.
+    ' Processing found files 
     Private Sub ProcessFile(ByVal file As String)
-        MessageBox.Show("Processed file is " & file)
+        'MessageBox.Show("Processed file is " & file)
         Dim extension As String = IO.Path.GetExtension(file)
         If extension = ".idw" Then
+            title_counter += 1
             Read_title_Block(file)
         End If
     End Sub
-
+    'Select work directory
     Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             TextBox6.Text = FolderBrowserDialog1.SelectedPath
