@@ -29,11 +29,14 @@ Partial Class Form1
         Me.Button4 = New System.Windows.Forms.Button()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
-        Me.Button8 = New System.Windows.Forms.Button()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.TextBox4 = New System.Windows.Forms.TextBox()
         Me.TextBox3 = New System.Windows.Forms.TextBox()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.Button8 = New System.Windows.Forms.Button()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.TextBox5 = New System.Windows.Forms.TextBox()
         Me.TextBox2 = New System.Windows.Forms.TextBox()
         Me.Button7 = New System.Windows.Forms.Button()
         Me.Button6 = New System.Windows.Forms.Button()
@@ -43,7 +46,6 @@ Partial Class Form1
         Me.RadioButton2 = New System.Windows.Forms.RadioButton()
         Me.RadioButton1 = New System.Windows.Forms.RadioButton()
         Me.Button5 = New System.Windows.Forms.Button()
-        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
         Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -52,8 +54,9 @@ Partial Class Form1
         Me.Column4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
-        Me.TextBox5 = New System.Windows.Forms.TextBox()
-        Me.Label1 = New System.Windows.Forms.Label()
+        Me.TextBox6 = New System.Windows.Forms.TextBox()
+        Me.Button9 = New System.Windows.Forms.Button()
+        Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
@@ -117,7 +120,7 @@ Partial Class Form1
         Me.TabControl1.Location = New System.Drawing.Point(0, 0)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(548, 503)
+        Me.TabControl1.Size = New System.Drawing.Size(594, 560)
         Me.TabControl1.TabIndex = 8
         '
         'TabPage1
@@ -133,20 +136,10 @@ Partial Class Form1
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(540, 477)
+        Me.TabPage1.Size = New System.Drawing.Size(586, 534)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Select file"
         Me.TabPage1.UseVisualStyleBackColor = True
-        '
-        'Button8
-        '
-        Me.Button8.BackColor = System.Drawing.Color.Yellow
-        Me.Button8.Location = New System.Drawing.Point(6, 19)
-        Me.Button8.Name = "Button8"
-        Me.Button8.Size = New System.Drawing.Size(233, 33)
-        Me.Button8.TabIndex = 13
-        Me.Button8.Text = "Select IDW file (Inventor dwg)"
-        Me.Button8.UseVisualStyleBackColor = False
         '
         'GroupBox3
         '
@@ -160,6 +153,19 @@ Partial Class Form1
         Me.GroupBox3.TabIndex = 16
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Inventor assembly (IAM)"
+        '
+        'CheckBox1
+        '
+        Me.CheckBox1.AutoSize = True
+        Me.CheckBox1.Checked = True
+        Me.CheckBox1.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CheckBox1.Location = New System.Drawing.Point(6, 136)
+        Me.CheckBox1.Name = "CheckBox1"
+        Me.CheckBox1.Size = New System.Drawing.Size(120, 20)
+        Me.CheckBox1.TabIndex = 8
+        Me.CheckBox1.Text = "Silent operation"
+        Me.CheckBox1.UseVisualStyleBackColor = True
         '
         'TextBox4
         '
@@ -177,6 +183,8 @@ Partial Class Form1
         '
         'GroupBox2
         '
+        Me.GroupBox2.Controls.Add(Me.Button9)
+        Me.GroupBox2.Controls.Add(Me.TextBox6)
         Me.GroupBox2.Controls.Add(Me.Button8)
         Me.GroupBox2.Controls.Add(Me.Label1)
         Me.GroupBox2.Controls.Add(Me.TextBox5)
@@ -184,14 +192,41 @@ Partial Class Form1
         Me.GroupBox2.Controls.Add(Me.Button7)
         Me.GroupBox2.Location = New System.Drawing.Point(259, 133)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(260, 289)
+        Me.GroupBox2.Size = New System.Drawing.Size(260, 329)
         Me.GroupBox2.TabIndex = 12
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "IDW title block"
         '
+        'Button8
+        '
+        Me.Button8.BackColor = System.Drawing.Color.Yellow
+        Me.Button8.Location = New System.Drawing.Point(6, 71)
+        Me.Button8.Name = "Button8"
+        Me.Button8.Size = New System.Drawing.Size(233, 33)
+        Me.Button8.TabIndex = 13
+        Me.Button8.Text = "Select IDW file (Inventor dwg)"
+        Me.Button8.UseVisualStyleBackColor = False
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(6, 259)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(88, 13)
+        Me.Label1.TabIndex = 4
+        Me.Label1.Text = "Name Title Block"
+        '
+        'TextBox5
+        '
+        Me.TextBox5.Location = New System.Drawing.Point(110, 256)
+        Me.TextBox5.Name = "TextBox5"
+        Me.TextBox5.Size = New System.Drawing.Size(102, 20)
+        Me.TextBox5.TabIndex = 3
+        Me.TextBox5.Text = "DIN"
+        '
         'TextBox2
         '
-        Me.TextBox2.Location = New System.Drawing.Point(6, 67)
+        Me.TextBox2.Location = New System.Drawing.Point(6, 110)
         Me.TextBox2.Multiline = True
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.ScrollBars = System.Windows.Forms.ScrollBars.Both
@@ -200,7 +235,7 @@ Partial Class Form1
         '
         'Button7
         '
-        Me.Button7.Location = New System.Drawing.Point(9, 239)
+        Me.Button7.Location = New System.Drawing.Point(9, 282)
         Me.Button7.Name = "Button7"
         Me.Button7.Size = New System.Drawing.Size(216, 34)
         Me.Button7.TabIndex = 0
@@ -282,26 +317,13 @@ Partial Class Form1
         Me.Button5.Text = "List all properties"
         Me.Button5.UseVisualStyleBackColor = False
         '
-        'CheckBox1
-        '
-        Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Checked = True
-        Me.CheckBox1.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CheckBox1.Location = New System.Drawing.Point(6, 136)
-        Me.CheckBox1.Name = "CheckBox1"
-        Me.CheckBox1.Size = New System.Drawing.Size(120, 20)
-        Me.CheckBox1.TabIndex = 8
-        Me.CheckBox1.Text = "Silent operation"
-        Me.CheckBox1.UseVisualStyleBackColor = True
-        '
         'TabPage2
         '
         Me.TabPage2.Controls.Add(Me.DataGridView1)
         Me.TabPage2.Location = New System.Drawing.Point(4, 22)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(764, 424)
+        Me.TabPage2.Size = New System.Drawing.Size(540, 477)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "BOM list"
         Me.TabPage2.UseVisualStyleBackColor = True
@@ -313,7 +335,7 @@ Partial Class Form1
         Me.DataGridView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView1.Location = New System.Drawing.Point(3, 3)
         Me.DataGridView1.Name = "DataGridView1"
-        Me.DataGridView1.Size = New System.Drawing.Size(758, 418)
+        Me.DataGridView1.Size = New System.Drawing.Size(534, 471)
         Me.DataGridView1.TabIndex = 3
         '
         'Column1
@@ -341,28 +363,32 @@ Partial Class Form1
         Me.Column5.HeaderText = "Column5"
         Me.Column5.Name = "Column5"
         '
-        'TextBox5
+        'TextBox6
         '
-        Me.TextBox5.Location = New System.Drawing.Point(110, 213)
-        Me.TextBox5.Name = "TextBox5"
-        Me.TextBox5.Size = New System.Drawing.Size(102, 20)
-        Me.TextBox5.TabIndex = 3
-        Me.TextBox5.Text = "DIN"
+        Me.TextBox6.Location = New System.Drawing.Point(6, 19)
+        Me.TextBox6.Name = "TextBox6"
+        Me.TextBox6.Size = New System.Drawing.Size(233, 20)
+        Me.TextBox6.TabIndex = 14
+        Me.TextBox6.Text = "C:\Inventor_tst"
         '
-        'Label1
+        'Button9
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(6, 216)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(88, 13)
-        Me.Label1.TabIndex = 4
-        Me.Label1.Text = "Name Title Block"
+        Me.Button9.Location = New System.Drawing.Point(6, 45)
+        Me.Button9.Name = "Button9"
+        Me.Button9.Size = New System.Drawing.Size(233, 23)
+        Me.Button9.TabIndex = 15
+        Me.Button9.Text = "Process work Directory"
+        Me.Button9.UseVisualStyleBackColor = True
+        '
+        'OpenFileDialog1
+        '
+        Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(548, 503)
+        Me.ClientSize = New System.Drawing.Size(594, 560)
         Me.Controls.Add(Me.TabControl1)
         Me.Name = "Form1"
         Me.Text = "Inventor BOM Extractor"
@@ -412,4 +438,7 @@ Partial Class Form1
     Friend WithEvents GroupBox3 As GroupBox
     Friend WithEvents Label1 As Label
     Friend WithEvents TextBox5 As TextBox
+    Friend WithEvents Button9 As Button
+    Friend WithEvents TextBox6 As TextBox
+    Friend WithEvents OpenFileDialog1 As OpenFileDialog
 End Class

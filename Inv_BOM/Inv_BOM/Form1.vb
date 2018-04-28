@@ -24,7 +24,7 @@ Public Class Form1
     End Sub
 
     Private Sub Open_file(keuze As Integer)
-
+        TextBox2.Clear()
         ' Dim myStream As Stream = Nothing
         Dim openFileDialog1 As New OpenFileDialog With {
                .InitialDirectory = "c:\Inventor test files\",
@@ -91,6 +91,15 @@ Public Class Form1
             Exit Sub
         End If
 
+        '-------------READ TITLE BLOCK----------------------------------------
+        ' ---- Note: there is no title block in an IAmmodel file -------------
+
+
+
+
+
+
+        '---------- Read BOM --------------------------
         Try
             Dim oBOM As Inventor.BOM
             oBOM = oDoc.ComponentDefinition.BOM
@@ -208,7 +217,7 @@ Public Class Form1
                         End Try
                     Next
                 End If
-                '-----------------------------------------------------
+
             Next
         Catch Ex As Exception
             MessageBox.Show("No BOM in this IAM model")
@@ -350,11 +359,11 @@ Public Class Form1
     End Sub
 
     Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
-        Content_title_Block()
+        Read_title_Block(TextBox1.Text)
     End Sub
-    Private Sub Content_title_Block()
+    Public Sub Read_title_Block(ByVal path As String)
         'http://adndevblog.typepad.com/manufacturing/2012/12/inventor-change-text-items-in-titleblockdefinition.html
-        TextBox2.Clear()
+
 
         '-------- inventor must be running----
         Dim p() As Process
@@ -369,74 +378,46 @@ Public Class Form1
 
         invApp = Marshal.GetActiveObject("Inventor.Application")
         invApp.SilentOperation = vbTrue
-        oDoc = CType(invApp.Documents.Open(filepath1, False), Document)
+        Try
+            oDoc = CType(invApp.Documents.Open(path, False), Document)
 
-        '--------- determine object type -------
-        Dim eDocumentType As DocumentTypeEnum = oDoc.DocumentType
-        If eDocumentType <> DocumentTypeEnum.kDrawingDocumentObject Then
-            MessageBox.Show("Please Select a IDW file ")
-            Exit Sub
-        End If
 
-        'TextBox2.Text &= "oDoc is " & oDoc.ToString & vbCrLf
+            '--------- determine object type -------
+            Dim eDocumentType As DocumentTypeEnum = oDoc.DocumentType
+            If eDocumentType <> DocumentTypeEnum.kDrawingDocumentObject Then
+                MessageBox.Show("Please Select a IDW file ")
+            Else
 
-        '------- Title blocks-----------------
-        'Dim colTitleBlkDefs As TitleBlockDefinitions = oDoc.TitleBlockDefinitions
-        'Dim name_title_block As String
-        'Dim objTitleBlkDef As TitleBlockDefinition = Nothing
+                '=================================================================================
+                'https://forums.autodesk.com/t5/inventor-customization/copy-titleblock-prompted-entries-to-custom-iproperty/td-p/7491136
 
-        'name_title_block = TextBox5.Text    'name of the Titl block
-        'For Each objTitleBlkDef In colTitleBlkDefs
-        '    TextBox2.Text &= "objTitleBlkDef name = " & objTitleBlkDef.Name & vbCrLf
-        '    If objTitleBlkDef.Name = name_title_block Then
-        '        TextBox2.Text &= name_title_block & " Title Block found !" & vbCrLf
-        '        Exit For
-        '    End If
-        'Next
+                Dim oSheet As Sheet
+                oSheet = oDoc.ActiveSheet
+                Dim oTB1 As TitleBlock
+                oTB1 = oSheet.TitleBlock
+                Dim titleDef As TitleBlockDefinition
+                titleDef = oTB1.Definition
+                Dim oPrompt As Inventor.TextBox = Nothing
 
-        '' If we are here we have the title block of interest.
-        '' Get the title block sketch and set it active
-        'Dim objDrwSketch As DrawingSketch = Nothing
-        'objTitleBlkDef.Edit(objDrwSketch)
-
-        'Dim colTextBoxes As Inventor.TextBoxes = objDrwSketch.TextBoxes
-
-        'For Each objTextBox As Inventor.TextBox In colTextBoxes
-        '    TextBox2.Text &= "objTextBox.Text = " & objTextBox.Text & vbCrLf
-        '    If objTextBox.Text = "<TITLE>" Then
-        '        TextBox2.Text &= "TITLE is !" & objTextBox.Text & vbCrLf
-        '        'objTextBox.Text = "Captain CAD Engineering"
-        '        'Exit For
-        '    End If
-        'Next
-        'objTitleBlkDef.ExitEdit(False)
-
-        '=================================================================================
-        'https://forums.autodesk.com/t5/inventor-customization/copy-titleblock-prompted-entries-to-custom-iproperty/td-p/7491136
-
-        Dim oSheet As Sheet
-        oSheet = oDoc.ActiveSheet
-        Dim oTB1 As TitleBlock
-        oTB1 = oSheet.TitleBlock
-        Dim titleDef As TitleBlockDefinition
-        titleDef = oTB1.Definition
-        Dim oPrompt As Inventor.TextBox
-
-        oPrompt = Nothing
-        ' Find the Prompted Entry called Make in the Title Block
-        For Each defText As Inventor.TextBox In titleDef.Sketch.TextBoxes
-            If defText.Text = "<PART NUMBER>" Then
-                oPrompt = defText
-                Exit For
+                ' Find the Prompted Entry called Make in the Title Block
+                For Each defText As Inventor.TextBox In titleDef.Sketch.TextBoxes
+                    If defText.Text = "<PART NUMBER>" Then
+                        oPrompt = defText
+                        TextBox2.Text &= "PART= " & oTB1.GetResultText(oPrompt) & vbCrLf
+                    End If
+                    If defText.Text = "<TITLE>" Then
+                        oPrompt = defText
+                        TextBox2.Text &= "TITLE= " & oTB1.GetResultText(oPrompt) & vbCrLf
+                    End If
+                Next
             End If
-        Next
+            oDoc.Close()
+        Catch
+        End Try
 
-        Dim partno As String
-        partno = oTB1.GetResultText(oPrompt)
-        TextBox2.Text &= "PART NUMBER= " & partno & vbCrLf
     End Sub
 
-    Private Sub getresulttext(titleBlock As TitleBlock)
+    Private Sub Getresulttext(titleBlock As TitleBlock)
         Throw New NotImplementedException()
     End Sub
 
@@ -468,6 +449,53 @@ Public Class Form1
                 substring = s.Substring(startindex, endIndex + searchArt.Length - startindex)
                 TextBox4.Text = substring.Substring(1, 8)
             End If
+        End If
+    End Sub
+
+    Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
+        TextBox2.Clear()
+        'Select work directory
+        'https://msdn.microsoft.com/en-us/library/07wt70x2(v=vs.110).aspx
+        Dim pathfile As String
+        pathfile = TextBox6.Text
+
+        If IO.File.Exists(pathfile) Then
+            ' This pathfile is a file.
+            ProcessFile(pathfile)
+        Else
+            If Directory.Exists(pathfile) Then
+                ProcessDirectory(pathfile)   ' This path is a directory.
+            Else
+                MessageBox.Show(pathfile & " is not a valid file or directory.")
+            End If
+        End If
+
+    End Sub
+    ' Process all files in the directory passed in, recurse on any directories 
+    ' that are found, and process the files they contain.
+
+    Private Sub ProcessDirectory(ByVal targetDirectory As String)
+        Dim fileEntries As String() = Directory.GetFiles(targetDirectory)
+        ' Process the list of files found in the directory.
+        Dim fileName As String
+        For Each fileName In fileEntries
+            ProcessFile(fileName)
+        Next fileName
+
+        Dim subdirectoryEntries As String() = Directory.GetDirectories(targetDirectory)
+        ' Recurse into subdirectories of this directory.
+        Dim subdirectory As String
+        For Each subdirectory In subdirectoryEntries
+            ProcessDirectory(subdirectory)
+        Next subdirectory
+    End Sub 
+
+    ' Insert logic for processing found files here.
+    Private Sub ProcessFile(ByVal file As String)
+        MessageBox.Show("Processed file is " & file)
+        Dim extension As String = IO.Path.GetExtension(file)
+        If extension = ".idw" Then
+            Read_title_Block(file)
         End If
     End Sub
 
