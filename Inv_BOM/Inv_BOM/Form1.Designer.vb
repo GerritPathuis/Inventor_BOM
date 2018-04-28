@@ -29,6 +29,7 @@ Partial Class Form1
         Me.Button4 = New System.Windows.Forms.Button()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.TextBox2 = New System.Windows.Forms.TextBox()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.TextBox4 = New System.Windows.Forms.TextBox()
@@ -49,6 +50,7 @@ Partial Class Form1
         Me.Column5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.Button7 = New System.Windows.Forms.Button()
         Me.DataGridView2 = New System.Windows.Forms.DataGridView()
         Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -62,7 +64,6 @@ Partial Class Form1
         Me.TextBox5 = New System.Windows.Forms.TextBox()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
-        Me.TextBox2 = New System.Windows.Forms.TextBox()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
@@ -149,6 +150,15 @@ Partial Class Form1
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Select file"
         Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'TextBox2
+        '
+        Me.TextBox2.Location = New System.Drawing.Point(10, 290)
+        Me.TextBox2.Multiline = True
+        Me.TextBox2.Name = "TextBox2"
+        Me.TextBox2.ScrollBars = System.Windows.Forms.ScrollBars.Both
+        Me.TextBox2.Size = New System.Drawing.Size(491, 175)
+        Me.TextBox2.TabIndex = 17
         '
         'GroupBox3
         '
@@ -324,6 +334,7 @@ Partial Class Form1
         '
         'GroupBox2
         '
+        Me.GroupBox2.Controls.Add(Me.Button7)
         Me.GroupBox2.Controls.Add(Me.DataGridView2)
         Me.GroupBox2.Controls.Add(Me.Button10)
         Me.GroupBox2.Controls.Add(Me.Button9)
@@ -337,6 +348,15 @@ Partial Class Form1
         Me.GroupBox2.TabIndex = 13
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Read IDW title blocks"
+        '
+        'Button7
+        '
+        Me.Button7.Location = New System.Drawing.Point(323, 15)
+        Me.Button7.Name = "Button7"
+        Me.Button7.Size = New System.Drawing.Size(206, 111)
+        Me.Button7.TabIndex = 18
+        Me.Button7.Text = "Write Title block info  to Excel File"
+        Me.Button7.UseVisualStyleBackColor = True
         '
         'DataGridView2
         '
@@ -417,15 +437,6 @@ Partial Class Form1
         Me.TextBox5.TabIndex = 3
         Me.TextBox5.Text = "DIN"
         '
-        'TextBox2
-        '
-        Me.TextBox2.Location = New System.Drawing.Point(10, 290)
-        Me.TextBox2.Multiline = True
-        Me.TextBox2.Name = "TextBox2"
-        Me.TextBox2.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.TextBox2.Size = New System.Drawing.Size(491, 107)
-        Me.TextBox2.TabIndex = 17
-        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -491,4 +502,5 @@ Partial Class Form1
     Friend WithEvents DataGridViewTextBoxColumn4 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn5 As DataGridViewTextBoxColumn
     Friend WithEvents TextBox2 As TextBox
+    Friend WithEvents Button7 As Button
 End Class

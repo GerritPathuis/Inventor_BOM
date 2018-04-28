@@ -12,9 +12,36 @@ Public Class Form1
     Public filepath3 As String = "c:\MyDir"
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        DataGridView1.ColumnCount = 30
+        DataGridView1.RowCount = 1000
+        DataGridView1.ColumnHeadersVisible = True
+        DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
+
+        DataGridView1.Columns(0).HeaderText = "File"
+        DataGridView1.Columns(1).HeaderText = "D_no"
+        DataGridView1.Columns(2).HeaderText = "A_no"
+        DataGridView1.Columns(3).HeaderText = "Item "
+        DataGridView1.Columns(4).HeaderText = "Qty"
+        DataGridView1.Columns(5).HeaderText = "Part"
+        DataGridView1.Columns(6).HeaderText = "Desc"
+        DataGridView1.Columns(7).HeaderText = "Stock"
+
+        DataGridView1.Columns(8).HeaderText = "DOC_NUMBER"
+        DataGridView1.Columns(9).HeaderText = "ITEM_NR"
+        DataGridView1.Columns(10).HeaderText = "DOC_STATUS"
+        DataGridView1.Columns(11).HeaderText = "DOC_REV"
+        DataGridView1.Columns(12).HeaderText = "PART_MATERIAL"
+        DataGridView1.Columns(13).HeaderText = "IT_TP"
+        DataGridView1.Columns(14).HeaderText = "LENGTH"
+        DataGridView1.Columns(15).HeaderText = "Part Icon"
+
+        DataGridView1.Columns(16).HeaderText = "Title"
+        DataGridView1.Columns(17).HeaderText = "Subject"
+        DataGridView1.Columns(18).HeaderText = "Author"
+        DataGridView1.Columns(19).HeaderText = "Comments"
+
         DataGridView2.ColumnCount = 5
         DataGridView2.RowCount = 1000
-
         DataGridView2.Columns(0).HeaderText = "File"
         DataGridView2.Columns(1).HeaderText = "D_no"
         DataGridView2.Columns(2).HeaderText = "A_no"
@@ -66,10 +93,6 @@ Public Class Form1
         Dim information As System.IO.FileInfo
         Dim filen As String
 
-        DataGridView1.ColumnCount = 21
-        DataGridView1.ColumnHeadersVisible = True
-        DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
-
         '-------- inventor must be running----
         Dim p() As Process
         p = Process.GetProcessesByName("Inventor")
@@ -115,29 +138,6 @@ Public Class Form1
             Dim oPropSet As PropertySet
             Dim i, j, r As Integer
 
-            DataGridView1.Columns(0).HeaderText = "File"
-            DataGridView1.Columns(1).HeaderText = "D_no"
-            DataGridView1.Columns(2).HeaderText = "A_no"
-            DataGridView1.Columns(3).HeaderText = "Item "
-            DataGridView1.Columns(4).HeaderText = "Qty"
-            DataGridView1.Columns(5).HeaderText = "Part"
-            DataGridView1.Columns(6).HeaderText = "Desc"
-            DataGridView1.Columns(7).HeaderText = "Stock"
-
-            DataGridView1.Columns(8).HeaderText = "DOC_NUMBER"
-            DataGridView1.Columns(9).HeaderText = "ITEM_NR"
-            DataGridView1.Columns(10).HeaderText = "DOC_STATUS"
-            DataGridView1.Columns(11).HeaderText = "DOC_REV"
-            DataGridView1.Columns(12).HeaderText = "PART_MATERIAL"
-            DataGridView1.Columns(13).HeaderText = "IT_TP"
-            DataGridView1.Columns(14).HeaderText = "LENGTH"
-            DataGridView1.Columns(15).HeaderText = "Part Icon"
-
-            DataGridView1.Columns(16).HeaderText = "Title"
-            DataGridView1.Columns(17).HeaderText = "Subject"
-            DataGridView1.Columns(18).HeaderText = "Author"
-            DataGridView1.Columns(19).HeaderText = "Comments"
-
             For i = 1 To oBOMView.BOMRows.Count
                 r = i - 1
 
@@ -166,6 +166,7 @@ Public Class Form1
                 Else
                     For j = 0 To design_track.Length - 1
                         Try
+                            DataGridView1.Rows.Item(r).Cells(j + 5).Value = "+"
                             DataGridView1.Rows.Item(r).Cells(j + 5).Value = oPropSet.Item(design_track(j)).Value
                         Catch Ex As Exception
                             DataGridView1.Rows.Item(r).Cells(j + 5).Value = "?"
@@ -190,6 +191,7 @@ Public Class Form1
                 Else
                     For j = 0 To custom.Length - 1
                         Try
+                            DataGridView1.Rows.Item(r).Cells(j + 8).Value = "+"
                             DataGridView1.Rows.Item(r).Cells(j + 8).Value = oPropSet.Item(custom(j)).Value
                         Catch Ex As Exception
                             DataGridView1.Rows.Item(r).Cells(j + 8).Value = "?"
@@ -210,6 +212,7 @@ Public Class Form1
                 Else
                     For j = 0 To summary.Length - 1
                         Try
+                            DataGridView1.Rows.Item(r).Cells(j + 16).Value = "+"
                             DataGridView1.Rows.Item(r).Cells(j + 16).Value = oPropSet.Item(summary(j)).Value
                         Catch Ex As Exception
                             DataGridView1.Rows.Item(r).Cells(j + 16).Value = "?"
@@ -231,10 +234,10 @@ Public Class Form1
         SaveFileDialog1.InitialDirectory = filepath3
         SaveFileDialog1.FileName = "_BOM" & "_" & TextBox3.Text & "_" & TextBox4.Text & ".xls"
         SaveFileDialog1.ShowDialog()
-        Write_excel()
+        Write_excel(DataGridView1)
         Button4.BackColor = System.Drawing.Color.Transparent
     End Sub
-    Private Sub Write_excel()
+    Private Sub Write_excel(ByVal dg As DataGridView)
         Dim xlApp As New Excel.Application
         Dim xlWorkBook As Excel.Workbook
         Dim xlWorksheet As Excel.Worksheet
@@ -250,26 +253,24 @@ Public Class Form1
 
         '-------- Header text to excel -------------tr
         For hor = 0 To 19
-            str = DataGridView1.Columns(hor).HeaderText
+            str = dg.Columns(hor).HeaderText
             xlWorksheet.Cells(1, hor + 1) = str
         Next
 
-        'TextBox2.Text &= "Rows...." & DataGridView1.Rows.Count
-        'TextBox2.Text &= "Columns...." & DataGridView1.Columns.Count
+        TextBox2.Text &= "Rows...." & dg.Rows.Count & vbCrLf
+        TextBox2.Text &= "Columns...." & dg.Columns.Count & vbCrLf
 
         '-------- Cell_text to excel -------------
         Try
-            For vert = 0 To DataGridView1.Rows.Count - 2
+            For vert = 0 To dg.Rows.Count - 1
                 For hor = 0 To 19
-                    str = DataGridView1.Rows.Item(vert).Cells(hor).Value.ToString
-                    If str = Nothing Then
-                        str = "-"
+                    If Not dg.Rows.Item(vert).Cells(hor).Value Is Nothing Then
+                        str = dg.Rows.Item(vert).Cells(hor).Value.ToString
+                        TextBox2.Text &= "hor=" & hor.ToString & " vert=" & vert.ToString & " str= " & str & vbCrLf
+                        xlWorksheet.Cells(vert + 2, hor + 1) = str
                     End If
-                    'TextBox2.Text &= "hor=" & hor.ToString & " vert=" & vert.ToString & " str= " & str & vbCrLf
-                    xlWorksheet.Cells(vert + 2, hor + 1) = str
                 Next
             Next
-            ' MessageBox.Show("save....")
             fname = SaveFileDialog1.FileName
             xlWorkBook.SaveAs(fname, FileFormat:=XlFileFormat.xlWorkbookNormal)
 
@@ -497,6 +498,15 @@ Public Class Form1
         End If
     End Sub
 
+    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
+        Button7.BackColor = System.Drawing.Color.Green
+        SaveFileDialog1.Title = "Please Select a File"
+        SaveFileDialog1.InitialDirectory = filepath3
+        SaveFileDialog1.FileName = "_Title_Blocks" & ".xls"
+        SaveFileDialog1.ShowDialog()
+        Write_excel(DataGridView2)
+        Button7.BackColor = System.Drawing.Color.Transparent
+    End Sub
 End Class
 
 
