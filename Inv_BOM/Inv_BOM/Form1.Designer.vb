@@ -80,11 +80,7 @@ Partial Class Form1
         Me.DataGridViewTextBoxColumn10 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
-        Me.TabPage5 = New System.Windows.Forms.TabPage()
-        Me.Button13 = New System.Windows.Forms.Button()
         Me.Button6 = New System.Windows.Forms.Button()
-        Me.TextBox9 = New System.Windows.Forms.TextBox()
-        Me.TextBox10 = New System.Windows.Forms.TextBox()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
@@ -98,7 +94,6 @@ Partial Class Form1
         Me.TabPage4.SuspendLayout()
         Me.GroupBox4.SuspendLayout()
         CType(Me.DataGridView3, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.TabPage5.SuspendLayout()
         Me.SuspendLayout()
         '
         'TextBox1
@@ -143,7 +138,6 @@ Partial Class Form1
         Me.TabControl1.Controls.Add(Me.TabPage2)
         Me.TabControl1.Controls.Add(Me.TabPage3)
         Me.TabControl1.Controls.Add(Me.TabPage4)
-        Me.TabControl1.Controls.Add(Me.TabPage5)
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TabControl1.Location = New System.Drawing.Point(0, 0)
         Me.TabControl1.Name = "TabControl1"
@@ -179,6 +173,7 @@ Partial Class Form1
         '
         'GroupBox3
         '
+        Me.GroupBox3.Controls.Add(Me.Button6)
         Me.GroupBox3.Controls.Add(Me.Button3)
         Me.GroupBox3.Controls.Add(Me.Button2)
         Me.GroupBox3.Controls.Add(Me.CheckBox1)
@@ -195,7 +190,7 @@ Partial Class Form1
         Me.CheckBox1.Checked = True
         Me.CheckBox1.CheckState = System.Windows.Forms.CheckState.Checked
         Me.CheckBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CheckBox1.Location = New System.Drawing.Point(6, 108)
+        Me.CheckBox1.Location = New System.Drawing.Point(6, 97)
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.Size = New System.Drawing.Size(120, 20)
         Me.CheckBox1.TabIndex = 8
@@ -309,6 +304,7 @@ Partial Class Form1
         '
         'TextBox8
         '
+        Me.TextBox8.Enabled = False
         Me.TextBox8.Location = New System.Drawing.Point(111, 19)
         Me.TextBox8.Name = "TextBox8"
         Me.TextBox8.Size = New System.Drawing.Size(151, 20)
@@ -336,9 +332,9 @@ Partial Class Form1
         '
         'Button12
         '
-        Me.Button12.Location = New System.Drawing.Point(9, 53)
+        Me.Button12.Location = New System.Drawing.Point(9, 45)
         Me.Button12.Name = "Button12"
-        Me.Button12.Size = New System.Drawing.Size(253, 23)
+        Me.Button12.Size = New System.Drawing.Size(253, 31)
         Me.Button12.TabIndex = 16
         Me.Button12.Text = "Process work Directory"
         Me.Button12.UseVisualStyleBackColor = True
@@ -601,54 +597,14 @@ Partial Class Form1
         Me.DataGridViewTextBoxColumn10.HeaderText = "Column5"
         Me.DataGridViewTextBoxColumn10.Name = "DataGridViewTextBoxColumn10"
         '
-        'TabPage5
-        '
-        Me.TabPage5.Controls.Add(Me.TextBox10)
-        Me.TabPage5.Controls.Add(Me.TextBox9)
-        Me.TabPage5.Controls.Add(Me.Button6)
-        Me.TabPage5.Controls.Add(Me.Button13)
-        Me.TabPage5.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage5.Name = "TabPage5"
-        Me.TabPage5.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage5.Size = New System.Drawing.Size(586, 473)
-        Me.TabPage5.TabIndex = 4
-        Me.TabPage5.Text = "DWG"
-        Me.TabPage5.UseVisualStyleBackColor = True
-        '
-        'Button13
-        '
-        Me.Button13.Location = New System.Drawing.Point(22, 98)
-        Me.Button13.Name = "Button13"
-        Me.Button13.Size = New System.Drawing.Size(233, 50)
-        Me.Button13.TabIndex = 0
-        Me.Button13.Text = "Button13"
-        Me.Button13.UseVisualStyleBackColor = True
-        '
         'Button6
         '
-        Me.Button6.Location = New System.Drawing.Point(22, 59)
+        Me.Button6.Location = New System.Drawing.Point(98, 123)
         Me.Button6.Name = "Button6"
-        Me.Button6.Size = New System.Drawing.Size(233, 33)
-        Me.Button6.TabIndex = 12
-        Me.Button6.Text = "Select dwg file (autocad)"
+        Me.Button6.Size = New System.Drawing.Size(99, 36)
+        Me.Button6.TabIndex = 18
+        Me.Button6.Text = "dxf test"
         Me.Button6.UseVisualStyleBackColor = True
-        '
-        'TextBox9
-        '
-        Me.TextBox9.Location = New System.Drawing.Point(22, 23)
-        Me.TextBox9.Name = "TextBox9"
-        Me.TextBox9.Size = New System.Drawing.Size(502, 20)
-        Me.TextBox9.TabIndex = 13
-        '
-        'TextBox10
-        '
-        Me.TextBox10.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.TextBox10.Location = New System.Drawing.Point(3, 186)
-        Me.TextBox10.Multiline = True
-        Me.TextBox10.Name = "TextBox10"
-        Me.TextBox10.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.TextBox10.Size = New System.Drawing.Size(580, 284)
-        Me.TextBox10.TabIndex = 18
         '
         'Form1
         '
@@ -677,8 +633,6 @@ Partial Class Form1
         Me.GroupBox4.ResumeLayout(False)
         Me.GroupBox4.PerformLayout()
         CType(Me.DataGridView3, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.TabPage5.ResumeLayout(False)
-        Me.TabPage5.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -740,9 +694,5 @@ Partial Class Form1
     Friend WithEvents Label4 As Label
     Friend WithEvents Button4 As Button
     Friend WithEvents GroupBox5 As GroupBox
-    Friend WithEvents TabPage5 As TabPage
-    Friend WithEvents Button13 As Button
     Friend WithEvents Button6 As Button
-    Friend WithEvents TextBox9 As TextBox
-    Friend WithEvents TextBox10 As TextBox
 End Class

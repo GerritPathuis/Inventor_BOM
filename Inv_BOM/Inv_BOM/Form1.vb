@@ -58,9 +58,6 @@ Public Class Form1
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         Open_file(2)    'iam files
     End Sub
-    Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
-        Open_file(5)    'dwg files
-    End Sub
 
     Private Sub Open_file(keuze As Integer)
         ' Dim myStream As Stream = Nothing
@@ -78,13 +75,9 @@ Public Class Form1
 
         If openFileDialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
             Try
-                If keuze = 5 Then
-                    TextBox9.Text = filepath1.ToString
-                Else
-                    filepath1 = openFileDialog1.FileName
-                    TextBox1.Text = filepath1.ToString
-                    Get_dwg_art_nr()
-                End If
+                filepath1 = openFileDialog1.FileName
+                TextBox1.Text = filepath1.ToString
+                Get_dwg_art_nr()
             Catch Ex As Exception
                 MessageBox.Show("Cannot read file from disk. Original error: " & Ex.Message)
             Finally
@@ -564,51 +557,90 @@ Public Class Form1
         Next fileName
         Button12.BackColor = System.Drawing.Color.Transparent
     End Sub
+    Private Sub PlotDXF()
+        'http://modthemachine.typepad.com/my_weblog/2013/02/inventor-api-training-lesson-11.html
+        ' Get the DXF translator Add-In.
 
-    Private Sub Button13_Click(sender As Object, e As EventArgs) Handles Button13.Click
-        'Read a dwg title block "Description"
-
-        Dim information As System.IO.FileInfo
-
-        '-------- inventor must be running----
-        Dim p() As Process
-        p = Process.GetProcessesByName("Inventor")
-        If p.Count = 0 Then
-            MessageBox.Show("Inventor is not running")
-            Exit Sub
-        End If
-
-        '------- get file info -----------
-        information = My.Computer.FileSystem.GetFileInfo(TextBox9.Text)
-
-        Dim oDoc As Inventor.Document
+        Dim oDocument As Inventor.Document
         Dim invApp As Inventor.Application
         invApp = Marshal.GetActiveObject("Inventor.Application")
 
         invApp.SilentOperation = vbTrue
-        oDoc = CType(invApp.Documents.Open(TextBox9.Text, False), Document)
+        oDocument = CType(invApp.Documents.Open(filepath1, False), Document)
 
-        '--------- determine object type -------
-        'Dim eDocumentType As DocumentTypeEnum = oDoc.DocumentType
-        'If eDocumentType <> DocumentTypeEnum.kAssemblyDocumentObject Then
-        '    MessageBox.Show("Please Select a IAM file ")
-        '    Exit Sub
-        'End If
+        Dim DXFAddIn As Inventor.TranslatorAddIn
+        DXFAddIn = invApp.ItemById("{C24E3AC4-122E-11D5-8E91-0010B541CD80}")
 
-        Dim DescriptionValue As String = GetProperty(invApp.ActiveDocument, "GEN-TITLE-DACT")
-        TextBox10.Text &= DescriptionValue
+        Dim oContext As Inventor.TranslationContext
+        oContext = invApp.TransientObjects.CreateTranslationContext
+        oContext.Type = Inventor.IOMechanismEnum.kFileBrowseIOMechanism
 
-        'do what you want with this property
+        ' Create a NameValueMap object
+        Dim oOptions As Inventor.NameValueMap
+        oOptions = invApp.TransientObjects.CreateNameValueMap
+
+        ' Create a DataMedium object
+        Dim oDataMedium As Inventor.DataMedium
+        oDataMedium = invApp.TransientObjects.CreateDataMedium
+
+        ' Check whether the translator has 'SaveCopyAs' options
+        If DXFAddIn.HasSaveCopyAsOptions(oDocument, oContext, oOptions) Then
+
+            Dim strIniFile As String
+            strIniFile = "M:\Engineering\PDFprinterVTK\DXF OUTPUTE.ini"
+
+            ' Create the name-value that specifies the ini file to use.
+            oOptions.Value("Export_Acad_IniFile") = strIniFile
+        End If
+
+        oDataMedium.FileName = "c:\temp\dxf_tst_1234.dxf"
+
+        DXFAddIn.SaveCopyAs(oDocument, oContext, oOptions, oDataMedium)
     End Sub
-    Public Function GetProperty(ByVal oDoc As Inventor.Document, ByVal PropertyName As String) As String
-        Try
-            Dim oDTP As PropertySet = oDoc.PropertySets.Item("Design Tracking Properties")
-            GetProperty = oDTP.Item(PropertyName).Value
-        Catch ex As Exception
-            Return "Exception"
-        End Try
-        Return GetProperty
-    End Function
+
+    Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
+        ExportSketchDXF()
+    End Sub
+    Private Sub PlotSTP()
+        'https://forums.autodesk.com/t5/inventor-customization/vb-net-export-files-and-then-can-not-change-project/td-p/7404351
+        'Dim oDocument As Inventor.Document
+        Dim invApp As Inventor.Application
+        invApp = Marshal.GetActiveObject("Inventor.Application")
+
+        Dim oDrawDoc As DrawingDocument
+        oDrawDoc = CType(invApp.Documents.Open(filepath1, False), Document)
+        Dim oRefDoc As Document
+
+        For Each oRefDoc In oDrawDoc.ReferencedDocuments
+            If oRefDoc.DocumentType = DocumentTypeEnum.kPartDocumentObject Then
+
+                Dim model As Inventor.PartDocument = invApp.Documents.Open("C:\Inventor_tst\Test_Copy.ipt", False)
+                'model.SaveAs("c:\Inventor_tst/Test_Copy.stp", True)
+                model.SaveAs("c:\Inventor_tst/Test_Copy.dxf", True)
+                invApp.ActiveDocument.Close()
+            ElseIf oRefDoc.DocumentType = DocumentTypeEnum.kAssemblyDocumentObject Then
+                Dim sestava As Inventor.AssemblyDocument = invApp.Documents.Open("C:\Inventor_tst\Test_Copy.iam", False)
+                sestava.SaveAs("C:\Inventor_tst\Test_Copy.stp", True)
+                invApp.ActiveDocument.Close()
+            End If
+        Next oRefDoc
+    End Sub
+
+    Public Sub ExportSketchDXF()
+        Dim invApp As Inventor.Application
+        invApp = Marshal.GetActiveObject("Inventor.Application")
+
+        Dim oDrawDoc As Inventor.Document
+        oDrawDoc = invApp.Documents.Open(TextBox1.Text, False)
+
+        Dim oSketch As PlanarSketch
+        oSketch = invApp.ActiveDocument.ComponentDefinition.Sketches(1)
+
+        Dim oDataIO As DataIO
+        oDataIO = oSketch.DataIO
+
+        oDataIO.WriteDataToFile("DXF", "C:\Inventor_tst\dxfout.dxf")
+    End Sub
 End Class
 
 
