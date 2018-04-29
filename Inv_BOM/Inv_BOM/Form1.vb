@@ -40,11 +40,17 @@ Public Class Form1
         DataGridView1.Columns(18).HeaderText = "Author"
         DataGridView1.Columns(19).HeaderText = "Comments"
 
-        DataGridView2.ColumnCount = 5
+        DataGridView2.ColumnCount = 4
         DataGridView2.RowCount = 1000
         DataGridView2.Columns(0).HeaderText = "File"
         DataGridView2.Columns(1).HeaderText = "D_no"
         DataGridView2.Columns(2).HeaderText = "A_no"
+
+        DataGridView3.ColumnCount = 4
+        DataGridView3.RowCount = 1000
+        DataGridView3.Columns(0).HeaderText = "File"
+        DataGridView3.Columns(1).HeaderText = "D_no"
+        DataGridView3.Columns(2).HeaderText = "A_no"
     End Sub
     Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click
         Open_file(1)   'ipt files
@@ -507,6 +513,34 @@ Public Class Form1
         SaveFileDialog1.ShowDialog()
         Write_excel(DataGridView2)
         Button7.BackColor = System.Drawing.Color.Transparent
+    End Sub
+
+    Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
+        Button8.BackColor = System.Drawing.Color.Green
+        Dim cnt As Integer = 0   'Reset counter
+
+        Dim fileEntries As String() = Directory.GetFiles(TextBox6.Text)
+        ' list DXF files found in the directory.
+        Dim fileName As String
+        For Each fileName In fileEntries
+            Dim extension As String = IO.Path.GetExtension(fileName)
+            If extension = ".dxf" Then
+                DataGridView3.Rows.Item(cnt).Cells(0).Value = fileName
+                cnt += 1
+            End If
+        Next fileName
+        If cnt = 0 Then MessageBox.Show("NO dxf files in work directory")
+        Button8.BackColor = System.Drawing.Color.Transparent
+    End Sub
+
+    Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
+        Button11.BackColor = System.Drawing.Color.Green
+        SaveFileDialog1.Title = "Please Select a File"
+        SaveFileDialog1.InitialDirectory = filepath3
+        SaveFileDialog1.FileName = "_DXF_list" & ".xls"
+        SaveFileDialog1.ShowDialog()
+        Write_excel(DataGridView3)
+        Button11.BackColor = System.Drawing.Color.Transparent
     End Sub
 End Class
 
