@@ -167,7 +167,7 @@ Public Class Form1
                 "Description",
                 "Stock Number",
                 "Part Icon"}
-                If oPropSet.Count = 0 Then
+                If oPropSet.Count = 0 And Not CheckBox1.Checked Then
                     MessageBox.Show("The are NO 'Design Tracking' properties present in this file")
                 Else
                     For j = 0 To design_track.Length - 1
@@ -192,7 +192,7 @@ Public Class Form1
                 "LG"}
 
                 oPropSet = oCompDef.Document.PropertySets.Item("Inventor User Defined Properties")
-                If oPropSet.Count = 0 Then
+                If oPropSet.Count = 0 And Not CheckBox1.Checked Then
                     MessageBox.Show("The are NO 'Custom' properties present in this file")
                 Else
                     For j = 0 To custom.Length - 1
@@ -213,7 +213,7 @@ Public Class Form1
                 "Author",
                 "Comments"}
                 oPropSet = oCompDef.Document.PropertySets.Item("Inventor Summary Information")
-                If oPropSet.Count = 0 Then
+                If oPropSet.Count = 0 And Not CheckBox1.Checked Then
                     MessageBox.Show("The are NO 'Inventor Summary Information' present in this file")
                 Else
                     For j = 0 To summary.Length - 1
