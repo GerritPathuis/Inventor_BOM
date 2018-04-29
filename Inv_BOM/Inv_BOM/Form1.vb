@@ -273,12 +273,13 @@ Public Class Form1
             Next
             fname = SaveFileDialog1.FileName
             xlWorkBook.SaveAs(fname, FileFormat:=XlFileFormat.xlWorkbookNormal)
-
+            xlWorkBook.Close()
             xlApp.Quit()
 
-            ReleaseObject(xlApp)
-            ReleaseObject(xlWorkBook)
-            ReleaseObject(xlWorksheet)
+            Marshal.ReleaseComObject(xlWorksheet)
+            Marshal.ReleaseComObject(xlWorkBook)
+            Marshal.ReleaseComObject(xlApp)
+
         Catch ex As Exception
             MessageBox.Show("Problem writing excel " & ex.Message)
         End Try

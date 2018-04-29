@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Inv_BOM.exe" size="105912">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Inv_BOM.exe" size="106424">
       <assemblyIdentity name="Inv_BOM" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>UdO+iHupmeFLNKOtdpEh6Yw1K+zeSvk0LSsmoR/jSPk=</dsig:DigestValue>
+        <dsig:DigestValue>cTDjkd4znyex2y/HSMJblvCMD64ufMocunPxIGD5mqI=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
