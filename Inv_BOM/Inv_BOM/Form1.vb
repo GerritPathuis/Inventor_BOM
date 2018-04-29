@@ -78,9 +78,13 @@ Public Class Form1
 
         If openFileDialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
             Try
-                filepath1 = openFileDialog1.FileName
-                TextBox1.Text = filepath1.ToString
-                Get_dwg_art_nr()
+                If keuze = 5 Then
+                    TextBox9.Text = filepath1.ToString
+                Else
+                    filepath1 = openFileDialog1.FileName
+                    TextBox1.Text = filepath1.ToString
+                    Get_dwg_art_nr()
+                End If
             Catch Ex As Exception
                 MessageBox.Show("Cannot read file from disk. Original error: " & Ex.Message)
             Finally
@@ -560,6 +564,51 @@ Public Class Form1
         Next fileName
         Button12.BackColor = System.Drawing.Color.Transparent
     End Sub
+
+    Private Sub Button13_Click(sender As Object, e As EventArgs) Handles Button13.Click
+        'Read a dwg title block "Description"
+
+        Dim information As System.IO.FileInfo
+
+        '-------- inventor must be running----
+        Dim p() As Process
+        p = Process.GetProcessesByName("Inventor")
+        If p.Count = 0 Then
+            MessageBox.Show("Inventor is not running")
+            Exit Sub
+        End If
+
+        '------- get file info -----------
+        information = My.Computer.FileSystem.GetFileInfo(TextBox9.Text)
+
+        Dim oDoc As Inventor.Document
+        Dim invApp As Inventor.Application
+        invApp = Marshal.GetActiveObject("Inventor.Application")
+
+        invApp.SilentOperation = vbTrue
+        oDoc = CType(invApp.Documents.Open(TextBox9.Text, False), Document)
+
+        '--------- determine object type -------
+        'Dim eDocumentType As DocumentTypeEnum = oDoc.DocumentType
+        'If eDocumentType <> DocumentTypeEnum.kAssemblyDocumentObject Then
+        '    MessageBox.Show("Please Select a IAM file ")
+        '    Exit Sub
+        'End If
+
+        Dim DescriptionValue As String = GetProperty(invApp.ActiveDocument, "GEN-TITLE-DACT")
+        TextBox10.Text &= DescriptionValue
+
+        'do what you want with this property
+    End Sub
+    Public Function GetProperty(ByVal oDoc As Inventor.Document, ByVal PropertyName As String) As String
+        Try
+            Dim oDTP As PropertySet = oDoc.PropertySets.Item("Design Tracking Properties")
+            GetProperty = oDTP.Item(PropertyName).Value
+        Catch ex As Exception
+            Return "Exception"
+        End Try
+        Return GetProperty
+    End Function
 End Class
 
 
