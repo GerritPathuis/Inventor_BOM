@@ -91,11 +91,11 @@ Public Class Form1
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
         Button3.BackColor = System.Drawing.Color.Green
         DataGridView1.ClearSelection()
-        Qbom()
+        Qbom(filepath1)
         Button3.BackColor = System.Drawing.Color.Transparent
     End Sub
 
-    Private Sub Qbom()
+    Private Sub Qbom(ByVal fpath As String)
         Dim information As System.IO.FileInfo
         Dim filen As String
 
@@ -108,7 +108,7 @@ Public Class Form1
         End If
 
         '------- get file info -----------
-        information = My.Computer.FileSystem.GetFileInfo(filepath1)
+        information = My.Computer.FileSystem.GetFileInfo(fpath)
         filen = information.Name
 
         Dim oDoc As Inventor.Document
@@ -116,7 +116,7 @@ Public Class Form1
         invApp = Marshal.GetActiveObject("Inventor.Application")
 
         invApp.SilentOperation = vbTrue
-        oDoc = CType(invApp.Documents.Open(filepath1, False), Document)
+        oDoc = CType(invApp.Documents.Open(fpath, False), Document)
 
         '--------- determine object type -------
         Dim eDocumentType As DocumentTypeEnum = oDoc.DocumentType
@@ -542,6 +542,23 @@ Public Class Form1
         SaveFileDialog1.ShowDialog()
         Write_excel(DataGridView3)
         Button11.BackColor = System.Drawing.Color.Transparent
+    End Sub
+
+    Private Sub Button12_Click(sender As Object, e As EventArgs) Handles Button12.Click
+        Button12.BackColor = System.Drawing.Color.Green
+        DataGridView1.ClearSelection()
+
+        Dim fileEntries As String() = Directory.GetFiles(TextBox8.Text)
+        ' Process the list of files found in the directory.
+        Dim fileName As String
+        Dim ext As String
+        For Each fileName In fileEntries
+            ext = IO.Path.GetExtension(fileName)
+            If ext = ".iam" Then
+                Qbom(fileName)
+            End If
+        Next fileName
+        Button12.BackColor = System.Drawing.Color.Transparent
     End Sub
 End Class
 
