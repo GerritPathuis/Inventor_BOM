@@ -257,8 +257,8 @@ Public Class Form1
         xlApp.Visible = False
         xlApp.DisplayAlerts = False 'Suppress excel messages
 
-        '-------- Header text to excel -------------tr
-        For hor = 0 To 19
+        '-------- Header text to excel -------------
+        For hor = 0 To dg.Columns.Count - 1
             str = dg.Columns(hor).HeaderText
             xlWorksheet.Cells(1, hor + 1) = str
         Next
@@ -269,7 +269,7 @@ Public Class Form1
         '-------- Cell_text to excel -------------
         Try
             For vert = 0 To dg.Rows.Count - 1
-                For hor = 0 To 19
+                For hor = 0 To dg.Columns.Count - 1
                     If Not dg.Rows.Item(vert).Cells(hor).Value Is Nothing Then
                         str = dg.Rows.Item(vert).Cells(hor).Value.ToString
                         TextBox2.Text &= "hor=" & hor.ToString & " vert=" & vert.ToString & " str= " & str & vbCrLf
@@ -502,13 +502,14 @@ Public Class Form1
     Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             TextBox6.Text = FolderBrowserDialog1.SelectedPath
+            TextBox7.Text = FolderBrowserDialog1.SelectedPath
         End If
     End Sub
 
     Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
         Button7.BackColor = System.Drawing.Color.Green
         SaveFileDialog1.Title = "Please Select a File"
-        SaveFileDialog1.InitialDirectory = filepath3
+        SaveFileDialog1.InitialDirectory = TextBox6.Text
         SaveFileDialog1.FileName = "_Title_Blocks" & ".xls"
         SaveFileDialog1.ShowDialog()
         Write_excel(DataGridView2)
@@ -536,7 +537,7 @@ Public Class Form1
     Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
         Button11.BackColor = System.Drawing.Color.Green
         SaveFileDialog1.Title = "Please Select a File"
-        SaveFileDialog1.InitialDirectory = filepath3
+        SaveFileDialog1.InitialDirectory = TextBox7.Text
         SaveFileDialog1.FileName = "_DXF_list" & ".xls"
         SaveFileDialog1.ShowDialog()
         Write_excel(DataGridView3)
