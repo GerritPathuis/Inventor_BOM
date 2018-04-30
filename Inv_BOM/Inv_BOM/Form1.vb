@@ -10,6 +10,7 @@ Public Class Form1
     Public title_counter As Integer
     Public filepath1 As String = "C:\Repos\Inventor_IDW\Read_IDW\Part.ipt"
     Public filepath3 As String = "c:\MyDir"
+    Public G1_row_cnt As Integer
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         DataGridView1.ColumnCount = 30
@@ -18,35 +19,36 @@ Public Class Form1
         DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
 
         DataGridView1.Columns(0).HeaderText = "File"
-        DataGridView1.Columns(1).HeaderText = "D_no"
-        DataGridView1.Columns(2).HeaderText = "A_no"
-        DataGridView1.Columns(3).HeaderText = "Item "
-        DataGridView1.Columns(4).HeaderText = "Qty"
-        DataGridView1.Columns(5).HeaderText = "Part"
-        DataGridView1.Columns(6).HeaderText = "Desc"
-        DataGridView1.Columns(7).HeaderText = "Stock"
+        DataGridView1.Columns(1).HeaderText = "Item "
+        DataGridView1.Columns(2).HeaderText = "Qty"
+        DataGridView1.Columns(3).HeaderText = "Part"
+        DataGridView1.Columns(4).HeaderText = "Desc"
+        DataGridView1.Columns(5).HeaderText = "Stock"
 
-        DataGridView1.Columns(8).HeaderText = "DOC_NUMBER"
-        DataGridView1.Columns(9).HeaderText = "ITEM_NR"
-        DataGridView1.Columns(10).HeaderText = "DOC_STATUS"
-        DataGridView1.Columns(11).HeaderText = "DOC_REV"
-        DataGridView1.Columns(12).HeaderText = "PART_MATERIAL"
-        DataGridView1.Columns(13).HeaderText = "IT_TP"
-        DataGridView1.Columns(14).HeaderText = "LENGTH"
-        DataGridView1.Columns(15).HeaderText = "Part Icon"
+        DataGridView1.Columns(6).HeaderText = "DOC_NUMBER"
+        DataGridView1.Columns(7).HeaderText = "ITEM_NR"
+        DataGridView1.Columns(8).HeaderText = "DOC_STATUS"
+        DataGridView1.Columns(9).HeaderText = "DOC_REV"
+        DataGridView1.Columns(10).HeaderText = "PART_MATERIAL"
+        DataGridView1.Columns(11).HeaderText = "IT_TP"
+        DataGridView1.Columns(12).HeaderText = "LENGTH"
+        DataGridView1.Columns(13).HeaderText = "Part Icon"
 
-        DataGridView1.Columns(16).HeaderText = "Title"
-        DataGridView1.Columns(17).HeaderText = "Subject"
-        DataGridView1.Columns(18).HeaderText = "Author"
-        DataGridView1.Columns(19).HeaderText = "Comments"
+        DataGridView1.Columns(14).HeaderText = "Title"
+        DataGridView1.Columns(15).HeaderText = "Subject"
+        DataGridView1.Columns(16).HeaderText = "Author"
+        DataGridView1.Columns(17).HeaderText = "Comments"
 
-        DataGridView2.ColumnCount = 4
+        DataGridView2.ColumnCount = 10
         DataGridView2.RowCount = 1000
         DataGridView2.Columns(0).HeaderText = "File"
-        DataGridView2.Columns(1).HeaderText = "D_no"
-        DataGridView2.Columns(2).HeaderText = "A_no"
+        DataGridView2.Columns(1).HeaderText = "Descrp"
+        DataGridView2.Columns(2).HeaderText = "D_no"
+        DataGridView2.Columns(3).HeaderText = "A_no"
+        DataGridView2.Columns(4).HeaderText = "Rev"
+        DataGridView2.Columns(5).HeaderText = "Status"
 
-        DataGridView3.ColumnCount = 4
+        DataGridView3.ColumnCount = 5
         DataGridView3.RowCount = 1000
         DataGridView3.Columns(0).HeaderText = "File"
         DataGridView3.Columns(1).HeaderText = "D_no"
@@ -88,6 +90,7 @@ Public Class Form1
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
         Button3.BackColor = System.Drawing.Color.Green
         DataGridView1.ClearSelection()
+        G1_row_cnt = 0
         Qbom(filepath1)
         Button3.BackColor = System.Drawing.Color.Transparent
     End Sub
@@ -139,10 +142,10 @@ Public Class Form1
             Dim oRow As BOMRow
             Dim oCompDef As ComponentDefinition
             Dim oPropSet As PropertySet
-            Dim i, j, r As Integer
+            Dim i, j As Integer
 
             For i = 1 To oBOMView.BOMRows.Count
-                r = i - 1
+                G1_row_cnt += 1
 
                 '================= Design Tracking Properties ==========================
                 oRow = oBOMView.BOMRows.Item(i)
@@ -151,13 +154,10 @@ Public Class Form1
                 oPropSet = oCompDef.Document.PropertySets.Item("Design Tracking Properties")
                 DataGridView1.Rows.Add()
 
-                DataGridView1.Rows.Item(r).Cells(0).Value = filen
+                DataGridView1.Rows.Item(G1_row_cnt).Cells(0).Value = filen
 
-                DataGridView1.Rows.Item(r).Cells(1).Value = TextBox3.Text
-                DataGridView1.Rows.Item(r).Cells(2).Value = TextBox4.Text
-
-                DataGridView1.Rows.Item(r).Cells(3).Value = oRow.ItemNumber
-                DataGridView1.Rows.Item(r).Cells(4).Value = oRow.ItemQuantity
+                DataGridView1.Rows.Item(G1_row_cnt).Cells(1).Value = oRow.ItemNumber
+                DataGridView1.Rows.Item(G1_row_cnt).Cells(2).Value = oRow.ItemQuantity
 
                 Dim design_track() As String =
                 {"Part Number",
@@ -169,10 +169,10 @@ Public Class Form1
                 Else
                     For j = 0 To design_track.Length - 1
                         Try
-                            DataGridView1.Rows.Item(r).Cells(j + 5).Value = "+"
-                            DataGridView1.Rows.Item(r).Cells(j + 5).Value = oPropSet.Item(design_track(j)).Value
+                            DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 3).Value = "+"
+                            DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 3).Value = oPropSet.Item(design_track(j)).Value
                         Catch Ex As Exception
-                            DataGridView1.Rows.Item(r).Cells(j + 5).Value = "?"
+                            DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 3).Value = "?"
                             If Not CheckBox1.Checked Then MessageBox.Show(design_track(j) & " not found")
                         End Try
                     Next
@@ -194,10 +194,10 @@ Public Class Form1
                 Else
                     For j = 0 To custom.Length - 1
                         Try
-                            DataGridView1.Rows.Item(r).Cells(j + 8).Value = "+"
-                            DataGridView1.Rows.Item(r).Cells(j + 8).Value = oPropSet.Item(custom(j)).Value
+                            DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 6).Value = "+"
+                            DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 6).Value = oPropSet.Item(custom(j)).Value
                         Catch Ex As Exception
-                            DataGridView1.Rows.Item(r).Cells(j + 8).Value = "?"
+                            DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 6).Value = "?"
                             If Not CheckBox1.Checked Then MessageBox.Show(custom(j) & " not found")
                         End Try
                     Next
@@ -215,10 +215,10 @@ Public Class Form1
                 Else
                     For j = 0 To summary.Length - 1
                         Try
-                            DataGridView1.Rows.Item(r).Cells(j + 16).Value = "+"
-                            DataGridView1.Rows.Item(r).Cells(j + 16).Value = oPropSet.Item(summary(j)).Value
+                            DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 14).Value = "+"
+                            DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 14).Value = oPropSet.Item(summary(j)).Value
                         Catch Ex As Exception
-                            DataGridView1.Rows.Item(r).Cells(j + 16).Value = "?"
+                            DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 14).Value = "?"
                             If Not CheckBox1.Checked Then MessageBox.Show(summary(j) & " not found")
                         End Try
                     Next
@@ -358,7 +358,7 @@ Public Class Form1
         Next
         MsgBox(AllPros)
     End Sub
-
+    'Read IDW Title Block
     Public Sub Read_title_Block(ByVal path As String)
         'http://adndevblog.typepad.com/manufacturing/2012/12/inventor-change-text-items-in-titleblockdefinition.html
 
@@ -397,13 +397,25 @@ Public Class Form1
                 ' Find the Prompted Entry called Make in the Title Block
                 For Each defText As Inventor.TextBox In titleDef.Sketch.TextBoxes
                     DataGridView2.Rows.Item(title_counter).Cells(0).Value = path
-                    If defText.Text = "<TITLE>" Then
+                    If defText.Text = "<DESCRIPTION>" Then
                         oPrompt = defText
-                        DataGridView2.Rows.Item(title_counter).Cells(1).Value = "Title= " & oTB1.GetResultText(oPrompt)
+                        DataGridView2.Rows.Item(title_counter).Cells(1).Value = oTB1.GetResultText(oPrompt)
                     End If
-                    If defText.Text = "<PART NUMBER>" Then
+                    If defText.Text = "<ITEM_NR>" Then
                         oPrompt = defText
-                        DataGridView2.Rows.Item(title_counter).Cells(2).Value = "A_no= " & oTB1.GetResultText(oPrompt)
+                        DataGridView2.Rows.Item(title_counter).Cells(2).Value = oTB1.GetResultText(oPrompt)
+                    End If
+                    If defText.Text = "<DOC_NUMBER>" Then
+                        oPrompt = defText
+                        DataGridView2.Rows.Item(title_counter).Cells(3).Value = oTB1.GetResultText(oPrompt)
+                    End If
+                    If defText.Text = "<DOC_REV>" Then
+                        oPrompt = defText
+                        DataGridView2.Rows.Item(title_counter).Cells(4).Value = oTB1.GetResultText(oPrompt)
+                    End If
+                    If defText.Text = "<DOC_STATUS>" Then
+                        oPrompt = defText
+                        DataGridView2.Rows.Item(title_counter).Cells(5).Value = oTB1.GetResultText(oPrompt)
                     End If
                 Next
             End If
@@ -497,9 +509,11 @@ Public Class Form1
     End Sub
     'Select work directory
     Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click
+        FolderBrowserDialog1.SelectedPath = TextBox6.Text
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             TextBox6.Text = FolderBrowserDialog1.SelectedPath
             TextBox7.Text = FolderBrowserDialog1.SelectedPath
+            TextBox8.Text = FolderBrowserDialog1.SelectedPath
         End If
     End Sub
 

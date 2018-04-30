@@ -30,6 +30,7 @@ Partial Class Form1
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.TextBox2 = New System.Windows.Forms.TextBox()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.Button6 = New System.Windows.Forms.Button()
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.TextBox4 = New System.Windows.Forms.TextBox()
         Me.TextBox3 = New System.Windows.Forms.TextBox()
@@ -64,8 +65,6 @@ Partial Class Form1
         Me.Button10 = New System.Windows.Forms.Button()
         Me.Button9 = New System.Windows.Forms.Button()
         Me.TextBox6 = New System.Windows.Forms.TextBox()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.TextBox5 = New System.Windows.Forms.TextBox()
         Me.TabPage4 = New System.Windows.Forms.TabPage()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
         Me.Button11 = New System.Windows.Forms.Button()
@@ -80,7 +79,7 @@ Partial Class Form1
         Me.DataGridViewTextBoxColumn10 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
-        Me.Button6 = New System.Windows.Forms.Button()
+        Me.Button13 = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
@@ -183,6 +182,15 @@ Partial Class Form1
         Me.GroupBox3.TabIndex = 16
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Inventor assembly (IAM)"
+        '
+        'Button6
+        '
+        Me.Button6.Location = New System.Drawing.Point(98, 123)
+        Me.Button6.Name = "Button6"
+        Me.Button6.Size = New System.Drawing.Size(99, 36)
+        Me.Button6.TabIndex = 18
+        Me.Button6.Text = "dxf test"
+        Me.Button6.UseVisualStyleBackColor = True
         '
         'CheckBox1
         '
@@ -309,7 +317,7 @@ Partial Class Form1
         Me.TextBox8.Name = "TextBox8"
         Me.TextBox8.Size = New System.Drawing.Size(151, 20)
         Me.TextBox8.TabIndex = 15
-        Me.TextBox8.Text = "C:\Inventor_tst"
+        Me.TextBox8.Text = "C:\Inventor test files\Test2"
         '
         'Button4
         '
@@ -393,8 +401,6 @@ Partial Class Form1
         Me.GroupBox2.Controls.Add(Me.Button10)
         Me.GroupBox2.Controls.Add(Me.Button9)
         Me.GroupBox2.Controls.Add(Me.TextBox6)
-        Me.GroupBox2.Controls.Add(Me.Label1)
-        Me.GroupBox2.Controls.Add(Me.TextBox5)
         Me.GroupBox2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GroupBox2.Location = New System.Drawing.Point(3, 3)
         Me.GroupBox2.Name = "GroupBox2"
@@ -414,9 +420,9 @@ Partial Class Form1
         '
         'Button7
         '
-        Me.Button7.Location = New System.Drawing.Point(323, 15)
+        Me.Button7.Location = New System.Drawing.Point(323, 61)
         Me.Button7.Name = "Button7"
-        Me.Button7.Size = New System.Drawing.Size(206, 111)
+        Me.Button7.Size = New System.Drawing.Size(206, 65)
         Me.Button7.TabIndex = 18
         Me.Button7.Text = "Write Title block info  to Excel File"
         Me.Button7.UseVisualStyleBackColor = True
@@ -459,18 +465,18 @@ Partial Class Form1
         'Button10
         '
         Me.Button10.BackColor = System.Drawing.Color.Yellow
-        Me.Button10.Location = New System.Drawing.Point(6, 46)
+        Me.Button10.Location = New System.Drawing.Point(6, 61)
         Me.Button10.Name = "Button10"
-        Me.Button10.Size = New System.Drawing.Size(233, 23)
+        Me.Button10.Size = New System.Drawing.Size(233, 27)
         Me.Button10.TabIndex = 16
         Me.Button10.Text = "Select the work directory"
         Me.Button10.UseVisualStyleBackColor = False
         '
         'Button9
         '
-        Me.Button9.Location = New System.Drawing.Point(6, 76)
+        Me.Button9.Location = New System.Drawing.Point(6, 94)
         Me.Button9.Name = "Button9"
-        Me.Button9.Size = New System.Drawing.Size(233, 23)
+        Me.Button9.Size = New System.Drawing.Size(233, 32)
         Me.Button9.TabIndex = 15
         Me.Button9.Text = "Process work Directory"
         Me.Button9.UseVisualStyleBackColor = True
@@ -479,26 +485,9 @@ Partial Class Form1
         '
         Me.TextBox6.Location = New System.Drawing.Point(89, 20)
         Me.TextBox6.Name = "TextBox6"
-        Me.TextBox6.Size = New System.Drawing.Size(150, 20)
+        Me.TextBox6.Size = New System.Drawing.Size(440, 20)
         Me.TextBox6.TabIndex = 14
-        Me.TextBox6.Text = "C:\Inventor_tst"
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(7, 108)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(88, 13)
-        Me.Label1.TabIndex = 4
-        Me.Label1.Text = "Name Title Block"
-        '
-        'TextBox5
-        '
-        Me.TextBox5.Location = New System.Drawing.Point(101, 106)
-        Me.TextBox5.Name = "TextBox5"
-        Me.TextBox5.Size = New System.Drawing.Size(138, 20)
-        Me.TextBox5.TabIndex = 3
-        Me.TextBox5.Text = "DIN"
+        Me.TextBox6.Text = "C:\Inventor test files\Test2"
         '
         'TabPage4
         '
@@ -513,6 +502,7 @@ Partial Class Form1
         '
         'GroupBox4
         '
+        Me.GroupBox4.Controls.Add(Me.Button13)
         Me.GroupBox4.Controls.Add(Me.Button11)
         Me.GroupBox4.Controls.Add(Me.Button8)
         Me.GroupBox4.Controls.Add(Me.Label2)
@@ -560,7 +550,7 @@ Partial Class Form1
         Me.TextBox7.Name = "TextBox7"
         Me.TextBox7.Size = New System.Drawing.Size(233, 20)
         Me.TextBox7.TabIndex = 19
-        Me.TextBox7.Text = "C:\Inventor_tst"
+        Me.TextBox7.Text = "C:\Inventor test files\Test2"
         '
         'DataGridView3
         '
@@ -597,14 +587,14 @@ Partial Class Form1
         Me.DataGridViewTextBoxColumn10.HeaderText = "Column5"
         Me.DataGridViewTextBoxColumn10.Name = "DataGridViewTextBoxColumn10"
         '
-        'Button6
+        'Button13
         '
-        Me.Button6.Location = New System.Drawing.Point(98, 123)
-        Me.Button6.Name = "Button6"
-        Me.Button6.Size = New System.Drawing.Size(99, 36)
-        Me.Button6.TabIndex = 18
-        Me.Button6.Text = "dxf test"
-        Me.Button6.UseVisualStyleBackColor = True
+        Me.Button13.Location = New System.Drawing.Point(371, 70)
+        Me.Button13.Name = "Button13"
+        Me.Button13.Size = New System.Drawing.Size(60, 21)
+        Me.Button13.TabIndex = 23
+        Me.Button13.Text = "Clear"
+        Me.Button13.UseVisualStyleBackColor = True
         '
         'Form1
         '
@@ -666,8 +656,6 @@ Partial Class Form1
     Friend WithEvents Button10 As Button
     Friend WithEvents Button9 As Button
     Friend WithEvents TextBox6 As TextBox
-    Friend WithEvents Label1 As Label
-    Friend WithEvents TextBox5 As TextBox
     Friend WithEvents DataGridView2 As DataGridView
     Friend WithEvents DataGridViewTextBoxColumn1 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn2 As DataGridViewTextBoxColumn
@@ -695,4 +683,5 @@ Partial Class Form1
     Friend WithEvents Button4 As Button
     Friend WithEvents GroupBox5 As GroupBox
     Friend WithEvents Button6 As Button
+    Friend WithEvents Button13 As Button
 End Class
