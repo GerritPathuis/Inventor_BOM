@@ -49,7 +49,7 @@ Public Class Form1
         DataGridView2.Columns(5).HeaderText = "Status"
 
         DataGridView3.ColumnCount = 5
-        DataGridView3.RowCount = 1000
+        DataGridView3.RowCount = 20
         DataGridView3.Columns(0).HeaderText = "File"
         DataGridView3.Columns(1).HeaderText = "D_no"
         DataGridView3.Columns(2).HeaderText = "A_no"
@@ -511,9 +511,11 @@ Public Class Form1
     Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click
         FolderBrowserDialog1.SelectedPath = TextBox6.Text
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
+            TextBox5.Text = FolderBrowserDialog1.SelectedPath
             TextBox6.Text = FolderBrowserDialog1.SelectedPath
             TextBox7.Text = FolderBrowserDialog1.SelectedPath
             TextBox8.Text = FolderBrowserDialog1.SelectedPath
+            TextBox9.Text = FolderBrowserDialog1.SelectedPath
         End If
     End Sub
 
@@ -530,18 +532,38 @@ Public Class Form1
     Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
         Button8.BackColor = System.Drawing.Color.Green
         Dim cnt As Integer = 0   'Reset counter
+        Dim fext As String = ".dxf"
+        Dim extension As String
+
+        Select Case True
+            Case RadioButton5.Checked
+                fext = ".dxf"
+            Case RadioButton6.Checked
+                fext = ".iam"
+            Case RadioButton7.Checked
+                fext = ".ipt"
+            Case RadioButton8.Checked
+                fext = ".idw"
+            Case RadioButton9.Checked
+                fext = ".*"
+        End Select
+        DataGridView3.Rows.Clear()
+        DataGridView3.Columns(0).Width = 300
+
 
         Dim fileEntries As String() = Directory.GetFiles(TextBox6.Text)
         ' list DXF files found in the directory.
         Dim fileName As String
+
         For Each fileName In fileEntries
-            Dim extension As String = IO.Path.GetExtension(fileName)
-            If extension = ".dxf" Then
+            extension = IO.Path.GetExtension(fileName)
+            If String.Equals(extension, fext) Or RadioButton9.Checked Then
+                DataGridView3.Rows.Add()
                 DataGridView3.Rows.Item(cnt).Cells(0).Value = fileName
                 cnt += 1
             End If
         Next fileName
-        If cnt = 0 Then MessageBox.Show("NO dxf files in work directory")
+        If cnt = 0 Then MessageBox.Show("NO " & fext & " files in this work directory")
         Button8.BackColor = System.Drawing.Color.Transparent
     End Sub
 
@@ -645,7 +667,7 @@ Public Class Form1
         invApp = Marshal.GetActiveObject("Inventor.Application")
 
         Dim oDrawDoc As Inventor.Document
-        oDrawDoc = invApp.Documents.Open(TextBox1.Text, False)
+        oDrawDoc = invApp.Documents.Open(TextBox5.Text, False)
 
         Dim oSketch As PlanarSketch
         oSketch = invApp.ActiveDocument.ComponentDefinition.Sketches(1)
@@ -655,6 +677,7 @@ Public Class Form1
 
         oDataIO.WriteDataToFile("DXF", "C:\Inventor_tst\dxfout.dxf")
     End Sub
+
 End Class
 
 
