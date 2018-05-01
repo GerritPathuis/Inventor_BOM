@@ -53,6 +53,12 @@ Public Class Form1
         DataGridView3.Columns(0).HeaderText = "File"
         DataGridView3.Columns(1).HeaderText = "D_no"
         DataGridView3.Columns(2).HeaderText = "A_no"
+
+        DataGridView4.ColumnCount = 20
+        DataGridView4.RowCount = 100
+        DataGridView4.Columns(0).HeaderText = "File"
+        DataGridView4.Columns(1).HeaderText = "D_no"
+        DataGridView4.Columns(2).HeaderText = "A_no"
     End Sub
     Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click
         Open_file(1)   'ipt files
@@ -683,6 +689,10 @@ Public Class Form1
     End Sub
 
     Private Sub Button14_Click(sender As Object, e As EventArgs) Handles Button14.Click
+        Read_idw_parts(TextBox1.Text)
+    End Sub
+
+    Private Sub Read_idw_parts(ByVal fpath As String)
         '-------- inventor must be running----
         Dim p() As Process
         p = Process.GetProcessesByName("Inventor")
@@ -696,7 +706,7 @@ Public Class Form1
         invApp = Marshal.GetActiveObject("Inventor.Application")
 
         'invApp.SilentOperation = vbTrue
-        oDoc = CType(invApp.Documents.Open(TextBox1.Text, False), Document)
+        oDoc = CType(invApp.Documents.Open(fpath, False), Document)
 
         '--------- determine object type -------
         Dim eDocumentType As DocumentTypeEnum = oDoc.DocumentType
@@ -731,14 +741,13 @@ Public Class Form1
         Dim i, j As Integer
 
         For i = 1 To partList.PartsListColumns.Count
-            'oWorkSheet.Cells(1, i).Value = partList.PartsListColumns.Item(i).Title
-            ''MessageBox.Show(partList.PartsListColumns.Item(i).Title)
+            DataGridView4.Rows.Item(0).Cells(i - 1).Value = partList.PartsListColumns.Item(i).Title.ToString
             For j = 1 To partList.PartsListRows.Count
-                'oWorkSheet.Cells(j + 1, i).Value = partList.PartsListRows(j).Item(i).Value
-                'MessageBox.Show(partList.PartsListRows(j).Item(i).Value)
+                DataGridView4.Rows.Item(j).Cells(i - 1).Value = partList.PartsListRows(j).Item(i).Value.ToString
             Next j
         Next i
     End Sub
+
 End Class
 
 
