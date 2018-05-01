@@ -129,8 +129,8 @@ Public Class Form1
         ' ---- Note: there is no title block in an IAmmodel file -------------
 
         '---------- Read BOM --------------------------
-        Try
-            Dim oBOM As Inventor.BOM
+        'Try
+        Dim oBOM As Inventor.BOM
             oBOM = oDoc.ComponentDefinition.BOM
             oBOM.StructuredViewFirstLevelOnly = True
             oBOM.StructuredViewEnabled = True
@@ -225,10 +225,10 @@ Public Class Form1
                 End If
 
             Next
-        Catch Ex As Exception
-            MessageBox.Show("No BOM in this IAM model")
-        Finally
-        End Try
+        'Catch Ex As Exception
+        'MessageBox.Show("No BOM in this IAM model")
+        'Finally
+        'End Try
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
@@ -678,6 +678,67 @@ Public Class Form1
         oDataIO.WriteDataToFile("DXF", "C:\Inventor_tst\dxfout.dxf")
     End Sub
 
+    Private Sub Button13_Click(sender As Object, e As EventArgs) Handles Button13.Click
+        Open_file(4)   'idw files
+    End Sub
+
+    Private Sub Button14_Click(sender As Object, e As EventArgs) Handles Button14.Click
+        '-------- inventor must be running----
+        Dim p() As Process
+        p = Process.GetProcessesByName("Inventor")
+        If p.Count = 0 Then
+            MessageBox.Show("Inventor is not running")
+            Exit Sub
+        End If
+
+        Dim oDoc As Inventor.Document
+        Dim invApp As Inventor.Application
+        invApp = Marshal.GetActiveObject("Inventor.Application")
+
+        'invApp.SilentOperation = vbTrue
+        oDoc = CType(invApp.Documents.Open(TextBox1.Text, False), Document)
+
+        '--------- determine object type -------
+        Dim eDocumentType As DocumentTypeEnum = oDoc.DocumentType
+        If eDocumentType <> DocumentTypeEnum.kDrawingDocumentObject Then
+            MessageBox.Show("Please Select a IDW file ")
+            Exit Sub
+        End If
+
+        ' Make sure a parts list is selected.
+        Dim partList As Object
+        partList = oDoc.SelectSet.Item(1)
+        If Not (TypeOf partList Is PartsList) Then
+            MessageBox.Show("A parts list must be selected.")
+        End If
+
+        'Expand legacy parts list to all levels
+        Dim counter As Integer = 1
+        Dim k As Integer
+
+        While counter < partList.PartsListRows.Count
+            For k = counter To partList.PartsListRows.Count
+                Dim orow As PartsListRow
+                orow = partList.PartsListRows.Item(k)
+                counter = k
+                While orow.Expandable And Not (orow.Expanded)
+                    orow.Expanded = True
+                    counter = counter + 1
+                End While
+            Next k
+        End While
+
+        Dim i, j As Integer
+
+        For i = 1 To partList.PartsListColumns.Count
+            'oWorkSheet.Cells(1, i).Value = partList.PartsListColumns.Item(i).Title
+            ''MessageBox.Show(partList.PartsListColumns.Item(i).Title)
+            For j = 1 To partList.PartsListRows.Count
+                'oWorkSheet.Cells(j + 1, i).Value = partList.PartsListRows(j).Item(i).Value
+                'MessageBox.Show(partList.PartsListRows(j).Item(i).Value)
+            Next j
+        Next i
+    End Sub
 End Class
 
 
