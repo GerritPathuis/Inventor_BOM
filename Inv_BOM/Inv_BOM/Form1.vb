@@ -266,16 +266,12 @@ Public Class Form1
             xlWorksheet.Cells(1, hor + 1) = str
         Next
 
-        TextBox2.Text &= "Rows...." & dg.Rows.Count & vbCrLf
-        TextBox2.Text &= "Columns...." & dg.Columns.Count & vbCrLf
-
         '-------- Cell_text to excel -------------
         Try
             For vert = 0 To dg.Rows.Count - 1
                 For hor = 0 To dg.Columns.Count - 1
                     If Not dg.Rows.Item(vert).Cells(hor).Value Is Nothing Then
                         str = dg.Rows.Item(vert).Cells(hor).Value.ToString
-                        TextBox2.Text &= "hor=" & hor.ToString & " vert=" & vert.ToString & " str= " & str & vbCrLf
                         xlWorksheet.Cells(vert + 2, hor + 1) = str
                     End If
                 Next
@@ -383,51 +379,86 @@ Public Class Form1
         invApp.SilentOperation = vbTrue
         Try
             oDoc = CType(invApp.Documents.Open(path, False), Document)
+        Catch Ex As Exception
+            MessageBox.Show("Problably Inventer version problem")
+        End Try
 
+        Try
             '--------- determine object type -------
             Dim eDocumentType As DocumentTypeEnum = oDoc.DocumentType
             If eDocumentType <> DocumentTypeEnum.kDrawingDocumentObject Then
-                MessageBox.Show("Please Select a IDW file ")
-            Else
-                '=================================================================================
-                'https://forums.autodesk.com/t5/inventor-customization/copy-titleblock-prompted-entries-to-custom-iproperty/td-p/7491136
+                    MessageBox.Show("Please Select a IDW file ")
+                Else
+                    '=================================================================================
+                    'https://forums.autodesk.com/t5/inventor-customization/copy-titleblock-prompted-entries-to-custom-iproperty/td-p/7491136
 
-                Dim oSheet As Sheet
-                oSheet = oDoc.ActiveSheet
-                Dim oTB1 As TitleBlock
-                oTB1 = oSheet.TitleBlock
-                Dim titleDef As TitleBlockDefinition
-                titleDef = oTB1.Definition
-                Dim oPrompt As Inventor.TextBox = Nothing
+                    Dim oSheet As Sheet
+                    oSheet = oDoc.ActiveSheet
+                    Dim oTB1 As TitleBlock
+                    oTB1 = oSheet.TitleBlock
+                    Dim titleDef As TitleBlockDefinition
+                    titleDef = oTB1.Definition
+                    Dim oPrompt As Inventor.TextBox = Nothing
 
-                ' Find the Prompted Entry called Make in the Title Block
-                For Each defText As Inventor.TextBox In titleDef.Sketch.TextBoxes
-                    DataGridView2.Rows.Item(title_counter).Cells(0).Value = path
-                    If defText.Text = "<DESCRIPTION>" Then
-                        oPrompt = defText
-                        DataGridView2.Rows.Item(title_counter).Cells(1).Value = oTB1.GetResultText(oPrompt)
+                    ' Find the Prompted Entry called Make in the Title Block
+                    For Each defText As Inventor.TextBox In titleDef.Sketch.TextBoxes
+                        DataGridView2.Rows.Item(title_counter).Cells(0).Value = path
+                        If defText.Text = "<DESCRIPTION>" Then
+                            oPrompt = defText
+                            DataGridView2.Rows.Item(title_counter).Cells(1).Value = oTB1.GetResultText(oPrompt)
+                        End If
+                        If defText.Text = "<ITEM_NR>" Then
+                            oPrompt = defText
+                            DataGridView2.Rows.Item(title_counter).Cells(2).Value = oTB1.GetResultText(oPrompt)
+                        End If
+                        If defText.Text = "<DOC_NUMBER>" Then
+                            oPrompt = defText
+                            DataGridView2.Rows.Item(title_counter).Cells(3).Value = oTB1.GetResultText(oPrompt)
+                        End If
+                        If defText.Text = "<DOC_REV>" Then
+                            oPrompt = defText
+                            DataGridView2.Rows.Item(title_counter).Cells(4).Value = oTB1.GetResultText(oPrompt)
+                        End If
+                        If defText.Text = "<DOC_STATUS>" Then
+                            oPrompt = defText
+                            DataGridView2.Rows.Item(title_counter).Cells(5).Value = oTB1.GetResultText(oPrompt)
+                        End If
+                    Next
+                    '============== Read The parts List=========================================
+                    ' Make sure a parts list is selected.
+                    Dim partList As Object
+                    partList = oDoc.SelectSet.Item(1)
+                    If (TypeOf partList Is PartsList) Then
+                        'Expand legacy parts list to all levels
+                        Dim counter As Integer = 1
+                        Dim k, i, j As Integer
+
+                        While counter < partList.PartsListRows.Count
+                            For k = counter To partList.PartsListRows.Count
+                                Dim orow As PartsListRow
+                                orow = partList.PartsListRows.Item(k)
+                                counter = k
+                                While orow.Expandable And Not (orow.Expanded)
+                                    orow.Expanded = True
+                                    counter = counter + 1
+                                End While
+                            Next k
+                        End While
+
+                        For i = 1 To partList.PartsListColumns.Count
+                            DataGridView4.Rows.Item(0).Cells(i - 1).Value = partList.PartsListColumns.Item(i).Title.ToString
+                            For j = 1 To partList.PartsListRows.Count
+                                DataGridView4.Rows.Item(j).Cells(i - 1).Value = partList.PartsListRows(j).Item(i).Value.ToString
+                            Next j
+                        Next i
+                        '=======================================================
+                    Else
+                        MessageBox.Show("No parts list present.")
                     End If
-                    If defText.Text = "<ITEM_NR>" Then
-                        oPrompt = defText
-                        DataGridView2.Rows.Item(title_counter).Cells(2).Value = oTB1.GetResultText(oPrompt)
-                    End If
-                    If defText.Text = "<DOC_NUMBER>" Then
-                        oPrompt = defText
-                        DataGridView2.Rows.Item(title_counter).Cells(3).Value = oTB1.GetResultText(oPrompt)
-                    End If
-                    If defText.Text = "<DOC_REV>" Then
-                        oPrompt = defText
-                        DataGridView2.Rows.Item(title_counter).Cells(4).Value = oTB1.GetResultText(oPrompt)
-                    End If
-                    If defText.Text = "<DOC_STATUS>" Then
-                        oPrompt = defText
-                        DataGridView2.Rows.Item(title_counter).Cells(5).Value = oTB1.GetResultText(oPrompt)
-                    End If
-                Next
-            End If
-            oDoc.Close()
-        Catch
-        End Try
+                End If
+                oDoc.Close()
+            Catch
+            End Try
     End Sub
 
     Private Sub Getresulttext(titleBlock As TitleBlock)
@@ -705,7 +736,8 @@ Public Class Form1
         Dim invApp As Inventor.Application
         invApp = Marshal.GetActiveObject("Inventor.Application")
 
-        'invApp.SilentOperation = vbTrue
+        invApp.SilentOperation = vbTrue
+
         oDoc = CType(invApp.Documents.Open(fpath, False), Document)
 
         '--------- determine object type -------
@@ -718,34 +750,33 @@ Public Class Form1
         ' Make sure a parts list is selected.
         Dim partList As Object
         partList = oDoc.SelectSet.Item(1)
-        If Not (TypeOf partList Is PartsList) Then
+        If (TypeOf partList Is PartsList) Then
+
+            'Expand legacy parts list to all levels
+            Dim counter As Integer = 1
+            Dim k, i, j As Integer
+
+            While counter < partList.PartsListRows.Count
+                For k = counter To partList.PartsListRows.Count
+                    Dim orow As PartsListRow
+                    orow = partList.PartsListRows.Item(k)
+                    counter = k
+                    While orow.Expandable And Not (orow.Expanded)
+                        orow.Expanded = True
+                        counter = counter + 1
+                    End While
+                Next k
+            End While
+
+            For i = 1 To partList.PartsListColumns.Count
+                DataGridView4.Rows.Item(0).Cells(i - 1).Value = partList.PartsListColumns.Item(i).Title.ToString
+                For j = 1 To partList.PartsListRows.Count
+                    DataGridView4.Rows.Item(j).Cells(i - 1).Value = partList.PartsListRows(j).Item(i).Value.ToString
+                Next j
+            Next i
+        Else
             MessageBox.Show("A parts list must be selected.")
         End If
-
-        'Expand legacy parts list to all levels
-        Dim counter As Integer = 1
-        Dim k As Integer
-
-        While counter < partList.PartsListRows.Count
-            For k = counter To partList.PartsListRows.Count
-                Dim orow As PartsListRow
-                orow = partList.PartsListRows.Item(k)
-                counter = k
-                While orow.Expandable And Not (orow.Expanded)
-                    orow.Expanded = True
-                    counter = counter + 1
-                End While
-            Next k
-        End While
-
-        Dim i, j As Integer
-
-        For i = 1 To partList.PartsListColumns.Count
-            DataGridView4.Rows.Item(0).Cells(i - 1).Value = partList.PartsListColumns.Item(i).Title.ToString
-            For j = 1 To partList.PartsListRows.Count
-                DataGridView4.Rows.Item(j).Cells(i - 1).Value = partList.PartsListRows(j).Item(i).Value.ToString
-            Next j
-        Next i
     End Sub
 
 End Class
