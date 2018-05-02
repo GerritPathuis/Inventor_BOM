@@ -732,13 +732,13 @@ Public Class Form1
             Exit Sub
         End If
 
-        Dim oDoc As Inventor.Document
+        Dim oDoc As DrawingDocument         '!!!!!!!!!!!!!!
         Dim invApp As Inventor.Application
         invApp = Marshal.GetActiveObject("Inventor.Application")
 
         invApp.SilentOperation = vbTrue
 
-        oDoc = CType(invApp.Documents.Open(fpath, False), Document)
+        oDoc = invApp.Documents.Open(fpath, True)
 
         '--------- determine object type -------
         Dim eDocumentType As DocumentTypeEnum = oDoc.DocumentType
@@ -747,9 +747,14 @@ Public Class Form1
             Exit Sub
         End If
 
+        'http://beinginventive.typepad.com/files/ExportPartslistToExcel/ExportPartslistToExcel.txt
         ' Make sure a parts list is selected.
         Dim partList As Object
+        MessageBox.Show(oDoc.ToString)
+
         partList = oDoc.SelectSet.Item(1)
+        MessageBox.Show(partList.ToString)
+
         If (TypeOf partList Is PartsList) Then
 
             'Expand legacy parts list to all levels
