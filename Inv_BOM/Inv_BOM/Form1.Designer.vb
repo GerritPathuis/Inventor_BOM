@@ -101,6 +101,7 @@ Partial Class Form1
         Me.Button5 = New System.Windows.Forms.Button()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
+        Me.Button15 = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.TabPage6.SuspendLayout()
         Me.GroupBox7.SuspendLayout()
@@ -180,7 +181,7 @@ Partial Class Form1
         Me.TabControl1.Location = New System.Drawing.Point(0, 0)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(546, 499)
+        Me.TabControl1.Size = New System.Drawing.Size(896, 499)
         Me.TabControl1.TabIndex = 8
         '
         'TabPage6
@@ -354,7 +355,7 @@ Partial Class Form1
         Me.TabPage3.Location = New System.Drawing.Point(4, 22)
         Me.TabPage3.Name = "TabPage3"
         Me.TabPage3.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage3.Size = New System.Drawing.Size(538, 473)
+        Me.TabPage3.Size = New System.Drawing.Size(888, 473)
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "IDW Parts List"
         Me.TabPage3.UseVisualStyleBackColor = True
@@ -368,6 +369,7 @@ Partial Class Form1
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.Button15)
         Me.SplitContainer2.Panel1.Controls.Add(Me.Button7)
         Me.SplitContainer2.Panel1.Controls.Add(Me.Button9)
         Me.SplitContainer2.Panel1.Controls.Add(Me.Label4)
@@ -376,7 +378,7 @@ Partial Class Form1
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.DataGridView2)
-        Me.SplitContainer2.Size = New System.Drawing.Size(532, 467)
+        Me.SplitContainer2.Size = New System.Drawing.Size(882, 467)
         Me.SplitContainer2.SplitterDistance = 97
         Me.SplitContainer2.TabIndex = 20
         '
@@ -423,7 +425,7 @@ Partial Class Form1
         Me.DataGridView2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView2.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView2.Name = "DataGridView2"
-        Me.DataGridView2.Size = New System.Drawing.Size(532, 366)
+        Me.DataGridView2.Size = New System.Drawing.Size(882, 366)
         Me.DataGridView2.TabIndex = 17
         '
         'DataGridViewTextBoxColumn1
@@ -839,11 +841,20 @@ Partial Class Form1
         Me.Button5.Text = "List all properties"
         Me.Button5.UseVisualStyleBackColor = False
         '
+        'Button15
+        '
+        Me.Button15.Location = New System.Drawing.Point(582, 40)
+        Me.Button15.Name = "Button15"
+        Me.Button15.Size = New System.Drawing.Size(75, 23)
+        Me.Button15.TabIndex = 20
+        Me.Button15.Text = "Clear Grid"
+        Me.Button15.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(546, 499)
+        Me.ClientSize = New System.Drawing.Size(896, 499)
         Me.Controls.Add(Me.TabControl1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "Form1"
@@ -966,4 +977,5 @@ Partial Class Form1
     Friend WithEvents DataGridViewTextBoxColumn14 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn15 As DataGridViewTextBoxColumn
     Friend WithEvents GroupBox2 As GroupBox
+    Friend WithEvents Button15 As Button
 End Class
