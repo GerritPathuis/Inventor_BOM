@@ -374,57 +374,62 @@ Public Class Form1
 
         Dim invApp As Inventor.Application
         Dim oDoc As Inventor.DrawingDocument
+        'Dim oDoc As Inventor.Document
 
         invApp = Marshal.GetActiveObject("Inventor.Application")
         invApp.SilentOperation = vbTrue
 
-        oDoc = CType(invApp.Documents.Open(path, False), Document)
+        oDoc = invApp.Documents.Open(path, False)
 
-        Try
-            '--------- determine object type -------
-            Dim eDocumentType As DocumentTypeEnum = oDoc.DocumentType
-            If eDocumentType <> DocumentTypeEnum.kDrawingDocumentObject Then
-                MessageBox.Show("Please Select a IDW file ")
-            Else
-                '=================================================================================
-                'https://forums.autodesk.com/t5/inventor-customization/copy-titleblock-prompted-entries-to-custom-iproperty/td-p/7491136
+        'MessageBox.Show("Active document=" & oDoc.DisplayName)
+        'MessageBox.Show("Active sheet=" & oDoc.ActiveSheet.Name)
 
-                Dim oSheet As Sheet
-                oSheet = oDoc.ActiveSheet
-                Dim oTB1 As TitleBlock
-                oTB1 = oSheet.TitleBlock
-                Dim titleDef As TitleBlockDefinition
-                titleDef = oTB1.Definition
-                Dim oPrompt As Inventor.TextBox = Nothing
+        '--------- determine object type -------
+        Dim eDocumentType As DocumentTypeEnum = oDoc.DocumentType
+        If eDocumentType <> DocumentTypeEnum.kDrawingDocumentObject Then
+            MessageBox.Show("Please Select a IDW file ")
+        Else
+            '=================================================================================
+            'https://forums.autodesk.com/t5/inventor-customization/copy-titleblock-prompted-entries-to-custom-iproperty/td-p/7491136
 
-                ' Find the Prompted Entry called Make in the Title Block
-                For Each defText As Inventor.TextBox In titleDef.Sketch.TextBoxes
-                    DataGridView2.Rows.Item(row_counter).Cells(0).Value = path
-                    If defText.Text = "<DESCRIPTION>" Then
-                        oPrompt = defText
-                        DataGridView2.Rows.Item(row_counter).Cells(1).Value = oTB1.GetResultText(oPrompt)
-                    End If
-                    If defText.Text = "<ITEM_NR>" Then
-                        oPrompt = defText
-                        DataGridView2.Rows.Item(row_counter).Cells(2).Value = oTB1.GetResultText(oPrompt)
-                    End If
-                    If defText.Text = "<DOC_NUMBER>" Then
-                        oPrompt = defText
-                        DataGridView2.Rows.Item(row_counter).Cells(3).Value = oTB1.GetResultText(oPrompt)
-                    End If
-                    If defText.Text = "<DOC_REV>" Then
-                        oPrompt = defText
-                        DataGridView2.Rows.Item(row_counter).Cells(4).Value = oTB1.GetResultText(oPrompt)
-                    End If
-                    If defText.Text = "<DOC_STATUS>" Then
-                        oPrompt = defText
-                        DataGridView2.Rows.Item(row_counter).Cells(5).Value = oTB1.GetResultText(oPrompt)
-                    End If
-                Next
-                '============== Read The parts List=========================================
-                ' Make sure a parts list is selected.
+            Dim oSheet As Sheet
+            oSheet = oDoc.ActiveSheet
+            Dim oTB1 As TitleBlock
+            oTB1 = oSheet.TitleBlock
+            Dim titleDef As TitleBlockDefinition
+            titleDef = oTB1.Definition
+            Dim oPrompt As Inventor.TextBox = Nothing
 
-                Dim partList As Object
+            ' Find the Prompted Entry called Make in the Title Block
+            For Each defText As Inventor.TextBox In titleDef.Sketch.TextBoxes
+                DataGridView2.Rows.Item(row_counter).Cells(0).Value = path
+                If defText.Text = "<DESCRIPTION>" Then
+                    oPrompt = defText
+                    DataGridView2.Rows.Item(row_counter).Cells(1).Value = oTB1.GetResultText(oPrompt)
+                End If
+                If defText.Text = "<ITEM_NR>" Then
+                    oPrompt = defText
+                    DataGridView2.Rows.Item(row_counter).Cells(2).Value = oTB1.GetResultText(oPrompt)
+                End If
+                If defText.Text = "<DOC_NUMBER>" Then
+                    oPrompt = defText
+                    DataGridView2.Rows.Item(row_counter).Cells(3).Value = oTB1.GetResultText(oPrompt)
+                End If
+                If defText.Text = "<DOC_REV>" Then
+                    oPrompt = defText
+                    DataGridView2.Rows.Item(row_counter).Cells(4).Value = oTB1.GetResultText(oPrompt)
+                End If
+                If defText.Text = "<DOC_STATUS>" Then
+                    oPrompt = defText
+                    DataGridView2.Rows.Item(row_counter).Cells(5).Value = oTB1.GetResultText(oPrompt)
+                End If
+            Next
+
+            '============== Read The parts List=========================================
+            ' Make sure a parts list is selected.
+            Dim partList As Object
+            '----------- does partlist exist ?------------
+            If oDoc.ActiveSheet.PartsLists.Count > 0 Then
                 partList = oDoc.ActiveSheet.PartsLists.Item(1)
                 If (TypeOf partList Is PartsList) Then
                     Dim counter As Integer = 1
@@ -440,10 +445,7 @@ Public Class Form1
                     Next sj
                 End If
             End If
-            oDoc.Close()
-        Catch Ex As Exception
-            MessageBox.Show("Problem. Original error: " & Ex.Message)
-        End Try
+        End If
     End Sub
 
     Private Sub Getresulttext(titleBlock As TitleBlock)
@@ -722,7 +724,6 @@ Public Class Form1
         invApp = Marshal.GetActiveObject("Inventor.Application")
 
         invApp.SilentOperation = vbTrue
-
         oDoc = invApp.Documents.Open(fpath, False)  'Not visible
 
         '--------- determine object type -------
@@ -735,25 +736,27 @@ Public Class Form1
         'http://beinginventive.typepad.com/files/ExportPartslistToExcel/ExportPartslistToExcel.txt
         ' Make sure a parts list is selected.
         Dim partList As Object
-        partList = oDoc.ActiveSheet.PartsLists.Item(1)
+        If oDoc.ActiveSheet.PartsLists.Count > 0 Then
+            partList = oDoc.ActiveSheet.PartsLists.Item(1)
 
-        If (TypeOf partList Is PartsList) Then
-            'Expand legacy parts list to all levels
-            Dim counter As Integer = 1
-            Dim i, j As Integer
+            If (TypeOf partList Is PartsList) Then  'Parts-list exists ?
+                'Expand legacy parts list to all levels
+                Dim counter As Integer = 1
+                Dim i, j As Integer
 
-            '------ Column names ------------- 
-            For i = 1 To partList.PartsListColumns.Count
-                DataGridView4.Rows.Item(0).Cells(i - 1).Value = partList.PartsListColumns.Item(i).Title.ToString
-            Next
-
-            MessageBox.Show(partList.PartsListRows.Count.ToString)
-            '------ Column content ------------- 
-            For j = 1 To partList.PartsListRows.Count
+                '------ Column names ------------- 
                 For i = 1 To partList.PartsListColumns.Count
-                    DataGridView4.Rows.Item(j).Cells(i - 1).Value = partList.PartsListRows(j).Item(i).Value.ToString
+                    DataGridView4.Rows.Item(0).Cells(i - 1).Value = partList.PartsListColumns.Item(i).Title.ToString
                 Next
-            Next
+
+                'MessageBox.Show(partList.PartsListRows.Count.ToString)
+                '------ Column content ------------- 
+                For j = 1 To partList.PartsListRows.Count
+                    For i = 1 To partList.PartsListColumns.Count
+                        DataGridView4.Rows.Item(j).Cells(i - 1).Value = partList.PartsListRows(j).Item(i).Value.ToString
+                    Next
+                Next
+            End If
         End If
     End Sub
 
