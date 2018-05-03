@@ -39,14 +39,17 @@ Public Class Form1
         DataGridView1.Columns(16).HeaderText = "Author"
         DataGridView1.Columns(17).HeaderText = "Comments"
 
-        DataGridView2.ColumnCount = 20
+        DataGridView2.ColumnCount = 10
         DataGridView2.RowCount = 1000
         DataGridView2.Columns(0).HeaderText = "File"
-        DataGridView2.Columns(1).HeaderText = "Descrp"
-        DataGridView2.Columns(2).HeaderText = "D_no"
-        DataGridView2.Columns(3).HeaderText = "A_no"
-        DataGridView2.Columns(4).HeaderText = "Rev"
-        DataGridView2.Columns(5).HeaderText = "Status"
+        DataGridView2.Columns(1).HeaderText = "Assembly"
+        DataGridView2.Columns(2).HeaderText = "A_Artikel"
+        DataGridView2.Columns(3).HeaderText = "A_Drwg nr"
+        DataGridView2.Columns(4).HeaderText = "Pos"
+        DataGridView2.Columns(5).HeaderText = "Qty"
+        DataGridView2.Columns(6).HeaderText = "Artikel"
+        DataGridView2.Columns(7).HeaderText = "Descrip"
+
 
         DataGridView3.ColumnCount = 5
         DataGridView3.RowCount = 20
@@ -374,7 +377,6 @@ Public Class Form1
 
         Dim invApp As Inventor.Application
         Dim oDoc As Inventor.DrawingDocument
-        'Dim oDoc As Inventor.Document
 
         invApp = Marshal.GetActiveObject("Inventor.Application")
         invApp.SilentOperation = vbTrue
@@ -399,29 +401,25 @@ Public Class Form1
             Dim titleDef As TitleBlockDefinition
             titleDef = oTB1.Definition
             Dim oPrompt As Inventor.TextBox = Nothing
+            Dim q_file As String = "-"  'File name
+            Dim q_desc As String = "-"  'Description
+            Dim q_A00 As String = "-"   'Assembly Artikel nummer
+            Dim q_D00 As String = "-"   'Assembly Drawing nummer
 
             ' Find the Prompted Entry called Make in the Title Block
             For Each defText As Inventor.TextBox In titleDef.Sketch.TextBoxes
-                DataGridView2.Rows.Item(row_counter).Cells(0).Value = path
-                If defText.Text = "<DESCRIPTION>" Then
+                q_file = IO.Path.GetFileName(path)          '=File naam (short)
+                If defText.Text = "<DESCRIPTION>" Then      'Description
                     oPrompt = defText
-                    DataGridView2.Rows.Item(row_counter).Cells(1).Value = oTB1.GetResultText(oPrompt)
+                    q_desc = oTB1.GetResultText(oPrompt)
                 End If
-                If defText.Text = "<ITEM_NR>" Then
+                If defText.Text = "<ITEM_NR>" Then          '=A0000
                     oPrompt = defText
-                    DataGridView2.Rows.Item(row_counter).Cells(2).Value = oTB1.GetResultText(oPrompt)
+                    q_A00 = oTB1.GetResultText(oPrompt)
                 End If
-                If defText.Text = "<DOC_NUMBER>" Then
+                If defText.Text = "<DOC_NUMBER>" Then       '=D0000
                     oPrompt = defText
-                    DataGridView2.Rows.Item(row_counter).Cells(3).Value = oTB1.GetResultText(oPrompt)
-                End If
-                If defText.Text = "<DOC_REV>" Then
-                    oPrompt = defText
-                    DataGridView2.Rows.Item(row_counter).Cells(4).Value = oTB1.GetResultText(oPrompt)
-                End If
-                If defText.Text = "<DOC_STATUS>" Then
-                    oPrompt = defText
-                    DataGridView2.Rows.Item(row_counter).Cells(5).Value = oTB1.GetResultText(oPrompt)
+                    q_D00 = oTB1.GetResultText(oPrompt)
                 End If
             Next
 
@@ -438,13 +436,19 @@ Public Class Form1
 
                     For sj = 1 To partList.PartsListRows.Count
                         row_counter += 1
-                        For ik = 1 To partList.PartsListColumns.Count
+                        For ik = 1 To 4
+                            DataGridView2.Rows.Item(row_counter).Cells(0).Value = q_file
+                            DataGridView2.Rows.Item(row_counter).Cells(1).Value = q_desc
+                            DataGridView2.Rows.Item(row_counter).Cells(2).Value = q_A00
+                            DataGridView2.Rows.Item(row_counter).Cells(3).Value = q_D00
+
                             str = partList.PartsListRows(sj).Item(ik).Value.ToString
-                            DataGridView2.Rows.Item(row_counter).Cells(ik - 1).Value = str
+                            DataGridView2.Rows.Item(row_counter).Cells(ik + 3).Value = str
                         Next ik
                     Next sj
                 End If
             End If
+            DataGridView2.AutoResizeColumns()
         End If
     End Sub
 
@@ -485,7 +489,7 @@ Public Class Form1
 
     Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
         Button9.BackColor = System.Drawing.Color.Green
-        row_counter = -1   'Reset counter
+        row_counter = -2   'Reset counter
 
         'Select work directory
         'https://msdn.microsoft.com/en-us/library/07wt70x2(v=vs.110).aspx
@@ -615,6 +619,7 @@ Public Class Form1
                 Qbom(fileName)
             End If
         Next fileName
+        DataGridView1.AutoResizeColumns()
         Button12.BackColor = System.Drawing.Color.Transparent
     End Sub
     Private Sub PlotDXF()
