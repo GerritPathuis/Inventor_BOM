@@ -9,6 +9,7 @@ Imports System.ComponentModel
 Public Class Form1
     Public row_counter As Integer
     Public filepath1 As String = "C:\Repos\Inventor_IDW\Read_IDW\Part.ipt"
+    Public filepath2 As String = "E:\Protmp\Procad"
     Public filepath3 As String = "c:\MyDir"
     Public G1_row_cnt As Integer
 
@@ -50,7 +51,6 @@ Public Class Form1
         DataGridView2.Columns(6).HeaderText = "Artikel"
         DataGridView2.Columns(7).HeaderText = "Descrip"
 
-
         DataGridView3.ColumnCount = 5
         DataGridView3.RowCount = 20
         DataGridView3.Columns(0).HeaderText = "File"
@@ -62,6 +62,12 @@ Public Class Form1
         DataGridView4.Columns(0).HeaderText = "File"
         DataGridView4.Columns(1).HeaderText = "D_no"
         DataGridView4.Columns(2).HeaderText = "A_no"
+
+        TextBox5.Text = filepath2
+        TextBox6.Text = filepath2
+        TextBox7.Text = filepath2
+        TextBox8.Text = filepath2
+        TextBox9.Text = filepath2
     End Sub
     Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click
         Open_file(1)   'ipt files
