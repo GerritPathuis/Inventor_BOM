@@ -395,14 +395,6 @@ Public Class Form1
     Public Sub Read_title_Block(ByVal path As String)
         'http://adndevblog.typepad.com/manufacturing/2012/12/inventor-change-text-items-in-titleblockdefinition.html
 
-        '-------- inventor must be running----
-        Dim p() As Process
-        p = Process.GetProcessesByName("Inventor")
-        If p.Count = 0 Then
-            MessageBox.Show("Inventor is not running")
-            Exit Sub
-        End If
-
         Dim invApp As Inventor.Application
         Dim oDoc As Inventor.DrawingDocument
 
@@ -724,17 +716,17 @@ Public Class Form1
     End Sub
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
         Inventor_running()
-        ExportSketchDXF2()
+        ExportSketchDXF2(TextBox2.Text)
     End Sub
 
-    Public Sub ExportSketchDXF2()
+    Public Sub ExportSketchDXF2(ByVal path As String)
         'https://forums.autodesk.com/t5/inventor-customization/flat-pattern-to-dxf/m-p/7033961#M71803
 
         Dim invApp As Inventor.Application
         invApp = Marshal.GetActiveObject("Inventor.Application")
 
         Dim oPartDoc As Inventor.Document
-        oPartDoc = invApp.Documents.Open(TextBox2.Text, False)
+        oPartDoc = invApp.Documents.Open(path, False)
 
         Dim oFlatPattern As FlatPattern
 
@@ -749,7 +741,7 @@ Public Class Form1
             Else
                 oFlatPattern = oPartDoc.ComponentDefinition.FlatPattern
                 If oFlatPattern Is Nothing Then
-                    MessageBox.Show("Please create the flat pattern")
+                    MessageBox.Show("IPT does contain a flat pattern")
                     Exit Sub
                 End If
             End If

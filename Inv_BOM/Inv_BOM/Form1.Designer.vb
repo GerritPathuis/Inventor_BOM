@@ -29,6 +29,7 @@ Partial Class Form1
         Me.Button3 = New System.Windows.Forms.Button()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage6 = New System.Windows.Forms.TabPage()
+        Me.Label7 = New System.Windows.Forms.Label()
         Me.GroupBox7 = New System.Windows.Forms.GroupBox()
         Me.Button10 = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -107,7 +108,6 @@ Partial Class Form1
         Me.DataGridViewTextBoxColumn15 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
-        Me.Label7 = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.TabPage6.SuspendLayout()
         Me.GroupBox7.SuspendLayout()
@@ -206,6 +206,16 @@ Partial Class Form1
         Me.TabPage6.TabIndex = 5
         Me.TabPage6.Text = "Directory"
         Me.TabPage6.UseVisualStyleBackColor = True
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label7.Location = New System.Drawing.Point(12, 192)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(262, 25)
+        Me.Label7.TabIndex = 1
+        Me.Label7.Text = "Inventor is not running !"
         '
         'GroupBox7
         '
@@ -396,7 +406,7 @@ Partial Class Form1
         '
         'Button15
         '
-        Me.Button15.Location = New System.Drawing.Point(582, 40)
+        Me.Button15.Location = New System.Drawing.Point(532, 56)
         Me.Button15.Name = "Button15"
         Me.Button15.Size = New System.Drawing.Size(75, 23)
         Me.Button15.TabIndex = 20
@@ -709,9 +719,9 @@ Partial Class Form1
         '
         Me.Button6.Location = New System.Drawing.Point(17, 140)
         Me.Button6.Name = "Button6"
-        Me.Button6.Size = New System.Drawing.Size(124, 45)
+        Me.Button6.Size = New System.Drawing.Size(312, 45)
         Me.Button6.TabIndex = 0
-        Me.Button6.Text = "Extract dxf"
+        Me.Button6.Text = "Extract dxf from test file"
         Me.Button6.UseVisualStyleBackColor = True
         '
         'TabPage1
@@ -918,16 +928,6 @@ Partial Class Form1
         '
         Me.DataGridViewTextBoxColumn15.HeaderText = "Column5"
         Me.DataGridViewTextBoxColumn15.Name = "DataGridViewTextBoxColumn15"
-        '
-        'Label7
-        '
-        Me.Label7.AutoSize = True
-        Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label7.Location = New System.Drawing.Point(12, 192)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(262, 25)
-        Me.Label7.TabIndex = 1
-        Me.Label7.Text = "Inventor is not running !"
         '
         'Form1
         '
