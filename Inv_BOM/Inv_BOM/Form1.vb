@@ -5,7 +5,10 @@ Imports Inventor
 Imports Microsoft.Office.Interop.Excel
 Imports Microsoft.Office.Interop
 Imports System.ComponentModel
-
+'==================================
+'API samples
+'https://knowledge.autodesk.com/search-result/caas/CloudHelp/cloudhelp/2018/ENU/Inventor-API/files/SampleList-htm.html
+'==================================
 Public Class Form1
     Public row_counter As Integer
     Public filepath1 As String = "C:\Repos\Inventor_IDW\Read_IDW\Part.ipt"
@@ -602,20 +605,23 @@ Public Class Form1
         DataGridView3.Rows.Clear()
         DataGridView3.Columns(0).Width = 300
 
+        If Directory.Exists(TextBox6.Text) Then
+            Dim fileEntries As String() = Directory.GetFiles(TextBox6.Text)
+            ' list DXF files found in the directory.
+            Dim fileName As String
 
-        Dim fileEntries As String() = Directory.GetFiles(TextBox6.Text)
-        ' list DXF files found in the directory.
-        Dim fileName As String
-
-        For Each fileName In fileEntries
-            extension = IO.Path.GetExtension(fileName)
-            If String.Equals(extension, fext) Or RadioButton9.Checked Then
-                DataGridView3.Rows.Add()
-                DataGridView3.Rows.Item(cnt).Cells(0).Value = fileName
-                cnt += 1
-            End If
-        Next fileName
-        If cnt = 0 Then MessageBox.Show("NO " & fext & " files in this work directory")
+            For Each fileName In fileEntries
+                extension = IO.Path.GetExtension(fileName)
+                If String.Equals(extension, fext) Or RadioButton9.Checked Then
+                    DataGridView3.Rows.Add()
+                    DataGridView3.Rows.Item(cnt).Cells(0).Value = fileName
+                    cnt += 1
+                End If
+            Next fileName
+            If cnt = 0 Then MessageBox.Show("NO " & fext & " files in this work directory")
+        Else
+            MessageBox.Show(TextBox6.Text & " is not a valid directory.")
+        End If
         Button8.BackColor = System.Drawing.Color.Transparent
     End Sub
 
@@ -648,55 +654,15 @@ Public Class Form1
         DataGridView1.AutoResizeColumns()
         Button12.BackColor = System.Drawing.Color.Transparent
     End Sub
-    Private Sub PlotDXF()
-        'http://modthemachine.typepad.com/my_weblog/2013/02/inventor-api-training-lesson-11.html
-        ' Get the DXF translator Add-In.
-
-        Dim oDocument As Inventor.Document
-        Dim invApp As Inventor.Application
-        invApp = Marshal.GetActiveObject("Inventor.Application")
-
-        invApp.SilentOperation = vbTrue
-        oDocument = CType(invApp.Documents.Open(filepath1, False), Document)
-
-        Dim DXFAddIn As Inventor.TranslatorAddIn
-        DXFAddIn = invApp.ItemById("{C24E3AC4-122E-11D5-8E91-0010B541CD80}")
-
-        Dim oContext As Inventor.TranslationContext
-        oContext = invApp.TransientObjects.CreateTranslationContext
-        oContext.Type = Inventor.IOMechanismEnum.kFileBrowseIOMechanism
-
-        ' Create a NameValueMap object
-        Dim oOptions As Inventor.NameValueMap
-        oOptions = invApp.TransientObjects.CreateNameValueMap
-
-        ' Create a DataMedium object
-        Dim oDataMedium As Inventor.DataMedium
-        oDataMedium = invApp.TransientObjects.CreateDataMedium
-
-        ' Check whether the translator has 'SaveCopyAs' options
-        If DXFAddIn.HasSaveCopyAsOptions(oDocument, oContext, oOptions) Then
-
-            Dim strIniFile As String
-            strIniFile = "M:\Engineering\PDFprinterVTK\DXF OUTPUTE.ini"
-
-            ' Create the name-value that specifies the ini file to use.
-            oOptions.Value("Export_Acad_IniFile") = strIniFile
-        End If
-
-        oDataMedium.FileName = "c:\temp\dxf_tst_1234.dxf"
-
-        DXFAddIn.SaveCopyAs(oDocument, oContext, oOptions, oDataMedium)
-    End Sub
-
 
     Private Sub PlotSTP()
+        'Export STEP of DXF Files
         'https://forums.autodesk.com/t5/inventor-customization/vb-net-export-files-and-then-can-not-change-project/td-p/7404351
         'Dim oDocument As Inventor.Document
         Dim invApp As Inventor.Application
         invApp = Marshal.GetActiveObject("Inventor.Application")
 
-        Dim oDrawDoc As DrawingDocument
+        Dim oDrawDoc As Inventor.DrawingDocument
         oDrawDoc = CType(invApp.Documents.Open(filepath1, False), Document)
         Dim oRefDoc As Document
 
@@ -721,7 +687,7 @@ Public Class Form1
 
     Public Sub ExportSketchDXF2(ByVal path As String)
         'https://forums.autodesk.com/t5/inventor-customization/flat-pattern-to-dxf/m-p/7033961#M71803
-
+        'https://knowledge.autodesk.com/search-result/caas/CloudHelp/cloudhelp/2018/ENU/Inventor-API/files/WriteFlatPatternAsDXF-Sample-htm.html
         Dim invApp As Inventor.Application
         invApp = Marshal.GetActiveObject("Inventor.Application")
 
@@ -772,9 +738,84 @@ Public Class Form1
     + "&BendDownLayer=BEND_DOWN&BendDownLayerColor=0;255;0&BendDownLayerLineType=37634"
 
         Call oDataIO.WriteDataToFile(sOut, oDXFfileNAME)
-        MessageBox.Show("Dxf file is witten")
+        MessageBox.Show("Dxf file is written")
     End Sub
+    Private Sub Embossed_text(ByVal path As String)
+        'https://forums.autodesk.com/t5/inventor-customization/embossed-text/m-p/5668061#M56484
 
+        'Dim invApp As Inventor.Application
+        'invApp = Marshal.GetActiveObject("Inventor.Application")
+
+        'Dim oPartDoc As Inventor.Document
+        'oPartDoc = invApp.Documents.Open(path, False)
+
+        'Dim oFlatPattern As FlatPattern
+
+        ''Pre-processing check: The Active document must be a Sheet metal Part with a flat pattern
+        'If oPartDoc.DocumentType <> DocumentTypeEnum.kPartDocumentObject Then
+        '    MessageBox.Show("The Active document must be a 'Part'")
+        '    Exit Sub
+        'Else
+        '    If oPartDoc.SubType <> "{9C464203-9BAE-11D3-8BAD-0060B0CE6BB4}" Then
+        '        MessageBox.Show("The Active document must be a 'Sheet Metal Part'")
+        '        Exit Sub
+        '    Else
+        '        oFlatPattern = oPartDoc.ComponentDefinition.FlatPattern
+        '        If oFlatPattern Is Nothing Then
+        '            MessageBox.Show("IPT does contain a flat pattern")
+        '            Exit Sub
+        '        End If
+        '    End If
+        'End If
+
+        '' Set a reference to the drawing document.
+        '' This assumes a drawing document is active.
+        ''    Dim oDrawDoc As inventor.DrawingDocument
+        ''Set oDrawDoc = ThisApplication.ActiveDocument
+
+        'invApp.ActiveDocument.Sheets(1).Activate
+
+        'MessageBox.Show("Active document=" & oPartDoc.DisplayName)
+        'MessageBox.Show("Active sheet=" & oPartDoc.ActiveSheet.Name)
+
+        '' Set a reference to the active sheet.
+        'Dim oActiveSheet As Sheet
+        'oActiveSheet = oPartDoc.ActiveSheet
+
+        '' Set a reference to the GeneralNotes object
+        'Dim oGeneralNotes As GeneralNotes
+        'oGeneralNotes = oActiveSheet.DrawingNotes.GeneralNotes
+
+        'Dim oTG As TransientGeometry
+        'oTG = invApp.TransientGeometry
+
+        '' Create text with simple string as input. Since this doesn't use
+        '' any text overrides, it will default to the active text style.
+        'Dim sText As String
+        'sText = "Drawing Notes"
+
+        'Dim oGeneralNote As GeneralNote
+        'oGeneralNote = oGeneralNotes.AddFitted(oTG.CreatePoint2d(3, 18), sText)
+
+        '' Create text using various overrides.
+        'sText = "Notice: All holes larger than 0.500 n are to be lubricated."
+        'oGeneralNote = oGeneralNotes.AddFitted(oTG.CreatePoint2d(3, 16), sText)
+
+        '' Create a set of notes that are numbered and aligned along the left.
+        'Dim dYCoord As Double
+        'dYCoord = 14
+        'Dim dYOffset As Double
+        'Dim oStyle As TextStyle
+        'oStyle = oGeneralNotes.Item(1).TextStyle
+        'dYOffset = oStyle.FontSize * 1.5
+
+        '' Simple single line text.
+        'oGeneralNote = oGeneralNotes.AddFitted(oTG.CreatePoint2d(3, dYCoord), "1.")
+        'sText = "This is note 1."
+        'oGeneralNote = oGeneralNotes.AddFitted(oTG.CreatePoint2d(4, dYCoord), sText)
+
+        'MessageBox.Show("Dxf TEXT is added to file")
+    End Sub
 
     Private Sub Button13_Click(sender As Object, e As EventArgs) Handles Button13.Click
         Inventor_running()
@@ -787,15 +828,7 @@ Public Class Form1
     End Sub
 
     Private Sub Read_idw_parts(ByVal fpath As String)
-        '-------- inventor must be running----
-        Dim p() As Process
-        p = Process.GetProcessesByName("Inventor")
-        If p.Count = 0 Then
-            MessageBox.Show("Inventor is not running")
-            Exit Sub
-        End If
-
-        Dim oDoc As DrawingDocument         '!!!!!!!!!!!!!!
+        Dim oDoc As Inventor.DrawingDocument         '!!!!!!!!!!!!!!
         Dim invApp As Inventor.Application
         invApp = Marshal.GetActiveObject("Inventor.Application")
 
@@ -841,6 +874,35 @@ Public Class Form1
         DataGridView2.Rows.Clear()
         DataGridView2.RowCount = 1000
     End Sub
+
+    Private Sub Button17_Click(sender As Object, e As EventArgs) Handles Button17.Click
+        Inventor_running()
+        Dim openFileDialog1 As New OpenFileDialog With {
+               .InitialDirectory = "c:\Inventor test files\",
+               .Filter = "Part File (*.ipt)|*.ipt" _
+               & "|Assembly File (*.iam)|*.iam" _
+               & "|Presentation File (*.ipn)|*.ipn" _
+               & "|Drawing File (*.idw)|*.idw" _
+               & "|Drawing File (*.dwg)|*.dwg" _
+               & "|Design element File (*.ide)|*.ide",
+               .FilterIndex = 0,                ' *.ipt files
+               .RestoreDirectory = True
+           }
+
+        If openFileDialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+            Try
+                filepath1 = openFileDialog1.FileName
+                TextBox2.Text = filepath1.ToString
+
+            Catch Ex As Exception
+                MessageBox.Show("Cannot read file from disk. Original error: " & Ex.Message)
+            Finally
+            End Try
+        End If
+
+    End Sub
+
+
 End Class
 
 
