@@ -68,11 +68,30 @@ Public Class Form1
         TextBox7.Text = filepath2
         TextBox8.Text = filepath2
         TextBox9.Text = filepath2
+
+        Inventor_running()
+
+
     End Sub
+    Private Sub Inventor_running()
+        '-------- inventor must be running----
+        Dim p() As Process
+        p = Process.GetProcessesByName("Inventor")
+        If p.Count = 0 Then
+            Label7.Visible = True
+            Me.Text = "Inventor NOT running"
+        Else
+            Label7.Visible = False
+            Me.Text = "Inventor BOM Extractor"
+        End If
+    End Sub
+
     Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click
+        Inventor_running()
         Open_file(1)   'ipt files
     End Sub
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        Inventor_running()
         Open_file(2)    'iam files
     End Sub
 
@@ -103,6 +122,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        Inventor_running()
         Button3.BackColor = System.Drawing.Color.Green
         DataGridView1.ClearSelection()
         G1_row_cnt = 0
@@ -146,100 +166,100 @@ Public Class Form1
         '---------- Read BOM --------------------------
         'Try
         Dim oBOM As Inventor.BOM
-            oBOM = oDoc.ComponentDefinition.BOM
-            oBOM.StructuredViewFirstLevelOnly = True
-            oBOM.StructuredViewEnabled = True
+        oBOM = oDoc.ComponentDefinition.BOM
+        oBOM.StructuredViewFirstLevelOnly = True
+        oBOM.StructuredViewEnabled = True
 
-            Dim oBOMView As Inventor.BOMView
-            oBOMView = oBOM.BOMViews.Item("Structured")
+        Dim oBOMView As Inventor.BOMView
+        oBOMView = oBOM.BOMViews.Item("Structured")
 
-            '-------------------------
-            Dim oRow As BOMRow
-            Dim oCompDef As ComponentDefinition
-            Dim oPropSet As PropertySet
-            Dim i, j As Integer
+        '-------------------------
+        Dim oRow As BOMRow
+        Dim oCompDef As ComponentDefinition
+        Dim oPropSet As PropertySet
+        Dim i, j As Integer
 
-            For i = 1 To oBOMView.BOMRows.Count
-                G1_row_cnt += 1
+        For i = 1 To oBOMView.BOMRows.Count
+            G1_row_cnt += 1
 
-                '================= Design Tracking Properties ==========================
-                oRow = oBOMView.BOMRows.Item(i)
-                oCompDef = oRow.ComponentDefinitions.Item(1)
+            '================= Design Tracking Properties ==========================
+            oRow = oBOMView.BOMRows.Item(i)
+            oCompDef = oRow.ComponentDefinitions.Item(1)
 
-                oPropSet = oCompDef.Document.PropertySets.Item("Design Tracking Properties")
-                DataGridView1.Rows.Add()
+            oPropSet = oCompDef.Document.PropertySets.Item("Design Tracking Properties")
+            DataGridView1.Rows.Add()
 
-                DataGridView1.Rows.Item(G1_row_cnt).Cells(0).Value = filen
+            DataGridView1.Rows.Item(G1_row_cnt).Cells(0).Value = filen
 
-                DataGridView1.Rows.Item(G1_row_cnt).Cells(1).Value = oRow.ItemNumber
-                DataGridView1.Rows.Item(G1_row_cnt).Cells(2).Value = oRow.ItemQuantity
+            DataGridView1.Rows.Item(G1_row_cnt).Cells(1).Value = oRow.ItemNumber
+            DataGridView1.Rows.Item(G1_row_cnt).Cells(2).Value = oRow.ItemQuantity
 
-                Dim design_track() As String =
-                {"Part Number",
-                "Description",
-                "Stock Number",
-                "Part Icon"}
-                If oPropSet.Count = 0 And Not CheckBox1.Checked Then
-                    MessageBox.Show("The are NO 'Design Tracking' properties present in this file")
-                Else
-                    For j = 0 To design_track.Length - 1
-                        Try
-                            DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 3).Value = "+"
-                            DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 3).Value = oPropSet.Item(design_track(j)).Value
-                        Catch Ex As Exception
-                            DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 3).Value = "?"
-                            If Not CheckBox1.Checked Then MessageBox.Show(design_track(j) & " not found")
-                        End Try
-                    Next
-                End If
+            Dim design_track() As String =
+            {"Part Number",
+            "Description",
+            "Stock Number",
+            "Part Icon"}
+            If oPropSet.Count = 0 And Not CheckBox1.Checked Then
+                MessageBox.Show("The are NO 'Design Tracking' properties present in this file")
+            Else
+                For j = 0 To design_track.Length - 1
+                    Try
+                        DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 3).Value = "+"
+                        DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 3).Value = oPropSet.Item(design_track(j)).Value
+                    Catch Ex As Exception
+                        DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 3).Value = "?"
+                        If Not CheckBox1.Checked Then MessageBox.Show(design_track(j) & " not found")
+                    End Try
+                Next
+            End If
 
-                '================== CUSTOM Properties ============================
-                Dim custom() As String =
-                {"DOC_NUMBER",
-                "ITEM_NR",
-                "DOC_STATUS",
-                "DOC_REV",
-                "PART_MATERIAL",
-                "IT_TP",
-                "LG"}
+            '================== CUSTOM Properties ============================
+            Dim custom() As String =
+            {"DOC_NUMBER",
+            "ITEM_NR",
+            "DOC_STATUS",
+            "DOC_REV",
+            "PART_MATERIAL",
+            "IT_TP",
+            "LG"}
 
-                oPropSet = oCompDef.Document.PropertySets.Item("Inventor User Defined Properties")
-                If oPropSet.Count = 0 And Not CheckBox1.Checked Then
-                    MessageBox.Show("The are NO 'Custom' properties present in this file")
-                Else
-                    For j = 0 To custom.Length - 1
-                        Try
-                            DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 6).Value = "+"
-                            DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 6).Value = oPropSet.Item(custom(j)).Value
-                        Catch Ex As Exception
-                            DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 6).Value = "?"
-                            If Not CheckBox1.Checked Then MessageBox.Show(custom(j) & " not found")
-                        End Try
-                    Next
-                End If
+            oPropSet = oCompDef.Document.PropertySets.Item("Inventor User Defined Properties")
+            If oPropSet.Count = 0 And Not CheckBox1.Checked Then
+                MessageBox.Show("The are NO 'Custom' properties present in this file")
+            Else
+                For j = 0 To custom.Length - 1
+                    Try
+                        DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 6).Value = "+"
+                        DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 6).Value = oPropSet.Item(custom(j)).Value
+                    Catch Ex As Exception
+                        DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 6).Value = "?"
+                        If Not CheckBox1.Checked Then MessageBox.Show(custom(j) & " not found")
+                    End Try
+                Next
+            End If
 
-                '========== Inventor Summary Information ===============
-                Dim summary() As String =
-                {"Title",
-                "Subject",
-                "Author",
-                "Comments"}
-                oPropSet = oCompDef.Document.PropertySets.Item("Inventor Summary Information")
-                If oPropSet.Count = 0 And Not CheckBox1.Checked Then
-                    MessageBox.Show("The are NO 'Inventor Summary Information' present in this file")
-                Else
-                    For j = 0 To summary.Length - 1
-                        Try
-                            DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 14).Value = "+"
-                            DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 14).Value = oPropSet.Item(summary(j)).Value
-                        Catch Ex As Exception
-                            DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 14).Value = "?"
-                            If Not CheckBox1.Checked Then MessageBox.Show(summary(j) & " not found")
-                        End Try
-                    Next
-                End If
+            '========== Inventor Summary Information ===============
+            Dim summary() As String =
+            {"Title",
+            "Subject",
+            "Author",
+            "Comments"}
+            oPropSet = oCompDef.Document.PropertySets.Item("Inventor Summary Information")
+            If oPropSet.Count = 0 And Not CheckBox1.Checked Then
+                MessageBox.Show("The are NO 'Inventor Summary Information' present in this file")
+            Else
+                For j = 0 To summary.Length - 1
+                    Try
+                        DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 14).Value = "+"
+                        DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 14).Value = oPropSet.Item(summary(j)).Value
+                    Catch Ex As Exception
+                        DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 14).Value = "?"
+                        If Not CheckBox1.Checked Then MessageBox.Show(summary(j) & " not found")
+                    End Try
+                Next
+            End If
 
-            Next
+        Next
         'Catch Ex As Exception
         'MessageBox.Show("No BOM in this IAM model")
         'Finally
@@ -247,6 +267,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+        Inventor_running()
         Button4.BackColor = System.Drawing.Color.Green
         SaveFileDialog1.Title = "Please Select a File"
         SaveFileDialog1.InitialDirectory = filepath3
@@ -311,6 +332,7 @@ Public Class Form1
         End Try
     End Sub
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
+        Inventor_running()
         List_all_properties()
     End Sub
     'see https://forums.autodesk.com/t5/inventor-customization/ilogic-list-all-custom-properties/td-p/6218163
@@ -494,6 +516,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
+        Inventor_running()
         Button9.BackColor = System.Drawing.Color.Green
         row_counter = -2   'Reset counter
 
@@ -543,6 +566,7 @@ Public Class Form1
     End Sub
     'Select work directory
     Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click
+        Inventor_running()
         FolderBrowserDialog1.SelectedPath = TextBox6.Text
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             TextBox5.Text = FolderBrowserDialog1.SelectedPath
@@ -554,6 +578,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
+        Inventor_running()
         Button7.BackColor = System.Drawing.Color.Green
         SaveFileDialog1.Title = "Please Select a File"
         SaveFileDialog1.InitialDirectory = TextBox6.Text
@@ -564,6 +589,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
+        Inventor_running()
         Button8.BackColor = System.Drawing.Color.Green
         Dim cnt As Integer = 0   'Reset counter
         Dim fext As String = ".dxf"
@@ -602,6 +628,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
+        Inventor_running()
         Button11.BackColor = System.Drawing.Color.Green
         SaveFileDialog1.Title = "Please Select a File"
         SaveFileDialog1.InitialDirectory = TextBox7.Text
@@ -612,6 +639,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button12_Click(sender As Object, e As EventArgs) Handles Button12.Click
+        Inventor_running()
         Button12.BackColor = System.Drawing.Color.Green
         DataGridView1.ClearSelection()
 
@@ -669,9 +697,7 @@ Public Class Form1
         DXFAddIn.SaveCopyAs(oDocument, oContext, oOptions, oDataMedium)
     End Sub
 
-    Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
-        ExportSketchDXF()
-    End Sub
+
     Private Sub PlotSTP()
         'https://forums.autodesk.com/t5/inventor-customization/vb-net-export-files-and-then-can-not-change-project/td-p/7404351
         'Dim oDocument As Inventor.Document
@@ -696,28 +722,75 @@ Public Class Form1
             End If
         Next oRefDoc
     End Sub
+    Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
+        Inventor_running()
+        ExportSketchDXF2()
+    End Sub
 
-    Public Sub ExportSketchDXF()
+    Public Sub ExportSketchDXF2()
+        'https://forums.autodesk.com/t5/inventor-customization/flat-pattern-to-dxf/m-p/7033961#M71803
+
         Dim invApp As Inventor.Application
         invApp = Marshal.GetActiveObject("Inventor.Application")
 
-        Dim oDrawDoc As Inventor.Document
-        oDrawDoc = invApp.Documents.Open(TextBox5.Text, False)
+        Dim oPartDoc As Inventor.Document
+        oPartDoc = invApp.Documents.Open(TextBox2.Text, False)
 
-        Dim oSketch As PlanarSketch
-        oSketch = invApp.ActiveDocument.ComponentDefinition.Sketches(1)
+        Dim oFlatPattern As FlatPattern
 
+        'Pre-processing check: The Active document must be a Sheet metal Part with a flat pattern
+        If oPartDoc.DocumentType <> DocumentTypeEnum.kPartDocumentObject Then
+            MessageBox.Show("The Active document must be a 'Part'")
+            Exit Sub
+        Else
+            If oPartDoc.SubType <> "{9C464203-9BAE-11D3-8BAD-0060B0CE6BB4}" Then
+                MessageBox.Show("The Active document must be a 'Sheet Metal Part'")
+                Exit Sub
+            Else
+                oFlatPattern = oPartDoc.ComponentDefinition.FlatPattern
+                If oFlatPattern Is Nothing Then
+                    MessageBox.Show("Please create the flat pattern")
+                    Exit Sub
+                End If
+            End If
+        End If
+
+        'Processing:
         Dim oDataIO As DataIO
-        oDataIO = oSketch.DataIO
+        oDataIO = oPartDoc.ComponentDefinition.DataIO
 
-        oDataIO.WriteDataToFile("DXF", "C:\Inventor_tst\dxfout.dxf")
+        Dim strPartNum As String
+        strPartNum = oPartDoc.PropertySets("Design Tracking Properties").Item("Part Number").Value
+
+        Dim strRev As String
+        strRev = oPartDoc.PropertySets("Inventor Summary Information").Item("Revision Number").Value
+
+        'Change values located here to change output.
+        Dim oDXFfileNAME As String
+        Dim strPath As String
+        strPath = "C:\Inventor_tst\"  'Must end with a "\"
+        oDXFfileNAME = strPath & strPartNum & "-R" & strRev & ".dxf"
+
+        Dim sOut As String
+        sOut = "FLAT PATTERN DXF?AcadVersion=2000" _
+    + "&OuterProfileLayer=OUTER_PROF&OuterProfileLayerColor=0;0;0" _
+    + "&InteriorProfilesLayer=INNER_PROFS&InteriorProfilesLayerColor=0;0;0" _
+    + "&FeatureProfileLayer=FEATURE&FeatureProfileLayerColor=0;0;0" _
+    + "&BendUpLayer=BEND_UP&BendUpLayerColor=0;255;0&BendUpLayerLineType=37634" _
+    + "&BendDownLayer=BEND_DOWN&BendDownLayerColor=0;255;0&BendDownLayerLineType=37634"
+
+        Call oDataIO.WriteDataToFile(sOut, oDXFfileNAME)
+        MessageBox.Show("Dxf file is witten")
     End Sub
 
+
     Private Sub Button13_Click(sender As Object, e As EventArgs) Handles Button13.Click
+        Inventor_running()
         Open_file(4)   'idw files
     End Sub
 
     Private Sub Button14_Click(sender As Object, e As EventArgs) Handles Button14.Click
+        Inventor_running()
         Read_idw_parts(TextBox1.Text)
     End Sub
 
@@ -772,6 +845,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button15_Click(sender As Object, e As EventArgs) Handles Button15.Click
+        Inventor_running()
         DataGridView2.Rows.Clear()
         DataGridView2.RowCount = 1000
     End Sub
