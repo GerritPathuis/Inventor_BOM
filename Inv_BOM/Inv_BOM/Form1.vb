@@ -73,8 +73,6 @@ Public Class Form1
         TextBox9.Text = filepath2
 
         Inventor_running()
-
-
     End Sub
     Private Sub Inventor_running()
         '-------- inventor must be running----
@@ -107,7 +105,8 @@ Public Class Form1
                & "|Presentation File (*.ipn)|*.ipn" _
                & "|Drawing File (*.idw)|*.idw" _
                & "|Drawing File (*.dwg)|*.dwg" _
-               & "|Design element File (*.ide)|*.ide",
+               & "|Design element File (*.ide)|*.ide" _
+               & "|Sheet matal File (*.dxf)|*.dxf",
                .FilterIndex = keuze,                ' *.ipt files
                .RestoreDirectory = True
            }
@@ -598,24 +597,47 @@ Public Class Form1
             Case RadioButton7.Checked
                 fext = ".ipt"
             Case RadioButton8.Checked
-                fext = ".idw"
+                fext = ".ipt"   'sheet metal
             Case RadioButton9.Checked
+                fext = ".idw"
+            Case RadioButton10.Checked
                 fext = ".*"
         End Select
         DataGridView3.Rows.Clear()
         DataGridView3.Columns(0).Width = 300
+        DataGridView3.Columns(1).Width = 150
 
         If Directory.Exists(TextBox6.Text) Then
             Dim fileEntries As String() = Directory.GetFiles(TextBox6.Text)
-            ' list DXF files found in the directory.
+            ' list files found in the directory.
             Dim fileName As String
 
             For Each fileName In fileEntries
                 extension = IO.Path.GetExtension(fileName)
-                If String.Equals(extension, fext) Or RadioButton9.Checked Then
+                If String.Equals(extension, fext) Or RadioButton10.Checked Then
                     DataGridView3.Rows.Add()
                     DataGridView3.Rows.Item(cnt).Cells(0).Value = fileName
                     cnt += 1
+                End If
+                '=============== extra for Sheet metal ==============
+                If RadioButton8.Checked And String.Equals(extension, ".ipt") Then
+                    Dim invApp As Inventor.Application
+                    invApp = Marshal.GetActiveObject("Inventor.Application")
+                    Dim oPartDoc As Inventor.Document
+                    oPartDoc = invApp.Documents.Open(fileName, False)
+
+                    Dim oFlatPattern As FlatPattern
+
+                    If oPartDoc.DocumentType = DocumentTypeEnum.kPartDocumentObject Then
+                        If oPartDoc.SubType = "{9C464203-9BAE-11D3-8BAD-0060B0CE6BB4}" Then
+                            oFlatPattern = oPartDoc.ComponentDefinition.FlatPattern
+                            If oFlatPattern Is Nothing Then
+                                DataGridView3.Rows.Item(cnt - 1).Cells(1).Value = "NO Flat pattern"
+                            Else
+                                DataGridView3.Rows.Item(cnt - 1).Cells(1).Value = "Contains Flat pattern"
+                            End If
+                        End If
+                    End If
                 End If
             Next fileName
             If cnt = 0 Then MessageBox.Show("NO " & fext & " files in this work directory")
@@ -655,7 +677,7 @@ Public Class Form1
         Button12.BackColor = System.Drawing.Color.Transparent
     End Sub
 
-    Private Sub PlotSTP()
+    Private Sub PlotSTEP()
         'Export STEP of DXF Files
         'https://forums.autodesk.com/t5/inventor-customization/vb-net-export-files-and-then-can-not-change-project/td-p/7404351
         'Dim oDocument As Inventor.Document
@@ -707,7 +729,7 @@ Public Class Form1
             Else
                 oFlatPattern = oPartDoc.ComponentDefinition.FlatPattern
                 If oFlatPattern Is Nothing Then
-                    MessageBox.Show("IPT does contain a flat pattern")
+                    MessageBox.Show("IPT does NOT contain a flat pattern")
                     Exit Sub
                 End If
             End If
@@ -727,7 +749,7 @@ Public Class Form1
         Dim oDXFfileNAME As String
         Dim strPath As String
         strPath = "C:\Inventor_tst\"  'Must end with a "\"
-        oDXFfileNAME = strPath & strPartNum & "-R" & strRev & ".dxf"
+        oDXFfileNAME = strPath & strPartNum & "-Rev" & strRev & ".dxf"
 
         Dim sOut As String
         sOut = "FLAT PATTERN DXF?AcadVersion=2000" _
@@ -738,7 +760,7 @@ Public Class Form1
     + "&BendDownLayer=BEND_DOWN&BendDownLayerColor=0;255;0&BendDownLayerLineType=37634"
 
         Call oDataIO.WriteDataToFile(sOut, oDXFfileNAME)
-        MessageBox.Show("Dxf file is written")
+        'MessageBox.Show("Dxf file is written to work directory")
     End Sub
     Private Sub Embossed_text(ByVal path As String)
         'https://forums.autodesk.com/t5/inventor-customization/embossed-text/m-p/5668061#M56484
@@ -884,7 +906,8 @@ Public Class Form1
                & "|Presentation File (*.ipn)|*.ipn" _
                & "|Drawing File (*.idw)|*.idw" _
                & "|Drawing File (*.dwg)|*.dwg" _
-               & "|Design element File (*.ide)|*.ide",
+               & "|Design element File (*.ide)|*.ide" _
+               & "|Sheet matal File (*.dxf)|*.dxf",
                .FilterIndex = 0,                ' *.ipt files
                .RestoreDirectory = True
            }
@@ -893,16 +916,31 @@ Public Class Form1
             Try
                 filepath1 = openFileDialog1.FileName
                 TextBox2.Text = filepath1.ToString
-
             Catch Ex As Exception
                 MessageBox.Show("Cannot read file from disk. Original error: " & Ex.Message)
             Finally
             End Try
         End If
-
     End Sub
 
+    Private Sub Button16_Click(sender As Object, e As EventArgs) Handles Button16.Click
+        Inventor_running()
+        Button16.BackColor = System.Drawing.Color.Green
+        DataGridView1.ClearSelection()
 
+        Dim fileEntries As String() = Directory.GetFiles(TextBox5.Text)
+        ' Process the list of files found in the directory.
+        Dim fileName As String
+        Dim ext As String
+        For Each fileName In fileEntries
+            ext = IO.Path.GetExtension(fileName)
+            If ext = ".ipt" Then
+                ExportSketchDXF2(fileName)
+            End If
+        Next fileName
+        DataGridView1.AutoResizeColumns()
+        Button16.BackColor = System.Drawing.Color.Transparent
+    End Sub
 End Class
 
 

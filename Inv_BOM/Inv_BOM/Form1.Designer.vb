@@ -30,25 +30,35 @@ Partial Class Form1
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage6 = New System.Windows.Forms.TabPage()
         Me.GroupBox8 = New System.Windows.Forms.GroupBox()
-        Me.TextBox23 = New System.Windows.Forms.TextBox()
-        Me.TextBox24 = New System.Windows.Forms.TextBox()
-        Me.TextBox25 = New System.Windows.Forms.TextBox()
-        Me.TextBox22 = New System.Windows.Forms.TextBox()
-        Me.TextBox21 = New System.Windows.Forms.TextBox()
-        Me.TextBox19 = New System.Windows.Forms.TextBox()
-        Me.TextBox20 = New System.Windows.Forms.TextBox()
-        Me.TextBox18 = New System.Windows.Forms.TextBox()
-        Me.TextBox17 = New System.Windows.Forms.TextBox()
-        Me.TextBox16 = New System.Windows.Forms.TextBox()
-        Me.TextBox15 = New System.Windows.Forms.TextBox()
-        Me.TextBox14 = New System.Windows.Forms.TextBox()
-        Me.TextBox13 = New System.Windows.Forms.TextBox()
-        Me.TextBox12 = New System.Windows.Forms.TextBox()
-        Me.TextBox11 = New System.Windows.Forms.TextBox()
+        Me.GroupBox10 = New System.Windows.Forms.GroupBox()
         Me.TextBox10 = New System.Windows.Forms.TextBox()
-        Me.Label7 = New System.Windows.Forms.Label()
+        Me.TextBox11 = New System.Windows.Forms.TextBox()
+        Me.TextBox12 = New System.Windows.Forms.TextBox()
+        Me.TextBox30 = New System.Windows.Forms.TextBox()
+        Me.TextBox13 = New System.Windows.Forms.TextBox()
+        Me.TextBox32 = New System.Windows.Forms.TextBox()
+        Me.TextBox14 = New System.Windows.Forms.TextBox()
+        Me.TextBox26 = New System.Windows.Forms.TextBox()
+        Me.TextBox20 = New System.Windows.Forms.TextBox()
+        Me.TextBox22 = New System.Windows.Forms.TextBox()
+        Me.TextBox19 = New System.Windows.Forms.TextBox()
+        Me.TextBox21 = New System.Windows.Forms.TextBox()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.GroupBox9 = New System.Windows.Forms.GroupBox()
+        Me.TextBox28 = New System.Windows.Forms.TextBox()
+        Me.TextBox29 = New System.Windows.Forms.TextBox()
+        Me.TextBox27 = New System.Windows.Forms.TextBox()
+        Me.TextBox15 = New System.Windows.Forms.TextBox()
+        Me.TextBox16 = New System.Windows.Forms.TextBox()
+        Me.TextBox23 = New System.Windows.Forms.TextBox()
+        Me.TextBox17 = New System.Windows.Forms.TextBox()
+        Me.TextBox24 = New System.Windows.Forms.TextBox()
+        Me.TextBox18 = New System.Windows.Forms.TextBox()
+        Me.TextBox25 = New System.Windows.Forms.TextBox()
+        Me.Label8 = New System.Windows.Forms.Label()
         Me.GroupBox7 = New System.Windows.Forms.GroupBox()
         Me.Button10 = New System.Windows.Forms.Button()
+        Me.Label7 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.TextBox9 = New System.Windows.Forms.TextBox()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
@@ -81,6 +91,7 @@ Partial Class Form1
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.GroupBox6 = New System.Windows.Forms.GroupBox()
+        Me.RadioButton10 = New System.Windows.Forms.RadioButton()
         Me.RadioButton9 = New System.Windows.Forms.RadioButton()
         Me.RadioButton8 = New System.Windows.Forms.RadioButton()
         Me.RadioButton7 = New System.Windows.Forms.RadioButton()
@@ -126,19 +137,12 @@ Partial Class Form1
         Me.DataGridViewTextBoxColumn15 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
-        Me.TextBox26 = New System.Windows.Forms.TextBox()
-        Me.GroupBox9 = New System.Windows.Forms.GroupBox()
-        Me.TextBox27 = New System.Windows.Forms.TextBox()
-        Me.TextBox28 = New System.Windows.Forms.TextBox()
-        Me.TextBox29 = New System.Windows.Forms.TextBox()
-        Me.TextBox30 = New System.Windows.Forms.TextBox()
-        Me.TextBox32 = New System.Windows.Forms.TextBox()
-        Me.Label8 = New System.Windows.Forms.Label()
-        Me.Label9 = New System.Windows.Forms.Label()
-        Me.GroupBox10 = New System.Windows.Forms.GroupBox()
+        Me.Button16 = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.TabPage6.SuspendLayout()
         Me.GroupBox8.SuspendLayout()
+        Me.GroupBox10.SuspendLayout()
+        Me.GroupBox9.SuspendLayout()
         Me.GroupBox7.SuspendLayout()
         Me.TabPage2.SuspendLayout()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -171,8 +175,6 @@ Partial Class Form1
         Me.GroupBox3.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         CType(Me.DataGridView4, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox9.SuspendLayout()
-        Me.GroupBox10.SuspendLayout()
         Me.SuspendLayout()
         '
         'TextBox1
@@ -252,117 +254,34 @@ Partial Class Form1
         Me.GroupBox8.TabStop = False
         Me.GroupBox8.Text = "Opbouw in Inventor"
         '
-        'TextBox23
+        'GroupBox10
         '
-        Me.TextBox23.Location = New System.Drawing.Point(49, 198)
-        Me.TextBox23.Name = "TextBox23"
-        Me.TextBox23.Size = New System.Drawing.Size(144, 20)
-        Me.TextBox23.TabIndex = 15
-        Me.TextBox23.Text = "IDW Drawing + detail BOM"
+        Me.GroupBox10.Controls.Add(Me.TextBox10)
+        Me.GroupBox10.Controls.Add(Me.TextBox11)
+        Me.GroupBox10.Controls.Add(Me.TextBox12)
+        Me.GroupBox10.Controls.Add(Me.TextBox30)
+        Me.GroupBox10.Controls.Add(Me.TextBox13)
+        Me.GroupBox10.Controls.Add(Me.TextBox32)
+        Me.GroupBox10.Controls.Add(Me.TextBox14)
+        Me.GroupBox10.Controls.Add(Me.TextBox26)
+        Me.GroupBox10.Controls.Add(Me.TextBox20)
+        Me.GroupBox10.Controls.Add(Me.TextBox22)
+        Me.GroupBox10.Controls.Add(Me.TextBox19)
+        Me.GroupBox10.Controls.Add(Me.TextBox21)
+        Me.GroupBox10.Location = New System.Drawing.Point(9, 14)
+        Me.GroupBox10.Name = "GroupBox10"
+        Me.GroupBox10.Size = New System.Drawing.Size(294, 280)
+        Me.GroupBox10.TabIndex = 25
+        Me.GroupBox10.TabStop = False
+        Me.GroupBox10.Text = "Inventor modelling"
         '
-        'TextBox24
+        'TextBox10
         '
-        Me.TextBox24.Location = New System.Drawing.Point(49, 172)
-        Me.TextBox24.Name = "TextBox24"
-        Me.TextBox24.Size = New System.Drawing.Size(144, 20)
-        Me.TextBox24.TabIndex = 14
-        Me.TextBox24.Text = "IDW Drawing + detail BOM"
-        '
-        'TextBox25
-        '
-        Me.TextBox25.Location = New System.Drawing.Point(49, 120)
-        Me.TextBox25.Name = "TextBox25"
-        Me.TextBox25.Size = New System.Drawing.Size(144, 20)
-        Me.TextBox25.TabIndex = 13
-        Me.TextBox25.Text = "IDW Drawing + detail BOM"
-        '
-        'TextBox22
-        '
-        Me.TextBox22.Location = New System.Drawing.Point(60, 201)
-        Me.TextBox22.Name = "TextBox22"
-        Me.TextBox22.Size = New System.Drawing.Size(121, 20)
-        Me.TextBox22.TabIndex = 12
-        Me.TextBox22.Text = "IPT shaft, make"
-        '
-        'TextBox21
-        '
-        Me.TextBox21.Location = New System.Drawing.Point(60, 175)
-        Me.TextBox21.Name = "TextBox21"
-        Me.TextBox21.Size = New System.Drawing.Size(121, 20)
-        Me.TextBox21.TabIndex = 11
-        Me.TextBox21.Text = "IPT pipe, make"
-        '
-        'TextBox19
-        '
-        Me.TextBox19.Location = New System.Drawing.Point(187, 149)
-        Me.TextBox19.Name = "TextBox19"
-        Me.TextBox19.Size = New System.Drawing.Size(93, 20)
-        Me.TextBox19.TabIndex = 10
-        Me.TextBox19.Text = "DXF sheet metal"
-        '
-        'TextBox20
-        '
-        Me.TextBox20.Location = New System.Drawing.Point(60, 149)
-        Me.TextBox20.Name = "TextBox20"
-        Me.TextBox20.Size = New System.Drawing.Size(121, 20)
-        Me.TextBox20.TabIndex = 9
-        Me.TextBox20.Text = "IPT, sheet metal, make"
-        '
-        'TextBox18
-        '
-        Me.TextBox18.Location = New System.Drawing.Point(49, 68)
-        Me.TextBox18.Name = "TextBox18"
-        Me.TextBox18.Size = New System.Drawing.Size(144, 20)
-        Me.TextBox18.TabIndex = 8
-        Me.TextBox18.Text = "IDW Drawing + detail BOM"
-        '
-        'TextBox17
-        '
-        Me.TextBox17.Location = New System.Drawing.Point(49, 42)
-        Me.TextBox17.Name = "TextBox17"
-        Me.TextBox17.Size = New System.Drawing.Size(144, 20)
-        Me.TextBox17.TabIndex = 7
-        Me.TextBox17.Text = "IDW Drawing + detail BOM"
-        '
-        'TextBox16
-        '
-        Me.TextBox16.Location = New System.Drawing.Point(18, 94)
-        Me.TextBox16.Name = "TextBox16"
-        Me.TextBox16.Size = New System.Drawing.Size(150, 20)
-        Me.TextBox16.TabIndex = 6
-        Me.TextBox16.Text = "IDW Sub-Assembly + BOM"
-        '
-        'TextBox15
-        '
-        Me.TextBox15.Location = New System.Drawing.Point(18, 16)
-        Me.TextBox15.Name = "TextBox15"
-        Me.TextBox15.Size = New System.Drawing.Size(150, 20)
-        Me.TextBox15.TabIndex = 5
-        Me.TextBox15.Text = "IDW Total-Assembly + BOM"
-        '
-        'TextBox14
-        '
-        Me.TextBox14.Location = New System.Drawing.Point(187, 123)
-        Me.TextBox14.Name = "TextBox14"
-        Me.TextBox14.Size = New System.Drawing.Size(93, 20)
-        Me.TextBox14.TabIndex = 4
-        Me.TextBox14.Text = "DXF sheet metal"
-        '
-        'TextBox13
-        '
-        Me.TextBox13.Location = New System.Drawing.Point(60, 123)
-        Me.TextBox13.Name = "TextBox13"
-        Me.TextBox13.Size = New System.Drawing.Size(121, 20)
-        Me.TextBox13.TabIndex = 3
-        Me.TextBox13.Text = "IPT, sheet plaat, make"
-        '
-        'TextBox12
-        '
-        Me.TextBox12.Location = New System.Drawing.Point(61, 71)
-        Me.TextBox12.Name = "TextBox12"
-        Me.TextBox12.Size = New System.Drawing.Size(121, 20)
-        Me.TextBox12.TabIndex = 2
-        Me.TextBox12.Text = "IPT, bearing, buy "
+        Me.TextBox10.Location = New System.Drawing.Point(15, 19)
+        Me.TextBox10.Name = "TextBox10"
+        Me.TextBox10.Size = New System.Drawing.Size(167, 20)
+        Me.TextBox10.TabIndex = 0
+        Me.TextBox10.Text = "IAM Total-Assembly Fan"
         '
         'TextBox11
         '
@@ -372,23 +291,202 @@ Partial Class Form1
         Me.TextBox11.TabIndex = 1
         Me.TextBox11.Text = "IPT, motor, buy"
         '
-        'TextBox10
+        'TextBox12
         '
-        Me.TextBox10.Location = New System.Drawing.Point(15, 19)
-        Me.TextBox10.Name = "TextBox10"
-        Me.TextBox10.Size = New System.Drawing.Size(167, 20)
-        Me.TextBox10.TabIndex = 0
-        Me.TextBox10.Text = "IAM Model Fan"
+        Me.TextBox12.Location = New System.Drawing.Point(61, 71)
+        Me.TextBox12.Name = "TextBox12"
+        Me.TextBox12.Size = New System.Drawing.Size(121, 20)
+        Me.TextBox12.TabIndex = 2
+        Me.TextBox12.Text = "IPT, bearing, buy "
         '
-        'Label7
+        'TextBox30
         '
-        Me.Label7.AutoSize = True
-        Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label7.Location = New System.Drawing.Point(330, 67)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(262, 25)
-        Me.Label7.TabIndex = 1
-        Me.Label7.Text = "Inventor is not running !"
+        Me.TextBox30.Location = New System.Drawing.Point(14, 227)
+        Me.TextBox30.Name = "TextBox30"
+        Me.TextBox30.Size = New System.Drawing.Size(167, 20)
+        Me.TextBox30.TabIndex = 20
+        Me.TextBox30.Text = "IAM Sub-Assembly ....."
+        '
+        'TextBox13
+        '
+        Me.TextBox13.Location = New System.Drawing.Point(60, 123)
+        Me.TextBox13.Name = "TextBox13"
+        Me.TextBox13.Size = New System.Drawing.Size(121, 20)
+        Me.TextBox13.TabIndex = 3
+        Me.TextBox13.Text = "IPT, sheet plaat, make"
+        '
+        'TextBox32
+        '
+        Me.TextBox32.Location = New System.Drawing.Point(60, 253)
+        Me.TextBox32.Name = "TextBox32"
+        Me.TextBox32.Size = New System.Drawing.Size(121, 20)
+        Me.TextBox32.TabIndex = 18
+        Me.TextBox32.Text = "IPT, ..."
+        '
+        'TextBox14
+        '
+        Me.TextBox14.Location = New System.Drawing.Point(187, 123)
+        Me.TextBox14.Name = "TextBox14"
+        Me.TextBox14.Size = New System.Drawing.Size(93, 20)
+        Me.TextBox14.TabIndex = 4
+        Me.TextBox14.Text = "DXF sheet metal"
+        '
+        'TextBox26
+        '
+        Me.TextBox26.Location = New System.Drawing.Point(14, 97)
+        Me.TextBox26.Name = "TextBox26"
+        Me.TextBox26.Size = New System.Drawing.Size(167, 20)
+        Me.TextBox26.TabIndex = 16
+        Me.TextBox26.Text = "IAM Sub-Assembly impeller"
+        '
+        'TextBox20
+        '
+        Me.TextBox20.Location = New System.Drawing.Point(60, 149)
+        Me.TextBox20.Name = "TextBox20"
+        Me.TextBox20.Size = New System.Drawing.Size(121, 20)
+        Me.TextBox20.TabIndex = 9
+        Me.TextBox20.Text = "IPT, sheet metal, make"
+        '
+        'TextBox22
+        '
+        Me.TextBox22.Location = New System.Drawing.Point(60, 201)
+        Me.TextBox22.Name = "TextBox22"
+        Me.TextBox22.Size = New System.Drawing.Size(121, 20)
+        Me.TextBox22.TabIndex = 12
+        Me.TextBox22.Text = "IPT shaft, make"
+        '
+        'TextBox19
+        '
+        Me.TextBox19.Location = New System.Drawing.Point(187, 149)
+        Me.TextBox19.Name = "TextBox19"
+        Me.TextBox19.Size = New System.Drawing.Size(93, 20)
+        Me.TextBox19.TabIndex = 10
+        Me.TextBox19.Text = "DXF sheet metal"
+        '
+        'TextBox21
+        '
+        Me.TextBox21.Location = New System.Drawing.Point(60, 175)
+        Me.TextBox21.Name = "TextBox21"
+        Me.TextBox21.Size = New System.Drawing.Size(121, 20)
+        Me.TextBox21.TabIndex = 11
+        Me.TextBox21.Text = "IPT pipe, make"
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Location = New System.Drawing.Point(19, 314)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(284, 13)
+        Me.Label9.TabIndex = 24
+        Me.Label9.Text = "Buy= NO labour required, Make= workshop labour required"
+        '
+        'GroupBox9
+        '
+        Me.GroupBox9.Controls.Add(Me.TextBox28)
+        Me.GroupBox9.Controls.Add(Me.TextBox29)
+        Me.GroupBox9.Controls.Add(Me.TextBox27)
+        Me.GroupBox9.Controls.Add(Me.TextBox15)
+        Me.GroupBox9.Controls.Add(Me.TextBox16)
+        Me.GroupBox9.Controls.Add(Me.TextBox23)
+        Me.GroupBox9.Controls.Add(Me.TextBox17)
+        Me.GroupBox9.Controls.Add(Me.TextBox24)
+        Me.GroupBox9.Controls.Add(Me.TextBox18)
+        Me.GroupBox9.Controls.Add(Me.TextBox25)
+        Me.GroupBox9.Location = New System.Drawing.Point(314, 14)
+        Me.GroupBox9.Name = "GroupBox9"
+        Me.GroupBox9.Size = New System.Drawing.Size(288, 280)
+        Me.GroupBox9.TabIndex = 17
+        Me.GroupBox9.TabStop = False
+        Me.GroupBox9.Text = "Drawings"
+        '
+        'TextBox28
+        '
+        Me.TextBox28.Location = New System.Drawing.Point(49, 250)
+        Me.TextBox28.Name = "TextBox28"
+        Me.TextBox28.Size = New System.Drawing.Size(144, 20)
+        Me.TextBox28.TabIndex = 18
+        Me.TextBox28.Text = "......"
+        '
+        'TextBox29
+        '
+        Me.TextBox29.Location = New System.Drawing.Point(18, 224)
+        Me.TextBox29.Name = "TextBox29"
+        Me.TextBox29.Size = New System.Drawing.Size(150, 20)
+        Me.TextBox29.TabIndex = 17
+        Me.TextBox29.Text = "IDW Sub-Assembly + BOM"
+        '
+        'TextBox27
+        '
+        Me.TextBox27.Location = New System.Drawing.Point(49, 146)
+        Me.TextBox27.Name = "TextBox27"
+        Me.TextBox27.Size = New System.Drawing.Size(144, 20)
+        Me.TextBox27.TabIndex = 16
+        Me.TextBox27.Text = "optional for simple shape"
+        '
+        'TextBox15
+        '
+        Me.TextBox15.Location = New System.Drawing.Point(18, 16)
+        Me.TextBox15.Name = "TextBox15"
+        Me.TextBox15.Size = New System.Drawing.Size(150, 20)
+        Me.TextBox15.TabIndex = 5
+        Me.TextBox15.Text = "IDW Total-Assembly + BOM"
+        '
+        'TextBox16
+        '
+        Me.TextBox16.Location = New System.Drawing.Point(18, 94)
+        Me.TextBox16.Name = "TextBox16"
+        Me.TextBox16.Size = New System.Drawing.Size(150, 20)
+        Me.TextBox16.TabIndex = 6
+        Me.TextBox16.Text = "IDW Sub-Assembly + BOM"
+        '
+        'TextBox23
+        '
+        Me.TextBox23.Location = New System.Drawing.Point(49, 198)
+        Me.TextBox23.Name = "TextBox23"
+        Me.TextBox23.Size = New System.Drawing.Size(144, 20)
+        Me.TextBox23.TabIndex = 15
+        Me.TextBox23.Text = "IDW Drawing + detail BOM"
+        '
+        'TextBox17
+        '
+        Me.TextBox17.Location = New System.Drawing.Point(49, 42)
+        Me.TextBox17.Name = "TextBox17"
+        Me.TextBox17.Size = New System.Drawing.Size(144, 20)
+        Me.TextBox17.TabIndex = 7
+        Me.TextBox17.Text = "IDW Drawing + detail BOM"
+        '
+        'TextBox24
+        '
+        Me.TextBox24.Location = New System.Drawing.Point(49, 172)
+        Me.TextBox24.Name = "TextBox24"
+        Me.TextBox24.Size = New System.Drawing.Size(144, 20)
+        Me.TextBox24.TabIndex = 14
+        Me.TextBox24.Text = "IDW Drawing + detail BOM"
+        '
+        'TextBox18
+        '
+        Me.TextBox18.Location = New System.Drawing.Point(49, 68)
+        Me.TextBox18.Name = "TextBox18"
+        Me.TextBox18.Size = New System.Drawing.Size(144, 20)
+        Me.TextBox18.TabIndex = 8
+        Me.TextBox18.Text = "IDW Drawing + detail BOM"
+        '
+        'TextBox25
+        '
+        Me.TextBox25.Location = New System.Drawing.Point(49, 120)
+        Me.TextBox25.Name = "TextBox25"
+        Me.TextBox25.Size = New System.Drawing.Size(144, 20)
+        Me.TextBox25.TabIndex = 13
+        Me.TextBox25.Text = "IDW Drawing + detail BOM"
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(19, 297)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(205, 13)
+        Me.Label8.TabIndex = 23
+        Me.Label8.Text = "Detail BOM contains material specification"
         '
         'GroupBox7
         '
@@ -412,6 +510,17 @@ Partial Class Form1
         Me.Button10.TabIndex = 22
         Me.Button10.Text = "Select the work directory"
         Me.Button10.UseVisualStyleBackColor = False
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label7.Location = New System.Drawing.Point(330, 67)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(262, 25)
+        Me.Label7.TabIndex = 1
+        Me.Label7.Text = "Inventor is not running !"
         '
         'Label1
         '
@@ -437,7 +546,7 @@ Partial Class Form1
         Me.TabPage2.Location = New System.Drawing.Point(4, 22)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(656, 473)
+        Me.TabPage2.Size = New System.Drawing.Size(639, 473)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Read BOM IAM"
         Me.TabPage2.UseVisualStyleBackColor = True
@@ -456,7 +565,7 @@ Partial Class Form1
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.DataGridView1)
-        Me.SplitContainer1.Size = New System.Drawing.Size(650, 467)
+        Me.SplitContainer1.Size = New System.Drawing.Size(633, 467)
         Me.SplitContainer1.SplitterDistance = 93
         Me.SplitContainer1.TabIndex = 20
         '
@@ -469,7 +578,7 @@ Partial Class Form1
         Me.GroupBox5.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GroupBox5.Location = New System.Drawing.Point(0, 0)
         Me.GroupBox5.Name = "GroupBox5"
-        Me.GroupBox5.Size = New System.Drawing.Size(650, 93)
+        Me.GroupBox5.Size = New System.Drawing.Size(633, 93)
         Me.GroupBox5.TabIndex = 19
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.Text = "Read BOM from the IAM model files"
@@ -518,7 +627,7 @@ Partial Class Form1
         Me.DataGridView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView1.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView1.Name = "DataGridView1"
-        Me.DataGridView1.Size = New System.Drawing.Size(650, 370)
+        Me.DataGridView1.Size = New System.Drawing.Size(633, 370)
         Me.DataGridView1.TabIndex = 3
         '
         'Column1
@@ -552,7 +661,7 @@ Partial Class Form1
         Me.TabPage3.Location = New System.Drawing.Point(4, 22)
         Me.TabPage3.Name = "TabPage3"
         Me.TabPage3.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage3.Size = New System.Drawing.Size(656, 473)
+        Me.TabPage3.Size = New System.Drawing.Size(639, 473)
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "IDW Parts List"
         Me.TabPage3.UseVisualStyleBackColor = True
@@ -575,7 +684,7 @@ Partial Class Form1
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.DataGridView2)
-        Me.SplitContainer2.Size = New System.Drawing.Size(650, 467)
+        Me.SplitContainer2.Size = New System.Drawing.Size(633, 467)
         Me.SplitContainer2.SplitterDistance = 97
         Me.SplitContainer2.TabIndex = 20
         '
@@ -631,7 +740,7 @@ Partial Class Form1
         Me.DataGridView2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView2.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView2.Name = "DataGridView2"
-        Me.DataGridView2.Size = New System.Drawing.Size(650, 366)
+        Me.DataGridView2.Size = New System.Drawing.Size(633, 366)
         Me.DataGridView2.TabIndex = 17
         '
         'DataGridViewTextBoxColumn1
@@ -665,7 +774,7 @@ Partial Class Form1
         Me.TabPage4.Location = New System.Drawing.Point(4, 22)
         Me.TabPage4.Name = "TabPage4"
         Me.TabPage4.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage4.Size = New System.Drawing.Size(656, 473)
+        Me.TabPage4.Size = New System.Drawing.Size(639, 473)
         Me.TabPage4.TabIndex = 3
         Me.TabPage4.Text = "List files"
         Me.TabPage4.UseVisualStyleBackColor = True
@@ -688,7 +797,7 @@ Partial Class Form1
         'SplitContainer3.Panel2
         '
         Me.SplitContainer3.Panel2.Controls.Add(Me.DataGridView3)
-        Me.SplitContainer3.Size = New System.Drawing.Size(650, 467)
+        Me.SplitContainer3.Size = New System.Drawing.Size(633, 467)
         Me.SplitContainer3.SplitterDistance = 97
         Me.SplitContainer3.TabIndex = 25
         '
@@ -703,6 +812,7 @@ Partial Class Form1
         '
         'GroupBox6
         '
+        Me.GroupBox6.Controls.Add(Me.RadioButton10)
         Me.GroupBox6.Controls.Add(Me.RadioButton9)
         Me.GroupBox6.Controls.Add(Me.RadioButton8)
         Me.GroupBox6.Controls.Add(Me.RadioButton7)
@@ -710,29 +820,41 @@ Partial Class Form1
         Me.GroupBox6.Controls.Add(Me.RadioButton5)
         Me.GroupBox6.Location = New System.Drawing.Point(277, 37)
         Me.GroupBox6.Name = "GroupBox6"
-        Me.GroupBox6.Size = New System.Drawing.Size(236, 47)
+        Me.GroupBox6.Size = New System.Drawing.Size(351, 47)
         Me.GroupBox6.TabIndex = 24
         Me.GroupBox6.TabStop = False
         Me.GroupBox6.Text = "Selection Extentions"
         '
+        'RadioButton10
+        '
+        Me.RadioButton10.AutoSize = True
+        Me.RadioButton10.Location = New System.Drawing.Point(298, 18)
+        Me.RadioButton10.Name = "RadioButton10"
+        Me.RadioButton10.Size = New System.Drawing.Size(35, 17)
+        Me.RadioButton10.TabIndex = 28
+        Me.RadioButton10.Text = "all"
+        Me.RadioButton10.UseVisualStyleBackColor = True
+        '
         'RadioButton9
         '
         Me.RadioButton9.AutoSize = True
-        Me.RadioButton9.Location = New System.Drawing.Point(196, 19)
+        Me.RadioButton9.Location = New System.Drawing.Point(251, 18)
         Me.RadioButton9.Name = "RadioButton9"
-        Me.RadioButton9.Size = New System.Drawing.Size(35, 17)
+        Me.RadioButton9.Size = New System.Drawing.Size(41, 17)
         Me.RadioButton9.TabIndex = 27
-        Me.RadioButton9.Text = "all"
+        Me.RadioButton9.Text = "idw"
         Me.RadioButton9.UseVisualStyleBackColor = True
         '
         'RadioButton8
         '
         Me.RadioButton8.AutoSize = True
+        Me.RadioButton8.Checked = True
         Me.RadioButton8.Location = New System.Drawing.Point(149, 19)
         Me.RadioButton8.Name = "RadioButton8"
-        Me.RadioButton8.Size = New System.Drawing.Size(41, 17)
+        Me.RadioButton8.Size = New System.Drawing.Size(96, 17)
         Me.RadioButton8.TabIndex = 26
-        Me.RadioButton8.Text = "idw"
+        Me.RadioButton8.TabStop = True
+        Me.RadioButton8.Text = "ipt sheet metal "
         Me.RadioButton8.UseVisualStyleBackColor = True
         '
         'RadioButton7
@@ -758,12 +880,10 @@ Partial Class Form1
         'RadioButton5
         '
         Me.RadioButton5.AutoSize = True
-        Me.RadioButton5.Checked = True
         Me.RadioButton5.Location = New System.Drawing.Point(15, 19)
         Me.RadioButton5.Name = "RadioButton5"
         Me.RadioButton5.Size = New System.Drawing.Size(39, 17)
         Me.RadioButton5.TabIndex = 23
-        Me.RadioButton5.TabStop = True
         Me.RadioButton5.Text = "dxf"
         Me.RadioButton5.UseVisualStyleBackColor = True
         '
@@ -801,7 +921,7 @@ Partial Class Form1
         Me.DataGridView3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView3.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView3.Name = "DataGridView3"
-        Me.DataGridView3.Size = New System.Drawing.Size(650, 366)
+        Me.DataGridView3.Size = New System.Drawing.Size(633, 366)
         Me.DataGridView3.TabIndex = 18
         '
         'DataGridViewTextBoxColumn6
@@ -842,15 +962,16 @@ Partial Class Form1
         '
         'GroupBox4
         '
+        Me.GroupBox4.Controls.Add(Me.Button16)
         Me.GroupBox4.Controls.Add(Me.Button17)
         Me.GroupBox4.Controls.Add(Me.Label6)
         Me.GroupBox4.Controls.Add(Me.TextBox2)
         Me.GroupBox4.Controls.Add(Me.Label5)
         Me.GroupBox4.Controls.Add(Me.TextBox5)
         Me.GroupBox4.Controls.Add(Me.Button6)
-        Me.GroupBox4.Location = New System.Drawing.Point(39, 27)
+        Me.GroupBox4.Location = New System.Drawing.Point(52, 58)
         Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(525, 243)
+        Me.GroupBox4.Size = New System.Drawing.Size(525, 280)
         Me.GroupBox4.TabIndex = 21
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Extract dxf from sheetmetal.IPT"
@@ -858,7 +979,7 @@ Partial Class Form1
         'Button17
         '
         Me.Button17.BackColor = System.Drawing.Color.Yellow
-        Me.Button17.Location = New System.Drawing.Point(134, 85)
+        Me.Button17.Location = New System.Drawing.Point(134, 162)
         Me.Button17.Name = "Button17"
         Me.Button17.Size = New System.Drawing.Size(233, 25)
         Me.Button17.TabIndex = 25
@@ -868,7 +989,7 @@ Partial Class Form1
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(17, 62)
+        Me.Label6.Location = New System.Drawing.Point(17, 139)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(44, 13)
         Me.Label6.TabIndex = 23
@@ -877,7 +998,7 @@ Partial Class Form1
         'TextBox2
         '
         Me.TextBox2.Enabled = False
-        Me.TextBox2.Location = New System.Drawing.Point(134, 59)
+        Me.TextBox2.Location = New System.Drawing.Point(134, 136)
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.Size = New System.Drawing.Size(233, 20)
         Me.TextBox2.TabIndex = 22
@@ -905,9 +1026,9 @@ Partial Class Form1
         '
         'Button6
         '
-        Me.Button6.Location = New System.Drawing.Point(17, 140)
+        Me.Button6.Location = New System.Drawing.Point(134, 193)
         Me.Button6.Name = "Button6"
-        Me.Button6.Size = New System.Drawing.Size(184, 45)
+        Me.Button6.Size = New System.Drawing.Size(233, 45)
         Me.Button6.TabIndex = 0
         Me.Button6.Text = "Extract dxf from test file"
         Me.Button6.UseVisualStyleBackColor = True
@@ -918,7 +1039,7 @@ Partial Class Form1
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(656, 473)
+        Me.TabPage1.Size = New System.Drawing.Size(639, 473)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Single file select"
         Me.TabPage1.UseVisualStyleBackColor = True
@@ -944,7 +1065,7 @@ Partial Class Form1
         'SplitContainer4.Panel2
         '
         Me.SplitContainer4.Panel2.Controls.Add(Me.DataGridView4)
-        Me.SplitContainer4.Size = New System.Drawing.Size(650, 467)
+        Me.SplitContainer4.Size = New System.Drawing.Size(633, 467)
         Me.SplitContainer4.SplitterDistance = 205
         Me.SplitContainer4.TabIndex = 21
         '
@@ -1089,7 +1210,7 @@ Partial Class Form1
         Me.DataGridView4.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView4.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView4.Name = "DataGridView4"
-        Me.DataGridView4.Size = New System.Drawing.Size(650, 258)
+        Me.DataGridView4.Size = New System.Drawing.Size(633, 258)
         Me.DataGridView4.TabIndex = 20
         '
         'DataGridViewTextBoxColumn11
@@ -1117,111 +1238,14 @@ Partial Class Form1
         Me.DataGridViewTextBoxColumn15.HeaderText = "Column5"
         Me.DataGridViewTextBoxColumn15.Name = "DataGridViewTextBoxColumn15"
         '
-        'TextBox26
+        'Button16
         '
-        Me.TextBox26.Location = New System.Drawing.Point(14, 97)
-        Me.TextBox26.Name = "TextBox26"
-        Me.TextBox26.Size = New System.Drawing.Size(167, 20)
-        Me.TextBox26.TabIndex = 16
-        Me.TextBox26.Text = "IAM Model impeller"
-        '
-        'GroupBox9
-        '
-        Me.GroupBox9.Controls.Add(Me.TextBox28)
-        Me.GroupBox9.Controls.Add(Me.TextBox29)
-        Me.GroupBox9.Controls.Add(Me.TextBox27)
-        Me.GroupBox9.Controls.Add(Me.TextBox15)
-        Me.GroupBox9.Controls.Add(Me.TextBox16)
-        Me.GroupBox9.Controls.Add(Me.TextBox23)
-        Me.GroupBox9.Controls.Add(Me.TextBox17)
-        Me.GroupBox9.Controls.Add(Me.TextBox24)
-        Me.GroupBox9.Controls.Add(Me.TextBox18)
-        Me.GroupBox9.Controls.Add(Me.TextBox25)
-        Me.GroupBox9.Location = New System.Drawing.Point(314, 14)
-        Me.GroupBox9.Name = "GroupBox9"
-        Me.GroupBox9.Size = New System.Drawing.Size(288, 280)
-        Me.GroupBox9.TabIndex = 17
-        Me.GroupBox9.TabStop = False
-        Me.GroupBox9.Text = "Drawings"
-        '
-        'TextBox27
-        '
-        Me.TextBox27.Location = New System.Drawing.Point(49, 146)
-        Me.TextBox27.Name = "TextBox27"
-        Me.TextBox27.Size = New System.Drawing.Size(144, 20)
-        Me.TextBox27.TabIndex = 16
-        Me.TextBox27.Text = "optional for simple shape"
-        '
-        'TextBox28
-        '
-        Me.TextBox28.Location = New System.Drawing.Point(49, 250)
-        Me.TextBox28.Name = "TextBox28"
-        Me.TextBox28.Size = New System.Drawing.Size(144, 20)
-        Me.TextBox28.TabIndex = 18
-        Me.TextBox28.Text = "......"
-        '
-        'TextBox29
-        '
-        Me.TextBox29.Location = New System.Drawing.Point(18, 224)
-        Me.TextBox29.Name = "TextBox29"
-        Me.TextBox29.Size = New System.Drawing.Size(150, 20)
-        Me.TextBox29.TabIndex = 17
-        Me.TextBox29.Text = "IDW Sub-Assembly + BOM"
-        '
-        'TextBox30
-        '
-        Me.TextBox30.Location = New System.Drawing.Point(14, 227)
-        Me.TextBox30.Name = "TextBox30"
-        Me.TextBox30.Size = New System.Drawing.Size(167, 20)
-        Me.TextBox30.TabIndex = 20
-        Me.TextBox30.Text = "IAM Model ....."
-        '
-        'TextBox32
-        '
-        Me.TextBox32.Location = New System.Drawing.Point(60, 253)
-        Me.TextBox32.Name = "TextBox32"
-        Me.TextBox32.Size = New System.Drawing.Size(121, 20)
-        Me.TextBox32.TabIndex = 18
-        Me.TextBox32.Text = "IPT, ..."
-        '
-        'Label8
-        '
-        Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(19, 297)
-        Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(205, 13)
-        Me.Label8.TabIndex = 23
-        Me.Label8.Text = "Detail BOM contains material specification"
-        '
-        'Label9
-        '
-        Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(19, 314)
-        Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(284, 13)
-        Me.Label9.TabIndex = 24
-        Me.Label9.Text = "Buy= NO labour required, Make= workshop labour required"
-        '
-        'GroupBox10
-        '
-        Me.GroupBox10.Controls.Add(Me.TextBox10)
-        Me.GroupBox10.Controls.Add(Me.TextBox11)
-        Me.GroupBox10.Controls.Add(Me.TextBox12)
-        Me.GroupBox10.Controls.Add(Me.TextBox30)
-        Me.GroupBox10.Controls.Add(Me.TextBox13)
-        Me.GroupBox10.Controls.Add(Me.TextBox32)
-        Me.GroupBox10.Controls.Add(Me.TextBox14)
-        Me.GroupBox10.Controls.Add(Me.TextBox26)
-        Me.GroupBox10.Controls.Add(Me.TextBox20)
-        Me.GroupBox10.Controls.Add(Me.TextBox22)
-        Me.GroupBox10.Controls.Add(Me.TextBox19)
-        Me.GroupBox10.Controls.Add(Me.TextBox21)
-        Me.GroupBox10.Location = New System.Drawing.Point(9, 14)
-        Me.GroupBox10.Name = "GroupBox10"
-        Me.GroupBox10.Size = New System.Drawing.Size(294, 280)
-        Me.GroupBox10.TabIndex = 25
-        Me.GroupBox10.TabStop = False
-        Me.GroupBox10.Text = "Inventor modelling"
+        Me.Button16.Location = New System.Drawing.Point(134, 59)
+        Me.Button16.Name = "Button16"
+        Me.Button16.Size = New System.Drawing.Size(233, 35)
+        Me.Button16.TabIndex = 26
+        Me.Button16.Text = "Extract dxf's from directory"
+        Me.Button16.UseVisualStyleBackColor = True
         '
         'Form1
         '
@@ -1236,6 +1260,10 @@ Partial Class Form1
         Me.TabPage6.ResumeLayout(False)
         Me.GroupBox8.ResumeLayout(False)
         Me.GroupBox8.PerformLayout()
+        Me.GroupBox10.ResumeLayout(False)
+        Me.GroupBox10.PerformLayout()
+        Me.GroupBox9.ResumeLayout(False)
+        Me.GroupBox9.PerformLayout()
         Me.GroupBox7.ResumeLayout(False)
         Me.GroupBox7.PerformLayout()
         Me.TabPage2.ResumeLayout(False)
@@ -1276,10 +1304,6 @@ Partial Class Form1
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox2.ResumeLayout(False)
         CType(Me.DataGridView4, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.GroupBox9.ResumeLayout(False)
-        Me.GroupBox9.PerformLayout()
-        Me.GroupBox10.ResumeLayout(False)
-        Me.GroupBox10.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1396,4 +1420,6 @@ Partial Class Form1
     Friend WithEvents TextBox29 As TextBox
     Friend WithEvents TextBox27 As TextBox
     Friend WithEvents Label8 As Label
+    Friend WithEvents RadioButton10 As RadioButton
+    Friend WithEvents Button16 As Button
 End Class
