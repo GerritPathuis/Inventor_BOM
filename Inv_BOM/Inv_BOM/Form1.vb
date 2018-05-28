@@ -1,6 +1,7 @@
 ﻿Imports System.IO
 Imports System.String
 Imports System.Runtime.InteropServices
+'Browse to "C:\Programs Files\Autodesk\Inventor XXXX\Bin\Public Assemblies" select “autodesk.inventor.interop.dll”
 Imports Inventor
 Imports Microsoft.Office.Interop.Excel
 Imports Microsoft.Office.Interop
@@ -623,6 +624,7 @@ Public Class Form1
                 If RadioButton8.Checked And String.Equals(extension, ".ipt") Then
                     Dim invApp As Inventor.Application
                     invApp = Marshal.GetActiveObject("Inventor.Application")
+                    invApp.SilentOperation = vbTrue
                     Dim oPartDoc As Inventor.Document
                     oPartDoc = invApp.Documents.Open(fileName, False)
 
@@ -632,9 +634,9 @@ Public Class Form1
                         If oPartDoc.SubType = "{9C464203-9BAE-11D3-8BAD-0060B0CE6BB4}" Then
                             oFlatPattern = oPartDoc.ComponentDefinition.FlatPattern
                             If oFlatPattern Is Nothing Then
-                                DataGridView3.Rows.Item(cnt - 1).Cells(1).Value = "NO Flat pattern"
+                                DataGridView3.Rows.Item(cnt - 1).Cells(3).Value = "NO Flat pattern"
                             Else
-                                DataGridView3.Rows.Item(cnt - 1).Cells(1).Value = "Contains Flat pattern"
+                                DataGridView3.Rows.Item(cnt - 1).Cells(3).Value = "Contains Flat pattern"
                             End If
                         End If
                     End If
@@ -644,6 +646,7 @@ Public Class Form1
         Else
             MessageBox.Show(TextBox6.Text & " is not a valid directory.")
         End If
+        DataGridView3.AutoResizeColumns()
         Button8.BackColor = System.Drawing.Color.Transparent
     End Sub
 
@@ -683,6 +686,7 @@ Public Class Form1
         'Dim oDocument As Inventor.Document
         Dim invApp As Inventor.Application
         invApp = Marshal.GetActiveObject("Inventor.Application")
+        invApp.SilentOperation = vbTrue
 
         Dim oDrawDoc As Inventor.DrawingDocument
         oDrawDoc = CType(invApp.Documents.Open(filepath1, False), Document)
@@ -712,61 +716,72 @@ Public Class Form1
         'https://knowledge.autodesk.com/search-result/caas/CloudHelp/cloudhelp/2018/ENU/Inventor-API/files/WriteFlatPatternAsDXF-Sample-htm.html
         Dim invApp As Inventor.Application
         invApp = Marshal.GetActiveObject("Inventor.Application")
+        invApp.SilentOperation = vbTrue
 
-        Dim oPartDoc As Inventor.Document
-        oPartDoc = invApp.Documents.Open(path, False)
+        If IO.File.Exists(path) Then ' This pathfile is a file.
 
-        Dim oFlatPattern As FlatPattern
 
-        'Pre-processing check: The Active document must be a Sheet metal Part with a flat pattern
-        If oPartDoc.DocumentType <> DocumentTypeEnum.kPartDocumentObject Then
-            MessageBox.Show("The Active document must be a 'Part'")
-            Exit Sub
-        Else
-            If oPartDoc.SubType <> "{9C464203-9BAE-11D3-8BAD-0060B0CE6BB4}" Then
-                MessageBox.Show("The Active document must be a 'Sheet Metal Part'")
+            Dim oPartDoc As Inventor.Document
+            oPartDoc = invApp.Documents.Open(path, False)
+
+            Dim oFlatPattern As FlatPattern
+
+            'Pre-processing check: The Active document must be a Sheet metal Part with a flat pattern
+            If oPartDoc.DocumentType <> DocumentTypeEnum.kPartDocumentObject Then
+                MessageBox.Show("The Active document must be a 'Part'")
                 Exit Sub
             Else
-                oFlatPattern = oPartDoc.ComponentDefinition.FlatPattern
-                If oFlatPattern Is Nothing Then
-                    MessageBox.Show("IPT does NOT contain a flat pattern")
+                If oPartDoc.SubType <> "{9C464203-9BAE-11D3-8BAD-0060B0CE6BB4}" Then
+                    MessageBox.Show("The Active document must be a 'Sheet Metal Part'")
                     Exit Sub
+                Else
+                    oFlatPattern = oPartDoc.ComponentDefinition.FlatPattern
+                    If oFlatPattern Is Nothing Then
+                        MessageBox.Show("IPT does NOT contain a flat pattern")
+                        Exit Sub
+                    End If
                 End If
             End If
+
+            'Processing:
+            Dim oDataIO As DataIO
+            oDataIO = oPartDoc.ComponentDefinition.DataIO
+
+            Dim strPartNum As String
+            strPartNum = oPartDoc.PropertySets("Design Tracking Properties").Item("Part Number").Value
+
+            Dim strRev As String
+            strRev = oPartDoc.PropertySets("Inventor Summary Information").Item("Revision Number").Value
+
+            Dim artikel As String
+            artikel = oPartDoc.PropertySets("Inventor User Defined Properties").Item("ITEM_NR").Value
+
+            'Change values located here to change output.
+            Dim oDXFfileNAME As String
+            Dim strPath As String
+            strPath = TextBox5.Text & "\"  'Must end with a "\"
+            oDXFfileNAME = strPath & artikel & "_" & strPartNum & "Rev" & strRev & ".dxf"
+
+            Dim sOut As String
+            sOut = "FLAT PATTERN DXF?AcadVersion=R12" _
+        + "&OuterProfileLayer=OUTER_PROF&OuterProfileLayerColor=0;0;0" _
+        + "&InteriorProfilesLayer=INNER_PROFS&InteriorProfilesLayerColor=0;0;0" _
+        + "&FeatureProfileLayer=FEATURE&FeatureProfileLayerColor=0;0;0" _
+        + "&BendUpLayer=BEND_UP&BendUpLayerColor=0;255;0&BendUpLayerLineType=37634" _
+        + "&BendDownLayer=BEND_DOWN&BendDownLayerColor=0;255;0&BendDownLayerLineType=37634"
+
+            oDataIO.WriteDataToFile(sOut, oDXFfileNAME)
+            MessageBox.Show("Dxf file is written to work directory")
+        Else
+            MessageBox.Show("File does noet exist")
         End If
-
-        'Processing:
-        Dim oDataIO As DataIO
-        oDataIO = oPartDoc.ComponentDefinition.DataIO
-
-        Dim strPartNum As String
-        strPartNum = oPartDoc.PropertySets("Design Tracking Properties").Item("Part Number").Value
-
-        Dim strRev As String
-        strRev = oPartDoc.PropertySets("Inventor Summary Information").Item("Revision Number").Value
-
-        'Change values located here to change output.
-        Dim oDXFfileNAME As String
-        Dim strPath As String
-        strPath = "C:\Inventor_tst\"  'Must end with a "\"
-        oDXFfileNAME = strPath & strPartNum & "-Rev" & strRev & ".dxf"
-
-        Dim sOut As String
-        sOut = "FLAT PATTERN DXF?AcadVersion=2000" _
-    + "&OuterProfileLayer=OUTER_PROF&OuterProfileLayerColor=0;0;0" _
-    + "&InteriorProfilesLayer=INNER_PROFS&InteriorProfilesLayerColor=0;0;0" _
-    + "&FeatureProfileLayer=FEATURE&FeatureProfileLayerColor=0;0;0" _
-    + "&BendUpLayer=BEND_UP&BendUpLayerColor=0;255;0&BendUpLayerLineType=37634" _
-    + "&BendDownLayer=BEND_DOWN&BendDownLayerColor=0;255;0&BendDownLayerLineType=37634"
-
-        Call oDataIO.WriteDataToFile(sOut, oDXFfileNAME)
-        'MessageBox.Show("Dxf file is written to work directory")
     End Sub
     Private Sub Embossed_text(ByVal path As String)
         'https://forums.autodesk.com/t5/inventor-customization/embossed-text/m-p/5668061#M56484
 
         'Dim invApp As Inventor.Application
         'invApp = Marshal.GetActiveObject("Inventor.Application")
+        'invApp.SilentOperation = vbTrue
 
         'Dim oPartDoc As Inventor.Document
         'oPartDoc = invApp.Documents.Open(path, False)
@@ -889,6 +904,7 @@ Public Class Form1
                 Next
             End If
         End If
+        DataGridView4.AutoResizeColumns()
     End Sub
 
     Private Sub Button15_Click(sender As Object, e As EventArgs) Handles Button15.Click
@@ -926,19 +942,23 @@ Public Class Form1
     Private Sub Button16_Click(sender As Object, e As EventArgs) Handles Button16.Click
         Inventor_running()
         Button16.BackColor = System.Drawing.Color.Green
-        DataGridView1.ClearSelection()
 
-        Dim fileEntries As String() = Directory.GetFiles(TextBox5.Text)
-        ' Process the list of files found in the directory.
-        Dim fileName As String
-        Dim ext As String
-        For Each fileName In fileEntries
-            ext = IO.Path.GetExtension(fileName)
-            If ext = ".ipt" Then
-                ExportSketchDXF2(fileName)
-            End If
-        Next fileName
-        DataGridView1.AutoResizeColumns()
+        If IO.Directory.Exists(TextBox5.Text) Then ' This pathfile is a file.
+            Dim fileEntries As String() = Directory.GetFiles(TextBox5.Text)
+            ' Process the list of files found in the directory.
+            DataGridView1.ClearSelection()
+            Dim fileName As String
+            Dim ext As String
+            For Each fileName In fileEntries
+                ext = IO.Path.GetExtension(fileName)
+                If ext = ".ipt" Then
+                    ExportSketchDXF2(fileName)
+                End If
+            Next fileName
+            DataGridView1.AutoResizeColumns()
+        Else
+            MessageBox.Show("Directory does not exist")
+        End If
         Button16.BackColor = System.Drawing.Color.Transparent
     End Sub
 End Class

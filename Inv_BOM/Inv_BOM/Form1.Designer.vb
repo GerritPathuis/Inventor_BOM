@@ -108,6 +108,7 @@ Partial Class Form1
         Me.DataGridViewTextBoxColumn10 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.TabPage5 = New System.Windows.Forms.TabPage()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
+        Me.Button16 = New System.Windows.Forms.Button()
         Me.Button17 = New System.Windows.Forms.Button()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.TextBox2 = New System.Windows.Forms.TextBox()
@@ -137,7 +138,6 @@ Partial Class Form1
         Me.DataGridViewTextBoxColumn15 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
-        Me.Button16 = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.TabPage6.SuspendLayout()
         Me.GroupBox8.SuspendLayout()
@@ -976,10 +976,19 @@ Partial Class Form1
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Extract dxf from sheetmetal.IPT"
         '
+        'Button16
+        '
+        Me.Button16.Location = New System.Drawing.Point(95, 59)
+        Me.Button16.Name = "Button16"
+        Me.Button16.Size = New System.Drawing.Size(233, 35)
+        Me.Button16.TabIndex = 26
+        Me.Button16.Text = "Extract dxf's from directory"
+        Me.Button16.UseVisualStyleBackColor = True
+        '
         'Button17
         '
         Me.Button17.BackColor = System.Drawing.Color.Yellow
-        Me.Button17.Location = New System.Drawing.Point(134, 162)
+        Me.Button17.Location = New System.Drawing.Point(95, 162)
         Me.Button17.Name = "Button17"
         Me.Button17.Size = New System.Drawing.Size(233, 25)
         Me.Button17.TabIndex = 25
@@ -989,7 +998,7 @@ Partial Class Form1
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(17, 139)
+        Me.Label6.Location = New System.Drawing.Point(12, 139)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(44, 13)
         Me.Label6.TabIndex = 23
@@ -998,7 +1007,7 @@ Partial Class Form1
         'TextBox2
         '
         Me.TextBox2.Enabled = False
-        Me.TextBox2.Location = New System.Drawing.Point(134, 136)
+        Me.TextBox2.Location = New System.Drawing.Point(95, 136)
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.Size = New System.Drawing.Size(233, 20)
         Me.TextBox2.TabIndex = 22
@@ -1007,7 +1016,7 @@ Partial Class Form1
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(17, 36)
+        Me.Label5.Location = New System.Drawing.Point(12, 36)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(76, 13)
         Me.Label5.TabIndex = 21
@@ -1017,16 +1026,15 @@ Partial Class Form1
         'TextBox5
         '
         Me.TextBox5.Enabled = False
-        Me.TextBox5.Location = New System.Drawing.Point(134, 33)
+        Me.TextBox5.Location = New System.Drawing.Point(95, 33)
         Me.TextBox5.Name = "TextBox5"
-        Me.TextBox5.Size = New System.Drawing.Size(233, 20)
+        Me.TextBox5.Size = New System.Drawing.Size(419, 20)
         Me.TextBox5.TabIndex = 20
         Me.TextBox5.Text = "C:\Inventor test files\Test2"
-        Me.TextBox5.Visible = False
         '
         'Button6
         '
-        Me.Button6.Location = New System.Drawing.Point(134, 193)
+        Me.Button6.Location = New System.Drawing.Point(95, 193)
         Me.Button6.Name = "Button6"
         Me.Button6.Size = New System.Drawing.Size(233, 45)
         Me.Button6.TabIndex = 0
@@ -1237,15 +1245,6 @@ Partial Class Form1
         '
         Me.DataGridViewTextBoxColumn15.HeaderText = "Column5"
         Me.DataGridViewTextBoxColumn15.Name = "DataGridViewTextBoxColumn15"
-        '
-        'Button16
-        '
-        Me.Button16.Location = New System.Drawing.Point(134, 59)
-        Me.Button16.Name = "Button16"
-        Me.Button16.Size = New System.Drawing.Size(233, 35)
-        Me.Button16.TabIndex = 26
-        Me.Button16.Text = "Extract dxf's from directory"
-        Me.Button16.UseVisualStyleBackColor = True
         '
         'Form1
         '

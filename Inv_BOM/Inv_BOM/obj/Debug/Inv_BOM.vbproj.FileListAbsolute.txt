@@ -13,9 +13,6 @@ C:\Repos\Inventor_BOM\Inv_BOM\Inv_BOM\obj\Debug\Inv_BOM.pdb
 C:\Repos\Inventor_BOM\Inv_BOM\Inv_BOM\obj\Debug\Interop.InventorApprentice.dll
 C:\Repos\Inventor_BOM\Inv_BOM\Inv_BOM\obj\Debug\Interop.InventorUtilities.dll
 C:\Repos\Inventor_BOM\Inv_BOM\Inv_BOM\obj\Debug\Inv_BOM.vbproj.ResolveComReference.cache
-C:\Repos\Inventor_BOM\Inventor_BOM\Inv_BOM\Inv_BOM\obj\Debug\Inv_BOM.vbprojResolveAssemblyReference.cache
-C:\Repos\Inventor_BOM\Inventor_BOM\Inv_BOM\Inv_BOM\obj\Debug\Interop.InventorApprentice.dll
-C:\Repos\Inventor_BOM\Inventor_BOM\Inv_BOM\Inv_BOM\obj\Debug\Interop.InventorUtilities.dll
 C:\Repos\Inventor_BOM\Inventor_BOM\Inv_BOM\Inv_BOM\obj\Debug\Inv_BOM.vbproj.ResolveComReference.cache
 C:\Repos\Inventor_BOM\Inventor_BOM\Inv_BOM\Inv_BOM\obj\Debug\Inv_BOM.Form1.resources
 C:\Repos\Inventor_BOM\Inventor_BOM\Inv_BOM\Inv_BOM\obj\Debug\Inv_BOM.Resources.resources
@@ -51,3 +48,4 @@ C:\Repositories\Inventor_BOM\Inv_BOM\Inv_BOM\bin\Debug\Inv_BOM.application
 C:\Repositories\Inventor_BOM\Inv_BOM\Inv_BOM\obj\Debug\Inv_BOM.exe.manifest
 C:\Repositories\Inventor_BOM\Inv_BOM\Inv_BOM\obj\Debug\Inv_BOM.application
 C:\Repositories\Inventor_BOM\Inv_BOM\Inv_BOM\obj\Debug\Inv_BOM.vbprojAssemblyReference.cache
+C:\Repos\Inventor_BOM\Inventor_BOM\Inv_BOM\Inv_BOM\obj\Debug\Inv_BOM.vbprojAssemblyReference.cache
