@@ -711,18 +711,16 @@ Public Class Form1
         ExportSketchDXF2(TextBox2.Text)
     End Sub
 
-    Public Sub ExportSketchDXF2(ByVal path As String)
+    Public Sub ExportSketchDXF2(ByVal file_path As String)
         'https://forums.autodesk.com/t5/inventor-customization/flat-pattern-to-dxf/m-p/7033961#M71803
         'https://knowledge.autodesk.com/search-result/caas/CloudHelp/cloudhelp/2018/ENU/Inventor-API/files/WriteFlatPatternAsDXF-Sample-htm.html
         Dim invApp As Inventor.Application
         invApp = Marshal.GetActiveObject("Inventor.Application")
         invApp.SilentOperation = vbTrue
 
-        If IO.File.Exists(path) Then ' This pathfile is a file.
-
-
+        If IO.File.Exists(file_path) Then ' This pathfile is a file.
             Dim oPartDoc As Inventor.Document
-            oPartDoc = invApp.Documents.Open(path, False)
+            oPartDoc = invApp.Documents.Open(file_path, False)
 
             Dim oFlatPattern As FlatPattern
 
@@ -747,20 +745,35 @@ Public Class Form1
             Dim oDataIO As DataIO
             oDataIO = oPartDoc.ComponentDefinition.DataIO
 
-            Dim strPartNum As String
-            strPartNum = oPartDoc.PropertySets("Design Tracking Properties").Item("Part Number").Value
+            'Dim strPartNum As String
+            'strPartNum = oPartDoc.PropertySets("Design Tracking Properties").Item("Part Number").Value
+            'Dim strRev As String
+            'strRev = oPartDoc.PropertySets("Inventor Summary Information").Item("Revision Number").Value
 
-            Dim strRev As String
-            strRev = oPartDoc.PropertySets("Inventor Summary Information").Item("Revision Number").Value
 
-            Dim artikel As String
-            artikel = oPartDoc.PropertySets("Inventor User Defined Properties").Item("ITEM_NR").Value
+            '============= Check to see if the specified property exists.
+            'http://modthemachine.typepad.com/my_weblog/2010/02/custom-iproperties.html
+            'https://forums.windowssecrets.com/showthread.php/13785-Existing-CustomDocumentProperties-(VBA-Word)
+            'https://www.office-forums.com/threads/how-can-i-check-to-see-if-a-customdocumentproperties-exists.1865599/
 
-            'Change values located here to change output.
+            Dim artikel As String = ""
+            Dim customPropSet As PropertySet
+            customPropSet = oPartDoc.PropertySets.Item("Inventor User Defined Properties")
+
+            For Each prop In customPropSet
+                If prop.Name = "ITEM_NR" Then
+                    If prop.Value = Not Nothing Then
+                        artikel = oPartDoc.PropertySets("Inventor User Defined Properties").Item("ITEM_NR").Value
+                    Else
+                        artikel = "Axxx"
+                    End If
+                End If
+            Next prop
+
             Dim oDXFfileNAME As String
             Dim strPath As String
             strPath = TextBox5.Text & "\"  'Must end with a "\"
-            oDXFfileNAME = strPath & artikel & "_" & strPartNum & "Rev" & strRev & ".dxf"
+            oDXFfileNAME = strPath & TextBox31.Text & "_" & TextBox33.Text & "_" & artikel & "_" & ".dxf"
 
             Dim sOut As String
             sOut = "FLAT PATTERN DXF?AcadVersion=R12" _
@@ -771,11 +784,13 @@ Public Class Form1
         + "&BendDownLayer=BEND_DOWN&BendDownLayerColor=0;255;0&BendDownLayerLineType=37634"
 
             oDataIO.WriteDataToFile(sOut, oDXFfileNAME)
-            MessageBox.Show("Dxf file is written to work directory")
+            If Not CheckBox2.Checked Then MessageBox.Show("Dxf file is written to work directory")
         Else
             MessageBox.Show("File does noet exist")
         End If
     End Sub
+
+
     Private Sub Embossed_text(ByVal path As String)
         'https://forums.autodesk.com/t5/inventor-customization/embossed-text/m-p/5668061#M56484
 
@@ -961,6 +976,7 @@ Public Class Form1
         End If
         Button16.BackColor = System.Drawing.Color.Transparent
     End Sub
+
 End Class
 
 
