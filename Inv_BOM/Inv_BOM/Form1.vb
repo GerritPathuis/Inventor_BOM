@@ -67,6 +67,7 @@ Public Class Form1
         DataGridView4.Columns(1).HeaderText = "D_no"
         DataGridView4.Columns(2).HeaderText = "A_no"
 
+        TextBox2.Text = filepath2
         TextBox5.Text = filepath2
         TextBox6.Text = filepath2
         TextBox7.Text = filepath2
@@ -126,7 +127,7 @@ Public Class Form1
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
         Inventor_running()
-        Button3.BackColor = System.Drawing.Color.Green
+        Button3.BackColor = System.Drawing.Color.LightGreen
         DataGridView1.ClearSelection()
         G1_row_cnt = 0
         Qbom(filepath1)
@@ -271,7 +272,7 @@ Public Class Form1
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
         Inventor_running()
-        Button4.BackColor = System.Drawing.Color.Green
+        Button4.BackColor = System.Drawing.Color.LightGreen
         SaveFileDialog1.Title = "Please Select a File"
         SaveFileDialog1.InitialDirectory = filepath3
         SaveFileDialog1.FileName = "_BOM" & "_" & TextBox3.Text & "_" & TextBox4.Text & ".xls"
@@ -509,10 +510,12 @@ Public Class Form1
             End If
         End If
     End Sub
-
     Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
+        Find_IDW()
+    End Sub
+    Private Sub Find_IDW()
         Inventor_running()
-        Button9.BackColor = System.Drawing.Color.Green
+        Button9.BackColor = System.Drawing.Color.LightGreen
         row_counter = -2   'Reset counter
 
         'Select work directory
@@ -531,6 +534,7 @@ Public Class Form1
         End If
         Button9.BackColor = System.Drawing.Color.Transparent
     End Sub
+
     ' Process all files in the directory passed in, recurse on any directories 
     ' that are found, and process the files they contain.
 
@@ -564,6 +568,7 @@ Public Class Form1
         Inventor_running()
         FolderBrowserDialog1.SelectedPath = TextBox6.Text
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
+            TextBox2.Text = FolderBrowserDialog1.SelectedPath
             TextBox5.Text = FolderBrowserDialog1.SelectedPath
             TextBox6.Text = FolderBrowserDialog1.SelectedPath
             TextBox7.Text = FolderBrowserDialog1.SelectedPath
@@ -574,7 +579,7 @@ Public Class Form1
 
     Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
         Inventor_running()
-        Button7.BackColor = System.Drawing.Color.Green
+        Button7.BackColor = System.Drawing.Color.LightGreen
         SaveFileDialog1.Title = "Please Select a File"
         SaveFileDialog1.InitialDirectory = TextBox6.Text
         SaveFileDialog1.FileName = "_Title_Blocks" & ".xls"
@@ -585,7 +590,7 @@ Public Class Form1
 
     Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
         Inventor_running()
-        Button8.BackColor = System.Drawing.Color.Green
+        Button8.BackColor = System.Drawing.Color.LightGreen
         Dim cnt As Integer = 0   'Reset counter
         Dim fext As String = ".dxf"
         Dim extension As String
@@ -652,7 +657,7 @@ Public Class Form1
 
     Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
         Inventor_running()
-        Button11.BackColor = System.Drawing.Color.Green
+        Button11.BackColor = System.Drawing.Color.LightGreen
         SaveFileDialog1.Title = "Please Select a File"
         SaveFileDialog1.InitialDirectory = TextBox7.Text
         SaveFileDialog1.FileName = "_DXF_list" & ".xls"
@@ -663,7 +668,7 @@ Public Class Form1
 
     Private Sub Button12_Click(sender As Object, e As EventArgs) Handles Button12.Click
         Inventor_running()
-        Button12.BackColor = System.Drawing.Color.Green
+        Button12.BackColor = System.Drawing.Color.LightGreen
         DataGridView1.ClearSelection()
 
         Dim fileEntries As String() = Directory.GetFiles(TextBox8.Text)
@@ -926,8 +931,11 @@ Public Class Form1
     End Sub
 
     Private Sub Button16_Click(sender As Object, e As EventArgs) Handles Button16.Click
+        Make_dxf()
+    End Sub
+    Private Sub Make_dxf()
         Inventor_running()
-        Button16.BackColor = System.Drawing.Color.Green
+        Button16.BackColor = System.Drawing.Color.LightGreen
 
         If IO.Directory.Exists(TextBox5.Text) Then ' This pathfile is a file.
             Dim fileEntries As String() = Directory.GetFiles(TextBox5.Text)
@@ -948,6 +956,24 @@ Public Class Form1
         Button16.BackColor = System.Drawing.Color.Transparent
     End Sub
 
+    Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
+        Button6.BackColor = System.Drawing.Color.LightGreen
+        Find_IDW()
+        Button6.BackColor = System.Drawing.Color.Transparent
+    End Sub
+
+    Private Sub Button17_Click(sender As Object, e As EventArgs) Handles Button17.Click
+        Button17.BackColor = System.Drawing.Color.LightGreen
+        Make_dxf()
+        Button17.BackColor = System.Drawing.Color.Transparent
+    End Sub
+
+    Private Sub Button18_Click(sender As Object, e As EventArgs) Handles Button18.Click
+        'Combine the information
+        Button18.BackColor = System.Drawing.Color.LightGreen
+
+        Button18.BackColor = System.Drawing.Color.Transparent
+    End Sub
 End Class
 
 
