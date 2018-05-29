@@ -108,18 +108,15 @@ Partial Class Form1
         Me.DataGridViewTextBoxColumn10 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.TabPage5 = New System.Windows.Forms.TabPage()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
+        Me.Label12 = New System.Windows.Forms.Label()
         Me.TextBox33 = New System.Windows.Forms.TextBox()
         Me.TextBox31 = New System.Windows.Forms.TextBox()
         Me.Label11 = New System.Windows.Forms.Label()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.CheckBox2 = New System.Windows.Forms.CheckBox()
         Me.Button16 = New System.Windows.Forms.Button()
-        Me.Button17 = New System.Windows.Forms.Button()
-        Me.Label6 = New System.Windows.Forms.Label()
-        Me.TextBox2 = New System.Windows.Forms.TextBox()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.TextBox5 = New System.Windows.Forms.TextBox()
-        Me.Button6 = New System.Windows.Forms.Button()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.SplitContainer4 = New System.Windows.Forms.SplitContainer()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
@@ -143,7 +140,6 @@ Partial Class Form1
         Me.DataGridViewTextBoxColumn15 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
-        Me.Label12 = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.TabPage6.SuspendLayout()
         Me.GroupBox8.SuspendLayout()
@@ -975,18 +971,24 @@ Partial Class Form1
         Me.GroupBox4.Controls.Add(Me.Label10)
         Me.GroupBox4.Controls.Add(Me.CheckBox2)
         Me.GroupBox4.Controls.Add(Me.Button16)
-        Me.GroupBox4.Controls.Add(Me.Button17)
-        Me.GroupBox4.Controls.Add(Me.Label6)
-        Me.GroupBox4.Controls.Add(Me.TextBox2)
         Me.GroupBox4.Controls.Add(Me.Label5)
         Me.GroupBox4.Controls.Add(Me.TextBox5)
-        Me.GroupBox4.Controls.Add(Me.Button6)
         Me.GroupBox4.Location = New System.Drawing.Point(20, 34)
         Me.GroupBox4.Name = "GroupBox4"
         Me.GroupBox4.Size = New System.Drawing.Size(585, 377)
         Me.GroupBox4.TabIndex = 21
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Extract dxf from sheetmetal IPT's"
+        '
+        'Label12
+        '
+        Me.Label12.AutoSize = True
+        Me.Label12.Location = New System.Drawing.Point(12, 346)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(211, 13)
+        Me.Label12.TabIndex = 32
+        Me.Label12.Text = "Voorbeeld: P17.1117_T6000_A00123.DXF"
+        Me.Label12.Visible = False
         '
         'TextBox33
         '
@@ -1045,34 +1047,6 @@ Partial Class Form1
         Me.Button16.Text = "Extract dxf's from directory"
         Me.Button16.UseVisualStyleBackColor = True
         '
-        'Button17
-        '
-        Me.Button17.BackColor = System.Drawing.Color.Yellow
-        Me.Button17.Location = New System.Drawing.Point(94, 219)
-        Me.Button17.Name = "Button17"
-        Me.Button17.Size = New System.Drawing.Size(233, 25)
-        Me.Button17.TabIndex = 25
-        Me.Button17.Text = "Select IPT file (Inventor part)"
-        Me.Button17.UseVisualStyleBackColor = False
-        '
-        'Label6
-        '
-        Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(11, 196)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(44, 13)
-        Me.Label6.TabIndex = 23
-        Me.Label6.Text = "Test file"
-        '
-        'TextBox2
-        '
-        Me.TextBox2.Enabled = False
-        Me.TextBox2.Location = New System.Drawing.Point(94, 193)
-        Me.TextBox2.Name = "TextBox2"
-        Me.TextBox2.Size = New System.Drawing.Size(233, 20)
-        Me.TextBox2.TabIndex = 22
-        Me.TextBox2.Text = "C:\Inventor_tst\sheetmetal_part.ipt"
-        '
         'Label5
         '
         Me.Label5.AutoSize = True
@@ -1091,15 +1065,6 @@ Partial Class Form1
         Me.TextBox5.Size = New System.Drawing.Size(419, 20)
         Me.TextBox5.TabIndex = 20
         Me.TextBox5.Text = "C:\Inventor test files\Test2"
-        '
-        'Button6
-        '
-        Me.Button6.Location = New System.Drawing.Point(94, 250)
-        Me.Button6.Name = "Button6"
-        Me.Button6.Size = New System.Drawing.Size(233, 45)
-        Me.Button6.TabIndex = 0
-        Me.Button6.Text = "Extract dxf from test file"
-        Me.Button6.UseVisualStyleBackColor = True
         '
         'TabPage1
         '
@@ -1306,16 +1271,6 @@ Partial Class Form1
         Me.DataGridViewTextBoxColumn15.HeaderText = "Column5"
         Me.DataGridViewTextBoxColumn15.Name = "DataGridViewTextBoxColumn15"
         '
-        'Label12
-        '
-        Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(12, 346)
-        Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(211, 13)
-        Me.Label12.TabIndex = 32
-        Me.Label12.Text = "Voorbeeld: P17.1117_T6000_A00123.DXF"
-        Me.Label12.Visible = False
-        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1429,7 +1384,6 @@ Partial Class Form1
     Friend WithEvents Button4 As Button
     Friend WithEvents GroupBox5 As GroupBox
     Friend WithEvents TabPage5 As TabPage
-    Friend WithEvents Button6 As Button
     Friend WithEvents TextBox5 As TextBox
     Friend WithEvents GroupBox6 As GroupBox
     Friend WithEvents RadioButton8 As RadioButton
@@ -1458,8 +1412,6 @@ Partial Class Form1
     Friend WithEvents SplitContainer4 As SplitContainer
     Friend WithEvents GroupBox4 As GroupBox
     Friend WithEvents Label5 As Label
-    Friend WithEvents Label6 As Label
-    Friend WithEvents TextBox2 As TextBox
     Friend WithEvents Label7 As Label
     Friend WithEvents GroupBox8 As GroupBox
     Friend WithEvents TextBox19 As TextBox
@@ -1473,7 +1425,6 @@ Partial Class Form1
     Friend WithEvents TextBox12 As TextBox
     Friend WithEvents TextBox11 As TextBox
     Friend WithEvents TextBox10 As TextBox
-    Friend WithEvents Button17 As Button
     Friend WithEvents TextBox23 As TextBox
     Friend WithEvents TextBox24 As TextBox
     Friend WithEvents TextBox25 As TextBox

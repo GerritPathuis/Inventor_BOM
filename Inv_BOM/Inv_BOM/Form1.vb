@@ -706,10 +706,7 @@ Public Class Form1
             End If
         Next oRefDoc
     End Sub
-    Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
-        Inventor_running()
-        ExportSketchDXF2(TextBox2.Text)
-    End Sub
+
 
     Public Sub ExportSketchDXF2(ByVal file_path As String)
         'https://forums.autodesk.com/t5/inventor-customization/flat-pattern-to-dxf/m-p/7033961#M71803
@@ -726,16 +723,16 @@ Public Class Form1
 
             'Pre-processing check: The Active document must be a Sheet metal Part with a flat pattern
             If oPartDoc.DocumentType <> DocumentTypeEnum.kPartDocumentObject Then
-                MessageBox.Show("The Active document must be a 'Part'")
+                If Not CheckBox2.Checked Then MessageBox.Show("The Active document must be a 'Part'")
                 Exit Sub
             Else
                 If oPartDoc.SubType <> "{9C464203-9BAE-11D3-8BAD-0060B0CE6BB4}" Then
-                    MessageBox.Show("The Active document must be a 'Sheet Metal Part'")
+                    If Not CheckBox2.Checked Then MessageBox.Show("The Active document must be a 'Sheet Metal Part'")
                     Exit Sub
                 Else
                     oFlatPattern = oPartDoc.ComponentDefinition.FlatPattern
                     If oFlatPattern Is Nothing Then
-                        MessageBox.Show("IPT does NOT contain a flat pattern")
+                        If Not CheckBox2.Checked Then MessageBox.Show("IPT does NOT contain a flat pattern")
                         Exit Sub
                     End If
                 End If
@@ -762,7 +759,7 @@ Public Class Form1
 
             For Each prop In customPropSet
                 If prop.Name = "ITEM_NR" Then
-                    If prop.Value = Not Nothing Then
+                    If prop.ToString.Length > 0 Then
                         artikel = oPartDoc.PropertySets("Inventor User Defined Properties").Item("ITEM_NR").Value
                     Else
                         artikel = "Axxx"
@@ -773,7 +770,7 @@ Public Class Form1
             Dim oDXFfileNAME As String
             Dim strPath As String
             strPath = TextBox5.Text & "\"  'Must end with a "\"
-            oDXFfileNAME = strPath & TextBox31.Text & "_" & TextBox33.Text & "_" & artikel & "_" & ".dxf"
+            oDXFfileNAME = strPath & TextBox31.Text & "_" & TextBox33.Text & "_" & artikel & ".dxf"
 
             Dim sOut As String
             sOut = "FLAT PATTERN DXF?AcadVersion=R12" _
@@ -926,32 +923,6 @@ Public Class Form1
         Inventor_running()
         DataGridView2.Rows.Clear()
         DataGridView2.RowCount = 1000
-    End Sub
-
-    Private Sub Button17_Click(sender As Object, e As EventArgs) Handles Button17.Click
-        Inventor_running()
-        Dim openFileDialog1 As New OpenFileDialog With {
-               .InitialDirectory = "c:\Inventor test files\",
-               .Filter = "Part File (*.ipt)|*.ipt" _
-               & "|Assembly File (*.iam)|*.iam" _
-               & "|Presentation File (*.ipn)|*.ipn" _
-               & "|Drawing File (*.idw)|*.idw" _
-               & "|Drawing File (*.dwg)|*.dwg" _
-               & "|Design element File (*.ide)|*.ide" _
-               & "|Sheet matal File (*.dxf)|*.dxf",
-               .FilterIndex = 0,                ' *.ipt files
-               .RestoreDirectory = True
-           }
-
-        If openFileDialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-            Try
-                filepath1 = openFileDialog1.FileName
-                TextBox2.Text = filepath1.ToString
-            Catch Ex As Exception
-                MessageBox.Show("Cannot read file from disk. Original error: " & Ex.Message)
-            Finally
-            End Try
-        End If
     End Sub
 
     Private Sub Button16_Click(sender As Object, e As EventArgs) Handles Button16.Click
