@@ -107,7 +107,14 @@ Partial Class Form1
         Me.DataGridViewTextBoxColumn9 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn10 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.TabPage5 = New System.Windows.Forms.TabPage()
+        Me.DataGridView5 = New System.Windows.Forms.DataGridView()
+        Me.DataGridViewTextBoxColumn16 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn17 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn18 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn19 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn20 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
+        Me.Button19 = New System.Windows.Forms.Button()
         Me.Label13 = New System.Windows.Forms.Label()
         Me.TextBox34 = New System.Windows.Forms.TextBox()
         Me.Label12 = New System.Windows.Forms.Label()
@@ -140,15 +147,6 @@ Partial Class Form1
         Me.DataGridViewTextBoxColumn13 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn14 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn15 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TabPage7 = New System.Windows.Forms.TabPage()
-        Me.TextBox2 = New System.Windows.Forms.TextBox()
-        Me.Label6 = New System.Windows.Forms.Label()
-        Me.GroupBox13 = New System.Windows.Forms.GroupBox()
-        Me.Button18 = New System.Windows.Forms.Button()
-        Me.GroupBox12 = New System.Windows.Forms.GroupBox()
-        Me.Button17 = New System.Windows.Forms.Button()
-        Me.GroupBox11 = New System.Windows.Forms.GroupBox()
-        Me.Button6 = New System.Windows.Forms.Button()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.TabControl1.SuspendLayout()
@@ -178,6 +176,7 @@ Partial Class Form1
         Me.GroupBox6.SuspendLayout()
         CType(Me.DataGridView3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage5.SuspendLayout()
+        CType(Me.DataGridView5, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox4.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         CType(Me.SplitContainer4, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -188,10 +187,6 @@ Partial Class Form1
         Me.GroupBox3.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         CType(Me.DataGridView4, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.TabPage7.SuspendLayout()
-        Me.GroupBox13.SuspendLayout()
-        Me.GroupBox12.SuspendLayout()
-        Me.GroupBox11.SuspendLayout()
         Me.SuspendLayout()
         '
         'TextBox1
@@ -239,7 +234,6 @@ Partial Class Form1
         Me.TabControl1.Controls.Add(Me.TabPage4)
         Me.TabControl1.Controls.Add(Me.TabPage5)
         Me.TabControl1.Controls.Add(Me.TabPage1)
-        Me.TabControl1.Controls.Add(Me.TabPage7)
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TabControl1.Location = New System.Drawing.Point(0, 0)
         Me.TabControl1.Name = "TabControl1"
@@ -969,6 +963,7 @@ Partial Class Form1
         '
         'TabPage5
         '
+        Me.TabPage5.Controls.Add(Me.DataGridView5)
         Me.TabPage5.Controls.Add(Me.GroupBox4)
         Me.TabPage5.Location = New System.Drawing.Point(4, 22)
         Me.TabPage5.Name = "TabPage5"
@@ -978,8 +973,44 @@ Partial Class Form1
         Me.TabPage5.Text = "Extract DXF from IPT"
         Me.TabPage5.UseVisualStyleBackColor = True
         '
+        'DataGridView5
+        '
+        Me.DataGridView5.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView5.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.DataGridViewTextBoxColumn16, Me.DataGridViewTextBoxColumn17, Me.DataGridViewTextBoxColumn18, Me.DataGridViewTextBoxColumn19, Me.DataGridViewTextBoxColumn20})
+        Me.DataGridView5.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DataGridView5.Location = New System.Drawing.Point(3, 161)
+        Me.DataGridView5.Name = "DataGridView5"
+        Me.DataGridView5.Size = New System.Drawing.Size(633, 309)
+        Me.DataGridView5.TabIndex = 22
+        '
+        'DataGridViewTextBoxColumn16
+        '
+        Me.DataGridViewTextBoxColumn16.HeaderText = "Column1"
+        Me.DataGridViewTextBoxColumn16.Name = "DataGridViewTextBoxColumn16"
+        '
+        'DataGridViewTextBoxColumn17
+        '
+        Me.DataGridViewTextBoxColumn17.HeaderText = "Column2"
+        Me.DataGridViewTextBoxColumn17.Name = "DataGridViewTextBoxColumn17"
+        '
+        'DataGridViewTextBoxColumn18
+        '
+        Me.DataGridViewTextBoxColumn18.HeaderText = "Column3"
+        Me.DataGridViewTextBoxColumn18.Name = "DataGridViewTextBoxColumn18"
+        '
+        'DataGridViewTextBoxColumn19
+        '
+        Me.DataGridViewTextBoxColumn19.HeaderText = "Column4"
+        Me.DataGridViewTextBoxColumn19.Name = "DataGridViewTextBoxColumn19"
+        '
+        'DataGridViewTextBoxColumn20
+        '
+        Me.DataGridViewTextBoxColumn20.HeaderText = "Column5"
+        Me.DataGridViewTextBoxColumn20.Name = "DataGridViewTextBoxColumn20"
+        '
         'GroupBox4
         '
+        Me.GroupBox4.Controls.Add(Me.Button19)
         Me.GroupBox4.Controls.Add(Me.Label13)
         Me.GroupBox4.Controls.Add(Me.TextBox34)
         Me.GroupBox4.Controls.Add(Me.Label12)
@@ -991,12 +1022,24 @@ Partial Class Form1
         Me.GroupBox4.Controls.Add(Me.Button16)
         Me.GroupBox4.Controls.Add(Me.Label5)
         Me.GroupBox4.Controls.Add(Me.TextBox5)
-        Me.GroupBox4.Location = New System.Drawing.Point(20, 34)
+        Me.GroupBox4.Dock = System.Windows.Forms.DockStyle.Top
+        Me.GroupBox4.Location = New System.Drawing.Point(3, 3)
         Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(585, 377)
+        Me.GroupBox4.Size = New System.Drawing.Size(633, 158)
         Me.GroupBox4.TabIndex = 21
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Extract dxf from sheetmetal IPT's"
+        '
+        'Button19
+        '
+        Me.Button19.BackColor = System.Drawing.Color.Aqua
+        Me.Button19.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button19.Location = New System.Drawing.Point(485, 16)
+        Me.Button19.Name = "Button19"
+        Me.Button19.Size = New System.Drawing.Size(132, 34)
+        Me.Button19.TabIndex = 35
+        Me.Button19.Text = "WVB"
+        Me.Button19.UseVisualStyleBackColor = False
         '
         'Label13
         '
@@ -1013,14 +1056,14 @@ Partial Class Form1
         Me.TextBox34.Enabled = False
         Me.TextBox34.Location = New System.Drawing.Point(94, 116)
         Me.TextBox34.Name = "TextBox34"
-        Me.TextBox34.Size = New System.Drawing.Size(419, 20)
+        Me.TextBox34.Size = New System.Drawing.Size(160, 20)
         Me.TextBox34.TabIndex = 33
         Me.TextBox34.Text = "N:\CAD"
         '
         'Label12
         '
         Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(12, 346)
+        Me.Label12.Location = New System.Drawing.Point(291, 111)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(211, 13)
         Me.Label12.TabIndex = 32
@@ -1068,7 +1111,7 @@ Partial Class Form1
         Me.CheckBox2.AutoSize = True
         Me.CheckBox2.Checked = True
         Me.CheckBox2.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox2.Location = New System.Drawing.Point(14, 324)
+        Me.CheckBox2.Location = New System.Drawing.Point(293, 89)
         Me.CheckBox2.Name = "CheckBox2"
         Me.CheckBox2.Size = New System.Drawing.Size(99, 17)
         Me.CheckBox2.TabIndex = 27
@@ -1077,9 +1120,9 @@ Partial Class Form1
         '
         'Button16
         '
-        Me.Button16.Location = New System.Drawing.Point(94, 152)
+        Me.Button16.Location = New System.Drawing.Point(293, 16)
         Me.Button16.Name = "Button16"
-        Me.Button16.Size = New System.Drawing.Size(233, 35)
+        Me.Button16.Size = New System.Drawing.Size(177, 35)
         Me.Button16.TabIndex = 26
         Me.Button16.Text = "Extract dxf's from work directory"
         Me.Button16.UseVisualStyleBackColor = True
@@ -1099,7 +1142,7 @@ Partial Class Form1
         Me.TextBox5.Enabled = False
         Me.TextBox5.Location = New System.Drawing.Point(94, 90)
         Me.TextBox5.Name = "TextBox5"
-        Me.TextBox5.Size = New System.Drawing.Size(419, 20)
+        Me.TextBox5.Size = New System.Drawing.Size(160, 20)
         Me.TextBox5.TabIndex = 20
         Me.TextBox5.Text = "C:\Inventor test files\Test2"
         '
@@ -1308,96 +1351,6 @@ Partial Class Form1
         Me.DataGridViewTextBoxColumn15.HeaderText = "Column5"
         Me.DataGridViewTextBoxColumn15.Name = "DataGridViewTextBoxColumn15"
         '
-        'TabPage7
-        '
-        Me.TabPage7.Controls.Add(Me.TextBox2)
-        Me.TabPage7.Controls.Add(Me.Label6)
-        Me.TabPage7.Controls.Add(Me.GroupBox13)
-        Me.TabPage7.Controls.Add(Me.GroupBox12)
-        Me.TabPage7.Controls.Add(Me.GroupBox11)
-        Me.TabPage7.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage7.Name = "TabPage7"
-        Me.TabPage7.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage7.Size = New System.Drawing.Size(639, 473)
-        Me.TabPage7.TabIndex = 6
-        Me.TabPage7.Text = "COMBINED"
-        Me.TabPage7.UseVisualStyleBackColor = True
-        '
-        'TextBox2
-        '
-        Me.TextBox2.Enabled = False
-        Me.TextBox2.Location = New System.Drawing.Point(113, 18)
-        Me.TextBox2.Name = "TextBox2"
-        Me.TextBox2.Size = New System.Drawing.Size(307, 20)
-        Me.TextBox2.TabIndex = 18
-        Me.TextBox2.Text = "C:\Inventor test files\Test2"
-        '
-        'Label6
-        '
-        Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(28, 21)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(76, 13)
-        Me.Label6.TabIndex = 19
-        Me.Label6.Text = "Work directory"
-        '
-        'GroupBox13
-        '
-        Me.GroupBox13.Controls.Add(Me.Button18)
-        Me.GroupBox13.Location = New System.Drawing.Point(26, 287)
-        Me.GroupBox13.Name = "GroupBox13"
-        Me.GroupBox13.Size = New System.Drawing.Size(321, 137)
-        Me.GroupBox13.TabIndex = 2
-        Me.GroupBox13.TabStop = False
-        Me.GroupBox13.Text = "Combine"
-        '
-        'Button18
-        '
-        Me.Button18.Location = New System.Drawing.Point(70, 41)
-        Me.Button18.Name = "Button18"
-        Me.Button18.Size = New System.Drawing.Size(170, 43)
-        Me.Button18.TabIndex = 0
-        Me.Button18.Text = "Button18"
-        Me.Button18.UseVisualStyleBackColor = True
-        '
-        'GroupBox12
-        '
-        Me.GroupBox12.Controls.Add(Me.Button17)
-        Me.GroupBox12.Location = New System.Drawing.Point(26, 161)
-        Me.GroupBox12.Name = "GroupBox12"
-        Me.GroupBox12.Size = New System.Drawing.Size(321, 84)
-        Me.GroupBox12.TabIndex = 1
-        Me.GroupBox12.TabStop = False
-        Me.GroupBox12.Text = "Extract DXF for sheet metal"
-        '
-        'Button17
-        '
-        Me.Button17.Location = New System.Drawing.Point(64, 28)
-        Me.Button17.Name = "Button17"
-        Me.Button17.Size = New System.Drawing.Size(176, 32)
-        Me.Button17.TabIndex = 0
-        Me.Button17.Text = "Button17"
-        Me.Button17.UseVisualStyleBackColor = True
-        '
-        'GroupBox11
-        '
-        Me.GroupBox11.Controls.Add(Me.Button6)
-        Me.GroupBox11.Location = New System.Drawing.Point(26, 56)
-        Me.GroupBox11.Name = "GroupBox11"
-        Me.GroupBox11.Size = New System.Drawing.Size(321, 78)
-        Me.GroupBox11.TabIndex = 0
-        Me.GroupBox11.TabStop = False
-        Me.GroupBox11.Text = "Process IDW"
-        '
-        'Button6
-        '
-        Me.Button6.Location = New System.Drawing.Point(53, 19)
-        Me.Button6.Name = "Button6"
-        Me.Button6.Size = New System.Drawing.Size(187, 30)
-        Me.Button6.TabIndex = 0
-        Me.Button6.Text = "Button6"
-        Me.Button6.UseVisualStyleBackColor = True
-        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1442,6 +1395,7 @@ Partial Class Form1
         Me.GroupBox6.PerformLayout()
         CType(Me.DataGridView3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage5.ResumeLayout(False)
+        CType(Me.DataGridView5, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox4.ResumeLayout(False)
         Me.GroupBox4.PerformLayout()
         Me.TabPage1.ResumeLayout(False)
@@ -1455,11 +1409,6 @@ Partial Class Form1
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox2.ResumeLayout(False)
         CType(Me.DataGridView4, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.TabPage7.ResumeLayout(False)
-        Me.TabPage7.PerformLayout()
-        Me.GroupBox13.ResumeLayout(False)
-        Me.GroupBox12.ResumeLayout(False)
-        Me.GroupBox11.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -1580,15 +1529,13 @@ Partial Class Form1
     Friend WithEvents Label11 As Label
     Friend WithEvents Label10 As Label
     Friend WithEvents Label12 As Label
-    Friend WithEvents TabPage7 As TabPage
-    Friend WithEvents GroupBox13 As GroupBox
-    Friend WithEvents Button18 As Button
-    Friend WithEvents GroupBox12 As GroupBox
-    Friend WithEvents Button17 As Button
-    Friend WithEvents GroupBox11 As GroupBox
-    Friend WithEvents Button6 As Button
-    Friend WithEvents TextBox2 As TextBox
-    Friend WithEvents Label6 As Label
     Friend WithEvents Label13 As Label
     Friend WithEvents TextBox34 As TextBox
+    Friend WithEvents DataGridView5 As DataGridView
+    Friend WithEvents DataGridViewTextBoxColumn16 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn17 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn18 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn19 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn20 As DataGridViewTextBoxColumn
+    Friend WithEvents Button19 As Button
 End Class

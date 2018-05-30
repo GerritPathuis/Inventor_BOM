@@ -18,6 +18,9 @@ Public Class Form1
     Public filepath2 As String = "E:\Protmp\Procad"
     Public filepath3 As String = "c:\MyDir"
     Public G1_row_cnt As Integer
+    Public G5_row_cnt As Integer
+    Public dxf_file_name(,) As String   '(old name, new name)
+
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim Pro_user As String
@@ -71,7 +74,15 @@ Public Class Form1
         DataGridView4.Columns(1).HeaderText = "D_no"
         DataGridView4.Columns(2).HeaderText = "A_no"
 
-        TextBox2.Text = filepath2
+        DataGridView5.ColumnCount = 3
+        DataGridView5.RowCount = 20
+        DataGridView5.Columns(0).HeaderText = "Artikel"
+        DataGridView5.Columns(1).HeaderText = "Old Name"
+        DataGridView5.Columns(2).HeaderText = "New Name"
+        DataGridView5.Columns(0).Width = 150
+        DataGridView5.Columns(1).Width = 220
+        DataGridView5.Columns(2).Width = 220
+
         TextBox5.Text = filepath2
         TextBox6.Text = filepath2
         TextBox7.Text = filepath2
@@ -85,13 +96,17 @@ Public Class Form1
         If (Pro_user = "GP" Or Pro_user = "GerritP") Then
             TextBox34.Text = "c:\temp"
             filepath2 = "C:\Inventor test files\Test2\MID_PLATE_1_PLATE_12_mm_1646x1597_D0139127_A0018838"
-            TextBox2.Text = filepath2
-            TextBox5.Text = filepath2
-            TextBox6.Text = filepath2
-            TextBox7.Text = filepath2
-            TextBox8.Text = filepath2
-            TextBox9.Text = filepath2
+
+        Else
+            TextBox34.Text = "N:\CAD"
+            filepath2 = "E:\Protmp\Procad"
         End If
+        TextBox5.Text = filepath2
+        TextBox6.Text = filepath2
+        TextBox7.Text = filepath2
+        TextBox8.Text = filepath2
+        TextBox9.Text = filepath2
+
         Inventor_running()
     End Sub
     Private Sub Inventor_running()
@@ -586,7 +601,6 @@ Public Class Form1
         Inventor_running()
         FolderBrowserDialog1.SelectedPath = TextBox6.Text
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            TextBox2.Text = FolderBrowserDialog1.SelectedPath
             TextBox5.Text = FolderBrowserDialog1.SelectedPath
             TextBox6.Text = FolderBrowserDialog1.SelectedPath
             TextBox7.Text = FolderBrowserDialog1.SelectedPath
@@ -792,12 +806,16 @@ Public Class Form1
 
             Dim oDXFfileNAME As String
             Dim strPath As String
+            Dim sOut As String
             strPath = TextBox34.Text & "\"  'Must end with a "\"
             oDXFfileNAME = strPath & TextBox31.Text & "_" & TextBox33.Text & "_" & artikel & ".dxf"
 
-            Dim sOut As String
             sOut = "FLAT PATTERN DXF?AcadVersion=R12"
             oDataIO.WriteDataToFile(sOut, oDXFfileNAME)
+            DataGridView5.Rows.Item(G5_row_cnt).Cells(0).Value = artikel
+            DataGridView5.Rows.Item(G5_row_cnt).Cells(1).Value = oDXFfileNAME
+
+            G5_row_cnt += 1
             If Not CheckBox2.Checked Then MessageBox.Show("Dxf file is written to work directory")
         Else
             MessageBox.Show("File does noet exist")
@@ -868,8 +886,10 @@ Public Class Form1
         Make_dxf()
     End Sub
     Private Sub Make_dxf()
+        'Extract DXF file from the IDW
         Inventor_running()
         Button16.BackColor = System.Drawing.Color.LightGreen
+        G5_row_cnt = 0
 
         If IO.Directory.Exists(TextBox5.Text) Then ' This pathfile is a file.
             Dim fileEntries As String() = Directory.GetFiles(TextBox5.Text)
@@ -890,52 +910,63 @@ Public Class Form1
         Button16.BackColor = System.Drawing.Color.Transparent
     End Sub
 
-    Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
-        Button6.BackColor = System.Drawing.Color.LightGreen
-        Find_IDW()
-        Button6.BackColor = System.Drawing.Color.Transparent
+    Private Sub Rename_dxf()
+        'Find the the artikel on the assembly drawing (IDW)
+        'Print result in DataGridView5
+        'DataGridView5 contains old and new file name
+
+        Dim art As String
+        Dim old_f, new_f, new_ff As String
+
+        For Each row In DataGridView5.Rows
+            If row.Cells(0).Value <> Nothing Then
+                art = row.Cells(0).Value.ToString
+                row.Cells(2).Value = Find_dwg_pos(DataGridView2, art)
+                old_f = row.Cells(1).Value.ToString
+                new_f = row.Cells(2).Value.ToString
+
+                new_ff = TextBox34.Text & "\" & new_f   'Full path required
+                If IO.File.Exists(new_ff) Then
+                    IO.File.Delete(new_ff)
+                End If
+                My.Computer.FileSystem.RenameFile(old_f, new_f)
+                End If
+        Next
+        DataGridView5.AutoResizeColumns()
     End Sub
 
-    Private Sub Button17_Click(sender As Object, e As EventArgs) Handles Button17.Click
-        Button17.BackColor = System.Drawing.Color.LightGreen
-        Make_dxf()
-        Button17.BackColor = System.Drawing.Color.Transparent
-    End Sub
-
-    Private Sub Button18_Click(sender As Object, e As EventArgs) Handles Button18.Click
-        'Combine the information
-        Button18.BackColor = System.Drawing.Color.LightGreen
-        Find_dwg_pos(DataGridView2, "A0008912")
-        Button18.BackColor = System.Drawing.Color.Transparent
-    End Sub
-
-    Private Function Find_dwg_pos(ByVal dtg As DataGridView, ByVal Axxxxx As String)
-        Dim rowindex As String
-        Dim actie As String
+    Private Function Find_dwg_pos(ByVal dtg As DataGridView, ByVal Axxxxx As String) As String
+        Dim actie As String = " "
         Dim found As Boolean = False
         For Each row As DataGridViewRow In dtg.Rows
-            MessageBox.Show(Axxxxx.ToString)
-
-            If row.Cells.Item(7).Value <> Nothing Then MessageBox.Show(row.Cells.Item(7).Value.ToString)
-
+            'If Axxxxx <> Nothing Then MessageBox.Show(Axxxxx.ToString)
             If row.Cells.Item(6).Value = Axxxxx Then
-                rowindex = row.Index.ToString()
                 found = True
-                actie = "Artikel= " & row.Cells(6).Value.ToString()
-                actie &= ", Drwg= " & row.Cells(3).Value.ToString()
-                actie &= ", Pos= " & row.Cells(4).Value.ToString()
-                MessageBox.Show(actie)
+                'actie = TextBox34.Text & "\"                    'directory
+                actie = TextBox31.Text & "_"                   'Project
+                actie &= TextBox33.Text & "_"                   'Tnumber
+                actie &= row.Cells(6).Value.ToString() & "_"    'Artikel=  
+                actie &= row.Cells(3).Value.ToString() & "_"    'Drwg= 
+                actie &= row.Cells(4).Value.ToString            'Pos= 
+                actie &= ".dxf"
                 Exit For
             End If
         Next
         If Not found Then
-            'If Not CheckBox2.Checked Then
-            MessageBox.Show("Item NOT found")
+            If Not CheckBox2.Checked Then MessageBox.Show("Item NOT found")
         End If
 
-        Return 1
+        Return actie
     End Function
 
+    Private Sub Button19_Click(sender As Object, e As EventArgs) Handles Button19.Click
+        '==========WVB button======
+        Button19.BackColor = System.Drawing.Color.LightGreen
+        Find_IDW()
+        Make_dxf()
+        Rename_dxf()
+        Button19.BackColor = System.Drawing.Color.Aqua
+    End Sub
 End Class
 
 
