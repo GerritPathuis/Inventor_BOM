@@ -19,7 +19,7 @@ Public Class Form1
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         DataGridView1.ColumnCount = 30
-        DataGridView1.RowCount = 1000
+        DataGridView1.RowCount = 20
         DataGridView1.ColumnHeadersVisible = True
         DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
 
@@ -45,7 +45,7 @@ Public Class Form1
         DataGridView1.Columns(17).HeaderText = "Comments"
 
         DataGridView2.ColumnCount = 10
-        DataGridView2.RowCount = 1000
+        DataGridView2.RowCount = 20
         DataGridView2.Columns(0).HeaderText = "File"
         DataGridView2.Columns(1).HeaderText = "Assembly"
         DataGridView2.Columns(2).HeaderText = "A_Artikel"
@@ -62,7 +62,7 @@ Public Class Form1
         DataGridView3.Columns(2).HeaderText = "A_no"
 
         DataGridView4.ColumnCount = 20
-        DataGridView4.RowCount = 100
+        DataGridView4.RowCount = 20
         DataGridView4.Columns(0).HeaderText = "File"
         DataGridView4.Columns(1).HeaderText = "D_no"
         DataGridView4.Columns(2).HeaderText = "A_no"
@@ -194,7 +194,6 @@ Public Class Form1
             DataGridView1.Rows.Add()
 
             DataGridView1.Rows.Item(G1_row_cnt).Cells(0).Value = filen
-
             DataGridView1.Rows.Item(G1_row_cnt).Cells(1).Value = oRow.ItemNumber
             DataGridView1.Rows.Item(G1_row_cnt).Cells(2).Value = oRow.ItemQuantity
 
@@ -460,6 +459,7 @@ Public Class Form1
 
                     For sj = 1 To partList.PartsListRows.Count
                         row_counter += 1
+                        DataGridView2.Rows.Add()
                         For ik = 1 To 4
                             DataGridView2.Rows.Item(row_counter).Cells(0).Value = q_file
                             DataGridView2.Rows.Item(row_counter).Cells(1).Value = q_desc
@@ -778,12 +778,12 @@ Public Class Form1
             oDXFfileNAME = strPath & TextBox31.Text & "_" & TextBox33.Text & "_" & artikel & ".dxf"
 
             Dim sOut As String
-            sOut = "FLAT PATTERN DXF?AcadVersion=R12" _
-        + "&OuterProfileLayer=OUTER_PROF&OuterProfileLayerColor=0;0;0" _
-        + "&InteriorProfilesLayer=INNER_PROFS&InteriorProfilesLayerColor=0;0;0" _
-        + "&FeatureProfileLayer=FEATURE&FeatureProfileLayerColor=0;0;0" _
-        + "&BendUpLayer=BEND_UP&BendUpLayerColor=0;255;0&BendUpLayerLineType=37634" _
-        + "&BendDownLayer=BEND_DOWN&BendDownLayerColor=0;255;0&BendDownLayerLineType=37634"
+            sOut = "FLAT PATTERN DXF?AcadVersion=R12" ' _
+            '+ "&OuterProfileLayer=OUTER_PROF&OuterProfileLayerColor=0;0;0" _
+            '+ "&InteriorProfilesLayer=INNER_PROFS&InteriorProfilesLayerColor=0;0;0" _
+            '+ "&FeatureProfileLayer=FEATURE&FeatureProfileLayerColor=0;0;0" _
+            '+ "&BendUpLayer=BEND_UP&BendUpLayerColor=0;255;0&BendUpLayerLineType=37634" _
+            '+ "&BendDownLayer=BEND_DOWN&BendDownLayerColor=0;255;0&BendDownLayerLineType=37634"
 
             oDataIO.WriteDataToFile(sOut, oDXFfileNAME)
             If Not CheckBox2.Checked Then MessageBox.Show("Dxf file is written to work directory")
@@ -908,6 +908,7 @@ Public Class Form1
                 Dim i, j As Integer
 
                 '------ Column names ------------- 
+                DataGridView4.Rows.Add()
                 For i = 1 To partList.PartsListColumns.Count
                     DataGridView4.Rows.Item(0).Cells(i - 1).Value = partList.PartsListColumns.Item(i).Title.ToString
                 Next
@@ -927,7 +928,7 @@ Public Class Form1
     Private Sub Button15_Click(sender As Object, e As EventArgs) Handles Button15.Click
         Inventor_running()
         DataGridView2.Rows.Clear()
-        DataGridView2.RowCount = 1000
+        DataGridView2.RowCount = 20
     End Sub
 
     Private Sub Button16_Click(sender As Object, e As EventArgs) Handles Button16.Click
@@ -972,8 +973,29 @@ Public Class Form1
         'Combine the information
         Button18.BackColor = System.Drawing.Color.LightGreen
 
+
         Button18.BackColor = System.Drawing.Color.Transparent
     End Sub
+
+    Private Function Find_dwg_pos(ByVal dtg As DataGridView, ByVal Axxxxx As String)
+        Dim rowindex As String
+        Dim found As Boolean = False
+        For Each row As DataGridViewRow In dtg.Rows
+            If row.Cells.Item("ITEM_ID").Value = Axxxxx Then
+                rowindex = row.Index.ToString()
+                found = True
+                Dim actie As String = row.Cells("PRICE").Value.ToString()
+                MsgBox(actie)
+                Exit For
+            End If
+        Next
+        If Not found Then
+            If Not CheckBox2.Checked Then MessageBox.Show("Item not found")
+        End If
+        Return 1
+    End Function
+
+
 End Class
 
 
