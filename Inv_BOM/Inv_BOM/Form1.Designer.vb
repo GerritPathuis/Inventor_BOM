@@ -108,6 +108,8 @@ Partial Class Form1
         Me.DataGridViewTextBoxColumn10 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.TabPage5 = New System.Windows.Forms.TabPage()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
+        Me.Label13 = New System.Windows.Forms.Label()
+        Me.TextBox34 = New System.Windows.Forms.TextBox()
         Me.Label12 = New System.Windows.Forms.Label()
         Me.TextBox33 = New System.Windows.Forms.TextBox()
         Me.TextBox31 = New System.Windows.Forms.TextBox()
@@ -138,17 +140,17 @@ Partial Class Form1
         Me.DataGridViewTextBoxColumn13 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn14 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn15 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
-        Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.TabPage7 = New System.Windows.Forms.TabPage()
-        Me.GroupBox11 = New System.Windows.Forms.GroupBox()
-        Me.GroupBox12 = New System.Windows.Forms.GroupBox()
-        Me.GroupBox13 = New System.Windows.Forms.GroupBox()
-        Me.Button6 = New System.Windows.Forms.Button()
-        Me.Button17 = New System.Windows.Forms.Button()
-        Me.Button18 = New System.Windows.Forms.Button()
         Me.TextBox2 = New System.Windows.Forms.TextBox()
         Me.Label6 = New System.Windows.Forms.Label()
+        Me.GroupBox13 = New System.Windows.Forms.GroupBox()
+        Me.Button18 = New System.Windows.Forms.Button()
+        Me.GroupBox12 = New System.Windows.Forms.GroupBox()
+        Me.Button17 = New System.Windows.Forms.Button()
+        Me.GroupBox11 = New System.Windows.Forms.GroupBox()
+        Me.Button6 = New System.Windows.Forms.Button()
+        Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
+        Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.TabControl1.SuspendLayout()
         Me.TabPage6.SuspendLayout()
         Me.GroupBox8.SuspendLayout()
@@ -187,9 +189,9 @@ Partial Class Form1
         Me.GroupBox2.SuspendLayout()
         CType(Me.DataGridView4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage7.SuspendLayout()
-        Me.GroupBox11.SuspendLayout()
-        Me.GroupBox12.SuspendLayout()
         Me.GroupBox13.SuspendLayout()
+        Me.GroupBox12.SuspendLayout()
+        Me.GroupBox11.SuspendLayout()
         Me.SuspendLayout()
         '
         'TextBox1
@@ -532,7 +534,7 @@ Partial Class Form1
         Me.Label7.AutoSize = True
         Me.Label7.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label7.Location = New System.Drawing.Point(330, 67)
+        Me.Label7.Location = New System.Drawing.Point(327, 55)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(262, 25)
         Me.Label7.TabIndex = 1
@@ -978,6 +980,8 @@ Partial Class Form1
         '
         'GroupBox4
         '
+        Me.GroupBox4.Controls.Add(Me.Label13)
+        Me.GroupBox4.Controls.Add(Me.TextBox34)
         Me.GroupBox4.Controls.Add(Me.Label12)
         Me.GroupBox4.Controls.Add(Me.TextBox33)
         Me.GroupBox4.Controls.Add(Me.TextBox31)
@@ -993,6 +997,25 @@ Partial Class Form1
         Me.GroupBox4.TabIndex = 21
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Extract dxf from sheetmetal IPT's"
+        '
+        'Label13
+        '
+        Me.Label13.AutoSize = True
+        Me.Label13.Location = New System.Drawing.Point(11, 119)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(60, 13)
+        Me.Label13.TabIndex = 34
+        Me.Label13.Text = "Destination"
+        Me.Label13.Visible = False
+        '
+        'TextBox34
+        '
+        Me.TextBox34.Enabled = False
+        Me.TextBox34.Location = New System.Drawing.Point(94, 116)
+        Me.TextBox34.Name = "TextBox34"
+        Me.TextBox34.Size = New System.Drawing.Size(419, 20)
+        Me.TextBox34.TabIndex = 33
+        Me.TextBox34.Text = "N:\CAD"
         '
         'Label12
         '
@@ -1054,11 +1077,11 @@ Partial Class Form1
         '
         'Button16
         '
-        Me.Button16.Location = New System.Drawing.Point(94, 116)
+        Me.Button16.Location = New System.Drawing.Point(94, 152)
         Me.Button16.Name = "Button16"
         Me.Button16.Size = New System.Drawing.Size(233, 35)
         Me.Button16.TabIndex = 26
-        Me.Button16.Text = "Extract dxf's from directory"
+        Me.Button16.Text = "Extract dxf's from work directory"
         Me.Button16.UseVisualStyleBackColor = True
         '
         'Label5
@@ -1300,63 +1323,6 @@ Partial Class Form1
         Me.TabPage7.Text = "COMBINED"
         Me.TabPage7.UseVisualStyleBackColor = True
         '
-        'GroupBox11
-        '
-        Me.GroupBox11.Controls.Add(Me.Button6)
-        Me.GroupBox11.Location = New System.Drawing.Point(26, 56)
-        Me.GroupBox11.Name = "GroupBox11"
-        Me.GroupBox11.Size = New System.Drawing.Size(321, 78)
-        Me.GroupBox11.TabIndex = 0
-        Me.GroupBox11.TabStop = False
-        Me.GroupBox11.Text = "Process IDW"
-        '
-        'GroupBox12
-        '
-        Me.GroupBox12.Controls.Add(Me.Button17)
-        Me.GroupBox12.Location = New System.Drawing.Point(26, 161)
-        Me.GroupBox12.Name = "GroupBox12"
-        Me.GroupBox12.Size = New System.Drawing.Size(321, 84)
-        Me.GroupBox12.TabIndex = 1
-        Me.GroupBox12.TabStop = False
-        Me.GroupBox12.Text = "Extract DXF for sheet metal"
-        '
-        'GroupBox13
-        '
-        Me.GroupBox13.Controls.Add(Me.Button18)
-        Me.GroupBox13.Location = New System.Drawing.Point(26, 287)
-        Me.GroupBox13.Name = "GroupBox13"
-        Me.GroupBox13.Size = New System.Drawing.Size(321, 137)
-        Me.GroupBox13.TabIndex = 2
-        Me.GroupBox13.TabStop = False
-        Me.GroupBox13.Text = "Combine"
-        '
-        'Button6
-        '
-        Me.Button6.Location = New System.Drawing.Point(53, 19)
-        Me.Button6.Name = "Button6"
-        Me.Button6.Size = New System.Drawing.Size(187, 30)
-        Me.Button6.TabIndex = 0
-        Me.Button6.Text = "Button6"
-        Me.Button6.UseVisualStyleBackColor = True
-        '
-        'Button17
-        '
-        Me.Button17.Location = New System.Drawing.Point(64, 28)
-        Me.Button17.Name = "Button17"
-        Me.Button17.Size = New System.Drawing.Size(176, 32)
-        Me.Button17.TabIndex = 0
-        Me.Button17.Text = "Button17"
-        Me.Button17.UseVisualStyleBackColor = True
-        '
-        'Button18
-        '
-        Me.Button18.Location = New System.Drawing.Point(70, 41)
-        Me.Button18.Name = "Button18"
-        Me.Button18.Size = New System.Drawing.Size(170, 43)
-        Me.Button18.TabIndex = 0
-        Me.Button18.Text = "Button18"
-        Me.Button18.UseVisualStyleBackColor = True
-        '
         'TextBox2
         '
         Me.TextBox2.Enabled = False
@@ -1374,6 +1340,63 @@ Partial Class Form1
         Me.Label6.Size = New System.Drawing.Size(76, 13)
         Me.Label6.TabIndex = 19
         Me.Label6.Text = "Work directory"
+        '
+        'GroupBox13
+        '
+        Me.GroupBox13.Controls.Add(Me.Button18)
+        Me.GroupBox13.Location = New System.Drawing.Point(26, 287)
+        Me.GroupBox13.Name = "GroupBox13"
+        Me.GroupBox13.Size = New System.Drawing.Size(321, 137)
+        Me.GroupBox13.TabIndex = 2
+        Me.GroupBox13.TabStop = False
+        Me.GroupBox13.Text = "Combine"
+        '
+        'Button18
+        '
+        Me.Button18.Location = New System.Drawing.Point(70, 41)
+        Me.Button18.Name = "Button18"
+        Me.Button18.Size = New System.Drawing.Size(170, 43)
+        Me.Button18.TabIndex = 0
+        Me.Button18.Text = "Button18"
+        Me.Button18.UseVisualStyleBackColor = True
+        '
+        'GroupBox12
+        '
+        Me.GroupBox12.Controls.Add(Me.Button17)
+        Me.GroupBox12.Location = New System.Drawing.Point(26, 161)
+        Me.GroupBox12.Name = "GroupBox12"
+        Me.GroupBox12.Size = New System.Drawing.Size(321, 84)
+        Me.GroupBox12.TabIndex = 1
+        Me.GroupBox12.TabStop = False
+        Me.GroupBox12.Text = "Extract DXF for sheet metal"
+        '
+        'Button17
+        '
+        Me.Button17.Location = New System.Drawing.Point(64, 28)
+        Me.Button17.Name = "Button17"
+        Me.Button17.Size = New System.Drawing.Size(176, 32)
+        Me.Button17.TabIndex = 0
+        Me.Button17.Text = "Button17"
+        Me.Button17.UseVisualStyleBackColor = True
+        '
+        'GroupBox11
+        '
+        Me.GroupBox11.Controls.Add(Me.Button6)
+        Me.GroupBox11.Location = New System.Drawing.Point(26, 56)
+        Me.GroupBox11.Name = "GroupBox11"
+        Me.GroupBox11.Size = New System.Drawing.Size(321, 78)
+        Me.GroupBox11.TabIndex = 0
+        Me.GroupBox11.TabStop = False
+        Me.GroupBox11.Text = "Process IDW"
+        '
+        'Button6
+        '
+        Me.Button6.Location = New System.Drawing.Point(53, 19)
+        Me.Button6.Name = "Button6"
+        Me.Button6.Size = New System.Drawing.Size(187, 30)
+        Me.Button6.TabIndex = 0
+        Me.Button6.Text = "Button6"
+        Me.Button6.UseVisualStyleBackColor = True
         '
         'Form1
         '
@@ -1434,9 +1457,9 @@ Partial Class Form1
         CType(Me.DataGridView4, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage7.ResumeLayout(False)
         Me.TabPage7.PerformLayout()
-        Me.GroupBox11.ResumeLayout(False)
-        Me.GroupBox12.ResumeLayout(False)
         Me.GroupBox13.ResumeLayout(False)
+        Me.GroupBox12.ResumeLayout(False)
+        Me.GroupBox11.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -1566,4 +1589,6 @@ Partial Class Form1
     Friend WithEvents Button6 As Button
     Friend WithEvents TextBox2 As TextBox
     Friend WithEvents Label6 As Label
+    Friend WithEvents Label13 As Label
+    Friend WithEvents TextBox34 As TextBox
 End Class

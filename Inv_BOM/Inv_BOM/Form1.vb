@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports System
 Imports System.String
 Imports System.Runtime.InteropServices
 'Browse to "C:\Programs Files\Autodesk\Inventor XXXX\Bin\Public Assemblies" select “autodesk.inventor.interop.dll”
@@ -6,6 +7,7 @@ Imports Inventor
 Imports Microsoft.Office.Interop.Excel
 Imports Microsoft.Office.Interop
 Imports System.ComponentModel
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel
 '==================================
 'API samples
 'https://knowledge.autodesk.com/search-result/caas/CloudHelp/cloudhelp/2018/ENU/Inventor-API/files/SampleList-htm.html
@@ -18,6 +20,8 @@ Public Class Form1
     Public G1_row_cnt As Integer
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Dim Pro_user As String
+
         DataGridView1.ColumnCount = 30
         DataGridView1.RowCount = 20
         DataGridView1.ColumnHeadersVisible = True
@@ -74,6 +78,20 @@ Public Class Form1
         TextBox8.Text = filepath2
         TextBox9.Text = filepath2
 
+        Pro_user = System.Environment.UserName    'User name on the screen
+
+        Me.Text &= " " & Pro_user
+
+        If (Pro_user = "GP" Or Pro_user = "GerritP") Then
+            TextBox34.Text = "c:\temp"
+            filepath2 = "C:\Inventor test files\Test2\MID_PLATE_1_PLATE_12_mm_1646x1597_D0139127_A0018838"
+            TextBox2.Text = filepath2
+            TextBox5.Text = filepath2
+            TextBox6.Text = filepath2
+            TextBox7.Text = filepath2
+            TextBox8.Text = filepath2
+            TextBox9.Text = filepath2
+        End If
         Inventor_running()
     End Sub
     Private Sub Inventor_running()
@@ -774,101 +792,16 @@ Public Class Form1
 
             Dim oDXFfileNAME As String
             Dim strPath As String
-            strPath = TextBox5.Text & "\"  'Must end with a "\"
+            strPath = TextBox34.Text & "\"  'Must end with a "\"
             oDXFfileNAME = strPath & TextBox31.Text & "_" & TextBox33.Text & "_" & artikel & ".dxf"
 
             Dim sOut As String
-            sOut = "FLAT PATTERN DXF?AcadVersion=R12" ' _
-            '+ "&OuterProfileLayer=OUTER_PROF&OuterProfileLayerColor=0;0;0" _
-            '+ "&InteriorProfilesLayer=INNER_PROFS&InteriorProfilesLayerColor=0;0;0" _
-            '+ "&FeatureProfileLayer=FEATURE&FeatureProfileLayerColor=0;0;0" _
-            '+ "&BendUpLayer=BEND_UP&BendUpLayerColor=0;255;0&BendUpLayerLineType=37634" _
-            '+ "&BendDownLayer=BEND_DOWN&BendDownLayerColor=0;255;0&BendDownLayerLineType=37634"
-
+            sOut = "FLAT PATTERN DXF?AcadVersion=R12"
             oDataIO.WriteDataToFile(sOut, oDXFfileNAME)
             If Not CheckBox2.Checked Then MessageBox.Show("Dxf file is written to work directory")
         Else
             MessageBox.Show("File does noet exist")
         End If
-    End Sub
-
-
-    Private Sub Embossed_text(ByVal path As String)
-        'https://forums.autodesk.com/t5/inventor-customization/embossed-text/m-p/5668061#M56484
-
-        'Dim invApp As Inventor.Application
-        'invApp = Marshal.GetActiveObject("Inventor.Application")
-        'invApp.SilentOperation = vbTrue
-
-        'Dim oPartDoc As Inventor.Document
-        'oPartDoc = invApp.Documents.Open(path, False)
-
-        'Dim oFlatPattern As FlatPattern
-
-        ''Pre-processing check: The Active document must be a Sheet metal Part with a flat pattern
-        'If oPartDoc.DocumentType <> DocumentTypeEnum.kPartDocumentObject Then
-        '    MessageBox.Show("The Active document must be a 'Part'")
-        '    Exit Sub
-        'Else
-        '    If oPartDoc.SubType <> "{9C464203-9BAE-11D3-8BAD-0060B0CE6BB4}" Then
-        '        MessageBox.Show("The Active document must be a 'Sheet Metal Part'")
-        '        Exit Sub
-        '    Else
-        '        oFlatPattern = oPartDoc.ComponentDefinition.FlatPattern
-        '        If oFlatPattern Is Nothing Then
-        '            MessageBox.Show("IPT does contain a flat pattern")
-        '            Exit Sub
-        '        End If
-        '    End If
-        'End If
-
-        '' Set a reference to the drawing document.
-        '' This assumes a drawing document is active.
-        ''    Dim oDrawDoc As inventor.DrawingDocument
-        ''Set oDrawDoc = ThisApplication.ActiveDocument
-
-        'invApp.ActiveDocument.Sheets(1).Activate
-
-        'MessageBox.Show("Active document=" & oPartDoc.DisplayName)
-        'MessageBox.Show("Active sheet=" & oPartDoc.ActiveSheet.Name)
-
-        '' Set a reference to the active sheet.
-        'Dim oActiveSheet As Sheet
-        'oActiveSheet = oPartDoc.ActiveSheet
-
-        '' Set a reference to the GeneralNotes object
-        'Dim oGeneralNotes As GeneralNotes
-        'oGeneralNotes = oActiveSheet.DrawingNotes.GeneralNotes
-
-        'Dim oTG As TransientGeometry
-        'oTG = invApp.TransientGeometry
-
-        '' Create text with simple string as input. Since this doesn't use
-        '' any text overrides, it will default to the active text style.
-        'Dim sText As String
-        'sText = "Drawing Notes"
-
-        'Dim oGeneralNote As GeneralNote
-        'oGeneralNote = oGeneralNotes.AddFitted(oTG.CreatePoint2d(3, 18), sText)
-
-        '' Create text using various overrides.
-        'sText = "Notice: All holes larger than 0.500 n are to be lubricated."
-        'oGeneralNote = oGeneralNotes.AddFitted(oTG.CreatePoint2d(3, 16), sText)
-
-        '' Create a set of notes that are numbered and aligned along the left.
-        'Dim dYCoord As Double
-        'dYCoord = 14
-        'Dim dYOffset As Double
-        'Dim oStyle As TextStyle
-        'oStyle = oGeneralNotes.Item(1).TextStyle
-        'dYOffset = oStyle.FontSize * 1.5
-
-        '' Simple single line text.
-        'oGeneralNote = oGeneralNotes.AddFitted(oTG.CreatePoint2d(3, dYCoord), "1.")
-        'sText = "This is note 1."
-        'oGeneralNote = oGeneralNotes.AddFitted(oTG.CreatePoint2d(4, dYCoord), sText)
-
-        'MessageBox.Show("Dxf TEXT is added to file")
     End Sub
 
     Private Sub Button13_Click(sender As Object, e As EventArgs) Handles Button13.Click
@@ -972,29 +905,36 @@ Public Class Form1
     Private Sub Button18_Click(sender As Object, e As EventArgs) Handles Button18.Click
         'Combine the information
         Button18.BackColor = System.Drawing.Color.LightGreen
-
-
+        Find_dwg_pos(DataGridView2, "A0008912")
         Button18.BackColor = System.Drawing.Color.Transparent
     End Sub
 
     Private Function Find_dwg_pos(ByVal dtg As DataGridView, ByVal Axxxxx As String)
         Dim rowindex As String
+        Dim actie As String
         Dim found As Boolean = False
         For Each row As DataGridViewRow In dtg.Rows
-            If row.Cells.Item("ITEM_ID").Value = Axxxxx Then
+            MessageBox.Show(Axxxxx.ToString)
+
+            If row.Cells.Item(7).Value <> Nothing Then MessageBox.Show(row.Cells.Item(7).Value.ToString)
+
+            If row.Cells.Item(6).Value = Axxxxx Then
                 rowindex = row.Index.ToString()
                 found = True
-                Dim actie As String = row.Cells("PRICE").Value.ToString()
-                MsgBox(actie)
+                actie = "Artikel= " & row.Cells(6).Value.ToString()
+                actie &= ", Drwg= " & row.Cells(3).Value.ToString()
+                actie &= ", Pos= " & row.Cells(4).Value.ToString()
+                MessageBox.Show(actie)
                 Exit For
             End If
         Next
         If Not found Then
-            If Not CheckBox2.Checked Then MessageBox.Show("Item not found")
+            'If Not CheckBox2.Checked Then
+            MessageBox.Show("Item NOT found")
         End If
+
         Return 1
     End Function
-
 
 End Class
 
