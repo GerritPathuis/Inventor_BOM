@@ -77,11 +77,11 @@ Public Class Form1
         DataGridView5.ColumnCount = 3
         DataGridView5.RowCount = 20
         DataGridView5.Columns(0).HeaderText = "Artikel"
-        DataGridView5.Columns(1).HeaderText = "Old Name"
-        DataGridView5.Columns(2).HeaderText = "New Name"
-        DataGridView5.Columns(0).Width = 150
-        DataGridView5.Columns(1).Width = 220
-        DataGridView5.Columns(2).Width = 220
+        DataGridView5.Columns(1).HeaderText = "Old file Name"
+        DataGridView5.Columns(2).HeaderText = "New new Name"
+        DataGridView5.Columns(0).Width = 100
+        DataGridView5.Columns(1).Width = 250
+        DataGridView5.Columns(2).Width = 250
 
         TextBox5.Text = filepath2
         TextBox6.Text = filepath2
@@ -744,7 +744,6 @@ Public Class Form1
         Next oRefDoc
     End Sub
 
-
     Public Sub ExportSketchDXF2(ByVal file_path As String)
         'https://forums.autodesk.com/t5/inventor-customization/flat-pattern-to-dxf/m-p/7033961#M71803
         'https://knowledge.autodesk.com/search-result/caas/CloudHelp/cloudhelp/2018/ENU/Inventor-API/files/WriteFlatPatternAsDXF-Sample-htm.html
@@ -833,7 +832,7 @@ Public Class Form1
     End Sub
 
     Private Sub Read_idw_parts(ByVal fpath As String)
-        Dim oDoc As Inventor.DrawingDocument         '!!!!!!!!!!!!!!
+        Dim oDoc As Inventor.DrawingDocument
         Dim invApp As Inventor.Application
         invApp = Marshal.GetActiveObject("Inventor.Application")
 
@@ -942,8 +941,8 @@ Public Class Form1
             'If Axxxxx <> Nothing Then MessageBox.Show(Axxxxx.ToString)
             If row.Cells.Item(6).Value = Axxxxx Then
                 found = True
-                'actie = TextBox34.Text & "\"                    'directory
-                actie = TextBox31.Text & "_"                   'Project
+                'actie = TextBox34.Text & "\"                   'directory
+                actie = TextBox31.Text & "_"                    'Project
                 actie &= TextBox33.Text & "_"                   'Tnumber
                 actie &= row.Cells(6).Value.ToString() & "_"    'Artikel=  
                 actie &= row.Cells(3).Value.ToString() & "_"    'Drwg= 
