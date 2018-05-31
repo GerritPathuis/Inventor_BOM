@@ -748,16 +748,16 @@ Public Class Form1
 
             'Pre-processing check: The Active document must be a Sheet metal Part with a flat pattern
             If oPartDoc.DocumentType <> DocumentTypeEnum.kPartDocumentObject Then
-                If Not CheckBox2.Checked Then MessageBox.Show("The Active document must be a 'Part'")
+                If Not CheckBox2.Checked Then TextBox2.Text &= "The Active document must be a 'Part'" & vbCrLf
                 Exit Sub
             Else
                 If oPartDoc.SubType <> "{9C464203-9BAE-11D3-8BAD-0060B0CE6BB4}" Then
-                    If Not CheckBox2.Checked Then MessageBox.Show("The Active document must be a 'Sheet Metal Part'")
+                    If Not CheckBox2.Checked Then TextBox2.Text &= "The Active document must be a 'Sheet Metal Part'" & vbCrLf
                     Exit Sub
                 Else
                     oFlatPattern = oPartDoc.ComponentDefinition.FlatPattern
                     If oFlatPattern Is Nothing Then
-                        If Not CheckBox2.Checked Then MessageBox.Show("IPT does NOT contain a flat pattern")
+                        If Not CheckBox2.Checked Then TextBox2.Text &= "IPT does NOT contain a flat pattern" & vbCrLf
                         Exit Sub
                     End If
                 End If
@@ -804,7 +804,7 @@ Public Class Form1
             DataGridView5.Rows.Item(G5_row_cnt).Cells(1).Value = oDXFfileNAME
 
             G5_row_cnt += 1
-            If Not CheckBox2.Checked Then MessageBox.Show("Dxf file is written to work directory")
+            If Not CheckBox2.Checked Then TextBox2.Text &= "Dxf file is written to work directory" & vbCrLf
         Else
             MessageBox.Show("File does noet exist")
         End If
@@ -871,9 +871,9 @@ Public Class Form1
     End Sub
 
     Private Sub Button16_Click(sender As Object, e As EventArgs) Handles Button16.Click
-        Make_dxf()
+        Extract_dxf_from_IDW()
     End Sub
-    Private Sub Make_dxf()
+    Private Sub Extract_dxf_from_IDW()
         'Extract DXF file from the IDW
         Inventor_running()
         Button16.BackColor = System.Drawing.Color.LightGreen
@@ -942,8 +942,7 @@ Public Class Form1
             Return False
         End If
     End Function
-
-
+    'Find drawing name en postion of the artikel
     Private Function Find_dwg_pos(ByVal dtg As DataGridView, ByVal Axxxxx As String) As String
         Dim actie As String = " "
         Dim found As Boolean = False
@@ -963,23 +962,26 @@ Public Class Form1
                     actie &= "_" & row.Cells(6).Value.ToString()    'Artikel=  
                 End If
                 actie &= ".dxf"
-                    Exit For
-                End If
+                Exit For
+            Else
+                If Not CheckBox2.Checked Then TextBox2.Text &= "Artikel Not found" & vbCrLf
+            End If
         Next
         If Not found Then
-            If Not CheckBox2.Checked Then MessageBox.Show("Item NOT found")
+            If Not CheckBox2.Checked Then TextBox2.Text &= "Item NOT found" & vbCrLf
         End If
         Return actie
     End Function
 
     Private Sub Button19_Click(sender As Object, e As EventArgs) Handles Button19.Click
         '==========WVB button======
+        TextBox2.Clear()
         Button19.BackColor = System.Drawing.Color.LightGreen
         DataGridView5.Rows.Clear()
         DataGridView5.RowCount = 200    'was 20
 
         Find_IDW()
-        Make_dxf()
+        Extract_dxf_from_IDW()
         Rename_dxf()
         Button19.BackColor = System.Drawing.Color.Aqua
     End Sub
