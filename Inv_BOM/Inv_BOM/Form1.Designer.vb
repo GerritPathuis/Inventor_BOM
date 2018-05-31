@@ -114,6 +114,7 @@ Partial Class Form1
         Me.DataGridViewTextBoxColumn19 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn20 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
+        Me.CheckBox3 = New System.Windows.Forms.CheckBox()
         Me.Button19 = New System.Windows.Forms.Button()
         Me.Label13 = New System.Windows.Forms.Label()
         Me.TextBox34 = New System.Windows.Forms.TextBox()
@@ -149,7 +150,6 @@ Partial Class Form1
         Me.DataGridViewTextBoxColumn15 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
-        Me.CheckBox3 = New System.Windows.Forms.CheckBox()
         Me.TabControl1.SuspendLayout()
         Me.TabPage6.SuspendLayout()
         Me.GroupBox8.SuspendLayout()
@@ -1032,6 +1032,16 @@ Partial Class Form1
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Extract dxf from sheetmetal IPT's"
         '
+        'CheckBox3
+        '
+        Me.CheckBox3.AutoSize = True
+        Me.CheckBox3.Location = New System.Drawing.Point(293, 83)
+        Me.CheckBox3.Name = "CheckBox3"
+        Me.CheckBox3.Size = New System.Drawing.Size(133, 17)
+        Me.CheckBox3.TabIndex = 36
+        Me.CheckBox3.Text = "Without Artikel number"
+        Me.CheckBox3.UseVisualStyleBackColor = True
+        '
         'Button19
         '
         Me.Button19.BackColor = System.Drawing.Color.Aqua
@@ -1054,7 +1064,6 @@ Partial Class Form1
         '
         'TextBox34
         '
-        Me.TextBox34.Enabled = False
         Me.TextBox34.Location = New System.Drawing.Point(94, 116)
         Me.TextBox34.Name = "TextBox34"
         Me.TextBox34.Size = New System.Drawing.Size(160, 20)
@@ -1347,16 +1356,6 @@ Partial Class Form1
         '
         Me.DataGridViewTextBoxColumn15.HeaderText = "Column5"
         Me.DataGridViewTextBoxColumn15.Name = "DataGridViewTextBoxColumn15"
-        '
-        'CheckBox3
-        '
-        Me.CheckBox3.AutoSize = True
-        Me.CheckBox3.Location = New System.Drawing.Point(293, 83)
-        Me.CheckBox3.Name = "CheckBox3"
-        Me.CheckBox3.Size = New System.Drawing.Size(133, 17)
-        Me.CheckBox3.TabIndex = 36
-        Me.CheckBox3.Text = "Without Artikel number"
-        Me.CheckBox3.UseVisualStyleBackColor = True
         '
         'Form1
         '
