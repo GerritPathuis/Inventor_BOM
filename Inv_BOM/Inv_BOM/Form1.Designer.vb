@@ -149,6 +149,7 @@ Partial Class Form1
         Me.DataGridViewTextBoxColumn15 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
+        Me.CheckBox3 = New System.Windows.Forms.CheckBox()
         Me.TabControl1.SuspendLayout()
         Me.TabPage6.SuspendLayout()
         Me.GroupBox8.SuspendLayout()
@@ -1010,6 +1011,7 @@ Partial Class Form1
         '
         'GroupBox4
         '
+        Me.GroupBox4.Controls.Add(Me.CheckBox3)
         Me.GroupBox4.Controls.Add(Me.Button19)
         Me.GroupBox4.Controls.Add(Me.Label13)
         Me.GroupBox4.Controls.Add(Me.TextBox34)
@@ -1049,7 +1051,6 @@ Partial Class Form1
         Me.Label13.Size = New System.Drawing.Size(60, 13)
         Me.Label13.TabIndex = 34
         Me.Label13.Text = "Destination"
-        Me.Label13.Visible = False
         '
         'TextBox34
         '
@@ -1063,12 +1064,11 @@ Partial Class Form1
         'Label12
         '
         Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(291, 111)
+        Me.Label12.Location = New System.Drawing.Point(290, 119)
         Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(211, 13)
+        Me.Label12.Size = New System.Drawing.Size(267, 13)
         Me.Label12.TabIndex = 32
-        Me.Label12.Text = "Voorbeeld: P17.1117_T6000_A00123.DXF"
-        Me.Label12.Visible = False
+        Me.Label12.Text = "Voorbeeld: P17.1117_T6000_D1234_01_A00123.DXF"
         '
         'TextBox33
         '
@@ -1076,7 +1076,7 @@ Partial Class Form1
         Me.TextBox33.Name = "TextBox33"
         Me.TextBox33.Size = New System.Drawing.Size(158, 20)
         Me.TextBox33.TabIndex = 31
-        Me.TextBox33.Text = "T4000"
+        Me.TextBox33.Text = "T000"
         '
         'TextBox31
         '
@@ -1084,7 +1084,7 @@ Partial Class Form1
         Me.TextBox31.Name = "TextBox31"
         Me.TextBox31.Size = New System.Drawing.Size(158, 20)
         Me.TextBox31.TabIndex = 30
-        Me.TextBox31.Text = "P17.1117"
+        Me.TextBox31.Text = "P17."
         '
         'Label11
         '
@@ -1094,7 +1094,6 @@ Partial Class Form1
         Me.Label11.Size = New System.Drawing.Size(54, 13)
         Me.Label11.TabIndex = 29
         Me.Label11.Text = "T nummer"
-        Me.Label11.Visible = False
         '
         'Label10
         '
@@ -1104,14 +1103,13 @@ Partial Class Form1
         Me.Label10.Size = New System.Drawing.Size(80, 13)
         Me.Label10.TabIndex = 28
         Me.Label10.Text = "Project nummer"
-        Me.Label10.Visible = False
         '
         'CheckBox2
         '
         Me.CheckBox2.AutoSize = True
         Me.CheckBox2.Checked = True
         Me.CheckBox2.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox2.Location = New System.Drawing.Point(293, 89)
+        Me.CheckBox2.Location = New System.Drawing.Point(293, 60)
         Me.CheckBox2.Name = "CheckBox2"
         Me.CheckBox2.Size = New System.Drawing.Size(99, 17)
         Me.CheckBox2.TabIndex = 27
@@ -1135,7 +1133,6 @@ Partial Class Form1
         Me.Label5.Size = New System.Drawing.Size(76, 13)
         Me.Label5.TabIndex = 21
         Me.Label5.Text = "Work directory"
-        Me.Label5.Visible = False
         '
         'TextBox5
         '
@@ -1351,6 +1348,16 @@ Partial Class Form1
         Me.DataGridViewTextBoxColumn15.HeaderText = "Column5"
         Me.DataGridViewTextBoxColumn15.Name = "DataGridViewTextBoxColumn15"
         '
+        'CheckBox3
+        '
+        Me.CheckBox3.AutoSize = True
+        Me.CheckBox3.Location = New System.Drawing.Point(293, 83)
+        Me.CheckBox3.Name = "CheckBox3"
+        Me.CheckBox3.Size = New System.Drawing.Size(133, 17)
+        Me.CheckBox3.TabIndex = 36
+        Me.CheckBox3.Text = "Without Artikel number"
+        Me.CheckBox3.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1538,4 +1545,5 @@ Partial Class Form1
     Friend WithEvents DataGridViewTextBoxColumn19 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn20 As DataGridViewTextBoxColumn
     Friend WithEvents Button19 As Button
+    Friend WithEvents CheckBox3 As CheckBox
 End Class

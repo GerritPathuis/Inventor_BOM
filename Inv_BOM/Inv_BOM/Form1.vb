@@ -916,6 +916,8 @@ Public Class Form1
 
         Dim art As String
         Dim old_f, new_f, new_ff As String
+        Dim delete_file As Boolean
+        Dim ask_once As Boolean = False
 
         For Each row In DataGridView5.Rows
             If row.Cells(0).Value <> Nothing Then
@@ -925,14 +927,33 @@ Public Class Form1
                 new_f = row.Cells(2).Value.ToString
 
                 new_ff = TextBox34.Text & "\" & new_f   'Full path required
-                If IO.File.Exists(new_ff) Then
+                If IO.File.Exists(new_ff) And ask_once = False Then
+                    delete_file = Question_replace_dxf_files()
+                    ask_once = True
+                End If
+
+                If delete_file = True Then
                     IO.File.Delete(new_ff)
+                Else
+                    Exit For
                 End If
+
                 My.Computer.FileSystem.RenameFile(old_f, new_f)
-                End If
+            End If
         Next
         DataGridView5.AutoResizeColumns()
     End Sub
+
+    Private Function Question_replace_dxf_files() As Boolean
+        Dim result As DialogResult = DialogResult.No
+        result = MessageBox.Show("Replace file with new one (YES for ALL)", "This dxf file already exist !!", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        If result = DialogResult.Yes Then
+            Return True
+        Else
+            Return False
+        End If
+    End Function
+
 
     Private Function Find_dwg_pos(ByVal dtg As DataGridView, ByVal Axxxxx As String) As String
         Dim actie As String = " "
@@ -946,24 +967,28 @@ Public Class Form1
                 'actie = TextBox34.Text & "\"                   'directory
                 actie = TextBox31.Text & "_"                    'Project
                 actie &= TextBox33.Text & "_"                   'Tnumber
-                actie &= row.Cells(6).Value.ToString() & "_"    'Artikel=  
                 actie &= row.Cells(3).Value.ToString() & "_"    'Drwg= 
                 pos = row.Cells(4).Value                        'Pos= 
                 actie &= pos.ToString("D2")
+                If Not CheckBox3.Checked Then
+                    actie &= "_" & row.Cells(6).Value.ToString()    'Artikel=  
+                End If
                 actie &= ".dxf"
-                Exit For
-            End If
+                    Exit For
+                End If
         Next
         If Not found Then
             If Not CheckBox2.Checked Then MessageBox.Show("Item NOT found")
         End If
-
         Return actie
     End Function
 
     Private Sub Button19_Click(sender As Object, e As EventArgs) Handles Button19.Click
         '==========WVB button======
         Button19.BackColor = System.Drawing.Color.LightGreen
+        DataGridView5.Rows.Clear()
+        DataGridView5.RowCount = 20
+
         Find_IDW()
         Make_dxf()
         Rename_dxf()
