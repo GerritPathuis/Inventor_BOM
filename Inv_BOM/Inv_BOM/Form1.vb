@@ -74,7 +74,7 @@ Public Class Form1
         DataGridView4.Columns(1).HeaderText = "D_no"
         DataGridView4.Columns(2).HeaderText = "A_no"
 
-        DataGridView5.ColumnCount = 3
+        DataGridView5.ColumnCount = 4
         DataGridView5.RowCount = 20
         DataGridView5.Columns(0).HeaderText = "Artikel"
         DataGridView5.Columns(1).HeaderText = "Old file Name"
@@ -937,6 +937,8 @@ Public Class Form1
     Private Function Find_dwg_pos(ByVal dtg As DataGridView, ByVal Axxxxx As String) As String
         Dim actie As String = " "
         Dim found As Boolean = False
+        Dim pos As Integer
+
         For Each row As DataGridViewRow In dtg.Rows
             'If Axxxxx <> Nothing Then MessageBox.Show(Axxxxx.ToString)
             If row.Cells.Item(6).Value = Axxxxx Then
@@ -946,7 +948,8 @@ Public Class Form1
                 actie &= TextBox33.Text & "_"                   'Tnumber
                 actie &= row.Cells(6).Value.ToString() & "_"    'Artikel=  
                 actie &= row.Cells(3).Value.ToString() & "_"    'Drwg= 
-                actie &= row.Cells(4).Value.ToString            'Pos= 
+                pos = row.Cells(4).Value                        'Pos= 
+                actie &= pos.ToString("D2")
                 actie &= ".dxf"
                 Exit For
             End If
