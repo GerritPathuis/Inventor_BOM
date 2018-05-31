@@ -13,11 +13,11 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel
 'https://knowledge.autodesk.com/search-result/caas/CloudHelp/cloudhelp/2018/ENU/Inventor-API/files/SampleList-htm.html
 '==================================
 Public Class Form1
-    Public row_counter As Integer
     Public filepath1 As String = "C:\Repos\Inventor_IDW\Read_IDW\Part.ipt"
     Public filepath2 As String = "E:\Protmp\Procad"
     Public filepath3 As String = "c:\MyDir"
     Public G1_row_cnt As Integer
+    Public G2_row_cnt As Integer
     Public G5_row_cnt As Integer
     Public dxf_file_name(,) As String   '(old name, new name)
 
@@ -52,7 +52,7 @@ Public Class Form1
         DataGridView1.Columns(17).HeaderText = "Comments"
 
         DataGridView2.ColumnCount = 10
-        DataGridView2.RowCount = 20
+        DataGridView2.RowCount = 200    'was 20
         DataGridView2.Columns(0).HeaderText = "File"
         DataGridView2.Columns(1).HeaderText = "Assembly"
         DataGridView2.Columns(2).HeaderText = "A_Artikel"
@@ -75,7 +75,7 @@ Public Class Form1
         DataGridView4.Columns(2).HeaderText = "A_no"
 
         DataGridView5.ColumnCount = 4
-        DataGridView5.RowCount = 20
+        DataGridView5.RowCount = 200    'was 20
         DataGridView5.Columns(0).HeaderText = "Artikel"
         DataGridView5.Columns(1).HeaderText = "Old file Name"
         DataGridView5.Columns(2).HeaderText = "New new Name"
@@ -95,8 +95,9 @@ Public Class Form1
 
         If (Pro_user = "GP" Or Pro_user = "GerritP") Then
             TextBox34.Text = "c:\temp"
-            filepath2 = "C:\Inventor test files\Test2\MID_PLATE_1_PLATE_12_mm_1646x1597_D0139127_A0018838"
-
+            'filepath2 = "C:\Inventor test files\Test2\MID_PLATE_1_PLATE_12_mm_1646x1597_D0139127_A0018838"
+            'filepath2 = "N:\mailbox\GPathuis\BOM Extractor PROEFFILES"
+            filepath2 = "C:\Inventor test files\KarelBakker"
         Else
             TextBox34.Text = "N:\CAD"
             filepath2 = "E:\Protmp\Procad"
@@ -491,16 +492,16 @@ Public Class Form1
                     Dim str As String
 
                     For sj = 1 To partList.PartsListRows.Count
-                        row_counter += 1
+                        G2_row_cnt += 1
                         DataGridView2.Rows.Add()
                         For ik = 1 To 4
-                            DataGridView2.Rows.Item(row_counter).Cells(0).Value = q_file
-                            DataGridView2.Rows.Item(row_counter).Cells(1).Value = q_desc
-                            DataGridView2.Rows.Item(row_counter).Cells(2).Value = q_A00
-                            DataGridView2.Rows.Item(row_counter).Cells(3).Value = q_D00
+                            DataGridView2.Rows.Item(G2_row_cnt).Cells(0).Value = q_file
+                            DataGridView2.Rows.Item(G2_row_cnt).Cells(1).Value = q_desc
+                            DataGridView2.Rows.Item(G2_row_cnt).Cells(2).Value = q_A00
+                            DataGridView2.Rows.Item(G2_row_cnt).Cells(3).Value = q_D00
 
                             str = partList.PartsListRows(sj).Item(ik).Value.ToString
-                            DataGridView2.Rows.Item(row_counter).Cells(ik + 3).Value = str
+                            DataGridView2.Rows.Item(G2_row_cnt).Cells(ik + 3).Value = str
                         Next ik
                     Next sj
                 End If
@@ -549,22 +550,18 @@ Public Class Form1
     Private Sub Find_IDW()
         Inventor_running()
         Button9.BackColor = System.Drawing.Color.LightGreen
-        row_counter = -2   'Reset counter
+        G2_row_cnt = -1  'Reset counter
 
         'Select work directory
         'https://msdn.microsoft.com/en-us/library/07wt70x2(v=vs.110).aspx
-        Dim pathfile As String
-        pathfile = TextBox6.Text
+        Dim pathfile As String = TextBox6.Text
 
-        If IO.File.Exists(pathfile) Then ' This pathfile is a file.
-            ProcessFile(pathfile)
+        If Directory.Exists(pathfile) Then
+            ProcessDirectory(pathfile)   ' This path is a directory.
         Else
-            If Directory.Exists(pathfile) Then
-                ProcessDirectory(pathfile)   ' This path is a directory.
-            Else
-                MessageBox.Show(pathfile & " is not a valid file or directory.")
-            End If
+            MessageBox.Show(pathfile & " is not a valid file or directory.")
         End If
+
         Button9.BackColor = System.Drawing.Color.Transparent
     End Sub
 
@@ -578,13 +575,6 @@ Public Class Form1
         For Each fileName In fileEntries
             ProcessFile(fileName)
         Next fileName
-
-        Dim subdirectoryEntries As String() = Directory.GetDirectories(targetDirectory)
-        ' Recurse into subdirectories of this directory.
-        Dim subdirectory As String
-        For Each subdirectory In subdirectoryEntries
-            ProcessDirectory(subdirectory)
-        Next subdirectory
     End Sub
 
     ' Processing found files 
@@ -592,7 +582,6 @@ Public Class Form1
         'MessageBox.Show("Processed file is " & file)
         Dim extension As String = IO.Path.GetExtension(file)
         If extension = ".idw" Then
-            row_counter += 1
             Read_title_Block(file)
         End If
     End Sub
@@ -878,7 +867,7 @@ Public Class Form1
     Private Sub Button15_Click(sender As Object, e As EventArgs) Handles Button15.Click
         Inventor_running()
         DataGridView2.Rows.Clear()
-        DataGridView2.RowCount = 20
+        DataGridView2.RowCount = 200    'was 20
     End Sub
 
     Private Sub Button16_Click(sender As Object, e As EventArgs) Handles Button16.Click
@@ -987,7 +976,7 @@ Public Class Form1
         '==========WVB button======
         Button19.BackColor = System.Drawing.Color.LightGreen
         DataGridView5.Rows.Clear()
-        DataGridView5.RowCount = 20
+        DataGridView5.RowCount = 200    'was 20
 
         Find_IDW()
         Make_dxf()
