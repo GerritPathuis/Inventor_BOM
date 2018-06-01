@@ -124,7 +124,6 @@ Partial Class Form1
         Me.TextBox31 = New System.Windows.Forms.TextBox()
         Me.Label11 = New System.Windows.Forms.Label()
         Me.Label10 = New System.Windows.Forms.Label()
-        Me.CheckBox2 = New System.Windows.Forms.CheckBox()
         Me.Button16 = New System.Windows.Forms.Button()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.TextBox5 = New System.Windows.Forms.TextBox()
@@ -140,7 +139,6 @@ Partial Class Form1
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.Button13 = New System.Windows.Forms.Button()
         Me.Button14 = New System.Windows.Forms.Button()
-        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.TextBox3 = New System.Windows.Forms.TextBox()
         Me.TextBox4 = New System.Windows.Forms.TextBox()
         Me.DataGridView4 = New System.Windows.Forms.DataGridView()
@@ -149,10 +147,10 @@ Partial Class Form1
         Me.DataGridViewTextBoxColumn13 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn14 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn15 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
-        Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.TabPage7 = New System.Windows.Forms.TabPage()
         Me.TextBox2 = New System.Windows.Forms.TextBox()
+        Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
+        Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.TabControl1.SuspendLayout()
         Me.TabPage6.SuspendLayout()
@@ -1026,7 +1024,6 @@ Partial Class Form1
         Me.GroupBox4.Controls.Add(Me.TextBox31)
         Me.GroupBox4.Controls.Add(Me.Label11)
         Me.GroupBox4.Controls.Add(Me.Label10)
-        Me.GroupBox4.Controls.Add(Me.CheckBox2)
         Me.GroupBox4.Controls.Add(Me.Button16)
         Me.GroupBox4.Controls.Add(Me.Label5)
         Me.GroupBox4.Controls.Add(Me.TextBox5)
@@ -1041,7 +1038,7 @@ Partial Class Form1
         'CheckBox3
         '
         Me.CheckBox3.AutoSize = True
-        Me.CheckBox3.Location = New System.Drawing.Point(293, 83)
+        Me.CheckBox3.Location = New System.Drawing.Point(293, 104)
         Me.CheckBox3.Name = "CheckBox3"
         Me.CheckBox3.Size = New System.Drawing.Size(133, 17)
         Me.CheckBox3.TabIndex = 36
@@ -1052,9 +1049,9 @@ Partial Class Form1
         '
         Me.Button19.BackColor = System.Drawing.Color.Aqua
         Me.Button19.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button19.Location = New System.Drawing.Point(485, 16)
+        Me.Button19.Location = New System.Drawing.Point(293, 52)
         Me.Button19.Name = "Button19"
-        Me.Button19.Size = New System.Drawing.Size(132, 34)
+        Me.Button19.Size = New System.Drawing.Size(334, 34)
         Me.Button19.TabIndex = 35
         Me.Button19.Text = "WVB"
         Me.Button19.UseVisualStyleBackColor = False
@@ -1079,7 +1076,7 @@ Partial Class Form1
         'Label12
         '
         Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(290, 119)
+        Me.Label12.Location = New System.Drawing.Point(290, 126)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(267, 13)
         Me.Label12.TabIndex = 32
@@ -1119,21 +1116,11 @@ Partial Class Form1
         Me.Label10.TabIndex = 28
         Me.Label10.Text = "Project nummer"
         '
-        'CheckBox2
-        '
-        Me.CheckBox2.AutoSize = True
-        Me.CheckBox2.Location = New System.Drawing.Point(293, 60)
-        Me.CheckBox2.Name = "CheckBox2"
-        Me.CheckBox2.Size = New System.Drawing.Size(99, 17)
-        Me.CheckBox2.TabIndex = 27
-        Me.CheckBox2.Text = "Silent operation"
-        Me.CheckBox2.UseVisualStyleBackColor = True
-        '
         'Button16
         '
-        Me.Button16.Location = New System.Drawing.Point(293, 16)
+        Me.Button16.Location = New System.Drawing.Point(293, 14)
         Me.Button16.Name = "Button16"
-        Me.Button16.Size = New System.Drawing.Size(177, 35)
+        Me.Button16.Size = New System.Drawing.Size(334, 32)
         Me.Button16.TabIndex = 26
         Me.Button16.Text = "Extract dxf's from work directory"
         Me.Button16.UseVisualStyleBackColor = True
@@ -1180,7 +1167,6 @@ Partial Class Form1
         Me.SplitContainer4.Panel1.Controls.Add(Me.GroupBox3)
         Me.SplitContainer4.Panel1.Controls.Add(Me.Button1)
         Me.SplitContainer4.Panel1.Controls.Add(Me.GroupBox2)
-        Me.SplitContainer4.Panel1.Controls.Add(Me.CheckBox1)
         Me.SplitContainer4.Panel1.Controls.Add(Me.TextBox3)
         Me.SplitContainer4.Panel1.Controls.Add(Me.TextBox1)
         Me.SplitContainer4.Panel1.Controls.Add(Me.TextBox4)
@@ -1299,19 +1285,6 @@ Partial Class Form1
         Me.Button14.Text = "Read Parts list from IDW"
         Me.Button14.UseVisualStyleBackColor = True
         '
-        'CheckBox1
-        '
-        Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Checked = True
-        Me.CheckBox1.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CheckBox1.Location = New System.Drawing.Point(257, 157)
-        Me.CheckBox1.Name = "CheckBox1"
-        Me.CheckBox1.Size = New System.Drawing.Size(60, 20)
-        Me.CheckBox1.TabIndex = 8
-        Me.CheckBox1.Text = "Silent"
-        Me.CheckBox1.UseVisualStyleBackColor = True
-        '
         'TextBox3
         '
         Me.TextBox3.Location = New System.Drawing.Point(254, 29)
@@ -1374,11 +1347,12 @@ Partial Class Form1
         '
         'TextBox2
         '
-        Me.TextBox2.Location = New System.Drawing.Point(38, 32)
+        Me.TextBox2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TextBox2.Location = New System.Drawing.Point(3, 3)
         Me.TextBox2.Multiline = True
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.TextBox2.Size = New System.Drawing.Size(411, 408)
+        Me.TextBox2.Size = New System.Drawing.Size(633, 467)
         Me.TextBox2.TabIndex = 0
         '
         'ContextMenuStrip1
@@ -1463,7 +1437,6 @@ Partial Class Form1
     Friend WithEvents Column3 As DataGridViewTextBoxColumn
     Friend WithEvents Column4 As DataGridViewTextBoxColumn
     Friend WithEvents Column5 As DataGridViewTextBoxColumn
-    Friend WithEvents CheckBox1 As CheckBox
     Friend WithEvents Button5 As Button
     Friend WithEvents GroupBox1 As GroupBox
     Friend WithEvents RadioButton2 As RadioButton
@@ -1560,7 +1533,6 @@ Partial Class Form1
     Friend WithEvents Label8 As Label
     Friend WithEvents RadioButton10 As RadioButton
     Friend WithEvents Button16 As Button
-    Friend WithEvents CheckBox2 As CheckBox
     Friend WithEvents TextBox33 As TextBox
     Friend WithEvents TextBox31 As TextBox
     Friend WithEvents Label11 As Label

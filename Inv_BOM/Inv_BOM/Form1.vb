@@ -55,7 +55,7 @@ Public Class Form1
         DataGridView2.RowCount = 200    'was 20
         DataGridView2.Columns(0).HeaderText = "File"
         DataGridView2.Columns(1).HeaderText = "Assembly"
-        DataGridView2.Columns(2).HeaderText = "A_Artikel"
+        DataGridView2.Columns(2).HeaderText = "IDW_Assy"
         DataGridView2.Columns(3).HeaderText = "A_Drwg nr"
         DataGridView2.Columns(4).HeaderText = "Pos"
         DataGridView2.Columns(5).HeaderText = "Qty"
@@ -78,7 +78,7 @@ Public Class Form1
         DataGridView5.RowCount = 200    'was 20
         DataGridView5.Columns(0).HeaderText = "Artikel"
         DataGridView5.Columns(1).HeaderText = "Old file Name"
-        DataGridView5.Columns(2).HeaderText = "New new Name"
+        DataGridView5.Columns(2).HeaderText = "New file Name"
         DataGridView5.Columns(0).Width = 100
         DataGridView5.Columns(1).Width = 250
         DataGridView5.Columns(2).Width = 250
@@ -236,8 +236,8 @@ Public Class Form1
             "Description",
             "Stock Number",
             "Part Icon"}
-            If oPropSet.Count = 0 And Not CheckBox1.Checked Then
-                MessageBox.Show("The are NO 'Design Tracking' properties present in this file")
+            If oPropSet.Count = 0 Then
+                TextBox2.Text &= "The are NO 'Design Tracking' properties present in this file" & vbCrLf
             Else
                 For j = 0 To design_track.Length - 1
                     Try
@@ -245,7 +245,7 @@ Public Class Form1
                         DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 3).Value = oPropSet.Item(design_track(j)).Value
                     Catch Ex As Exception
                         DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 3).Value = "?"
-                        If Not CheckBox1.Checked Then MessageBox.Show(design_track(j) & " not found")
+                        TextBox2.Text &= design_track(j) & " not found" & vbCrLf
                     End Try
                 Next
             End If
@@ -261,8 +261,8 @@ Public Class Form1
             "LG"}
 
             oPropSet = oCompDef.Document.PropertySets.Item("Inventor User Defined Properties")
-            If oPropSet.Count = 0 And Not CheckBox1.Checked Then
-                MessageBox.Show("The are NO 'Custom' properties present in this file")
+            If oPropSet.Count = 0 Then
+                TextBox2.Text &= "The are NO 'Custom' properties present in this file" & vbCrLf
             Else
                 For j = 0 To custom.Length - 1
                     Try
@@ -270,7 +270,7 @@ Public Class Form1
                         DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 6).Value = oPropSet.Item(custom(j)).Value
                     Catch Ex As Exception
                         DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 6).Value = "?"
-                        If Not CheckBox1.Checked Then MessageBox.Show(custom(j) & " not found")
+                        TextBox2.Text &= "Custom property " & custom(j) & " not found" & vbCrLf
                     End Try
                 Next
             End If
@@ -282,8 +282,8 @@ Public Class Form1
             "Author",
             "Comments"}
             oPropSet = oCompDef.Document.PropertySets.Item("Inventor Summary Information")
-            If oPropSet.Count = 0 And Not CheckBox1.Checked Then
-                MessageBox.Show("The are NO 'Inventor Summary Information' present in this file")
+            If oPropSet.Count = 0 Then
+                TextBox2.Text &= "The are NO 'Inventor Summary Information' present in this file" & vbCrLf
             Else
                 For j = 0 To summary.Length - 1
                     Try
@@ -291,14 +291,14 @@ Public Class Form1
                         DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 14).Value = oPropSet.Item(summary(j)).Value
                     Catch Ex As Exception
                         DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 14).Value = "?"
-                        If Not CheckBox1.Checked Then MessageBox.Show(summary(j) & " not found")
+                        TextBox2.Text &= "Inventor Summary " & summary(j) & " not found" & vbCrLf
                     End Try
                 Next
             End If
 
         Next
         'Catch Ex As Exception
-        'MessageBox.Show("No BOM in this IAM model")
+        'TextBox2.Text &= "No BOM in this IAM model"
         'Finally
         'End Try
     End Sub
@@ -429,7 +429,7 @@ Public Class Form1
         MsgBox(AllPros)
     End Sub
     'Read IDW Title Block
-    Public Sub Read_title_Block(ByVal path As String)
+    Public Sub Read_title_Block_idw(ByVal path As String)
         'http://adndevblog.typepad.com/manufacturing/2012/12/inventor-change-text-items-in-titleblockdefinition.html
 
         Dim invApp As Inventor.Application
@@ -501,6 +501,9 @@ Public Class Form1
                             DataGridView2.Rows.Item(G2_row_cnt).Cells(3).Value = q_D00
 
                             str = partList.PartsListRows(sj).Item(ik).Value.ToString
+                            If (ik + 3) = 6 Then    'Check is this an artikel number
+                                If Isartikel(str) = False Then TextBox2.Text &= "IDW_drwg " & q_D00 & " BOM problem " & str & " is NOT an artikel number" & vbCrLf
+                            End If
                             DataGridView2.Rows.Item(G2_row_cnt).Cells(ik + 3).Value = str
                         Next ik
                     Next sj
@@ -509,6 +512,17 @@ Public Class Form1
             DataGridView2.AutoResizeColumns()
         End If
     End Sub
+    Private Function Isartikel(axx As String) As Boolean
+        Dim is_artikel As Boolean
+
+        If axx.Length = 8 And axx.Substring(0, 1) = "A" Then
+            is_artikel = True
+        Else
+            is_artikel = False
+        End If
+        Return is_artikel
+    End Function
+
 
     Private Sub Getresulttext(titleBlock As TitleBlock)
         Throw New NotImplementedException()
@@ -582,7 +596,7 @@ Public Class Form1
         'MessageBox.Show("Processed file is " & file)
         Dim extension As String = IO.Path.GetExtension(file)
         If extension = ".idw" Then
-            Read_title_Block(file)
+            Read_title_Block_idw(file)
         End If
     End Sub
     'Select work directory
@@ -748,16 +762,16 @@ Public Class Form1
 
             'Pre-processing check: The Active document must be a Sheet metal Part with a flat pattern
             If oPartDoc.DocumentType <> DocumentTypeEnum.kPartDocumentObject Then
-                If Not CheckBox2.Checked Then TextBox2.Text &= "The Active document must be a 'Part'" & vbCrLf
+                TextBox2.Text &= "The Active document must be a 'Part'" & vbCrLf
                 Exit Sub
             Else
                 If oPartDoc.SubType <> "{9C464203-9BAE-11D3-8BAD-0060B0CE6BB4}" Then
-                    If Not CheckBox2.Checked Then TextBox2.Text &= "The Active document must be a 'Sheet Metal Part'" & vbCrLf
+                    'TextBox2.Text &= "The Active document must be a 'Sheet Metal Part'" & vbCrLf
                     Exit Sub
                 Else
                     oFlatPattern = oPartDoc.ComponentDefinition.FlatPattern
                     If oFlatPattern Is Nothing Then
-                        If Not CheckBox2.Checked Then TextBox2.Text &= "IPT does NOT contain a flat pattern" & vbCrLf
+                        TextBox2.Text &= "IPT " & file_path & " does NOT contain a flat pattern" & vbCrLf
                         Exit Sub
                     End If
                 End If
@@ -804,7 +818,7 @@ Public Class Form1
             DataGridView5.Rows.Item(G5_row_cnt).Cells(1).Value = oDXFfileNAME
 
             G5_row_cnt += 1
-            If Not CheckBox2.Checked Then TextBox2.Text &= "Dxf file is written to work directory" & vbCrLf
+            TextBox2.Text &= "Dxf file " & oDXFfileNAME & " is written to work directory " & vbCrLf
         Else
             MessageBox.Show("File does noet exist")
         End If
@@ -898,7 +912,7 @@ Public Class Form1
         Button16.BackColor = System.Drawing.Color.Transparent
     End Sub
 
-    Private Sub Rename_dxf()
+    Private Sub Find_art_rename_dxf()
         'Find the the artikel on the assembly drawing (IDW)
         'Print result in DataGridView5
         'DataGridView5 contains old and new file name
@@ -964,26 +978,35 @@ Public Class Form1
                 actie &= ".dxf"
                 Exit For
             Else
-                If Not CheckBox2.Checked Then TextBox2.Text &= "Artikel Not found" & vbCrLf
+                TextBox2.Text &= "Artikel " & Axxxxx & " Not found" & vbCrLf
             End If
         Next
         If Not found Then
-            If Not CheckBox2.Checked Then TextBox2.Text &= "Item NOT found" & vbCrLf
+            TextBox2.Text &= "Item NOT found" & vbCrLf
         End If
         Return actie
     End Function
 
     Private Sub Button19_Click(sender As Object, e As EventArgs) Handles Button19.Click
         '==========WVB button======
+
         TextBox2.Clear()
         Button19.BackColor = System.Drawing.Color.LightGreen
         DataGridView5.Rows.Clear()
         DataGridView5.RowCount = 200    'was 20
 
+        TextBox2.Text &= "============= Find the IDW's =======================" & vbCrLf
+        Button19.Text = "Find the IDW's..."
         Find_IDW()
+        TextBox2.Text &= "============= Extract dxf from IDW ==================" & vbCrLf
+        Button19.Text = "Extract dxf from idw's..."
         Extract_dxf_from_IDW()
-        Rename_dxf()
+        TextBox2.Text &= "============= Find artikel drwg + pos and rename ====" & vbCrLf
+        Button19.Text = "Lookup artikel dwg and pos..."
+        Find_art_rename_dxf()
+        Button19.Text = "WVB"
         Button19.BackColor = System.Drawing.Color.Aqua
+
     End Sub
 End Class
 
