@@ -19,6 +19,7 @@ Public Class Form1
     Public G1_row_cnt As Integer
     Public G2_row_cnt As Integer
     Public G5_row_cnt As Integer
+    Public Const view_rows = 1000
     Public dxf_file_name(,) As String   '(old name, new name)
 
 
@@ -26,7 +27,7 @@ Public Class Form1
         Dim Pro_user As String
 
         DataGridView1.ColumnCount = 30
-        DataGridView1.RowCount = 20
+        DataGridView1.RowCount = view_rows
         DataGridView1.ColumnHeadersVisible = True
         DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
 
@@ -52,7 +53,7 @@ Public Class Form1
         DataGridView1.Columns(17).HeaderText = "Comments"
 
         DataGridView2.ColumnCount = 10
-        DataGridView2.RowCount = 300    'was 20
+        DataGridView2.RowCount = view_rows   'was 20
         DataGridView2.Columns(0).HeaderText = "File"
         DataGridView2.Columns(1).HeaderText = "Assembly"
         DataGridView2.Columns(2).HeaderText = "IDW_Assy"
@@ -63,19 +64,19 @@ Public Class Form1
         DataGridView2.Columns(7).HeaderText = "Descrip"
 
         DataGridView3.ColumnCount = 5
-        DataGridView3.RowCount = 20
+        DataGridView3.RowCount = view_rows
         DataGridView3.Columns(0).HeaderText = "File"
         DataGridView3.Columns(1).HeaderText = "D_no"
         DataGridView3.Columns(2).HeaderText = "A_no"
 
         DataGridView4.ColumnCount = 20
-        DataGridView4.RowCount = 20
+        DataGridView4.RowCount = view_rows
         DataGridView4.Columns(0).HeaderText = "File"
         DataGridView4.Columns(1).HeaderText = "D_no"
         DataGridView4.Columns(2).HeaderText = "A_no"
 
         DataGridView5.ColumnCount = 4
-        DataGridView5.RowCount = 300    'was 20
+        DataGridView5.RowCount = view_rows    'was 20
         DataGridView5.Columns(0).HeaderText = "Artikel"
         DataGridView5.Columns(1).HeaderText = "Old file Name"
         DataGridView5.Columns(2).HeaderText = "New file Name"
@@ -465,6 +466,7 @@ Public Class Form1
 
             ' Find the Prompted Entry called Make in the Title Block
             For Each defText As Inventor.TextBox In titleDef.Sketch.TextBoxes
+                Increm_progressbar()
                 q_file = IO.Path.GetFileName(path)          '=File naam (short)
                 If defText.Text = "<DESCRIPTION>" Then      'Description
                     oPrompt = defText
@@ -587,6 +589,7 @@ Public Class Form1
         ' Process the list of files found in the directory.
         Dim fileName As String
         For Each fileName In fileEntries
+            Increm_progressbar()
             ProcessFile(fileName)
         Next fileName
     End Sub
@@ -881,7 +884,7 @@ Public Class Form1
     Private Sub Button15_Click(sender As Object, e As EventArgs) Handles Button15.Click
         Inventor_running()
         DataGridView2.Rows.Clear()
-        DataGridView2.RowCount = 300    'was 20
+        DataGridView2.RowCount = view_rows    'was 20
     End Sub
 
     Private Sub Button16_Click(sender As Object, e As EventArgs) Handles Button16.Click
@@ -900,6 +903,7 @@ Public Class Form1
             Dim fileName As String
             Dim ext As String
             For Each fileName In fileEntries
+                Increm_progressbar()
                 ext = IO.Path.GetExtension(fileName)
                 If ext = ".ipt" Then
                     ExportSketchDXF2(fileName)
@@ -939,6 +943,7 @@ Public Class Form1
         Dim ask_once As Boolean = False
 
         For Each row In DataGridView5.Rows
+            Increm_progressbar()
             If row.Cells(0).Value <> Nothing Then
                 'art = row.Cells(0).Value.ToString
                 'row.Cells(2).Value = Find_dwg_pos(DataGridView2, art)
@@ -987,7 +992,7 @@ Public Class Form1
         TextBox2.Text &= "Lookup drwg + pos for Artikel " & Axxxxx & " "
 
         For Each row As DataGridViewRow In dtg.Rows
-
+            Increm_progressbar()
             If row.Cells.Item(6).Value = Axxxxx Then
                 found = True
                 actie = TextBox31.Text & "_"                    'Project
@@ -1011,14 +1016,19 @@ Public Class Form1
 
         Return actie
     End Function
+    Private Sub Increm_progressbar()
+        ProgressBar1.Value += 1
+        If ProgressBar1.Value = 99 Then ProgressBar1.Value = 0
+    End Sub
 
     Private Sub Button19_Click(sender As Object, e As EventArgs) Handles Button19.Click
         '==========WVB button======
 
         TextBox2.Clear()
+        ProgressBar1.Visible = True
         Button19.BackColor = System.Drawing.Color.LightGreen
         DataGridView5.Rows.Clear()
-        DataGridView5.RowCount = 300    'was 20
+        DataGridView5.RowCount = view_rows    'was 20
 
         TextBox2.Text &= "============= Find the IDW's =======================" & vbCrLf
         Button19.Text = "Find the IDW's..."
@@ -1033,6 +1043,7 @@ Public Class Form1
         Button19.Text = "Rename dxg file..."
         Rename_dxf()
         Button19.Text = "WVB"
+        ProgressBar1.Visible = False
         Button19.BackColor = System.Drawing.Color.Aqua
     End Sub
 End Class

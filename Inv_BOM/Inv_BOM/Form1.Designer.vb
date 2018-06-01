@@ -152,6 +152,7 @@ Partial Class Form1
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
         Me.TabControl1.SuspendLayout()
         Me.TabPage6.SuspendLayout()
         Me.GroupBox8.SuspendLayout()
@@ -1015,6 +1016,7 @@ Partial Class Form1
         '
         'GroupBox4
         '
+        Me.GroupBox4.Controls.Add(Me.ProgressBar1)
         Me.GroupBox4.Controls.Add(Me.CheckBox3)
         Me.GroupBox4.Controls.Add(Me.Button19)
         Me.GroupBox4.Controls.Add(Me.Label13)
@@ -1038,7 +1040,7 @@ Partial Class Form1
         'CheckBox3
         '
         Me.CheckBox3.AutoSize = True
-        Me.CheckBox3.Location = New System.Drawing.Point(293, 104)
+        Me.CheckBox3.Location = New System.Drawing.Point(293, 109)
         Me.CheckBox3.Name = "CheckBox3"
         Me.CheckBox3.Size = New System.Drawing.Size(133, 17)
         Me.CheckBox3.TabIndex = 36
@@ -1076,7 +1078,7 @@ Partial Class Form1
         'Label12
         '
         Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(290, 126)
+        Me.Label12.Location = New System.Drawing.Point(290, 130)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(267, 13)
         Me.Label12.TabIndex = 32
@@ -1360,6 +1362,14 @@ Partial Class Form1
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
         Me.ContextMenuStrip1.Size = New System.Drawing.Size(61, 4)
         '
+        'ProgressBar1
+        '
+        Me.ProgressBar1.Location = New System.Drawing.Point(293, 92)
+        Me.ProgressBar1.Name = "ProgressBar1"
+        Me.ProgressBar1.Size = New System.Drawing.Size(333, 13)
+        Me.ProgressBar1.TabIndex = 37
+        Me.ProgressBar1.Visible = False
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1551,4 +1561,5 @@ Partial Class Form1
     Friend WithEvents TabPage7 As TabPage
     Friend WithEvents TextBox2 As TextBox
     Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
+    Friend WithEvents ProgressBar1 As ProgressBar
 End Class
