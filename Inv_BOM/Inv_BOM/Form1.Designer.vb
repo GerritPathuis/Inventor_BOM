@@ -1342,7 +1342,7 @@ Partial Class Form1
         Me.TabPage7.Padding = New System.Windows.Forms.Padding(3)
         Me.TabPage7.Size = New System.Drawing.Size(639, 473)
         Me.TabPage7.TabIndex = 6
-        Me.TabPage7.Text = "Error log"
+        Me.TabPage7.Text = "Trace log"
         Me.TabPage7.UseVisualStyleBackColor = True
         '
         'TextBox2

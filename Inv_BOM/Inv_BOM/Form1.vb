@@ -52,7 +52,7 @@ Public Class Form1
         DataGridView1.Columns(17).HeaderText = "Comments"
 
         DataGridView2.ColumnCount = 10
-        DataGridView2.RowCount = 200    'was 20
+        DataGridView2.RowCount = 300    'was 20
         DataGridView2.Columns(0).HeaderText = "File"
         DataGridView2.Columns(1).HeaderText = "Assembly"
         DataGridView2.Columns(2).HeaderText = "IDW_Assy"
@@ -75,7 +75,7 @@ Public Class Form1
         DataGridView4.Columns(2).HeaderText = "A_no"
 
         DataGridView5.ColumnCount = 4
-        DataGridView5.RowCount = 200    'was 20
+        DataGridView5.RowCount = 300    'was 20
         DataGridView5.Columns(0).HeaderText = "Artikel"
         DataGridView5.Columns(1).HeaderText = "Old file Name"
         DataGridView5.Columns(2).HeaderText = "New file Name"
@@ -881,7 +881,7 @@ Public Class Form1
     Private Sub Button15_Click(sender As Object, e As EventArgs) Handles Button15.Click
         Inventor_running()
         DataGridView2.Rows.Clear()
-        DataGridView2.RowCount = 200    'was 20
+        DataGridView2.RowCount = 300    'was 20
     End Sub
 
     Private Sub Button16_Click(sender As Object, e As EventArgs) Handles Button16.Click
@@ -912,7 +912,25 @@ Public Class Form1
         Button16.BackColor = System.Drawing.Color.Transparent
     End Sub
 
-    Private Sub Find_art_rename_dxf()
+    Private Sub Find_artikel()
+        'Find the the artikel on the assembly drawing (IDW)
+        'Print result in DataGridView5
+        'DataGridView5 contains old and new file name
+
+        Dim art As String
+        Dim ask_once As Boolean = False
+
+        MessageBox.Show("start Find_artikel")
+
+        For Each row In DataGridView5.Rows
+            If row.Cells(0).Value <> Nothing Then
+                art = row.Cells(0).Value.ToString
+                row.Cells(2).Value = Find_dwg_pos(DataGridView2, art)
+            End If
+        Next
+        DataGridView5.AutoResizeColumns()
+    End Sub
+    Private Sub Rename_dxf()
         'Find the the artikel on the assembly drawing (IDW)
         'Print result in DataGridView5
         'DataGridView5 contains old and new file name
@@ -922,10 +940,12 @@ Public Class Form1
         Dim delete_file As Boolean
         Dim ask_once As Boolean = False
 
+        MessageBox.Show("start rename")
+
         For Each row In DataGridView5.Rows
             If row.Cells(0).Value <> Nothing Then
-                art = row.Cells(0).Value.ToString
-                row.Cells(2).Value = Find_dwg_pos(DataGridView2, art)
+                'art = row.Cells(0).Value.ToString
+                'row.Cells(2).Value = Find_dwg_pos(DataGridView2, art)
                 old_f = row.Cells(1).Value.ToString
                 new_f = row.Cells(2).Value.ToString
 
@@ -935,13 +955,18 @@ Public Class Form1
                     ask_once = True
                 End If
 
-                If delete_file = True Then
-                    IO.File.Delete(new_ff)
+                If new_f.Length > 1 Then    'Make sure file name exist
+                    If delete_file = True Then
+                        IO.File.Delete(new_ff)
+                        My.Computer.FileSystem.RenameFile(old_f, new_f)
+                        TextBox2.Text &= "Dxf file " & new_f & " deleted and renamed " & vbCrLf
+                    Else
+                        My.Computer.FileSystem.RenameFile(old_f, new_f)
+                        TextBox2.Text &= "Dxf file " & new_f & " renamed " & vbCrLf
+                    End If
                 Else
-                    Exit For
+                    TextBox2.Text &= "Dxf file " & old_f & "Failed NO new name !" & vbCrLf
                 End If
-
-                My.Computer.FileSystem.RenameFile(old_f, new_f)
             End If
         Next
         DataGridView5.AutoResizeColumns()
@@ -962,11 +987,12 @@ Public Class Form1
         Dim found As Boolean = False
         Dim pos As Integer
 
+        TextBox2.Text &= "Lookup drwg + pos for Artikel " & Axxxxx & " "
+
         For Each row As DataGridViewRow In dtg.Rows
-            'If Axxxxx <> Nothing Then MessageBox.Show(Axxxxx.ToString)
+
             If row.Cells.Item(6).Value = Axxxxx Then
                 found = True
-                'actie = TextBox34.Text & "\"                   'directory
                 actie = TextBox31.Text & "_"                    'Project
                 actie &= TextBox33.Text & "_"                   'Tnumber
                 actie &= row.Cells(3).Value.ToString() & "_"    'Drwg= 
@@ -977,13 +1003,15 @@ Public Class Form1
                 End If
                 actie &= ".dxf"
                 Exit For
-            Else
-                TextBox2.Text &= "Artikel " & Axxxxx & " Not found" & vbCrLf
             End If
         Next
-        If Not found Then
-            TextBox2.Text &= "Item NOT found" & vbCrLf
+
+        If found = True Then
+            TextBox2.Text &= " found" & vbCrLf
+        Else
+            TextBox2.Text &= " NOT found !" & vbCrLf
         End If
+
         Return actie
     End Function
 
@@ -993,7 +1021,7 @@ Public Class Form1
         TextBox2.Clear()
         Button19.BackColor = System.Drawing.Color.LightGreen
         DataGridView5.Rows.Clear()
-        DataGridView5.RowCount = 200    'was 20
+        DataGridView5.RowCount = 300    'was 20
 
         TextBox2.Text &= "============= Find the IDW's =======================" & vbCrLf
         Button19.Text = "Find the IDW's..."
@@ -1003,10 +1031,12 @@ Public Class Form1
         Extract_dxf_from_IDW()
         TextBox2.Text &= "============= Find artikel drwg + pos and rename ====" & vbCrLf
         Button19.Text = "Lookup artikel dwg and pos..."
-        Find_art_rename_dxf()
+        Find_artikel()
+        TextBox2.Text &= "============= Rrname dxf file ======================" & vbCrLf
+        Button19.Text = "Rename dxg file..."
+        Rename_dxf()
         Button19.Text = "WVB"
         Button19.BackColor = System.Drawing.Color.Aqua
-
     End Sub
 End Class
 
