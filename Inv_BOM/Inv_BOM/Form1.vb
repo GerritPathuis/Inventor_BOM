@@ -920,8 +920,6 @@ Public Class Form1
         Dim art As String
         Dim ask_once As Boolean = False
 
-        MessageBox.Show("start Find_artikel")
-
         For Each row In DataGridView5.Rows
             If row.Cells(0).Value <> Nothing Then
                 art = row.Cells(0).Value.ToString
@@ -940,8 +938,6 @@ Public Class Form1
         Dim delete_file As Boolean
         Dim ask_once As Boolean = False
 
-        MessageBox.Show("start rename")
-
         For Each row In DataGridView5.Rows
             If row.Cells(0).Value <> Nothing Then
                 'art = row.Cells(0).Value.ToString
@@ -958,9 +954,10 @@ Public Class Form1
                 If new_f.Length > 1 Then    'Make sure file name exist
                     If delete_file = True Then
                         IO.File.Delete(new_ff)
-                        My.Computer.FileSystem.RenameFile(old_f, new_f)
-                        TextBox2.Text &= "Dxf file " & new_f & " deleted and renamed " & vbCrLf
-                    Else
+                        TextBox2.Text &= "Dxf file " & old_f & " deleted " & vbCrLf
+                    End If
+
+                    If Not IO.File.Exists(new_ff) Then
                         My.Computer.FileSystem.RenameFile(old_f, new_f)
                         TextBox2.Text &= "Dxf file " & new_f & " renamed " & vbCrLf
                     End If
