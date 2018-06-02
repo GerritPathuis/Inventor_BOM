@@ -16,15 +16,16 @@ Public Class Form1
     Public filepath1 As String = "C:\Repos\Inventor_IDW\Read_IDW\Part.ipt"
     Public filepath2 As String = "E:\Protmp\Procad"
     Public filepath3 As String = "c:\MyDir"
+    Public filepath4 As String = "C:\Inventor_tst\Assembly1.idw"
     Public G1_row_cnt As Integer
     Public G2_row_cnt As Integer
     Public G5_row_cnt As Integer
     Public Const view_rows = 1000
-    Public dxf_file_name(,) As String   '(old name, new name)
+    Public dxf_file_name(,) As String   '(old name, new name)  
+    Dim Pro_user As String
 
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim Pro_user As String
 
         DataGridView1.ColumnCount = 30
         DataGridView1.RowCount = view_rows
@@ -92,7 +93,6 @@ Public Class Form1
 
         Pro_user = System.Environment.UserName    'User name on the screen
 
-        Me.Text &= " " & Pro_user
 
         If (Pro_user = "GP" Or Pro_user = "GerritP") Then
             TextBox34.Text = "c:\temp"
@@ -117,10 +117,10 @@ Public Class Form1
         p = Process.GetProcessesByName("Inventor")
         If p.Count = 0 Then
             Label7.Visible = True
-            Me.Text = "Inventor NOT running"
+            Me.Text = "Inventor NOT running" & " (" & Pro_user & ")"
         Else
             Label7.Visible = False
-            Me.Text = "Inventor BOM Extractor"
+            Me.Text = "Inventor BOM Extractor" & " (" & Pro_user & ")"
         End If
     End Sub
 
@@ -1045,6 +1045,72 @@ Public Class Form1
         Button19.Text = "WVB"
         ProgressBar1.Visible = False
         Button19.BackColor = System.Drawing.Color.Aqua
+    End Sub
+
+    Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
+        'Add Note then print IDW
+        Inventor_running()
+        Button6.BackColor = System.Drawing.Color.LightGreen
+
+        If IO.Directory.Exists(TextBox5.Text) Then ' This pathfile is a file.
+            Dim fileEntries As String() = Directory.GetFiles(TextBox5.Text)
+            ' Process the list of files found in the directory.
+
+            Dim fileName As String
+            Dim ext As String
+            For Each fileName In fileEntries
+                ext = IO.Path.GetExtension(fileName)
+                If ext = ".idw" Then
+                    Print_w_note(fileName)
+                End If
+            Next fileName
+        Else
+            MessageBox.Show("Directory does not exist")
+        End If
+        Button6.BackColor = System.Drawing.Color.Transparent
+    End Sub
+
+    Private Sub Print_w_note(fileName As String)
+        'http://adndevblog.typepad.com/manufacturing/2013/01/adding-general-note-idw-and-obtain-its-height.html
+        'http://modthemachine.typepad.com/my_weblog/wayne/page/2/
+        'https://knowledge.autodesk.com/search-result/caas/CloudHelp/cloudhelp/2018/ENU/Inventor-API/files/GeneralNote-Sample-htm.html
+
+        Inventor_running()
+        Dim sNote As String = "<StyleOverride Font='Arial' FontSize='0.5' Bold='True'>" + "Sample note" + "</StyleOverride>"
+        Dim invApp As Inventor.Application
+        Dim oDoc As Inventor.Document
+
+        invApp = Marshal.GetActiveObject("Inventor.Application")
+        invApp.SilentOperation = vbTrue
+        oDoc = CType(invApp.Documents.Open(fileName, False), Document)
+
+        ' Set a reference to the active sheet.
+        Dim oActiveSheet As Sheet
+        oActiveSheet = oDoc.ActiveSheet
+
+        ' Set a reference to the GeneralNotes object
+        Dim oGeneralNotes As GeneralNotes
+        oGeneralNotes = oActiveSheet.DrawingNotes.GeneralNotes
+
+        Dim oTG As TransientGeometry
+        oTG = invApp.TransientGeometry
+
+        ' Create text with simple string as input. Since this doesn't use
+        ' any text overrides, it will default to the active text style.
+        Dim sText As String
+        sText = "Drawing Notes"
+
+        Dim oGeneralNote As GeneralNote
+        oGeneralNote = oGeneralNotes.AddFitted(oTG.CreatePoint2d(3, 18), sText)
+
+        ' create a note
+        'Dim oDrawingNote As GeneralNote
+        'oDrawingNote = oDoc.ActiveSheet.DrawingNotes.GeneralNotes.AddFitted(invApp.TransientGeometry.CreatePoint2d(10.0#, 10.0#), sNote)
+
+        'Save the document
+        invApp.Documents.CloseAll()
+        'invApp.oDoc.SaveAs(“C:\Temp\New.dwg”, True)
+        oDoc.SaveAs(“C:\Temp\New.dwg”, True)
     End Sub
 End Class
 

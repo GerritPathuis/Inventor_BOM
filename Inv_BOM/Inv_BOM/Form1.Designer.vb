@@ -115,6 +115,7 @@ Partial Class Form1
         Me.DataGridViewTextBoxColumn19 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn20 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
+        Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
         Me.CheckBox3 = New System.Windows.Forms.CheckBox()
         Me.Button19 = New System.Windows.Forms.Button()
         Me.Label13 = New System.Windows.Forms.Label()
@@ -152,7 +153,16 @@ Partial Class Form1
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
+        Me.TabPage8 = New System.Windows.Forms.TabPage()
+        Me.TextBox35 = New System.Windows.Forms.TextBox()
+        Me.TextBox36 = New System.Windows.Forms.TextBox()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.Label14 = New System.Windows.Forms.Label()
+        Me.Label15 = New System.Windows.Forms.Label()
+        Me.TextBox37 = New System.Windows.Forms.TextBox()
+        Me.Label16 = New System.Windows.Forms.Label()
+        Me.TextBox38 = New System.Windows.Forms.TextBox()
+        Me.Button6 = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.TabPage6.SuspendLayout()
         Me.GroupBox8.SuspendLayout()
@@ -192,6 +202,7 @@ Partial Class Form1
         Me.GroupBox2.SuspendLayout()
         CType(Me.DataGridView4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage7.SuspendLayout()
+        Me.TabPage8.SuspendLayout()
         Me.SuspendLayout()
         '
         'TextBox1
@@ -240,6 +251,7 @@ Partial Class Form1
         Me.TabControl1.Controls.Add(Me.TabPage5)
         Me.TabControl1.Controls.Add(Me.TabPage1)
         Me.TabControl1.Controls.Add(Me.TabPage7)
+        Me.TabControl1.Controls.Add(Me.TabPage8)
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TabControl1.Location = New System.Drawing.Point(0, 0)
         Me.TabControl1.Name = "TabControl1"
@@ -1037,6 +1049,14 @@ Partial Class Form1
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Extract dxf from sheetmetal IPT's"
         '
+        'ProgressBar1
+        '
+        Me.ProgressBar1.Location = New System.Drawing.Point(293, 92)
+        Me.ProgressBar1.Name = "ProgressBar1"
+        Me.ProgressBar1.Size = New System.Drawing.Size(333, 13)
+        Me.ProgressBar1.TabIndex = 37
+        Me.ProgressBar1.Visible = False
+        '
         'CheckBox3
         '
         Me.CheckBox3.AutoSize = True
@@ -1362,13 +1382,102 @@ Partial Class Form1
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
         Me.ContextMenuStrip1.Size = New System.Drawing.Size(61, 4)
         '
-        'ProgressBar1
+        'TabPage8
         '
-        Me.ProgressBar1.Location = New System.Drawing.Point(293, 92)
-        Me.ProgressBar1.Name = "ProgressBar1"
-        Me.ProgressBar1.Size = New System.Drawing.Size(333, 13)
-        Me.ProgressBar1.TabIndex = 37
-        Me.ProgressBar1.Visible = False
+        Me.TabPage8.Controls.Add(Me.Button6)
+        Me.TabPage8.Controls.Add(Me.Label15)
+        Me.TabPage8.Controls.Add(Me.TextBox37)
+        Me.TabPage8.Controls.Add(Me.Label16)
+        Me.TabPage8.Controls.Add(Me.TextBox38)
+        Me.TabPage8.Controls.Add(Me.TextBox35)
+        Me.TabPage8.Controls.Add(Me.TextBox36)
+        Me.TabPage8.Controls.Add(Me.Label6)
+        Me.TabPage8.Controls.Add(Me.Label14)
+        Me.TabPage8.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage8.Name = "TabPage8"
+        Me.TabPage8.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage8.Size = New System.Drawing.Size(639, 473)
+        Me.TabPage8.TabIndex = 7
+        Me.TabPage8.Text = "Print"
+        Me.TabPage8.UseVisualStyleBackColor = True
+        '
+        'TextBox35
+        '
+        Me.TextBox35.Location = New System.Drawing.Point(220, 120)
+        Me.TextBox35.Name = "TextBox35"
+        Me.TextBox35.Size = New System.Drawing.Size(158, 20)
+        Me.TextBox35.TabIndex = 35
+        Me.TextBox35.Text = "T000"
+        '
+        'TextBox36
+        '
+        Me.TextBox36.Location = New System.Drawing.Point(220, 94)
+        Me.TextBox36.Name = "TextBox36"
+        Me.TextBox36.Size = New System.Drawing.Size(158, 20)
+        Me.TextBox36.TabIndex = 34
+        Me.TextBox36.Text = "P17."
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(136, 120)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(54, 13)
+        Me.Label6.TabIndex = 33
+        Me.Label6.Text = "T nummer"
+        '
+        'Label14
+        '
+        Me.Label14.AutoSize = True
+        Me.Label14.Location = New System.Drawing.Point(136, 96)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(80, 13)
+        Me.Label14.TabIndex = 32
+        Me.Label14.Text = "Project nummer"
+        '
+        'Label15
+        '
+        Me.Label15.AutoSize = True
+        Me.Label15.Location = New System.Drawing.Point(137, 175)
+        Me.Label15.Name = "Label15"
+        Me.Label15.Size = New System.Drawing.Size(60, 13)
+        Me.Label15.TabIndex = 39
+        Me.Label15.Text = "Destination"
+        '
+        'TextBox37
+        '
+        Me.TextBox37.Location = New System.Drawing.Point(220, 172)
+        Me.TextBox37.Name = "TextBox37"
+        Me.TextBox37.Size = New System.Drawing.Size(160, 20)
+        Me.TextBox37.TabIndex = 38
+        Me.TextBox37.Text = "N:\CAD"
+        '
+        'Label16
+        '
+        Me.Label16.AutoSize = True
+        Me.Label16.Location = New System.Drawing.Point(137, 149)
+        Me.Label16.Name = "Label16"
+        Me.Label16.Size = New System.Drawing.Size(76, 13)
+        Me.Label16.TabIndex = 37
+        Me.Label16.Text = "Work directory"
+        '
+        'TextBox38
+        '
+        Me.TextBox38.Enabled = False
+        Me.TextBox38.Location = New System.Drawing.Point(220, 146)
+        Me.TextBox38.Name = "TextBox38"
+        Me.TextBox38.Size = New System.Drawing.Size(160, 20)
+        Me.TextBox38.TabIndex = 36
+        Me.TextBox38.Text = "C:\Inventor test files\Test2"
+        '
+        'Button6
+        '
+        Me.Button6.Location = New System.Drawing.Point(274, 234)
+        Me.Button6.Name = "Button6"
+        Me.Button6.Size = New System.Drawing.Size(164, 41)
+        Me.Button6.TabIndex = 40
+        Me.Button6.Text = "Button6"
+        Me.Button6.UseVisualStyleBackColor = True
         '
         'Form1
         '
@@ -1430,6 +1539,8 @@ Partial Class Form1
         CType(Me.DataGridView4, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage7.ResumeLayout(False)
         Me.TabPage7.PerformLayout()
+        Me.TabPage8.ResumeLayout(False)
+        Me.TabPage8.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1562,4 +1673,14 @@ Partial Class Form1
     Friend WithEvents TextBox2 As TextBox
     Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
     Friend WithEvents ProgressBar1 As ProgressBar
+    Friend WithEvents TabPage8 As TabPage
+    Friend WithEvents Button6 As Button
+    Friend WithEvents Label15 As Label
+    Friend WithEvents TextBox37 As TextBox
+    Friend WithEvents Label16 As Label
+    Friend WithEvents TextBox38 As TextBox
+    Friend WithEvents TextBox35 As TextBox
+    Friend WithEvents TextBox36 As TextBox
+    Friend WithEvents Label6 As Label
+    Friend WithEvents Label14 As Label
 End Class
