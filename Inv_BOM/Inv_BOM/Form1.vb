@@ -14,9 +14,10 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel
 '==================================
 Public Class Form1
     Public filepath1 As String = "C:\Repos\Inventor_IDW\Read_IDW\Part.ipt"
-    Public filepath2 As String = "E:\Protmp\Procad"
+    Public filepath2 As String = "E:\Protmp\Procad"     'Work directory
     Public filepath3 As String = "c:\MyDir"
     Public filepath4 As String = "C:\Inventor_tst\Assembly1.idw"
+    Public filepath5 As String = ""                     'Destination directory
     Public G1_row_cnt As Integer
     Public G2_row_cnt As Integer
     Public G5_row_cnt As Integer
@@ -85,29 +86,32 @@ Public Class Form1
         DataGridView5.Columns(1).Width = 250
         DataGridView5.Columns(2).Width = 250
 
-        TextBox5.Text = filepath2
-        TextBox6.Text = filepath2
-        TextBox7.Text = filepath2
-        TextBox8.Text = filepath2
-        TextBox9.Text = filepath2
-
         Pro_user = System.Environment.UserName    'User name on the screen
 
+        Dim number As Integer = 8
+        Select Case Pro_user
+            Case "GP"                               'Home
+                filepath2 = "C:\Inventor_tst"
+                filepath5 = "c:\Temp"
+            Case "GerritP"                          'Work
+                filepath2 = "C:\Inventor test files\KarelBakker"
+                filepath5 = "c:\temp"
+            Case Else                               'Karel Bakker
+                filepath2 = "E:\Protmp\Procad"
+                filepath5 = "N:\CAD"
+        End Select
 
-        If (Pro_user = "GP" Or Pro_user = "GerritP") Then
-            TextBox34.Text = "c:\temp"
-            'filepath2 = "C:\Inventor test files\Test2\MID_PLATE_1_PLATE_12_mm_1646x1597_D0139127_A0018838"
-            'filepath2 = "N:\mailbox\GPathuis\BOM Extractor PROEFFILES"
-            filepath2 = "C:\Inventor test files\KarelBakker"
-        Else
-            TextBox34.Text = "N:\CAD"
-            filepath2 = "E:\Protmp\Procad"
-        End If
+        '======== Work directory's ==========
         TextBox5.Text = filepath2
         TextBox6.Text = filepath2
         TextBox7.Text = filepath2
         TextBox8.Text = filepath2
         TextBox9.Text = filepath2
+        TextBox35.Text = filepath2
+
+        '======== Destination directory's ==========
+        TextBox34.Text = filepath5
+        TextBox35.Text = filepath5
 
         Inventor_running()
     End Sub
@@ -190,7 +194,7 @@ Public Class Form1
         invApp = Marshal.GetActiveObject("Inventor.Application")
 
         invApp.SilentOperation = vbTrue
-        oDoc = CType(invApp.Documents.Open(fpath, False), Document)
+        oDoc = invApp.Documents.Open(fpath, False)
 
         '--------- determine object type -------
         Dim eDocumentType As DocumentTypeEnum = oDoc.DocumentType
@@ -389,7 +393,7 @@ Public Class Form1
 
         invApp = Marshal.GetActiveObject("Inventor.Application")
         invApp.SilentOperation = vbTrue
-        oDoc = CType(invApp.Documents.Open(filepath1, False), Document)
+        oDoc = invApp.Documents.Open(filepath1, False)
 
         Dim Docs As DocumentsEnumerator = oDoc.AllReferencedDocuments
         Dim aDoc As Document
@@ -612,6 +616,7 @@ Public Class Form1
             TextBox7.Text = FolderBrowserDialog1.SelectedPath
             TextBox8.Text = FolderBrowserDialog1.SelectedPath
             TextBox9.Text = FolderBrowserDialog1.SelectedPath
+            TextBox38.Text = FolderBrowserDialog1.SelectedPath
         End If
     End Sub
 
@@ -657,6 +662,7 @@ Public Class Form1
             Dim fileName As String
 
             For Each fileName In fileEntries
+                Increm_progressbar()
                 extension = IO.Path.GetExtension(fileName)
                 If String.Equals(extension, fext) Or RadioButton10.Checked Then
                     DataGridView3.Rows.Add()
@@ -714,6 +720,7 @@ Public Class Form1
         Dim fileName As String
         Dim ext As String
         For Each fileName In fileEntries
+            Increm_progressbar()
             ext = IO.Path.GetExtension(fileName)
             If ext = ".iam" Then
                 Qbom(fileName)
@@ -732,12 +739,12 @@ Public Class Form1
         invApp.SilentOperation = vbTrue
 
         Dim oDrawDoc As Inventor.DrawingDocument
-        oDrawDoc = CType(invApp.Documents.Open(filepath1, False), Document)
+        oDrawDoc = invApp.Documents.Open(filepath1, False)
         Dim oRefDoc As Document
 
         For Each oRefDoc In oDrawDoc.ReferencedDocuments
+            Increm_progressbar()
             If oRefDoc.DocumentType = DocumentTypeEnum.kPartDocumentObject Then
-
                 Dim model As Inventor.PartDocument = invApp.Documents.Open("C:\Inventor_tst\Test_Copy.ipt", False)
                 'model.SaveAs("c:\Inventor_tst/Test_Copy.stp", True)
                 model.SaveAs("c:\Inventor_tst/Test_Copy.dxf", True)
@@ -937,7 +944,6 @@ Public Class Form1
         'Print result in DataGridView5
         'DataGridView5 contains old and new file name
 
-        Dim art As String
         Dim old_f, new_f, new_ff As String
         Dim delete_file As Boolean
         Dim ask_once As Boolean = False
@@ -1059,6 +1065,7 @@ Public Class Form1
             Dim fileName As String
             Dim ext As String
             For Each fileName In fileEntries
+                Increm_progressbar()
                 ext = IO.Path.GetExtension(fileName)
                 If ext = ".idw" Then
                     Print_w_note(fileName)
@@ -1075,14 +1082,17 @@ Public Class Form1
         'http://modthemachine.typepad.com/my_weblog/wayne/page/2/
         'https://knowledge.autodesk.com/search-result/caas/CloudHelp/cloudhelp/2018/ENU/Inventor-API/files/GeneralNote-Sample-htm.html
 
-        Inventor_running()
         Dim sNote As String = "<StyleOverride Font='Arial' FontSize='0.5' Bold='True'>" + "Sample note" + "</StyleOverride>"
         Dim invApp As Inventor.Application
         Dim oDoc As Inventor.Document
+        Dim x, y As Integer
+        Dim f_size As Double
+        Dim dest As String
+        Dim q_file As String = "-"  'File name
 
         invApp = Marshal.GetActiveObject("Inventor.Application")
         invApp.SilentOperation = vbTrue
-        oDoc = CType(invApp.Documents.Open(fileName, False), Document)
+        oDoc = invApp.Documents.Open(fileName, False)
 
         ' Set a reference to the active sheet.
         Dim oActiveSheet As Sheet
@@ -1097,21 +1107,22 @@ Public Class Form1
 
         ' Create text with simple string as input. Since this doesn't use
         ' any text overrides, it will default to the active text style.
-        Dim sText As String
-        sText = "Drawing Notes"
+        Dim sText As String = TextBox36.Text
 
         Dim oGeneralNote As GeneralNote
-        oGeneralNote = oGeneralNotes.AddFitted(oTG.CreatePoint2d(3, 18), sText)
-
-        ' create a note
-        'Dim oDrawingNote As GeneralNote
-        'oDrawingNote = oDoc.ActiveSheet.DrawingNotes.GeneralNotes.AddFitted(invApp.TransientGeometry.CreatePoint2d(10.0#, 10.0#), sNote)
+        x = NumericUpDown1.Value
+        y = NumericUpDown2.Value
+        f_size = NumericUpDown3.Value
+        oGeneralNote = oGeneralNotes.AddFitted(oTG.CreatePoint2d(x, y), "-")
+        oGeneralNote.FormattedText = "<StyleOverride FontSize = '" & f_size.ToString & "'>" & TextBox36.Text & "</StyleOverride>"
 
         'Save the document
-        invApp.Documents.CloseAll()
-        'invApp.oDoc.SaveAs(“C:\Temp\New.dwg”, True)
-        oDoc.SaveAs(“C:\Temp\New.dwg”, True)
+        dest = TextBox35.Text & "\" & IO.Path.GetFileName(fileName)
+        oDoc.SaveAs(dest, True)                 'WORKS
+        'oDoc.Save()                            'Works
+        TextBox2.Text &= "Drawing Note added to " & dest & vbCrLf
     End Sub
+
 End Class
 
 

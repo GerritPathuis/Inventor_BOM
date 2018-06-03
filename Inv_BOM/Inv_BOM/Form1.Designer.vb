@@ -150,19 +150,24 @@ Partial Class Form1
         Me.DataGridViewTextBoxColumn15 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.TabPage7 = New System.Windows.Forms.TabPage()
         Me.TextBox2 = New System.Windows.Forms.TextBox()
+        Me.TabPage8 = New System.Windows.Forms.TabPage()
+        Me.GroupBox11 = New System.Windows.Forms.GroupBox()
+        Me.TextBox38 = New System.Windows.Forms.TextBox()
+        Me.Button6 = New System.Windows.Forms.Button()
+        Me.NumericUpDown2 = New System.Windows.Forms.NumericUpDown()
+        Me.Label14 = New System.Windows.Forms.Label()
+        Me.NumericUpDown1 = New System.Windows.Forms.NumericUpDown()
+        Me.TextBox36 = New System.Windows.Forms.TextBox()
+        Me.Label17 = New System.Windows.Forms.Label()
+        Me.Label16 = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.TabPage8 = New System.Windows.Forms.TabPage()
-        Me.TextBox35 = New System.Windows.Forms.TextBox()
-        Me.TextBox36 = New System.Windows.Forms.TextBox()
-        Me.Label6 = New System.Windows.Forms.Label()
-        Me.Label14 = New System.Windows.Forms.Label()
         Me.Label15 = New System.Windows.Forms.Label()
-        Me.TextBox37 = New System.Windows.Forms.TextBox()
-        Me.Label16 = New System.Windows.Forms.Label()
-        Me.TextBox38 = New System.Windows.Forms.TextBox()
-        Me.Button6 = New System.Windows.Forms.Button()
+        Me.NumericUpDown3 = New System.Windows.Forms.NumericUpDown()
+        Me.Label18 = New System.Windows.Forms.Label()
+        Me.TextBox35 = New System.Windows.Forms.TextBox()
         Me.TabControl1.SuspendLayout()
         Me.TabPage6.SuspendLayout()
         Me.GroupBox8.SuspendLayout()
@@ -203,6 +208,10 @@ Partial Class Form1
         CType(Me.DataGridView4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage7.SuspendLayout()
         Me.TabPage8.SuspendLayout()
+        Me.GroupBox11.SuspendLayout()
+        CType(Me.NumericUpDown2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.NumericUpDown1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.NumericUpDown3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'TextBox1
@@ -1377,94 +1386,43 @@ Partial Class Form1
         Me.TextBox2.Size = New System.Drawing.Size(633, 467)
         Me.TextBox2.TabIndex = 0
         '
-        'ContextMenuStrip1
-        '
-        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(61, 4)
-        '
         'TabPage8
         '
-        Me.TabPage8.Controls.Add(Me.Button6)
-        Me.TabPage8.Controls.Add(Me.Label15)
-        Me.TabPage8.Controls.Add(Me.TextBox37)
-        Me.TabPage8.Controls.Add(Me.Label16)
-        Me.TabPage8.Controls.Add(Me.TextBox38)
-        Me.TabPage8.Controls.Add(Me.TextBox35)
-        Me.TabPage8.Controls.Add(Me.TextBox36)
-        Me.TabPage8.Controls.Add(Me.Label6)
-        Me.TabPage8.Controls.Add(Me.Label14)
+        Me.TabPage8.Controls.Add(Me.GroupBox11)
         Me.TabPage8.Location = New System.Drawing.Point(4, 22)
         Me.TabPage8.Name = "TabPage8"
         Me.TabPage8.Padding = New System.Windows.Forms.Padding(3)
         Me.TabPage8.Size = New System.Drawing.Size(639, 473)
         Me.TabPage8.TabIndex = 7
-        Me.TabPage8.Text = "Print"
+        Me.TabPage8.Text = "Add drwg Note"
         Me.TabPage8.UseVisualStyleBackColor = True
         '
-        'TextBox35
+        'GroupBox11
         '
-        Me.TextBox35.Location = New System.Drawing.Point(220, 120)
-        Me.TextBox35.Name = "TextBox35"
-        Me.TextBox35.Size = New System.Drawing.Size(158, 20)
-        Me.TextBox35.TabIndex = 35
-        Me.TextBox35.Text = "T000"
-        '
-        'TextBox36
-        '
-        Me.TextBox36.Location = New System.Drawing.Point(220, 94)
-        Me.TextBox36.Name = "TextBox36"
-        Me.TextBox36.Size = New System.Drawing.Size(158, 20)
-        Me.TextBox36.TabIndex = 34
-        Me.TextBox36.Text = "P17."
-        '
-        'Label6
-        '
-        Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(136, 120)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(54, 13)
-        Me.Label6.TabIndex = 33
-        Me.Label6.Text = "T nummer"
-        '
-        'Label14
-        '
-        Me.Label14.AutoSize = True
-        Me.Label14.Location = New System.Drawing.Point(136, 96)
-        Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(80, 13)
-        Me.Label14.TabIndex = 32
-        Me.Label14.Text = "Project nummer"
-        '
-        'Label15
-        '
-        Me.Label15.AutoSize = True
-        Me.Label15.Location = New System.Drawing.Point(137, 175)
-        Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(60, 13)
-        Me.Label15.TabIndex = 39
-        Me.Label15.Text = "Destination"
-        '
-        'TextBox37
-        '
-        Me.TextBox37.Location = New System.Drawing.Point(220, 172)
-        Me.TextBox37.Name = "TextBox37"
-        Me.TextBox37.Size = New System.Drawing.Size(160, 20)
-        Me.TextBox37.TabIndex = 38
-        Me.TextBox37.Text = "N:\CAD"
-        '
-        'Label16
-        '
-        Me.Label16.AutoSize = True
-        Me.Label16.Location = New System.Drawing.Point(137, 149)
-        Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(76, 13)
-        Me.Label16.TabIndex = 37
-        Me.Label16.Text = "Work directory"
+        Me.GroupBox11.Controls.Add(Me.Label18)
+        Me.GroupBox11.Controls.Add(Me.TextBox35)
+        Me.GroupBox11.Controls.Add(Me.NumericUpDown3)
+        Me.GroupBox11.Controls.Add(Me.Label15)
+        Me.GroupBox11.Controls.Add(Me.TextBox38)
+        Me.GroupBox11.Controls.Add(Me.Button6)
+        Me.GroupBox11.Controls.Add(Me.NumericUpDown2)
+        Me.GroupBox11.Controls.Add(Me.Label14)
+        Me.GroupBox11.Controls.Add(Me.NumericUpDown1)
+        Me.GroupBox11.Controls.Add(Me.TextBox36)
+        Me.GroupBox11.Controls.Add(Me.Label17)
+        Me.GroupBox11.Controls.Add(Me.Label16)
+        Me.GroupBox11.Controls.Add(Me.Label6)
+        Me.GroupBox11.Location = New System.Drawing.Point(21, 19)
+        Me.GroupBox11.Name = "GroupBox11"
+        Me.GroupBox11.Size = New System.Drawing.Size(594, 236)
+        Me.GroupBox11.TabIndex = 45
+        Me.GroupBox11.TabStop = False
+        Me.GroupBox11.Text = "Add a drawing note to IDW in the work directory"
         '
         'TextBox38
         '
         Me.TextBox38.Enabled = False
-        Me.TextBox38.Location = New System.Drawing.Point(220, 146)
+        Me.TextBox38.Location = New System.Drawing.Point(91, 28)
         Me.TextBox38.Name = "TextBox38"
         Me.TextBox38.Size = New System.Drawing.Size(160, 20)
         Me.TextBox38.TabIndex = 36
@@ -1472,12 +1430,117 @@ Partial Class Form1
         '
         'Button6
         '
-        Me.Button6.Location = New System.Drawing.Point(274, 234)
+        Me.Button6.Location = New System.Drawing.Point(225, 168)
         Me.Button6.Name = "Button6"
         Me.Button6.Size = New System.Drawing.Size(164, 41)
         Me.Button6.TabIndex = 40
-        Me.Button6.Text = "Button6"
+        Me.Button6.Text = "Add Note to IDW's"
         Me.Button6.UseVisualStyleBackColor = True
+        '
+        'NumericUpDown2
+        '
+        Me.NumericUpDown2.Location = New System.Drawing.Point(91, 131)
+        Me.NumericUpDown2.Name = "NumericUpDown2"
+        Me.NumericUpDown2.Size = New System.Drawing.Size(63, 20)
+        Me.NumericUpDown2.TabIndex = 44
+        Me.NumericUpDown2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.NumericUpDown2.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'Label14
+        '
+        Me.Label14.AutoSize = True
+        Me.Label14.Location = New System.Drawing.Point(12, 81)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(72, 13)
+        Me.Label14.TabIndex = 32
+        Me.Label14.Text = "Drawing Note"
+        '
+        'NumericUpDown1
+        '
+        Me.NumericUpDown1.Location = New System.Drawing.Point(91, 106)
+        Me.NumericUpDown1.Name = "NumericUpDown1"
+        Me.NumericUpDown1.Size = New System.Drawing.Size(63, 20)
+        Me.NumericUpDown1.TabIndex = 43
+        Me.NumericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.NumericUpDown1.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'TextBox36
+        '
+        Me.TextBox36.Location = New System.Drawing.Point(91, 79)
+        Me.TextBox36.Name = "TextBox36"
+        Me.TextBox36.Size = New System.Drawing.Size(364, 20)
+        Me.TextBox36.TabIndex = 34
+        Me.TextBox36.Text = "NOTE........................................"
+        '
+        'Label17
+        '
+        Me.Label17.AutoSize = True
+        Me.Label17.Location = New System.Drawing.Point(12, 131)
+        Me.Label17.Name = "Label17"
+        Me.Label17.Size = New System.Drawing.Size(53, 13)
+        Me.Label17.TabIndex = 42
+        Me.Label17.Text = "Y position"
+        '
+        'Label16
+        '
+        Me.Label16.AutoSize = True
+        Me.Label16.Location = New System.Drawing.Point(12, 31)
+        Me.Label16.Name = "Label16"
+        Me.Label16.Size = New System.Drawing.Size(76, 13)
+        Me.Label16.TabIndex = 37
+        Me.Label16.Text = "Work directory"
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(12, 106)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(53, 13)
+        Me.Label6.TabIndex = 41
+        Me.Label6.Text = "X position"
+        '
+        'ContextMenuStrip1
+        '
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(61, 4)
+        '
+        'Label15
+        '
+        Me.Label15.AutoSize = True
+        Me.Label15.Location = New System.Drawing.Point(12, 157)
+        Me.Label15.Name = "Label15"
+        Me.Label15.Size = New System.Drawing.Size(49, 13)
+        Me.Label15.TabIndex = 45
+        Me.Label15.Text = "Font size"
+        '
+        'NumericUpDown3
+        '
+        Me.NumericUpDown3.DecimalPlaces = 1
+        Me.NumericUpDown3.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.NumericUpDown3.Location = New System.Drawing.Point(91, 155)
+        Me.NumericUpDown3.Name = "NumericUpDown3"
+        Me.NumericUpDown3.Size = New System.Drawing.Size(63, 20)
+        Me.NumericUpDown3.TabIndex = 46
+        Me.NumericUpDown3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.NumericUpDown3.Value = New Decimal(New Integer() {5, 0, 0, 65536})
+        '
+        'Label18
+        '
+        Me.Label18.AutoSize = True
+        Me.Label18.Location = New System.Drawing.Point(8, 57)
+        Me.Label18.Name = "Label18"
+        Me.Label18.Size = New System.Drawing.Size(60, 13)
+        Me.Label18.TabIndex = 48
+        Me.Label18.Text = "Destination"
+        '
+        'TextBox35
+        '
+        Me.TextBox35.Enabled = False
+        Me.TextBox35.Location = New System.Drawing.Point(91, 54)
+        Me.TextBox35.Name = "TextBox35"
+        Me.TextBox35.Size = New System.Drawing.Size(160, 20)
+        Me.TextBox35.TabIndex = 47
+        Me.TextBox35.Text = "N:\CAD"
         '
         'Form1
         '
@@ -1540,7 +1603,11 @@ Partial Class Form1
         Me.TabPage7.ResumeLayout(False)
         Me.TabPage7.PerformLayout()
         Me.TabPage8.ResumeLayout(False)
-        Me.TabPage8.PerformLayout()
+        Me.GroupBox11.ResumeLayout(False)
+        Me.GroupBox11.PerformLayout()
+        CType(Me.NumericUpDown2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.NumericUpDown1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.NumericUpDown3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1675,12 +1742,17 @@ Partial Class Form1
     Friend WithEvents ProgressBar1 As ProgressBar
     Friend WithEvents TabPage8 As TabPage
     Friend WithEvents Button6 As Button
-    Friend WithEvents Label15 As Label
-    Friend WithEvents TextBox37 As TextBox
     Friend WithEvents Label16 As Label
     Friend WithEvents TextBox38 As TextBox
-    Friend WithEvents TextBox35 As TextBox
     Friend WithEvents TextBox36 As TextBox
-    Friend WithEvents Label6 As Label
     Friend WithEvents Label14 As Label
+    Friend WithEvents NumericUpDown2 As NumericUpDown
+    Friend WithEvents NumericUpDown1 As NumericUpDown
+    Friend WithEvents Label17 As Label
+    Friend WithEvents Label6 As Label
+    Friend WithEvents GroupBox11 As GroupBox
+    Friend WithEvents NumericUpDown3 As NumericUpDown
+    Friend WithEvents Label15 As Label
+    Friend WithEvents Label18 As Label
+    Friend WithEvents TextBox35 As TextBox
 End Class
