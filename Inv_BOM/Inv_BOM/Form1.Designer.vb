@@ -152,6 +152,7 @@ Partial Class Form1
         Me.TextBox2 = New System.Windows.Forms.TextBox()
         Me.TabPage8 = New System.Windows.Forms.TabPage()
         Me.GroupBox11 = New System.Windows.Forms.GroupBox()
+        Me.Label19 = New System.Windows.Forms.Label()
         Me.Label18 = New System.Windows.Forms.Label()
         Me.TextBox35 = New System.Windows.Forms.TextBox()
         Me.NumericUpDown3 = New System.Windows.Forms.NumericUpDown()
@@ -168,7 +169,6 @@ Partial Class Form1
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.Label19 = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.TabPage6.SuspendLayout()
         Me.GroupBox8.SuspendLayout()
@@ -1421,6 +1421,15 @@ Partial Class Form1
         Me.GroupBox11.TabStop = False
         Me.GroupBox11.Text = "Add a drawing note to IDW in the work directory"
         '
+        'Label19
+        '
+        Me.Label19.AutoSize = True
+        Me.Label19.Location = New System.Drawing.Point(12, 208)
+        Me.Label19.Name = "Label19"
+        Me.Label19.Size = New System.Drawing.Size(254, 13)
+        Me.Label19.TabIndex = 49
+        Me.Label19.Text = "Adds a Note to the bottom left corner of the  drawing"
+        '
         'Label18
         '
         Me.Label18.AutoSize = True
@@ -1432,7 +1441,6 @@ Partial Class Form1
         '
         'TextBox35
         '
-        Me.TextBox35.Enabled = False
         Me.TextBox35.Location = New System.Drawing.Point(91, 54)
         Me.TextBox35.Name = "TextBox35"
         Me.TextBox35.Size = New System.Drawing.Size(160, 20)
@@ -1543,15 +1551,6 @@ Partial Class Form1
         '
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
         Me.ContextMenuStrip1.Size = New System.Drawing.Size(61, 4)
-        '
-        'Label19
-        '
-        Me.Label19.AutoSize = True
-        Me.Label19.Location = New System.Drawing.Point(12, 208)
-        Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(254, 13)
-        Me.Label19.TabIndex = 49
-        Me.Label19.Text = "Adds a Note to the bottom left corner of the  drawing"
         '
         'Form1
         '
