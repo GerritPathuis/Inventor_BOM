@@ -152,6 +152,10 @@ Partial Class Form1
         Me.TextBox2 = New System.Windows.Forms.TextBox()
         Me.TabPage8 = New System.Windows.Forms.TabPage()
         Me.GroupBox11 = New System.Windows.Forms.GroupBox()
+        Me.Label18 = New System.Windows.Forms.Label()
+        Me.TextBox35 = New System.Windows.Forms.TextBox()
+        Me.NumericUpDown3 = New System.Windows.Forms.NumericUpDown()
+        Me.Label15 = New System.Windows.Forms.Label()
         Me.TextBox38 = New System.Windows.Forms.TextBox()
         Me.Button6 = New System.Windows.Forms.Button()
         Me.NumericUpDown2 = New System.Windows.Forms.NumericUpDown()
@@ -164,10 +168,7 @@ Partial Class Form1
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.Label15 = New System.Windows.Forms.Label()
-        Me.NumericUpDown3 = New System.Windows.Forms.NumericUpDown()
-        Me.Label18 = New System.Windows.Forms.Label()
-        Me.TextBox35 = New System.Windows.Forms.TextBox()
+        Me.Label19 = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.TabPage6.SuspendLayout()
         Me.GroupBox8.SuspendLayout()
@@ -209,9 +210,9 @@ Partial Class Form1
         Me.TabPage7.SuspendLayout()
         Me.TabPage8.SuspendLayout()
         Me.GroupBox11.SuspendLayout()
+        CType(Me.NumericUpDown3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NumericUpDown2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NumericUpDown1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NumericUpDown3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'TextBox1
@@ -1399,6 +1400,7 @@ Partial Class Form1
         '
         'GroupBox11
         '
+        Me.GroupBox11.Controls.Add(Me.Label19)
         Me.GroupBox11.Controls.Add(Me.Label18)
         Me.GroupBox11.Controls.Add(Me.TextBox35)
         Me.GroupBox11.Controls.Add(Me.NumericUpDown3)
@@ -1419,6 +1421,44 @@ Partial Class Form1
         Me.GroupBox11.TabStop = False
         Me.GroupBox11.Text = "Add a drawing note to IDW in the work directory"
         '
+        'Label18
+        '
+        Me.Label18.AutoSize = True
+        Me.Label18.Location = New System.Drawing.Point(8, 57)
+        Me.Label18.Name = "Label18"
+        Me.Label18.Size = New System.Drawing.Size(60, 13)
+        Me.Label18.TabIndex = 48
+        Me.Label18.Text = "Destination"
+        '
+        'TextBox35
+        '
+        Me.TextBox35.Enabled = False
+        Me.TextBox35.Location = New System.Drawing.Point(91, 54)
+        Me.TextBox35.Name = "TextBox35"
+        Me.TextBox35.Size = New System.Drawing.Size(160, 20)
+        Me.TextBox35.TabIndex = 47
+        Me.TextBox35.Text = "N:\CAD"
+        '
+        'NumericUpDown3
+        '
+        Me.NumericUpDown3.DecimalPlaces = 1
+        Me.NumericUpDown3.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.NumericUpDown3.Location = New System.Drawing.Point(91, 155)
+        Me.NumericUpDown3.Name = "NumericUpDown3"
+        Me.NumericUpDown3.Size = New System.Drawing.Size(63, 20)
+        Me.NumericUpDown3.TabIndex = 46
+        Me.NumericUpDown3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.NumericUpDown3.Value = New Decimal(New Integer() {5, 0, 0, 65536})
+        '
+        'Label15
+        '
+        Me.Label15.AutoSize = True
+        Me.Label15.Location = New System.Drawing.Point(12, 157)
+        Me.Label15.Name = "Label15"
+        Me.Label15.Size = New System.Drawing.Size(49, 13)
+        Me.Label15.TabIndex = 45
+        Me.Label15.Text = "Font size"
+        '
         'TextBox38
         '
         Me.TextBox38.Enabled = False
@@ -1430,7 +1470,7 @@ Partial Class Form1
         '
         'Button6
         '
-        Me.Button6.Location = New System.Drawing.Point(225, 168)
+        Me.Button6.Location = New System.Drawing.Point(382, 167)
         Me.Button6.Name = "Button6"
         Me.Button6.Size = New System.Drawing.Size(164, 41)
         Me.Button6.TabIndex = 40
@@ -1504,43 +1544,14 @@ Partial Class Form1
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
         Me.ContextMenuStrip1.Size = New System.Drawing.Size(61, 4)
         '
-        'Label15
+        'Label19
         '
-        Me.Label15.AutoSize = True
-        Me.Label15.Location = New System.Drawing.Point(12, 157)
-        Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(49, 13)
-        Me.Label15.TabIndex = 45
-        Me.Label15.Text = "Font size"
-        '
-        'NumericUpDown3
-        '
-        Me.NumericUpDown3.DecimalPlaces = 1
-        Me.NumericUpDown3.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.NumericUpDown3.Location = New System.Drawing.Point(91, 155)
-        Me.NumericUpDown3.Name = "NumericUpDown3"
-        Me.NumericUpDown3.Size = New System.Drawing.Size(63, 20)
-        Me.NumericUpDown3.TabIndex = 46
-        Me.NumericUpDown3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.NumericUpDown3.Value = New Decimal(New Integer() {5, 0, 0, 65536})
-        '
-        'Label18
-        '
-        Me.Label18.AutoSize = True
-        Me.Label18.Location = New System.Drawing.Point(8, 57)
-        Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(60, 13)
-        Me.Label18.TabIndex = 48
-        Me.Label18.Text = "Destination"
-        '
-        'TextBox35
-        '
-        Me.TextBox35.Enabled = False
-        Me.TextBox35.Location = New System.Drawing.Point(91, 54)
-        Me.TextBox35.Name = "TextBox35"
-        Me.TextBox35.Size = New System.Drawing.Size(160, 20)
-        Me.TextBox35.TabIndex = 47
-        Me.TextBox35.Text = "N:\CAD"
+        Me.Label19.AutoSize = True
+        Me.Label19.Location = New System.Drawing.Point(12, 208)
+        Me.Label19.Name = "Label19"
+        Me.Label19.Size = New System.Drawing.Size(254, 13)
+        Me.Label19.TabIndex = 49
+        Me.Label19.Text = "Adds a Note to the bottom left corner of the  drawing"
         '
         'Form1
         '
@@ -1605,9 +1616,9 @@ Partial Class Form1
         Me.TabPage8.ResumeLayout(False)
         Me.GroupBox11.ResumeLayout(False)
         Me.GroupBox11.PerformLayout()
+        CType(Me.NumericUpDown3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.NumericUpDown2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.NumericUpDown1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NumericUpDown3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1755,4 +1766,5 @@ Partial Class Form1
     Friend WithEvents Label15 As Label
     Friend WithEvents Label18 As Label
     Friend WithEvents TextBox35 As TextBox
+    Friend WithEvents Label19 As Label
 End Class
