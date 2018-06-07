@@ -24,8 +24,8 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>\\vtkfile\data2\Engineering\VBasic\Inventor_BOM\</InstallUrl>
-    <ApplicationRevision>22</ApplicationRevision>
+    <InstallUrl>\\DCF1\data2%24\Engineering\VBasic\Inventor_BOM\</InstallUrl>
+    <ApplicationRevision>23</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
