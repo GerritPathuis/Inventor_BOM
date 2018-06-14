@@ -595,11 +595,14 @@ Public Class Form1
         Dim pathfile As String = TextBox6.Text
 
         If Directory.Exists(pathfile) Then
-            'ProcessDirectory(pathfile)   ' This path is a directory.
             Dim fileEntries As String() = Directory.GetFiles(pathfile)
             For Each fileName In fileEntries
                 Increm_progressbar()
-                ProcessFile(fileName)
+                Dim extension As String = IO.Path.GetExtension(fileName)
+                If extension = ".idw" Then
+                    Read_title_Block_idw(fileName)
+                End If
+
             Next fileName
         Else
             MessageBox.Show(pathfile & " is not a valid file or directory.")
@@ -608,15 +611,7 @@ Public Class Form1
         Button9.BackColor = System.Drawing.Color.Transparent
     End Sub
 
-    ' Processing found files 
-    Private Sub ProcessFile(ByVal file As String)
-        'MessageBox.Show("Processed file is " & file)
-        Dim extension As String = IO.Path.GetExtension(file)
-        If extension = ".idw" Then
-            Read_title_Block_idw(file)
-        End If
-    End Sub
-    'Select work directory
+
     Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click
         Inventor_running()
         FolderBrowserDialog1.SelectedPath = TextBox6.Text
