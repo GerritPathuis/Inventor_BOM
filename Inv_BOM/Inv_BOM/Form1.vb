@@ -8,6 +8,7 @@ Imports Microsoft.Office.Interop.Excel
 Imports Microsoft.Office.Interop
 Imports System.ComponentModel
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel
+Imports Microsoft.Vbe.Interop
 '==================================
 'API samples
 'https://knowledge.autodesk.com/search-result/caas/CloudHelp/cloudhelp/2018/ENU/Inventor-API/files/SampleList-htm.html
@@ -25,6 +26,16 @@ Public Class Form1
     Public dxf_file_name(,) As String   '(old name, new name)  
     Dim Pro_user As String
 
+    Public Structure Laserpart
+        Public Proj As String
+        Public Tmun As String
+        Public Artnum As String
+        Public Thick As String
+        Public Materi As String
+        Public Count As String
+        Public actie As String
+    End Structure
+    Public kb As Laserpart
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -54,7 +65,7 @@ Public Class Form1
         DataGridView1.Columns(16).HeaderText = "Author"
         DataGridView1.Columns(17).HeaderText = "Comments"
 
-        DataGridView2.ColumnCount = 10
+        DataGridView2.ColumnCount = 20
         DataGridView2.RowCount = view_rows   'was 20
         DataGridView2.Columns(0).HeaderText = "File"
         DataGridView2.Columns(1).HeaderText = "Assembly"
@@ -94,7 +105,7 @@ Public Class Form1
                 filepath2 = "C:\Inventor_tst"
                 filepath5 = "c:\Temp"
             Case "GerritP"                          'Work
-                filepath2 = "C:\Inventor test files\KarelBakker"
+                filepath2 = "C:\Inventor test files\KarelBakker2"
                 filepath5 = "c:\temp"
             Case Else                               'Karel Bakker
                 filepath2 = "E:\Protmp\Procad"
@@ -467,23 +478,25 @@ Public Class Form1
             Dim q_desc As String = "-"  'Description
             Dim q_A00 As String = "-"   'Assembly Artikel nummer
             Dim q_D00 As String = "-"   'Assembly Drawing nummer
+            Dim q_mat As String = "-"
 
-            ' Find the Prompted Entry called Make in the Title Block
+
+            ' Find the Prompted Entry called DESCRIPTION in the Title Block
             For Each defText As Inventor.TextBox In titleDef.Sketch.TextBoxes
                 Increm_progressbar()
                 q_file = IO.Path.GetFileName(path)          '=File naam (short)
-                If defText.Text = "<DESCRIPTION>" Then      'Description
-                    oPrompt = defText
-                    q_desc = oTB1.GetResultText(oPrompt)
-                End If
-                If defText.Text = "<ITEM_NR>" Then          '=A0000
-                    oPrompt = defText
-                    q_A00 = oTB1.GetResultText(oPrompt)
-                End If
-                If defText.Text = "<DOC_NUMBER>" Then       '=D0000
-                    oPrompt = defText
-                    q_D00 = oTB1.GetResultText(oPrompt)
-                End If
+
+                Select Case defText.Text
+                    Case "<DESCRIPTION>"        'Description
+                        oPrompt = defText
+                        q_desc = oTB1.GetResultText(oPrompt)
+                    Case "<ITEM_NR>"            '=A0000
+                        oPrompt = defText
+                        q_A00 = oTB1.GetResultText(oPrompt)
+                    Case "<DOC_NUMBER>"         '=D0000
+                        oPrompt = defText
+                        q_D00 = oTB1.GetResultText(oPrompt)
+                End Select
             Next
 
             '============== Read The parts List=========================================
@@ -492,6 +505,7 @@ Public Class Form1
             '----------- does partlist exist ?------------
             If oDoc.ActiveSheet.PartsLists.Count > 0 Then
                 partList = oDoc.ActiveSheet.PartsLists.Item(1)
+
                 If (TypeOf partList Is PartsList) Then
                     Dim counter As Integer = 1
                     Dim ik, sj As Integer
@@ -500,12 +514,12 @@ Public Class Form1
                     For sj = 1 To partList.PartsListRows.Count
                         G2_row_cnt += 1
                         DataGridView2.Rows.Add()
-                        For ik = 1 To 4
-                            DataGridView2.Rows.Item(G2_row_cnt).Cells(0).Value = q_file
-                            DataGridView2.Rows.Item(G2_row_cnt).Cells(1).Value = q_desc
-                            DataGridView2.Rows.Item(G2_row_cnt).Cells(2).Value = q_A00
-                            DataGridView2.Rows.Item(G2_row_cnt).Cells(3).Value = q_D00
+                        DataGridView2.Rows.Item(G2_row_cnt).Cells(0).Value = q_file
+                        DataGridView2.Rows.Item(G2_row_cnt).Cells(1).Value = q_desc
+                        DataGridView2.Rows.Item(G2_row_cnt).Cells(2).Value = q_A00
+                        DataGridView2.Rows.Item(G2_row_cnt).Cells(3).Value = q_D00
 
+                        For ik = 1 To 6 'WAS 4
                             str = partList.PartsListRows(sj).Item(ik).Value.ToString
                             If (ik + 3) = 6 Then    'Check is this an artikel number
                                 If Isartikel(str) = False Then TextBox2.Text &= "IDW_drwg " & q_D00 & " BOM problem " & str & " is NOT an artikel number" & vbCrLf
@@ -521,6 +535,10 @@ Public Class Form1
     Private Function Isartikel(axx As String) As Boolean
         Dim is_artikel As Boolean
 
+        If axx.Length = 0 Then
+            Return False
+        End If
+
         If axx.Length = 8 And axx.Substring(0, 1) = "A" Then
             is_artikel = True
         Else
@@ -528,8 +546,6 @@ Public Class Form1
         End If
         Return is_artikel
     End Function
-
-
     Private Sub Getresulttext(titleBlock As TitleBlock)
         Throw New NotImplementedException()
     End Sub
@@ -565,7 +581,9 @@ Public Class Form1
         End If
     End Sub
     Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
+        Button9.BackColor = System.Drawing.Color.LightGreen
         Find_IDW()
+        Button9.BackColor = System.Drawing.Color.Transparent
     End Sub
     Private Sub Find_IDW()
         Inventor_running()
@@ -577,25 +595,17 @@ Public Class Form1
         Dim pathfile As String = TextBox6.Text
 
         If Directory.Exists(pathfile) Then
-            ProcessDirectory(pathfile)   ' This path is a directory.
+            'ProcessDirectory(pathfile)   ' This path is a directory.
+            Dim fileEntries As String() = Directory.GetFiles(pathfile)
+            For Each fileName In fileEntries
+                Increm_progressbar()
+                ProcessFile(fileName)
+            Next fileName
         Else
             MessageBox.Show(pathfile & " is not a valid file or directory.")
         End If
 
         Button9.BackColor = System.Drawing.Color.Transparent
-    End Sub
-
-    ' Process all files in the directory passed in, recurse on any directories 
-    ' that are found, and process the files they contain.
-
-    Private Sub ProcessDirectory(ByVal targetDirectory As String)
-        Dim fileEntries As String() = Directory.GetFiles(targetDirectory)
-        ' Process the list of files found in the directory.
-        Dim fileName As String
-        For Each fileName In fileEntries
-            Increm_progressbar()
-            ProcessFile(fileName)
-        Next fileName
     End Sub
 
     ' Processing found files 
@@ -827,6 +837,11 @@ Public Class Form1
             DataGridView5.Rows.Item(G5_row_cnt).Cells(0).Value = artikel
             DataGridView5.Rows.Item(G5_row_cnt).Cells(1).Value = oDXFfileNAME
 
+            'Plate thickness
+            'Material sort
+            'Part Count
+
+
             G5_row_cnt += 1
             TextBox2.Text &= "Dxf file " & oDXFfileNAME & " is written to work directory " & vbCrLf
         Else
@@ -934,7 +949,8 @@ Public Class Form1
         For Each row In DataGridView5.Rows
             If row.Cells(0).Value <> Nothing Then
                 art = row.Cells(0).Value.ToString
-                row.Cells(2).Value = Find_dwg_pos(DataGridView2, art)
+                Find_dwg_pos(DataGridView2, art)
+                row.Cells(2).Value = kb.actie
             End If
         Next
         DataGridView5.AutoResizeColumns()
@@ -990,7 +1006,7 @@ Public Class Form1
         End If
     End Function
     'Find drawing name en postion of the artikel
-    Private Function Find_dwg_pos(ByVal dtg As DataGridView, ByVal Axxxxx As String) As String
+    Private Sub Find_dwg_pos(ByVal dtg As DataGridView, ByVal Axxxxx As String) 'As String
         Dim actie As String = " "
         Dim found As Boolean = False
         Dim pos As Integer
@@ -1010,6 +1026,15 @@ Public Class Form1
                     actie &= "_" & row.Cells(6).Value.ToString()    'Artikel=  
                 End If
                 actie &= ".dxf"
+
+                kb.Count = row.Cells(5).Value.ToString()        'Quantity
+                kb.Proj = "pr"
+                kb.Tmun = "Tn"
+                kb.Artnum = "Art"
+                kb.Thick = "mm"
+                kb.Materi = "mat"
+                kb.actie = actie
+
                 Exit For
             End If
         Next
@@ -1020,8 +1045,9 @@ Public Class Form1
             TextBox2.Text &= " NOT found !" & vbCrLf
         End If
 
-        Return actie
-    End Function
+        'Return actie
+        'Return 1
+    End Sub
     Private Sub Increm_progressbar()
         ProgressBar1.Value += 1
         If ProgressBar1.Value = 99 Then ProgressBar1.Value = 0
@@ -1045,7 +1071,7 @@ Public Class Form1
         TextBox2.Text &= "============= Find artikel drwg + pos and rename ====" & vbCrLf
         Button19.Text = "Lookup artikel dwg and pos..."
         Find_artikel()
-        TextBox2.Text &= "============= Rrname dxf file ======================" & vbCrLf
+        TextBox2.Text &= "============= Rename dxf file ======================" & vbCrLf
         Button19.Text = "Rename dxg file..."
         Rename_dxf()
         Button19.Text = "WVB"

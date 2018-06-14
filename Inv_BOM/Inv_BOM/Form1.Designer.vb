@@ -1070,11 +1070,11 @@ Partial Class Form1
         'CheckBox3
         '
         Me.CheckBox3.AutoSize = True
-        Me.CheckBox3.Location = New System.Drawing.Point(293, 109)
+        Me.CheckBox3.Location = New System.Drawing.Point(293, 110)
         Me.CheckBox3.Name = "CheckBox3"
-        Me.CheckBox3.Size = New System.Drawing.Size(133, 17)
+        Me.CheckBox3.Size = New System.Drawing.Size(199, 17)
         Me.CheckBox3.TabIndex = 36
-        Me.CheckBox3.Text = "Without Artikel number"
+        Me.CheckBox3.Text = "DXF file name without Artikel number"
         Me.CheckBox3.UseVisualStyleBackColor = True
         '
         'Button19
@@ -1093,13 +1093,13 @@ Partial Class Form1
         Me.Label13.AutoSize = True
         Me.Label13.Location = New System.Drawing.Point(11, 119)
         Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(60, 13)
+        Me.Label13.Size = New System.Drawing.Size(100, 13)
         Me.Label13.TabIndex = 34
-        Me.Label13.Text = "Destination"
+        Me.Label13.Text = "DXF file Destination"
         '
         'TextBox34
         '
-        Me.TextBox34.Location = New System.Drawing.Point(94, 116)
+        Me.TextBox34.Location = New System.Drawing.Point(114, 115)
         Me.TextBox34.Name = "TextBox34"
         Me.TextBox34.Size = New System.Drawing.Size(160, 20)
         Me.TextBox34.TabIndex = 33
@@ -1116,7 +1116,7 @@ Partial Class Form1
         '
         'TextBox33
         '
-        Me.TextBox33.Location = New System.Drawing.Point(96, 57)
+        Me.TextBox33.Location = New System.Drawing.Point(116, 56)
         Me.TextBox33.Name = "TextBox33"
         Me.TextBox33.Size = New System.Drawing.Size(158, 20)
         Me.TextBox33.TabIndex = 31
@@ -1124,7 +1124,7 @@ Partial Class Form1
         '
         'TextBox31
         '
-        Me.TextBox31.Location = New System.Drawing.Point(96, 31)
+        Me.TextBox31.Location = New System.Drawing.Point(116, 30)
         Me.TextBox31.Name = "TextBox31"
         Me.TextBox31.Size = New System.Drawing.Size(158, 20)
         Me.TextBox31.TabIndex = 30
@@ -1169,7 +1169,7 @@ Partial Class Form1
         'TextBox5
         '
         Me.TextBox5.Enabled = False
-        Me.TextBox5.Location = New System.Drawing.Point(94, 90)
+        Me.TextBox5.Location = New System.Drawing.Point(114, 89)
         Me.TextBox5.Name = "TextBox5"
         Me.TextBox5.Size = New System.Drawing.Size(160, 20)
         Me.TextBox5.TabIndex = 20
