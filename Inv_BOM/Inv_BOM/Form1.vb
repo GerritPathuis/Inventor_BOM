@@ -75,6 +75,13 @@ Public Class Form1
         DataGridView2.Columns(5).HeaderText = "Qty"
         DataGridView2.Columns(6).HeaderText = "Artikel"
         DataGridView2.Columns(7).HeaderText = "Descrip"
+        DataGridView2.Columns(8).HeaderText = "Length"
+        DataGridView2.Columns(9).HeaderText = "Std"
+        DataGridView2.Columns(10).HeaderText = "Mat"
+        DataGridView2.Columns(11).HeaderText = "-"
+        DataGridView2.Columns(12).HeaderText = "kg"
+        DataGridView2.Columns(13).HeaderText = "-"
+        DataGridView2.Columns(14).HeaderText = "M/B"
 
         DataGridView3.ColumnCount = 5
         DataGridView3.RowCount = view_rows
@@ -91,8 +98,6 @@ Public Class Form1
         DataGridView5.ColumnCount = 4
         DataGridView5.RowCount = view_rows    'was 20
         DataGridView5.Columns(0).HeaderText = "Artikel"
-        DataGridView5.Columns(1).HeaderText = "Old file Name"
-        DataGridView5.Columns(2).HeaderText = "New file Name"
         DataGridView5.Columns(0).Width = 100
         DataGridView5.Columns(1).Width = 250
         DataGridView5.Columns(2).Width = 250
@@ -535,76 +540,73 @@ Public Class Form1
         'MessageBox.Show("Active document=" & oDoc.DisplayName)
         'MessageBox.Show("Active sheet=" & oDoc.ActiveSheet.Name)
 
-        '--------- determine object type -------
-        Dim eDocumentType As DocumentTypeEnum = oDoc.DocumentType
-        If eDocumentType <> DocumentTypeEnum.kDrawingDocumentObject Then
-            MessageBox.Show("Please Select a IDW file ")
-        Else
-            '=================================================================================
-            'https://forums.autodesk.com/t5/inventor-customization/copy-titleblock-prompted-entries-to-custom-iproperty/td-p/7491136
+        '=================================================================================
+        'https://forums.autodesk.com/t5/inventor-customization/copy-titleblock-prompted-entries-to-custom-iproperty/td-p/7491136
 
-            Dim oSheet As Sheet
-            oSheet = oDoc.ActiveSheet
-            Dim oTB1 As TitleBlock
-            oTB1 = oSheet.TitleBlock
-            Dim titleDef As TitleBlockDefinition
-            titleDef = oTB1.Definition
-            Dim oPrompt As Inventor.TextBox = Nothing
-            Dim q_file As String = "-"  'File name
-            Dim q_desc As String = "-"  'Description
-            Dim q_A00 As String = "-"   'Assembly Artikel nummer
-            Dim q_D00 As String = "-"   'Assembly Drawing nummer
-            Dim q_mat As String = "-"
+        Dim oSheet As Sheet
+        oSheet = oDoc.ActiveSheet
+        Dim oTB1 As TitleBlock
+        oTB1 = oSheet.TitleBlock
+        Dim titleDef As TitleBlockDefinition
+        titleDef = oTB1.Definition
+        Dim oPrompt As Inventor.TextBox = Nothing
+        Dim q_file As String = "-"  'File name
+        Dim q_desc As String = "-"  'Description
+        Dim q_A00 As String = "-"   'Assembly Artikel nummer
+        Dim q_D00 As String = "-"   'Assembly Drawing nummer
+        Dim q_mat As String = "-"
 
-            ' Find the Prompted Entry called DESCRIPTION in the Title Block
-            For Each defText As Inventor.TextBox In titleDef.Sketch.TextBoxes
-                Increm_progressbar()
-                q_file = IO.Path.GetFileName(path)          '=File naam (short)
+        ' Find the Prompted Entry called DESCRIPTION in the Title Block
+        For Each defText As Inventor.TextBox In titleDef.Sketch.TextBoxes
+            Increm_progressbar()
+            q_file = IO.Path.GetFileName(path)          '=File naam (short)
 
-                Select Case defText.Text
-                    Case "<DESCRIPTION>"        'Description
-                        oPrompt = defText
-                        q_desc = oTB1.GetResultText(oPrompt)
-                    Case "<ITEM_NR>"            '=A0000
-                        oPrompt = defText
-                        q_A00 = oTB1.GetResultText(oPrompt)
-                    Case "<DOC_NUMBER>"         '=D0000
-                        oPrompt = defText
-                        q_D00 = oTB1.GetResultText(oPrompt)
-                End Select
-            Next
+            Select Case defText.Text
+                Case "<DESCRIPTION>"        'Description
+                    oPrompt = defText
+                    q_desc = oTB1.GetResultText(oPrompt)
+                Case "<ITEM_NR>"            '=A0000
+                    oPrompt = defText
+                    q_A00 = oTB1.GetResultText(oPrompt)
+                Case "<DOC_NUMBER>"         '=D0000
+                    oPrompt = defText
+                    q_D00 = oTB1.GetResultText(oPrompt)
+            End Select
+        Next
 
-            '============== Read The parts List=========================================
-            ' Make sure a parts list is selected.
-            Dim partList As Object
-            '----------- does partlist exist ?------------
-            If oDoc.ActiveSheet.PartsLists.Count > 0 Then
-                partList = oDoc.ActiveSheet.PartsLists.Item(1)
+        '============== Read The parts List=========================================
+        ' Make sure a parts list is selected.
+        Dim partList As Object
+        '----------- does partlist exist ?------------
+        If oDoc.ActiveSheet.PartsLists.Count > 0 Then
+            partList = oDoc.ActiveSheet.PartsLists.Item(1)
 
-                If (TypeOf partList Is PartsList) Then
-                    Dim counter As Integer = 1
-                    Dim str As String
+            If (TypeOf partList Is PartsList) Then
+                Dim counter As Integer = 1
+                Dim str As String
 
-                    For jj = 1 To partList.PartsListRows.Count
-                        G2_row_cnt += 1
-                        DataGridView2.Rows.Add()
-                        DataGridView2.Rows.Item(G2_row_cnt).Cells(0).Value = q_file
-                        DataGridView2.Rows.Item(G2_row_cnt).Cells(1).Value = q_desc
-                        DataGridView2.Rows.Item(G2_row_cnt).Cells(2).Value = q_A00
-                        DataGridView2.Rows.Item(G2_row_cnt).Cells(3).Value = q_D00
+                For jj = 1 To partList.PartsListRows.Count
+                    G2_row_cnt += 1
+                    DataGridView2.Rows.Add()
+                    DataGridView2.Rows.Item(G2_row_cnt).Cells(0).Value = q_file
+                    DataGridView2.Rows.Item(G2_row_cnt).Cells(1).Value = q_desc
+                    DataGridView2.Rows.Item(G2_row_cnt).Cells(2).Value = q_A00
+                    DataGridView2.Rows.Item(G2_row_cnt).Cells(3).Value = q_D00
 
-                        For ii = 1 To partList.PartsListcolumns.Count 'WAS 4
-                            str = partList.PartsListRows(jj).Item(ii).Value.ToString
-                            If (ii + 3) = 6 Then    'Check is this an artikel number
-                                If Isartikel(str) = False Then TextBox2.Text &= "IDW_drwg " & q_D00 & " BOM problem " & str & " is NOT an artikel number" & vbCrLf
-                            End If
-                            DataGridView2.Rows.Item(G2_row_cnt).Cells(ii + 3).Value = str
-                        Next ii
-                    Next jj
-                End If
+                    For ii = 1 To partList.PartsListcolumns.Count 'WAS 4
+                        str = partList.PartsListRows(jj).Item(ii).Value.ToString
+
+                        '--------Check is this an artikel number-------
+                        If (ii + 3) = 6 Then
+                            If Isartikel(str) = False Then TextBox2.Text &= "IDW_drwg " & q_D00 & " BOM problem " & str & " is NOT an artikel number" & vbCrLf
+                        End If
+                        '-------- update datagrid---------
+                        DataGridView2.Rows.Item(G2_row_cnt).Cells(ii + 3).Value = str
+                    Next ii
+                Next jj
             End If
-            DataGridView2.AutoResizeColumns()
         End If
+        DataGridView2.AutoResizeColumns()
     End Sub
 
     Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click
@@ -1020,7 +1022,7 @@ Public Class Form1
                 kb.Tmun = "Tn"
                 kb.Artnum = "Art"
                 kb.Thick = "mm"
-                kb.Materi = "mat"
+                kb.Materi = row.Cells(10).Value.ToString()
                 kb.actie = actie
 
                 Exit For
