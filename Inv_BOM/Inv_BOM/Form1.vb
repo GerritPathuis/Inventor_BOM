@@ -59,7 +59,6 @@ Public Class Form1
         DataGridView1.Columns(11).HeaderText = "IT_TP"
         DataGridView1.Columns(12).HeaderText = "LENGTH"
         DataGridView1.Columns(13).HeaderText = "Part Icon"
-
         DataGridView1.Columns(14).HeaderText = "Title"
         DataGridView1.Columns(15).HeaderText = "Subject"
         DataGridView1.Columns(16).HeaderText = "Author"
@@ -80,7 +79,7 @@ Public Class Form1
         DataGridView2.Columns(10).HeaderText = "Mat"
         DataGridView2.Columns(11).HeaderText = "-"
         DataGridView2.Columns(12).HeaderText = "kg"
-        DataGridView2.Columns(13).HeaderText = "-"
+        DataGridView2.Columns(13).HeaderText = "Comment"
         DataGridView2.Columns(14).HeaderText = "M/B"
 
         DataGridView3.ColumnCount = 5
@@ -95,9 +94,14 @@ Public Class Form1
         DataGridView4.Columns(1).HeaderText = "D_no"
         DataGridView4.Columns(2).HeaderText = "A_no"
 
-        DataGridView5.ColumnCount = 4
+        DataGridView5.ColumnCount = 10
         DataGridView5.RowCount = view_rows    'was 20
         DataGridView5.Columns(0).HeaderText = "Artikel"
+        DataGridView5.Columns(1).HeaderText = "Old dxf file name"
+        DataGridView5.Columns(2).HeaderText = "New dxf file name"
+        DataGridView5.Columns(3).HeaderText = "Material"
+        DataGridView5.Columns(4).HeaderText = "Thick"
+        DataGridView5.Columns(5).HeaderText = "Qty"
         DataGridView5.Columns(0).Width = 100
         DataGridView5.Columns(1).Width = 250
         DataGridView5.Columns(2).Width = 250
@@ -941,6 +945,9 @@ Public Class Form1
                 art = row.Cells(0).Value.ToString
                 Find_dwg_pos(DataGridView2, art)
                 row.Cells(2).Value = kb.actie
+                row.Cells(3).Value = kb.Materi
+                row.Cells(4).Value = kb.Thick
+                row.Cells(5).Value = kb.Count
             End If
         Next
         DataGridView5.AutoResizeColumns()
@@ -1013,18 +1020,14 @@ Public Class Form1
                 pos = row.Cells(4).Value                        'Pos= 
                 actie &= pos.ToString("D2")
                 If Not CheckBox3.Checked Then
-                    actie &= "_" & row.Cells(6).Value.ToString()    'Artikel=  
+                    actie &= "_" & row.Cells(6).Value.ToString() 'Artikel=  
                 End If
                 actie &= ".dxf"
 
                 kb.Count = row.Cells(5).Value.ToString()        'Quantity
-                kb.Proj = "pr"
-                kb.Tmun = "Tn"
-                kb.Artnum = "Art"
-                kb.Thick = "mm"
+                kb.Thick = Isolate_thickness(row.Cells(7).Value.ToString())
                 kb.Materi = row.Cells(10).Value.ToString()
                 kb.actie = actie
-
                 Exit For
             End If
         Next
@@ -1034,10 +1037,16 @@ Public Class Form1
         Else
             TextBox2.Text &= " NOT found !" & vbCrLf
         End If
-
-        'Return actie
-        'Return 1
     End Sub
+    Private Function Isolate_thickness(str As String) As Integer
+        Dim delta As Int16
+        str = str.Substring(5, 3)
+        MessageBox.Show(str)
+        Int16.TryParse(str, delta)
+
+        Return delta.ToString
+    End Function
+
     Private Sub Increm_progressbar()
         ProgressBar1.Value += 1
         If ProgressBar1.Value = 99 Then ProgressBar1.Value = 0
