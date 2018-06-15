@@ -1041,7 +1041,7 @@ Public Class Form1
     Private Function Isolate_thickness(str As String) As Integer
         Dim delta As Int16
         str = str.Substring(5, 3)
-        MessageBox.Show(str)
+
         Int16.TryParse(str, delta)
 
         Return delta.ToString
