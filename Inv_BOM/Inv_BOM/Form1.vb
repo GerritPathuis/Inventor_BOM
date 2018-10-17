@@ -141,10 +141,10 @@ Public Class Form1
         p = Process.GetProcessesByName("Inventor")
         If p.Count = 0 Then
             Label7.Visible = True
-            Me.Text = "Inventor NOT running" & " (" & Pro_user & ")"
+            Me.Text = "Inventor NOT running" & " (" & Pro_user & ") 17-10-2018"
         Else
             Label7.Visible = False
-            Me.Text = "Inventor BOM Extractor" & " (" & Pro_user & ")"
+            Me.Text = "Inventor BOM Extractor" & " (" & Pro_user & ") 17-10-2018"
         End If
     End Sub
 
@@ -787,10 +787,10 @@ Public Class Form1
                 Else
                     oFlatPattern = oPartDoc.ComponentDefinition.FlatPattern
                     If oFlatPattern Is Nothing Then
-                        TextBox2.Text &= "IPT " & file_path & " does NOT contain a flat pattern" & vbCrLf
+                        If Not CheckBox1.Checked Then TextBox2.Text &= "IPT " & file_path & " does NOT contain a flat pattern" & vbCrLf
                         Exit Sub
+                        End If
                     End If
-                End If
             End If
 
             'Processing:
@@ -839,9 +839,9 @@ Public Class Form1
 
 
             G5_row_cnt += 1
-            TextBox2.Text &= "Dxf file " & oDXFfileNAME & " is written to work directory " & vbCrLf
+            If Not CheckBox1.Checked Then TextBox2.Text &= "Dxf file " & oDXFfileNAME & " is written to work directory " & vbCrLf
         Else
-            MessageBox.Show("File does noet exist")
+            MessageBox.Show("DXF File does noet exist")
         End If
     End Sub
 
@@ -978,12 +978,12 @@ Public Class Form1
                 If new_f.Length > 1 Then    'Make sure file name exist
                     If delete_file = True Then
                         IO.File.Delete(new_ff)
-                        TextBox2.Text &= "Dxf file " & old_f & " deleted " & vbCrLf
+                        If Not CheckBox1.Checked Then TextBox2.Text &= "Dxf file " & old_f & " deleted " & vbCrLf
                     End If
 
-                    If Not IO.File.Exists(new_ff) Then
+                        If Not IO.File.Exists(new_ff) Then
                         My.Computer.FileSystem.RenameFile(old_f, new_f)
-                        TextBox2.Text &= "Dxf file " & new_f & " renamed " & vbCrLf
+                        If Not CheckBox1.Checked Then TextBox2.Text &= "Dxf file " & new_f & " renamed " & vbCrLf
                     End If
                 Else
                     TextBox2.Text &= "Dxf file " & old_f & "Failed NO new name !" & vbCrLf
@@ -1007,8 +1007,8 @@ Public Class Form1
         Dim actie As String = " "
         Dim found As Boolean = False
         Dim pos As Integer
+        Dim plate_thick As Double
 
-        TextBox2.Text &= "Lookup drwg + pos for Artikel " & Axxxxx & " "
 
         For Each row As DataGridViewRow In dtg.Rows
             Increm_progressbar()
@@ -1026,26 +1026,47 @@ Public Class Form1
 
                 kb.Count = row.Cells(5).Value.ToString()        'Quantity
                 kb.Thick = Isolate_thickness(row.Cells(7).Value.ToString())
+
+                '======== thickness plate =======
+                Double.TryParse(kb.Thick, plate_thick)
+                If plate_thick < 0.1 Then TextBox2.Text &= "Plate thickness Artikel " & Axxxxx & " < 0.1 mm" & vbCrLf
+
+                '======== Plate in name ============
+                Check_for_plate(row.Cells(7).Value.ToString())
+                If Check_for_plate(row.Cells(7).Value.ToString()) Then
+                    TextBox2.Text &= row.Cells(7).Value.ToString & " =PLATE= missing in Artikel " & Axxxxx & vbCrLf
+                End If
+
                 kb.Materi = row.Cells(10).Value.ToString()
                 kb.actie = actie
-                Exit For
-            End If
+                    Exit For
+                End If
         Next
 
         If found = True Then
-            TextBox2.Text &= " found" & vbCrLf
+            If Not CheckBox1.Checked Then
+                TextBox2.Text &= "Lookup drwg + pos for Artikel " & Axxxxx & " found" & vbCrLf
+            End If
         Else
-            TextBox2.Text &= " NOT found !" & vbCrLf
+            TextBox2.Text &= "Lookup drwg + pos for Artikel " & Axxxxx & " NOT found" & vbCrLf
         End If
     End Sub
     Private Function Isolate_thickness(str As String) As Integer
         Dim delta As Int16
-        str = str.Substring(5, 3)
 
+        str = str.Substring(5, 3)
         Int16.TryParse(str, delta)
 
         Return delta.ToString
     End Function
+    Private Function Check_for_plate(str As String) As Boolean
+        Dim exi As Boolean
+        str = str.Substring(0, 5)
+        exi = String.Compare(str.ToUpper, "PLATE")
+        'MessageBox.Show(str & "-" & exi.ToString)
+        Return (exi)
+    End Function
+
 
     Private Sub Increm_progressbar()
         ProgressBar1.Value += 1
