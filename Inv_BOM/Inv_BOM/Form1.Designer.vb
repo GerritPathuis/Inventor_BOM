@@ -115,6 +115,7 @@ Partial Class Form1
         Me.DataGridViewTextBoxColumn19 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn20 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
+        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
         Me.CheckBox3 = New System.Windows.Forms.CheckBox()
         Me.Button19 = New System.Windows.Forms.Button()
@@ -169,7 +170,7 @@ Partial Class Form1
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
+        Me.CheckBox2 = New System.Windows.Forms.CheckBox()
         Me.TabControl1.SuspendLayout()
         Me.TabPage6.SuspendLayout()
         Me.GroupBox8.SuspendLayout()
@@ -277,7 +278,7 @@ Partial Class Form1
         Me.TabPage6.Location = New System.Drawing.Point(4, 22)
         Me.TabPage6.Name = "TabPage6"
         Me.TabPage6.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage6.Size = New System.Drawing.Size(639, 473)
+        Me.TabPage6.Size = New System.Drawing.Size(651, 473)
         Me.TabPage6.TabIndex = 5
         Me.TabPage6.Text = "Directory"
         Me.TabPage6.UseVisualStyleBackColor = True
@@ -702,7 +703,7 @@ Partial Class Form1
         Me.TabPage3.Location = New System.Drawing.Point(4, 22)
         Me.TabPage3.Name = "TabPage3"
         Me.TabPage3.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage3.Size = New System.Drawing.Size(639, 473)
+        Me.TabPage3.Size = New System.Drawing.Size(651, 473)
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "IDW Parts List"
         Me.TabPage3.UseVisualStyleBackColor = True
@@ -725,7 +726,7 @@ Partial Class Form1
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.DataGridView2)
-        Me.SplitContainer2.Size = New System.Drawing.Size(633, 467)
+        Me.SplitContainer2.Size = New System.Drawing.Size(645, 467)
         Me.SplitContainer2.SplitterDistance = 97
         Me.SplitContainer2.TabIndex = 20
         '
@@ -781,7 +782,7 @@ Partial Class Form1
         Me.DataGridView2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView2.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView2.Name = "DataGridView2"
-        Me.DataGridView2.Size = New System.Drawing.Size(633, 366)
+        Me.DataGridView2.Size = New System.Drawing.Size(645, 366)
         Me.DataGridView2.TabIndex = 17
         '
         'DataGridViewTextBoxColumn1
@@ -815,7 +816,7 @@ Partial Class Form1
         Me.TabPage4.Location = New System.Drawing.Point(4, 22)
         Me.TabPage4.Name = "TabPage4"
         Me.TabPage4.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage4.Size = New System.Drawing.Size(639, 473)
+        Me.TabPage4.Size = New System.Drawing.Size(651, 473)
         Me.TabPage4.TabIndex = 3
         Me.TabPage4.Text = "List files"
         Me.TabPage4.UseVisualStyleBackColor = True
@@ -838,7 +839,7 @@ Partial Class Form1
         'SplitContainer3.Panel2
         '
         Me.SplitContainer3.Panel2.Controls.Add(Me.DataGridView3)
-        Me.SplitContainer3.Size = New System.Drawing.Size(633, 467)
+        Me.SplitContainer3.Size = New System.Drawing.Size(645, 467)
         Me.SplitContainer3.SplitterDistance = 97
         Me.SplitContainer3.TabIndex = 25
         '
@@ -962,7 +963,7 @@ Partial Class Form1
         Me.DataGridView3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView3.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView3.Name = "DataGridView3"
-        Me.DataGridView3.Size = New System.Drawing.Size(633, 366)
+        Me.DataGridView3.Size = New System.Drawing.Size(645, 366)
         Me.DataGridView3.TabIndex = 18
         '
         'DataGridViewTextBoxColumn6
@@ -1039,6 +1040,7 @@ Partial Class Form1
         '
         'GroupBox4
         '
+        Me.GroupBox4.Controls.Add(Me.CheckBox2)
         Me.GroupBox4.Controls.Add(Me.CheckBox1)
         Me.GroupBox4.Controls.Add(Me.ProgressBar1)
         Me.GroupBox4.Controls.Add(Me.CheckBox3)
@@ -1061,6 +1063,18 @@ Partial Class Form1
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Extract dxf from sheetmetal IPT's"
         '
+        'CheckBox1
+        '
+        Me.CheckBox1.AutoSize = True
+        Me.CheckBox1.Checked = True
+        Me.CheckBox1.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBox1.Location = New System.Drawing.Point(293, 111)
+        Me.CheckBox1.Name = "CheckBox1"
+        Me.CheckBox1.Size = New System.Drawing.Size(122, 17)
+        Me.CheckBox1.TabIndex = 38
+        Me.CheckBox1.Text = "Trace log errors only"
+        Me.CheckBox1.UseVisualStyleBackColor = True
+        '
         'ProgressBar1
         '
         Me.ProgressBar1.Location = New System.Drawing.Point(293, 92)
@@ -1074,9 +1088,9 @@ Partial Class Form1
         Me.CheckBox3.AutoSize = True
         Me.CheckBox3.Location = New System.Drawing.Point(293, 129)
         Me.CheckBox3.Name = "CheckBox3"
-        Me.CheckBox3.Size = New System.Drawing.Size(199, 17)
+        Me.CheckBox3.Size = New System.Drawing.Size(228, 17)
         Me.CheckBox3.TabIndex = 36
-        Me.CheckBox3.Text = "DXF file name without Artikel number"
+        Me.CheckBox3.Text = "DXF file (R12) name without Artikel number"
         Me.CheckBox3.UseVisualStyleBackColor = True
         '
         'Button19
@@ -1183,7 +1197,7 @@ Partial Class Form1
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(639, 473)
+        Me.TabPage1.Size = New System.Drawing.Size(651, 473)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Single file select"
         Me.TabPage1.UseVisualStyleBackColor = True
@@ -1208,7 +1222,7 @@ Partial Class Form1
         'SplitContainer4.Panel2
         '
         Me.SplitContainer4.Panel2.Controls.Add(Me.DataGridView4)
-        Me.SplitContainer4.Size = New System.Drawing.Size(633, 467)
+        Me.SplitContainer4.Size = New System.Drawing.Size(645, 467)
         Me.SplitContainer4.SplitterDistance = 205
         Me.SplitContainer4.TabIndex = 21
         '
@@ -1340,7 +1354,7 @@ Partial Class Form1
         Me.DataGridView4.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView4.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView4.Name = "DataGridView4"
-        Me.DataGridView4.Size = New System.Drawing.Size(633, 258)
+        Me.DataGridView4.Size = New System.Drawing.Size(645, 258)
         Me.DataGridView4.TabIndex = 20
         '
         'DataGridViewTextBoxColumn11
@@ -1395,7 +1409,7 @@ Partial Class Form1
         Me.TabPage8.Location = New System.Drawing.Point(4, 22)
         Me.TabPage8.Name = "TabPage8"
         Me.TabPage8.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage8.Size = New System.Drawing.Size(639, 473)
+        Me.TabPage8.Size = New System.Drawing.Size(651, 473)
         Me.TabPage8.TabIndex = 7
         Me.TabPage8.Text = "Add drwg Note"
         Me.TabPage8.UseVisualStyleBackColor = True
@@ -1554,17 +1568,15 @@ Partial Class Form1
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
         Me.ContextMenuStrip1.Size = New System.Drawing.Size(61, 4)
         '
-        'CheckBox1
+        'CheckBox2
         '
-        Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Checked = True
-        Me.CheckBox1.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox1.Location = New System.Drawing.Point(293, 111)
-        Me.CheckBox1.Name = "CheckBox1"
-        Me.CheckBox1.Size = New System.Drawing.Size(122, 17)
-        Me.CheckBox1.TabIndex = 38
-        Me.CheckBox1.Text = "Trace log errors only"
-        Me.CheckBox1.UseVisualStyleBackColor = True
+        Me.CheckBox2.AutoSize = True
+        Me.CheckBox2.Location = New System.Drawing.Point(435, 111)
+        Me.CheckBox2.Name = "CheckBox2"
+        Me.CheckBox2.Size = New System.Drawing.Size(184, 17)
+        Me.CheckBox2.TabIndex = 39
+        Me.CheckBox2.Text = "Create dwg files also (Acad 2000)"
+        Me.CheckBox2.UseVisualStyleBackColor = True
         '
         'Form1
         '
@@ -1781,4 +1793,5 @@ Partial Class Form1
     Friend WithEvents TextBox35 As TextBox
     Friend WithEvents Label19 As Label
     Friend WithEvents CheckBox1 As CheckBox
+    Friend WithEvents CheckBox2 As CheckBox
 End Class

@@ -46,3 +46,4 @@ C:\Repos\Inventor_BOM\Inventor_BOM\Inv_BOM\Inv_BOM\obj\Debug\Inv_BOM.application
 C:\Repos\Inventor_BOM\Inventor_BOM\Inv_BOM\Inv_BOM\obj\Debug\Inv_BOM.exe
 C:\Repos\Inventor_BOM\Inventor_BOM\Inv_BOM\Inv_BOM\obj\Debug\Inv_BOM.xml
 C:\Repos\Inventor_BOM\Inventor_BOM\Inv_BOM\Inv_BOM\obj\Debug\Inv_BOM.pdb
+C:\Repos\Inventor_BOM\Inventor_BOM\Inv_BOM\Inv_BOM\obj\Debug\Inv_BOM.vbprojAssemblyReference.cache

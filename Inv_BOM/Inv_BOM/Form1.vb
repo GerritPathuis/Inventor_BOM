@@ -141,10 +141,10 @@ Public Class Form1
         p = Process.GetProcessesByName("Inventor")
         If p.Count = 0 Then
             Label7.Visible = True
-            Me.Text = "Inventor NOT running" & " (" & Pro_user & ") 17-10-2018"
+            Me.Text = "Inventor NOT running" & " (" & Pro_user & ") 18-10-2018"
         Else
             Label7.Visible = False
-            Me.Text = "Inventor BOM Extractor" & " (" & Pro_user & ") 17-10-2018"
+            Me.Text = "Inventor BOM Extractor" & " (" & Pro_user & ") 18-10-2018"
         End If
     End Sub
 
@@ -822,24 +822,32 @@ Public Class Form1
                 End If
             Next prop
 
-            Dim oDXFfileNAME As String
+            Dim oDXF_fileNAME, oDWG_FfileNAME As String
             Dim strPath As String
             Dim sOut As String
             strPath = TextBox34.Text & "\"  'Must end with a "\"
-            oDXFfileNAME = strPath & TextBox31.Text & "_" & TextBox33.Text & "_" & artikel & ".dxf"
+            oDXF_fileNAME = strPath & TextBox31.Text & "_" & TextBox33.Text & "_" & artikel & ".dxf"
+            oDWG_FfileNAME = strPath & TextBox31.Text & "_" & TextBox33.Text & "_" & artikel & ".dwg"
 
+            'Write dxf file
             sOut = "FLAT PATTERN DXF?AcadVersion=R12"
-            oDataIO.WriteDataToFile(sOut, oDXFfileNAME)
+            oDataIO.WriteDataToFile(sOut, oDXF_fileNAME)
+
+            'Write dwg file
+            If CheckBox2.Checked Then
+                sOut = "FLAT PATTERN DWG?AcadVersion=2000"
+                oDataIO.WriteDataToFile(sOut, oDWG_FfileNAME) 'Write dwg
+            End If
+
             DataGridView5.Rows.Item(G5_row_cnt).Cells(0).Value = artikel
-            DataGridView5.Rows.Item(G5_row_cnt).Cells(1).Value = oDXFfileNAME
+            DataGridView5.Rows.Item(G5_row_cnt).Cells(1).Value = oDXF_fileNAME
 
             'Plate thickness
             'Material sort
             'Part Count
 
-
             G5_row_cnt += 1
-            If Not CheckBox1.Checked Then TextBox2.Text &= "Dxf file " & oDXFfileNAME & " is written to work directory " & vbCrLf
+            If Not CheckBox1.Checked Then TextBox2.Text &= "Dxf file " & oDXF_fileNAME & " is written to work directory " & vbCrLf
         Else
             MessageBox.Show("DXF File does noet exist")
         End If
