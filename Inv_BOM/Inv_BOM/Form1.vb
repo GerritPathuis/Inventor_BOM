@@ -1,14 +1,10 @@
 ﻿Imports System.IO
-Imports System
-Imports System.String
 Imports System.Runtime.InteropServices
 'Browse to "C:\Programs Files\Autodesk\Inventor XXXX\Bin\Public Assemblies" select “autodesk.inventor.interop.dll”
 Imports Inventor
 Imports Microsoft.Office.Interop.Excel
 Imports Microsoft.Office.Interop
-Imports System.ComponentModel
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel
-Imports Microsoft.Vbe.Interop
+
 '==================================
 'API samples
 'https://knowledge.autodesk.com/search-result/caas/CloudHelp/cloudhelp/2018/ENU/Inventor-API/files/SampleList-htm.html
@@ -36,6 +32,7 @@ Public Class Form1
         Public actie As String
     End Structure
     Public kb As Laserpart
+    Dim invApp As Inventor.Application = Nothing
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -133,19 +130,28 @@ Public Class Form1
         TextBox34.Text = filepath5
         TextBox35.Text = filepath5
 
+        TextBox39.Text = "All idw drawings in the work-directory are copied as dwg or dxf format" & vbCrLf & vbCrLf
+        TextBox39.Text &= "Save a Inventor drawing (idw format) to dwg format using" & vbCrLf
+        TextBox39.Text &= "additional options in 'c:\Temp\dwgout2.ini' file" & vbCrLf & vbCrLf
+        TextBox39.Text &= "You can export an Inventor drawing to AutoCAD dwg or dxf format" & vbCrLf
+        TextBox39.Text &= "using the DWG and DXF Translator AddIns" & vbCrLf
+        TextBox39.Text &= "The translators use ini file (configuration file) " & vbCrLf
+        TextBox39.Text &= "to set additional options for the AutoCAD dwg Or dxf that will be created." & vbCrLf
+        TextBox39.Text &= "You can create the ini file Using the Options dialog which can be reached " & vbCrLf
+        TextBox39.Text &= "From the 'SaveCopyAs' dialog, when the *.dwg file format are selected."
         Inventor_running()
     End Sub
     Private Sub Inventor_running()
         '-------- inventor must be running----
-        Dim p() As Process
-        p = Process.GetProcessesByName("Inventor")
-        If p.Count = 0 Then
-            Label7.Visible = True
-            Me.Text = "Inventor NOT running" & " (" & Pro_user & ") 18-10-2018"
-        Else
-            Label7.Visible = False
-            Me.Text = "Inventor BOM Extractor" & " (" & Pro_user & ") 18-10-2018"
-        End If
+        Me.Text = "Inventor BOM Extractor" & " (" & Pro_user & ") 18-10-2018"
+
+        Try
+            invApp = System.Runtime.InteropServices.Marshal.GetActiveObject("Inventor.Application")
+        Catch 'Inventor not started
+            System.Windows.Forms.MessageBox.Show("Start an Inventor session")
+            Exit Sub
+        End Try
+        Label7.Visible = False
     End Sub
 
     Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click
@@ -160,7 +166,7 @@ Public Class Form1
     Private Sub Open_file(keuze As Integer)
         ' Dim myStream As Stream = Nothing
         Dim openFileDialog1 As New OpenFileDialog With {
-               .InitialDirectory = "c:\Inventor test files\",
+               .InitialDirectory = "c\Inventor test files\",
                .Filter = "Part File (*.ipt)|*.ipt" _
                & "|Assembly File (*.iam)|*.iam" _
                & "|Presentation File (*.ipn)|*.ipn" _
@@ -178,7 +184,7 @@ Public Class Form1
                 TextBox1.Text = filepath1.ToString
                 Get_dwg_art_nr()
             Catch Ex As Exception
-                MessageBox.Show("Cannot read file from disk. Original error: " & Ex.Message)
+                MessageBox.Show("Cannot read file from disk. Original error " & Ex.Message)
             Finally
             End Try
         End If
@@ -201,7 +207,7 @@ Public Class Form1
         Dim p() As Process
         p = Process.GetProcessesByName("Inventor")
         If p.Count = 0 Then
-            MessageBox.Show("Inventor is not running")
+            MessageBox.Show("Inventor Is Not running")
             Exit Sub
         End If
 
@@ -736,8 +742,8 @@ Public Class Form1
         Button12.BackColor = System.Drawing.Color.Transparent
     End Sub
 
-    Private Sub PlotSTEP()
-        'Export STEP of DXF Files
+    Private Sub Plot_STEPorDXF()
+        'Export STEP or DXF Files
         'https://forums.autodesk.com/t5/inventor-customization/vb-net-export-files-and-then-can-not-change-project/td-p/7404351
         'Dim oDocument As Inventor.Document
         Dim invApp As Inventor.Application
@@ -1082,8 +1088,8 @@ Public Class Form1
     End Sub
 
     Private Sub Button19_Click(sender As Object, e As EventArgs) Handles Button19.Click
-        '==========WVB button======
 
+        '==========WVB button======
         TextBox2.Clear()
         ProgressBar1.Visible = True
         Button19.BackColor = System.Drawing.Color.LightGreen
@@ -1176,6 +1182,169 @@ Public Class Form1
         'oDoc.Save()                            'Works
         TextBox2.Text &= "Drawing Note added to " & dest & vbCrLf
     End Sub
+
+    Private Sub Button17_Click(sender As Object, e As EventArgs) Handles Button17.Click
+        'http://adndevblog.typepad.com/manufacturing/2012/08/save-a-drawing-to-dwg-dxf-format-using-additional-options-in-an-ini-file.html
+        sts()
+    End Sub
+
+    Private Sub Sts()
+        '=============
+        Inventor_running()
+        Button17.BackColor = System.Drawing.Color.LightGreen
+
+        'Select work directory
+        Dim pathfile As String = TextBox6.Text
+
+        If Directory.Exists(pathfile) Then
+            Dim fileEntries As String() = Directory.GetFiles(pathfile)
+            For Each fileName In fileEntries
+                Increm_progressbar()
+                Dim extension As String = IO.Path.GetExtension(fileName)
+                If extension = ".idw" Then
+                    'Read_title_Block_idw(fileName)
+                    DWGOutUsingTranslatorAddIn(fileName)
+                    'DWGOutUsingTranslatorAddIn2(fileName)
+                End If
+            Next fileName
+        Else
+            MessageBox.Show(pathfile & " is not a valid file or directory.")
+        End If
+        Button17.BackColor = System.Drawing.Color.Transparent
+    End Sub
+
+    Public Sub DWGOutUsingTranslatorAddIn(ByVal path As String)
+        ' Set a reference to the DWG translator add-in.
+        Dim oDWGAddIn As TranslatorAddIn = Nothing
+        Dim invApp As Inventor.Application
+        Dim oDoc As Inventor.DrawingDocument
+        Dim i As Long
+
+        invApp = Marshal.GetActiveObject("Inventor.Application")
+        invApp.SilentOperation = vbTrue
+
+        oDoc = invApp.Documents.Open(path, False)
+
+        TextBox40.Text = oDoc.DisplayName
+        TextBox41.Text = oDoc.ActiveSheet.Name
+
+        ' ==== saveAs as pdf ============
+        If CheckBox4.Checked Then oDoc.SaveAs(path.Substring(0, path.Length - 5) & ".pdf", vbTrue)
+
+        ' ==== SaveCopyAs as dwg =======
+        If CheckBox5.Checked Then
+            For i = 1 To invApp.ApplicationAddIns.Count
+                If invApp.ApplicationAddIns.Item(i).ClassIdString = "{C24E3AC2-122E-11D5-8E91-0010B541CD80}" Then
+                    oDWGAddIn = invApp.ApplicationAddIns.Item(i)
+                    Exit For
+                End If
+            Next
+
+            If oDWGAddIn Is Nothing Then
+                MessageBox.Show("DWG add-in not found.")
+                Exit Sub
+            End If
+
+            ' Check to make sure the add-in is activated.
+            If Not oDWGAddIn.Activated Then
+                oDWGAddIn.Activate()
+            End If
+
+            ' Create a name-value map to supply information to the translator.
+            Dim oNameValueMap As NameValueMap
+            oNameValueMap = invApp.TransientObjects.CreateNameValueMap()
+
+            Dim strIniFile As String
+            strIniFile = "C:\Temp\dwgout2.ini"
+
+            ' Create the name-value that specifies the ini file to use
+            If IO.File.Exists(strIniFile) Then
+                oNameValueMap.Add("Export_Acad_IniFile", strIniFile)
+            Else
+                MessageBox.Show(strIniFile & " Ini file does not exist")
+            End If
+
+            ' Create a translation context and define that we want to output to a file.
+            Dim oContext As TranslationContext
+            oContext = invApp.TransientObjects.CreateTranslationContext
+            oContext.Type = IOMechanismEnum.kFileBrowseIOMechanism
+
+            ' Define the type of output by  specifying the filename.
+            Dim oOutputFile As DataMedium
+            oOutputFile = invApp.TransientObjects.CreateDataMedium
+            oOutputFile.FileName = path.Substring(0, path.Length - 5) & ".dwg"
+
+            oDWGAddIn.SaveCopyAs(oDoc, oContext, oNameValueMap, oOutputFile)
+        End If
+        TextBox40.Text = ""
+        TextBox41.Text = ""
+    End Sub
+
+    Public Sub DWGOutUsingTranslatorAddIn2(ByVal path As String)
+        ' Set a reference to the DWG translator add-in.
+        Dim oDWGAddIn As TranslatorAddIn = Nothing
+        Dim invApp As Inventor.Application
+        Dim oDoc As Inventor.DrawingDocument
+
+        invApp = Marshal.GetActiveObject("Inventor.Application")
+        invApp.SilentOperation = vbTrue
+
+        oDoc = invApp.Documents.Open(path, False)
+        TextBox40.Text = oDoc.DisplayName
+        TextBox41.Text = oDoc.ActiveSheet.Name
+        ' ==== saveAs as pdf ============
+        If CheckBox4.Checked Then oDoc.SaveAs(path.Substring(0, path.Length - 5) & ".pdf", vbTrue)
+
+        ' ==== SaveCopyAs as dwg =======
+        If CheckBox5.Checked Then
+
+            ' ==== SaveCopyAs as dwg =======
+            Dim DWGAddIn As TranslatorAddIn
+        DWGAddIn = invApp.ApplicationAddIns.ItemById("{C24E3AC2-122E-11D5-8E91-0010B541CD80}")
+
+        If DWGAddIn Is Nothing Then
+            MessageBox.Show("DWG add-in not found.")
+            Exit Sub
+        End If
+
+        Dim oContext As TranslationContext
+        oContext = invApp.TransientObjects.CreateTranslationContext
+        oContext.Type = IOMechanismEnum.kFileBrowseIOMechanism
+
+        ' Create a NameValueMap object
+        Dim oOptions As NameValueMap
+        oOptions = invApp.TransientObjects.CreateNameValueMap
+
+        ' Create a DataMedium object
+        Dim oDataMedium As DataMedium
+        oDataMedium = invApp.TransientObjects.CreateDataMedium
+
+
+        ' Check whether the translator has 'SaveCopyAs' options
+        If DWGAddIn.HasSaveCopyAsOptions(oDoc, oContext, oOptions) Then
+            Dim strIniFile As String
+            strIniFile = "C:\Temp\dwgout2.ini"
+
+            ' Create the name-value that specifies the ini file to use.
+            oOptions.Value("Export_Acad_IniFile") = strIniFile
+            oOptions.Value("Sheet_Range") = Inventor.PrintRangeEnum.kPrintAllSheets
+            'oOptions.Value("Custom_Begin_Sheet") = 3
+            'oOptions.Value("Custom_End_Sheet") = 3
+        Else
+            MessageBox.Show("The translator has NO 'SaveCopyAs' options")
+        End If
+
+        'Set the destination file name
+        oDataMedium.FileName = "c:\Temp\dwgoutppppp.dwg"
+
+
+        'Publish document.
+        DWGAddIn.SaveCopyAs(oDoc, oContext, oOptions, oDataMedium)
+        End If
+        TextBox40.Text = ""
+        TextBox41.Text = ""
+    End Sub
+
 
 End Class
 

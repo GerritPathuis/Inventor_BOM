@@ -31,6 +31,10 @@ Partial Class Form1
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage6 = New System.Windows.Forms.TabPage()
         Me.GroupBox8 = New System.Windows.Forms.GroupBox()
+        Me.GroupBox12 = New System.Windows.Forms.GroupBox()
+        Me.TextBox14 = New System.Windows.Forms.TextBox()
+        Me.TextBox37 = New System.Windows.Forms.TextBox()
+        Me.TextBox19 = New System.Windows.Forms.TextBox()
         Me.GroupBox10 = New System.Windows.Forms.GroupBox()
         Me.TextBox10 = New System.Windows.Forms.TextBox()
         Me.TextBox11 = New System.Windows.Forms.TextBox()
@@ -38,11 +42,9 @@ Partial Class Form1
         Me.TextBox30 = New System.Windows.Forms.TextBox()
         Me.TextBox13 = New System.Windows.Forms.TextBox()
         Me.TextBox32 = New System.Windows.Forms.TextBox()
-        Me.TextBox14 = New System.Windows.Forms.TextBox()
         Me.TextBox26 = New System.Windows.Forms.TextBox()
         Me.TextBox20 = New System.Windows.Forms.TextBox()
         Me.TextBox22 = New System.Windows.Forms.TextBox()
-        Me.TextBox19 = New System.Windows.Forms.TextBox()
         Me.TextBox21 = New System.Windows.Forms.TextBox()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.GroupBox9 = New System.Windows.Forms.GroupBox()
@@ -115,6 +117,7 @@ Partial Class Form1
         Me.DataGridViewTextBoxColumn19 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn20 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
+        Me.CheckBox2 = New System.Windows.Forms.CheckBox()
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
         Me.CheckBox3 = New System.Windows.Forms.CheckBox()
@@ -167,13 +170,22 @@ Partial Class Form1
         Me.Label17 = New System.Windows.Forms.Label()
         Me.Label16 = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
+        Me.TabPage9 = New System.Windows.Forms.TabPage()
+        Me.CheckBox4 = New System.Windows.Forms.CheckBox()
+        Me.Label21 = New System.Windows.Forms.Label()
+        Me.Label20 = New System.Windows.Forms.Label()
+        Me.TextBox41 = New System.Windows.Forms.TextBox()
+        Me.TextBox40 = New System.Windows.Forms.TextBox()
+        Me.TextBox39 = New System.Windows.Forms.TextBox()
+        Me.Button17 = New System.Windows.Forms.Button()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.CheckBox2 = New System.Windows.Forms.CheckBox()
+        Me.CheckBox5 = New System.Windows.Forms.CheckBox()
         Me.TabControl1.SuspendLayout()
         Me.TabPage6.SuspendLayout()
         Me.GroupBox8.SuspendLayout()
+        Me.GroupBox12.SuspendLayout()
         Me.GroupBox10.SuspendLayout()
         Me.GroupBox9.SuspendLayout()
         Me.GroupBox7.SuspendLayout()
@@ -215,6 +227,7 @@ Partial Class Form1
         CType(Me.NumericUpDown3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NumericUpDown2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NumericUpDown1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TabPage9.SuspendLayout()
         Me.SuspendLayout()
         '
         'TextBox1
@@ -264,11 +277,13 @@ Partial Class Form1
         Me.TabControl1.Controls.Add(Me.TabPage1)
         Me.TabControl1.Controls.Add(Me.TabPage7)
         Me.TabControl1.Controls.Add(Me.TabPage8)
+        Me.TabControl1.Controls.Add(Me.TabPage9)
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TabControl1.Location = New System.Drawing.Point(0, 0)
+        Me.TabControl1.Multiline = True
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(659, 499)
+        Me.TabControl1.Size = New System.Drawing.Size(729, 499)
         Me.TabControl1.TabIndex = 8
         '
         'TabPage6
@@ -278,23 +293,60 @@ Partial Class Form1
         Me.TabPage6.Location = New System.Drawing.Point(4, 22)
         Me.TabPage6.Name = "TabPage6"
         Me.TabPage6.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage6.Size = New System.Drawing.Size(651, 473)
+        Me.TabPage6.Size = New System.Drawing.Size(721, 473)
         Me.TabPage6.TabIndex = 5
         Me.TabPage6.Text = "Directory"
         Me.TabPage6.UseVisualStyleBackColor = True
         '
         'GroupBox8
         '
+        Me.GroupBox8.Controls.Add(Me.GroupBox12)
         Me.GroupBox8.Controls.Add(Me.GroupBox10)
         Me.GroupBox8.Controls.Add(Me.Label9)
         Me.GroupBox8.Controls.Add(Me.GroupBox9)
         Me.GroupBox8.Controls.Add(Me.Label8)
         Me.GroupBox8.Location = New System.Drawing.Point(8, 128)
         Me.GroupBox8.Name = "GroupBox8"
-        Me.GroupBox8.Size = New System.Drawing.Size(619, 337)
+        Me.GroupBox8.Size = New System.Drawing.Size(705, 337)
         Me.GroupBox8.TabIndex = 2
         Me.GroupBox8.TabStop = False
         Me.GroupBox8.Text = "Opbouw in Inventor"
+        '
+        'GroupBox12
+        '
+        Me.GroupBox12.Controls.Add(Me.TextBox14)
+        Me.GroupBox12.Controls.Add(Me.TextBox37)
+        Me.GroupBox12.Controls.Add(Me.TextBox19)
+        Me.GroupBox12.Location = New System.Drawing.Point(475, 14)
+        Me.GroupBox12.Name = "GroupBox12"
+        Me.GroupBox12.Size = New System.Drawing.Size(201, 278)
+        Me.GroupBox12.TabIndex = 26
+        Me.GroupBox12.TabStop = False
+        Me.GroupBox12.Text = "Sheet metal (dxf, dwg)"
+        '
+        'TextBox14
+        '
+        Me.TextBox14.Location = New System.Drawing.Point(111, 121)
+        Me.TextBox14.Name = "TextBox14"
+        Me.TextBox14.Size = New System.Drawing.Size(54, 20)
+        Me.TextBox14.TabIndex = 22
+        Me.TextBox14.Text = "DWG"
+        '
+        'TextBox37
+        '
+        Me.TextBox37.Location = New System.Drawing.Point(12, 121)
+        Me.TextBox37.Name = "TextBox37"
+        Me.TextBox37.Size = New System.Drawing.Size(93, 20)
+        Me.TextBox37.TabIndex = 21
+        Me.TextBox37.Text = "DXF sheet metal"
+        '
+        'TextBox19
+        '
+        Me.TextBox19.Location = New System.Drawing.Point(12, 147)
+        Me.TextBox19.Name = "TextBox19"
+        Me.TextBox19.Size = New System.Drawing.Size(93, 20)
+        Me.TextBox19.TabIndex = 10
+        Me.TextBox19.Text = "DXF sheet metal"
         '
         'GroupBox10
         '
@@ -304,18 +356,16 @@ Partial Class Form1
         Me.GroupBox10.Controls.Add(Me.TextBox30)
         Me.GroupBox10.Controls.Add(Me.TextBox13)
         Me.GroupBox10.Controls.Add(Me.TextBox32)
-        Me.GroupBox10.Controls.Add(Me.TextBox14)
         Me.GroupBox10.Controls.Add(Me.TextBox26)
         Me.GroupBox10.Controls.Add(Me.TextBox20)
         Me.GroupBox10.Controls.Add(Me.TextBox22)
-        Me.GroupBox10.Controls.Add(Me.TextBox19)
         Me.GroupBox10.Controls.Add(Me.TextBox21)
         Me.GroupBox10.Location = New System.Drawing.Point(9, 14)
         Me.GroupBox10.Name = "GroupBox10"
-        Me.GroupBox10.Size = New System.Drawing.Size(294, 280)
+        Me.GroupBox10.Size = New System.Drawing.Size(215, 280)
         Me.GroupBox10.TabIndex = 25
         Me.GroupBox10.TabStop = False
-        Me.GroupBox10.Text = "Inventor modelling"
+        Me.GroupBox10.Text = "Inventor 3D modelling (iam, ipt )"
         '
         'TextBox10
         '
@@ -365,14 +415,6 @@ Partial Class Form1
         Me.TextBox32.TabIndex = 18
         Me.TextBox32.Text = "IPT, ..."
         '
-        'TextBox14
-        '
-        Me.TextBox14.Location = New System.Drawing.Point(187, 123)
-        Me.TextBox14.Name = "TextBox14"
-        Me.TextBox14.Size = New System.Drawing.Size(93, 20)
-        Me.TextBox14.TabIndex = 4
-        Me.TextBox14.Text = "DXF sheet metal"
-        '
         'TextBox26
         '
         Me.TextBox26.Location = New System.Drawing.Point(14, 97)
@@ -396,14 +438,6 @@ Partial Class Form1
         Me.TextBox22.Size = New System.Drawing.Size(121, 20)
         Me.TextBox22.TabIndex = 12
         Me.TextBox22.Text = "IPT shaft, make"
-        '
-        'TextBox19
-        '
-        Me.TextBox19.Location = New System.Drawing.Point(187, 149)
-        Me.TextBox19.Name = "TextBox19"
-        Me.TextBox19.Size = New System.Drawing.Size(93, 20)
-        Me.TextBox19.TabIndex = 10
-        Me.TextBox19.Text = "DXF sheet metal"
         '
         'TextBox21
         '
@@ -434,12 +468,12 @@ Partial Class Form1
         Me.GroupBox9.Controls.Add(Me.TextBox24)
         Me.GroupBox9.Controls.Add(Me.TextBox18)
         Me.GroupBox9.Controls.Add(Me.TextBox25)
-        Me.GroupBox9.Location = New System.Drawing.Point(314, 14)
+        Me.GroupBox9.Location = New System.Drawing.Point(245, 14)
         Me.GroupBox9.Name = "GroupBox9"
-        Me.GroupBox9.Size = New System.Drawing.Size(288, 280)
+        Me.GroupBox9.Size = New System.Drawing.Size(204, 280)
         Me.GroupBox9.TabIndex = 17
         Me.GroupBox9.TabStop = False
-        Me.GroupBox9.Text = "Drawings"
+        Me.GroupBox9.Text = "Drawings (idw, dwg)"
         '
         'TextBox28
         '
@@ -463,7 +497,7 @@ Partial Class Form1
         Me.TextBox27.Name = "TextBox27"
         Me.TextBox27.Size = New System.Drawing.Size(144, 20)
         Me.TextBox27.TabIndex = 16
-        Me.TextBox27.Text = "optional for simple shape"
+        Me.TextBox27.Text = "IDW Drawing "
         '
         'TextBox15
         '
@@ -519,7 +553,7 @@ Partial Class Form1
         Me.TextBox25.Name = "TextBox25"
         Me.TextBox25.Size = New System.Drawing.Size(144, 20)
         Me.TextBox25.TabIndex = 13
-        Me.TextBox25.Text = "IDW Drawing + detail BOM"
+        Me.TextBox25.Text = "IDW Drawing "
         '
         'Label8
         '
@@ -538,7 +572,7 @@ Partial Class Form1
         Me.GroupBox7.Controls.Add(Me.TextBox9)
         Me.GroupBox7.Location = New System.Drawing.Point(8, 6)
         Me.GroupBox7.Name = "GroupBox7"
-        Me.GroupBox7.Size = New System.Drawing.Size(619, 115)
+        Me.GroupBox7.Size = New System.Drawing.Size(705, 115)
         Me.GroupBox7.TabIndex = 0
         Me.GroupBox7.TabStop = False
         Me.GroupBox7.Text = "Work directory"
@@ -588,7 +622,7 @@ Partial Class Form1
         Me.TabPage2.Location = New System.Drawing.Point(4, 22)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(651, 473)
+        Me.TabPage2.Size = New System.Drawing.Size(721, 473)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Read BOM IAM"
         Me.TabPage2.UseVisualStyleBackColor = True
@@ -607,7 +641,7 @@ Partial Class Form1
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.DataGridView1)
-        Me.SplitContainer1.Size = New System.Drawing.Size(645, 467)
+        Me.SplitContainer1.Size = New System.Drawing.Size(715, 467)
         Me.SplitContainer1.SplitterDistance = 93
         Me.SplitContainer1.TabIndex = 20
         '
@@ -620,7 +654,7 @@ Partial Class Form1
         Me.GroupBox5.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GroupBox5.Location = New System.Drawing.Point(0, 0)
         Me.GroupBox5.Name = "GroupBox5"
-        Me.GroupBox5.Size = New System.Drawing.Size(645, 93)
+        Me.GroupBox5.Size = New System.Drawing.Size(715, 93)
         Me.GroupBox5.TabIndex = 19
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.Text = "Read BOM from the IAM model files"
@@ -669,7 +703,7 @@ Partial Class Form1
         Me.DataGridView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView1.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView1.Name = "DataGridView1"
-        Me.DataGridView1.Size = New System.Drawing.Size(645, 370)
+        Me.DataGridView1.Size = New System.Drawing.Size(715, 370)
         Me.DataGridView1.TabIndex = 3
         '
         'Column1
@@ -703,7 +737,7 @@ Partial Class Form1
         Me.TabPage3.Location = New System.Drawing.Point(4, 22)
         Me.TabPage3.Name = "TabPage3"
         Me.TabPage3.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage3.Size = New System.Drawing.Size(651, 473)
+        Me.TabPage3.Size = New System.Drawing.Size(721, 473)
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "IDW Parts List"
         Me.TabPage3.UseVisualStyleBackColor = True
@@ -726,7 +760,7 @@ Partial Class Form1
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.DataGridView2)
-        Me.SplitContainer2.Size = New System.Drawing.Size(645, 467)
+        Me.SplitContainer2.Size = New System.Drawing.Size(715, 467)
         Me.SplitContainer2.SplitterDistance = 97
         Me.SplitContainer2.TabIndex = 20
         '
@@ -782,7 +816,7 @@ Partial Class Form1
         Me.DataGridView2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView2.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView2.Name = "DataGridView2"
-        Me.DataGridView2.Size = New System.Drawing.Size(645, 366)
+        Me.DataGridView2.Size = New System.Drawing.Size(715, 366)
         Me.DataGridView2.TabIndex = 17
         '
         'DataGridViewTextBoxColumn1
@@ -816,7 +850,7 @@ Partial Class Form1
         Me.TabPage4.Location = New System.Drawing.Point(4, 22)
         Me.TabPage4.Name = "TabPage4"
         Me.TabPage4.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage4.Size = New System.Drawing.Size(651, 473)
+        Me.TabPage4.Size = New System.Drawing.Size(721, 473)
         Me.TabPage4.TabIndex = 3
         Me.TabPage4.Text = "List files"
         Me.TabPage4.UseVisualStyleBackColor = True
@@ -839,7 +873,7 @@ Partial Class Form1
         'SplitContainer3.Panel2
         '
         Me.SplitContainer3.Panel2.Controls.Add(Me.DataGridView3)
-        Me.SplitContainer3.Size = New System.Drawing.Size(645, 467)
+        Me.SplitContainer3.Size = New System.Drawing.Size(715, 467)
         Me.SplitContainer3.SplitterDistance = 97
         Me.SplitContainer3.TabIndex = 25
         '
@@ -963,7 +997,7 @@ Partial Class Form1
         Me.DataGridView3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView3.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView3.Name = "DataGridView3"
-        Me.DataGridView3.Size = New System.Drawing.Size(645, 366)
+        Me.DataGridView3.Size = New System.Drawing.Size(715, 366)
         Me.DataGridView3.TabIndex = 18
         '
         'DataGridViewTextBoxColumn6
@@ -998,7 +1032,7 @@ Partial Class Form1
         Me.TabPage5.Location = New System.Drawing.Point(4, 22)
         Me.TabPage5.Name = "TabPage5"
         Me.TabPage5.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage5.Size = New System.Drawing.Size(651, 473)
+        Me.TabPage5.Size = New System.Drawing.Size(721, 473)
         Me.TabPage5.TabIndex = 4
         Me.TabPage5.Text = "Extract DXF from IPT"
         Me.TabPage5.UseVisualStyleBackColor = True
@@ -1010,7 +1044,7 @@ Partial Class Form1
         Me.DataGridView5.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView5.Location = New System.Drawing.Point(3, 187)
         Me.DataGridView5.Name = "DataGridView5"
-        Me.DataGridView5.Size = New System.Drawing.Size(645, 283)
+        Me.DataGridView5.Size = New System.Drawing.Size(715, 283)
         Me.DataGridView5.TabIndex = 22
         '
         'DataGridViewTextBoxColumn16
@@ -1058,10 +1092,20 @@ Partial Class Form1
         Me.GroupBox4.Dock = System.Windows.Forms.DockStyle.Top
         Me.GroupBox4.Location = New System.Drawing.Point(3, 3)
         Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(645, 184)
+        Me.GroupBox4.Size = New System.Drawing.Size(715, 184)
         Me.GroupBox4.TabIndex = 21
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Extract dxf from sheetmetal IPT's"
+        '
+        'CheckBox2
+        '
+        Me.CheckBox2.AutoSize = True
+        Me.CheckBox2.Location = New System.Drawing.Point(435, 111)
+        Me.CheckBox2.Name = "CheckBox2"
+        Me.CheckBox2.Size = New System.Drawing.Size(184, 17)
+        Me.CheckBox2.TabIndex = 39
+        Me.CheckBox2.Text = "Create dwg files also (Acad 2000)"
+        Me.CheckBox2.UseVisualStyleBackColor = True
         '
         'CheckBox1
         '
@@ -1197,7 +1241,7 @@ Partial Class Form1
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(651, 473)
+        Me.TabPage1.Size = New System.Drawing.Size(721, 473)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Single file select"
         Me.TabPage1.UseVisualStyleBackColor = True
@@ -1222,7 +1266,7 @@ Partial Class Form1
         'SplitContainer4.Panel2
         '
         Me.SplitContainer4.Panel2.Controls.Add(Me.DataGridView4)
-        Me.SplitContainer4.Size = New System.Drawing.Size(645, 467)
+        Me.SplitContainer4.Size = New System.Drawing.Size(715, 467)
         Me.SplitContainer4.SplitterDistance = 205
         Me.SplitContainer4.TabIndex = 21
         '
@@ -1354,7 +1398,7 @@ Partial Class Form1
         Me.DataGridView4.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView4.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView4.Name = "DataGridView4"
-        Me.DataGridView4.Size = New System.Drawing.Size(645, 258)
+        Me.DataGridView4.Size = New System.Drawing.Size(715, 258)
         Me.DataGridView4.TabIndex = 20
         '
         'DataGridViewTextBoxColumn11
@@ -1388,9 +1432,9 @@ Partial Class Form1
         Me.TabPage7.Location = New System.Drawing.Point(4, 22)
         Me.TabPage7.Name = "TabPage7"
         Me.TabPage7.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage7.Size = New System.Drawing.Size(651, 473)
+        Me.TabPage7.Size = New System.Drawing.Size(721, 473)
         Me.TabPage7.TabIndex = 6
-        Me.TabPage7.Text = "Trace log"
+        Me.TabPage7.Text = "Error/Trace log"
         Me.TabPage7.UseVisualStyleBackColor = True
         '
         'TextBox2
@@ -1400,7 +1444,7 @@ Partial Class Form1
         Me.TextBox2.Multiline = True
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.TextBox2.Size = New System.Drawing.Size(645, 467)
+        Me.TextBox2.Size = New System.Drawing.Size(715, 467)
         Me.TextBox2.TabIndex = 0
         '
         'TabPage8
@@ -1409,9 +1453,9 @@ Partial Class Form1
         Me.TabPage8.Location = New System.Drawing.Point(4, 22)
         Me.TabPage8.Name = "TabPage8"
         Me.TabPage8.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage8.Size = New System.Drawing.Size(651, 473)
+        Me.TabPage8.Size = New System.Drawing.Size(721, 473)
         Me.TabPage8.TabIndex = 7
-        Me.TabPage8.Text = "Add drwg Note"
+        Me.TabPage8.Text = "Add Note to dwg"
         Me.TabPage8.UseVisualStyleBackColor = True
         '
         'GroupBox11
@@ -1563,26 +1607,109 @@ Partial Class Form1
         Me.Label6.TabIndex = 41
         Me.Label6.Text = "X position"
         '
+        'TabPage9
+        '
+        Me.TabPage9.Controls.Add(Me.CheckBox5)
+        Me.TabPage9.Controls.Add(Me.CheckBox4)
+        Me.TabPage9.Controls.Add(Me.Label21)
+        Me.TabPage9.Controls.Add(Me.Label20)
+        Me.TabPage9.Controls.Add(Me.TextBox41)
+        Me.TabPage9.Controls.Add(Me.TextBox40)
+        Me.TabPage9.Controls.Add(Me.TextBox39)
+        Me.TabPage9.Controls.Add(Me.Button17)
+        Me.TabPage9.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage9.Name = "TabPage9"
+        Me.TabPage9.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage9.Size = New System.Drawing.Size(721, 473)
+        Me.TabPage9.TabIndex = 8
+        Me.TabPage9.Text = "idw->dwg, pdf"
+        Me.TabPage9.UseVisualStyleBackColor = True
+        '
+        'CheckBox4
+        '
+        Me.CheckBox4.AutoSize = True
+        Me.CheckBox4.Location = New System.Drawing.Point(76, 222)
+        Me.CheckBox4.Name = "CheckBox4"
+        Me.CheckBox4.Size = New System.Drawing.Size(83, 17)
+        Me.CheckBox4.TabIndex = 6
+        Me.CheckBox4.Text = "Save as pdf"
+        Me.CheckBox4.UseVisualStyleBackColor = True
+        '
+        'Label21
+        '
+        Me.Label21.AutoSize = True
+        Me.Label21.Location = New System.Drawing.Point(24, 177)
+        Me.Label21.Name = "Label21"
+        Me.Label21.Size = New System.Drawing.Size(35, 13)
+        Me.Label21.TabIndex = 5
+        Me.Label21.Text = "Sheet"
+        '
+        'Label20
+        '
+        Me.Label20.AutoSize = True
+        Me.Label20.Location = New System.Drawing.Point(24, 151)
+        Me.Label20.Name = "Label20"
+        Me.Label20.Size = New System.Drawing.Size(46, 13)
+        Me.Label20.TabIndex = 4
+        Me.Label20.Text = "Drawing"
+        '
+        'TextBox41
+        '
+        Me.TextBox41.Location = New System.Drawing.Point(76, 174)
+        Me.TextBox41.Name = "TextBox41"
+        Me.TextBox41.Size = New System.Drawing.Size(79, 20)
+        Me.TextBox41.TabIndex = 3
+        '
+        'TextBox40
+        '
+        Me.TextBox40.Location = New System.Drawing.Point(76, 148)
+        Me.TextBox40.Name = "TextBox40"
+        Me.TextBox40.Size = New System.Drawing.Size(619, 20)
+        Me.TextBox40.TabIndex = 2
+        '
+        'TextBox39
+        '
+        Me.TextBox39.Dock = System.Windows.Forms.DockStyle.Top
+        Me.TextBox39.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox39.Location = New System.Drawing.Point(3, 3)
+        Me.TextBox39.Multiline = True
+        Me.TextBox39.Name = "TextBox39"
+        Me.TextBox39.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+        Me.TextBox39.Size = New System.Drawing.Size(715, 108)
+        Me.TextBox39.TabIndex = 1
+        '
+        'Button17
+        '
+        Me.Button17.Location = New System.Drawing.Point(19, 265)
+        Me.Button17.Name = "Button17"
+        Me.Button17.Size = New System.Drawing.Size(314, 57)
+        Me.Button17.TabIndex = 0
+        Me.Button17.Text = "Read IDW's in Work directory copy to dwg or pdf"
+        Me.Button17.UseVisualStyleBackColor = True
+        '
         'ContextMenuStrip1
         '
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
         Me.ContextMenuStrip1.Size = New System.Drawing.Size(61, 4)
         '
-        'CheckBox2
+        'CheckBox5
         '
-        Me.CheckBox2.AutoSize = True
-        Me.CheckBox2.Location = New System.Drawing.Point(435, 111)
-        Me.CheckBox2.Name = "CheckBox2"
-        Me.CheckBox2.Size = New System.Drawing.Size(184, 17)
-        Me.CheckBox2.TabIndex = 39
-        Me.CheckBox2.Text = "Create dwg files also (Acad 2000)"
-        Me.CheckBox2.UseVisualStyleBackColor = True
+        Me.CheckBox5.AutoSize = True
+        Me.CheckBox5.Checked = True
+        Me.CheckBox5.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBox5.Enabled = False
+        Me.CheckBox5.Location = New System.Drawing.Point(76, 200)
+        Me.CheckBox5.Name = "CheckBox5"
+        Me.CheckBox5.Size = New System.Drawing.Size(88, 17)
+        Me.CheckBox5.TabIndex = 7
+        Me.CheckBox5.Text = "Save as dwg"
+        Me.CheckBox5.UseVisualStyleBackColor = True
         '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(659, 499)
+        Me.ClientSize = New System.Drawing.Size(729, 499)
         Me.Controls.Add(Me.TabControl1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "Form1"
@@ -1591,6 +1718,8 @@ Partial Class Form1
         Me.TabPage6.ResumeLayout(False)
         Me.GroupBox8.ResumeLayout(False)
         Me.GroupBox8.PerformLayout()
+        Me.GroupBox12.ResumeLayout(False)
+        Me.GroupBox12.PerformLayout()
         Me.GroupBox10.ResumeLayout(False)
         Me.GroupBox10.PerformLayout()
         Me.GroupBox9.ResumeLayout(False)
@@ -1644,6 +1773,8 @@ Partial Class Form1
         CType(Me.NumericUpDown3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.NumericUpDown2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.NumericUpDown1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TabPage9.ResumeLayout(False)
+        Me.TabPage9.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1735,7 +1866,6 @@ Partial Class Form1
     Friend WithEvents TextBox17 As TextBox
     Friend WithEvents TextBox16 As TextBox
     Friend WithEvents TextBox15 As TextBox
-    Friend WithEvents TextBox14 As TextBox
     Friend WithEvents TextBox13 As TextBox
     Friend WithEvents TextBox12 As TextBox
     Friend WithEvents TextBox11 As TextBox
@@ -1794,4 +1924,16 @@ Partial Class Form1
     Friend WithEvents Label19 As Label
     Friend WithEvents CheckBox1 As CheckBox
     Friend WithEvents CheckBox2 As CheckBox
+    Friend WithEvents TabPage9 As TabPage
+    Friend WithEvents Button17 As Button
+    Friend WithEvents GroupBox12 As GroupBox
+    Friend WithEvents TextBox37 As TextBox
+    Friend WithEvents TextBox39 As TextBox
+    Friend WithEvents TextBox14 As TextBox
+    Friend WithEvents Label21 As Label
+    Friend WithEvents Label20 As Label
+    Friend WithEvents TextBox41 As TextBox
+    Friend WithEvents TextBox40 As TextBox
+    Friend WithEvents CheckBox4 As CheckBox
+    Friend WithEvents CheckBox5 As CheckBox
 End Class
