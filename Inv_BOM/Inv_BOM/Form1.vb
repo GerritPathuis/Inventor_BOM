@@ -1203,8 +1203,8 @@ Public Class Form1
                 Dim extension As String = IO.Path.GetExtension(fileName)
                 If extension = ".idw" Then
                     'Read_title_Block_idw(fileName)
-                    DWGOutUsingTranslatorAddIn(fileName)
-                    'DWGOutUsingTranslatorAddIn2(fileName)
+                    'DWGOutUsingTranslatorAddIn(fileName)
+                    DWGOutUsingTranslatorAddIn2(fileName)
                 End If
             Next fileName
         Else
@@ -1319,29 +1319,23 @@ Public Class Form1
         Dim oDataMedium As DataMedium
         oDataMedium = invApp.TransientObjects.CreateDataMedium
 
+            ' Check whether the translator has 'SaveCopyAs' options
+            If DWGAddIn.HasSaveCopyAsOptions(oDoc, oContext, oOptions) Then
+                oOptions.Value("Export_Acad_IniFile") = "C:\Temp\dwgout2.ini"
+                oOptions.Value("Sheet_Range") = Inventor.PrintRangeEnum.kPrintAllSheets
+                'oOptions.Value("Custom_Begin_Sheet") = 3
+                'oOptions.Value("Custom_End_Sheet") = 3
+            Else
+                MessageBox.Show("The translator has NO 'SaveCopyAs' options")
+            End If
 
-        ' Check whether the translator has 'SaveCopyAs' options
-        If DWGAddIn.HasSaveCopyAsOptions(oDoc, oContext, oOptions) Then
-            Dim strIniFile As String
-            strIniFile = "C:\Temp\dwgout2.ini"
+            'Set the destination file name
+            oDataMedium.FileName = path.Substring(0, path.Length - 5) & ".dwg"
 
-            ' Create the name-value that specifies the ini file to use.
-            oOptions.Value("Export_Acad_IniFile") = strIniFile
-            oOptions.Value("Sheet_Range") = Inventor.PrintRangeEnum.kPrintAllSheets
-            'oOptions.Value("Custom_Begin_Sheet") = 3
-            'oOptions.Value("Custom_End_Sheet") = 3
-        Else
-            MessageBox.Show("The translator has NO 'SaveCopyAs' options")
+            'Publish document.
+            DWGAddIn.SaveCopyAs(oDoc, oContext, oOptions, oDataMedium)
         End If
-
-        'Set the destination file name
-        oDataMedium.FileName = "c:\Temp\dwgoutppppp.dwg"
-
-
-        'Publish document.
-        DWGAddIn.SaveCopyAs(oDoc, oContext, oOptions, oDataMedium)
-        End If
-        TextBox40.Text = ""
+        TextBox40.Text = "Done"
         TextBox41.Text = ""
     End Sub
 

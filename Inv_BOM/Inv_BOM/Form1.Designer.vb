@@ -171,6 +171,7 @@ Partial Class Form1
         Me.Label16 = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.TabPage9 = New System.Windows.Forms.TabPage()
+        Me.CheckBox5 = New System.Windows.Forms.CheckBox()
         Me.CheckBox4 = New System.Windows.Forms.CheckBox()
         Me.Label21 = New System.Windows.Forms.Label()
         Me.Label20 = New System.Windows.Forms.Label()
@@ -181,7 +182,6 @@ Partial Class Form1
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.CheckBox5 = New System.Windows.Forms.CheckBox()
         Me.TabControl1.SuspendLayout()
         Me.TabPage6.SuspendLayout()
         Me.GroupBox8.SuspendLayout()
@@ -1625,9 +1625,22 @@ Partial Class Form1
         Me.TabPage9.Text = "idw->dwg, pdf"
         Me.TabPage9.UseVisualStyleBackColor = True
         '
+        'CheckBox5
+        '
+        Me.CheckBox5.AutoSize = True
+        Me.CheckBox5.Enabled = False
+        Me.CheckBox5.Location = New System.Drawing.Point(76, 200)
+        Me.CheckBox5.Name = "CheckBox5"
+        Me.CheckBox5.Size = New System.Drawing.Size(150, 17)
+        Me.CheckBox5.TabIndex = 7
+        Me.CheckBox5.Text = "Save as dwg (very slow !!)"
+        Me.CheckBox5.UseVisualStyleBackColor = True
+        '
         'CheckBox4
         '
         Me.CheckBox4.AutoSize = True
+        Me.CheckBox4.Checked = True
+        Me.CheckBox4.CheckState = System.Windows.Forms.CheckState.Checked
         Me.CheckBox4.Location = New System.Drawing.Point(76, 222)
         Me.CheckBox4.Name = "CheckBox4"
         Me.CheckBox4.Size = New System.Drawing.Size(83, 17)
@@ -1691,19 +1704,6 @@ Partial Class Form1
         '
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
         Me.ContextMenuStrip1.Size = New System.Drawing.Size(61, 4)
-        '
-        'CheckBox5
-        '
-        Me.CheckBox5.AutoSize = True
-        Me.CheckBox5.Checked = True
-        Me.CheckBox5.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox5.Enabled = False
-        Me.CheckBox5.Location = New System.Drawing.Point(76, 200)
-        Me.CheckBox5.Name = "CheckBox5"
-        Me.CheckBox5.Size = New System.Drawing.Size(88, 17)
-        Me.CheckBox5.TabIndex = 7
-        Me.CheckBox5.Text = "Save as dwg"
-        Me.CheckBox5.UseVisualStyleBackColor = True
         '
         'Form1
         '
