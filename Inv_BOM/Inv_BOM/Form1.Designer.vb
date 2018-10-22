@@ -67,6 +67,7 @@ Partial Class Form1
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.GroupBox5 = New System.Windows.Forms.GroupBox()
+        Me.ProgressBar3 = New System.Windows.Forms.ProgressBar()
         Me.TextBox8 = New System.Windows.Forms.TextBox()
         Me.Button4 = New System.Windows.Forms.Button()
         Me.Label3 = New System.Windows.Forms.Label()
@@ -79,6 +80,7 @@ Partial Class Form1
         Me.Column5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.ProgressBar2 = New System.Windows.Forms.ProgressBar()
         Me.Button15 = New System.Windows.Forms.Button()
         Me.Button7 = New System.Windows.Forms.Button()
         Me.Button9 = New System.Windows.Forms.Button()
@@ -182,8 +184,6 @@ Partial Class Form1
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ProgressBar2 = New System.Windows.Forms.ProgressBar()
-        Me.ProgressBar3 = New System.Windows.Forms.ProgressBar()
         Me.TabControl1.SuspendLayout()
         Me.TabPage6.SuspendLayout()
         Me.GroupBox8.SuspendLayout()
@@ -626,7 +626,7 @@ Partial Class Form1
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
         Me.TabPage2.Size = New System.Drawing.Size(721, 473)
         Me.TabPage2.TabIndex = 1
-        Me.TabPage2.Text = "Read BOM IAM"
+        Me.TabPage2.Text = "IAM BOM List"
         Me.TabPage2.UseVisualStyleBackColor = True
         '
         'SplitContainer1
@@ -661,6 +661,14 @@ Partial Class Form1
         Me.GroupBox5.TabIndex = 19
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.Text = "Read BOM from the IAM model files"
+        '
+        'ProgressBar3
+        '
+        Me.ProgressBar3.Location = New System.Drawing.Point(4, 82)
+        Me.ProgressBar3.Name = "ProgressBar3"
+        Me.ProgressBar3.Size = New System.Drawing.Size(705, 12)
+        Me.ProgressBar3.TabIndex = 39
+        Me.ProgressBar3.Visible = False
         '
         'TextBox8
         '
@@ -742,7 +750,7 @@ Partial Class Form1
         Me.TabPage3.Padding = New System.Windows.Forms.Padding(3)
         Me.TabPage3.Size = New System.Drawing.Size(721, 473)
         Me.TabPage3.TabIndex = 2
-        Me.TabPage3.Text = "IDW Parts List"
+        Me.TabPage3.Text = "IDW BOM List"
         Me.TabPage3.UseVisualStyleBackColor = True
         '
         'SplitContainer2
@@ -767,6 +775,14 @@ Partial Class Form1
         Me.SplitContainer2.Size = New System.Drawing.Size(715, 467)
         Me.SplitContainer2.SplitterDistance = 97
         Me.SplitContainer2.TabIndex = 20
+        '
+        'ProgressBar2
+        '
+        Me.ProgressBar2.Location = New System.Drawing.Point(5, 82)
+        Me.ProgressBar2.Name = "ProgressBar2"
+        Me.ProgressBar2.Size = New System.Drawing.Size(705, 12)
+        Me.ProgressBar2.TabIndex = 38
+        Me.ProgressBar2.Visible = False
         '
         'Button15
         '
@@ -1038,7 +1054,7 @@ Partial Class Form1
         Me.TabPage5.Padding = New System.Windows.Forms.Padding(3)
         Me.TabPage5.Size = New System.Drawing.Size(721, 473)
         Me.TabPage5.TabIndex = 4
-        Me.TabPage5.Text = "Extract DXF from IPT"
+        Me.TabPage5.Text = "Extract DXF from IPT's"
         Me.TabPage5.UseVisualStyleBackColor = True
         '
         'DataGridView5
@@ -1709,22 +1725,6 @@ Partial Class Form1
         '
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
         Me.ContextMenuStrip1.Size = New System.Drawing.Size(61, 4)
-        '
-        'ProgressBar2
-        '
-        Me.ProgressBar2.Location = New System.Drawing.Point(5, 82)
-        Me.ProgressBar2.Name = "ProgressBar2"
-        Me.ProgressBar2.Size = New System.Drawing.Size(705, 12)
-        Me.ProgressBar2.TabIndex = 38
-        Me.ProgressBar2.Visible = False
-        '
-        'ProgressBar3
-        '
-        Me.ProgressBar3.Location = New System.Drawing.Point(4, 82)
-        Me.ProgressBar3.Name = "ProgressBar3"
-        Me.ProgressBar3.Size = New System.Drawing.Size(705, 12)
-        Me.ProgressBar3.TabIndex = 39
-        Me.ProgressBar3.Visible = False
         '
         'Form1
         '

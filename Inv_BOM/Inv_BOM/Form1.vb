@@ -1076,10 +1076,10 @@ Public Class Form1
 
         If found = True Then
             If Not CheckBox1.Checked Then
-                TextBox2.Text &= "IDW parts list, lookup drwg + pos for Artikel " & Axxxxx & " found" & vbCrLf
+                TextBox2.Text &= "IDW BOM list, lookup drwg + pos for Artikel " & Axxxxx & " found" & vbCrLf
             End If
         Else
-            TextBox2.Text &= "IDW parts list, lookup drwg + pos for Artikel " & Axxxxx & " NOT found" & vbCrLf
+            TextBox2.Text &= "IDW BOM list, lookup drwg + pos for Artikel " & Axxxxx & " NOT found" & vbCrLf
         End If
     End Sub
     Private Function Isolate_thickness(str As String) As Integer
