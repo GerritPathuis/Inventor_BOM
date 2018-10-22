@@ -182,6 +182,8 @@ Partial Class Form1
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ProgressBar2 = New System.Windows.Forms.ProgressBar()
+        Me.ProgressBar3 = New System.Windows.Forms.ProgressBar()
         Me.TabControl1.SuspendLayout()
         Me.TabPage6.SuspendLayout()
         Me.GroupBox8.SuspendLayout()
@@ -642,11 +644,12 @@ Partial Class Form1
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.DataGridView1)
         Me.SplitContainer1.Size = New System.Drawing.Size(715, 467)
-        Me.SplitContainer1.SplitterDistance = 93
+        Me.SplitContainer1.SplitterDistance = 105
         Me.SplitContainer1.TabIndex = 20
         '
         'GroupBox5
         '
+        Me.GroupBox5.Controls.Add(Me.ProgressBar3)
         Me.GroupBox5.Controls.Add(Me.TextBox8)
         Me.GroupBox5.Controls.Add(Me.Button4)
         Me.GroupBox5.Controls.Add(Me.Label3)
@@ -654,7 +657,7 @@ Partial Class Form1
         Me.GroupBox5.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GroupBox5.Location = New System.Drawing.Point(0, 0)
         Me.GroupBox5.Name = "GroupBox5"
-        Me.GroupBox5.Size = New System.Drawing.Size(715, 93)
+        Me.GroupBox5.Size = New System.Drawing.Size(715, 105)
         Me.GroupBox5.TabIndex = 19
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.Text = "Read BOM from the IAM model files"
@@ -703,7 +706,7 @@ Partial Class Form1
         Me.DataGridView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView1.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView1.Name = "DataGridView1"
-        Me.DataGridView1.Size = New System.Drawing.Size(715, 370)
+        Me.DataGridView1.Size = New System.Drawing.Size(715, 358)
         Me.DataGridView1.TabIndex = 3
         '
         'Column1
@@ -751,6 +754,7 @@ Partial Class Form1
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.ProgressBar2)
         Me.SplitContainer2.Panel1.Controls.Add(Me.Button15)
         Me.SplitContainer2.Panel1.Controls.Add(Me.Button7)
         Me.SplitContainer2.Panel1.Controls.Add(Me.Button9)
@@ -1440,6 +1444,7 @@ Partial Class Form1
         'TextBox2
         '
         Me.TextBox2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TextBox2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TextBox2.Location = New System.Drawing.Point(3, 3)
         Me.TextBox2.Multiline = True
         Me.TextBox2.Name = "TextBox2"
@@ -1705,6 +1710,22 @@ Partial Class Form1
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
         Me.ContextMenuStrip1.Size = New System.Drawing.Size(61, 4)
         '
+        'ProgressBar2
+        '
+        Me.ProgressBar2.Location = New System.Drawing.Point(5, 82)
+        Me.ProgressBar2.Name = "ProgressBar2"
+        Me.ProgressBar2.Size = New System.Drawing.Size(705, 12)
+        Me.ProgressBar2.TabIndex = 38
+        Me.ProgressBar2.Visible = False
+        '
+        'ProgressBar3
+        '
+        Me.ProgressBar3.Location = New System.Drawing.Point(4, 82)
+        Me.ProgressBar3.Name = "ProgressBar3"
+        Me.ProgressBar3.Size = New System.Drawing.Size(705, 12)
+        Me.ProgressBar3.TabIndex = 39
+        Me.ProgressBar3.Visible = False
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1936,4 +1957,6 @@ Partial Class Form1
     Friend WithEvents TextBox40 As TextBox
     Friend WithEvents CheckBox4 As CheckBox
     Friend WithEvents CheckBox5 As CheckBox
+    Friend WithEvents ProgressBar2 As ProgressBar
+    Friend WithEvents ProgressBar3 As ProgressBar
 End Class

@@ -143,7 +143,7 @@ Public Class Form1
     End Sub
     Private Sub Inventor_running()
         '-------- inventor must be running----
-        Me.Text = "Inventor BOM Extractor" & " (" & Pro_user & ") 18-10-2018"
+        Me.Text = "Inventor BOM Extractor" & " (" & Pro_user & ") 22-10-2018"
 
         Try
             invApp = System.Runtime.InteropServices.Marshal.GetActiveObject("Inventor.Application")
@@ -211,6 +211,7 @@ Public Class Form1
             Exit Sub
         End If
 
+        ProgressBar3.Visible = True
         '------- get file info -----------
         information = My.Computer.FileSystem.GetFileInfo(fpath)
         filen = information.Name
@@ -233,105 +234,107 @@ Public Class Form1
         ' ---- Note: there is no title block in an IAmmodel file -------------
 
         '---------- Read BOM --------------------------
-        'Try
-        Dim oBOM As Inventor.BOM
-        oBOM = oDoc.ComponentDefinition.BOM
-        oBOM.StructuredViewFirstLevelOnly = True
-        oBOM.StructuredViewEnabled = True
+        Try
+            Dim oBOM As Inventor.BOM
+            oBOM = oDoc.ComponentDefinition.BOM
+            oBOM.StructuredViewFirstLevelOnly = True
+            oBOM.StructuredViewEnabled = True
 
-        Dim oBOMView As Inventor.BOMView
-        oBOMView = oBOM.BOMViews.Item("Structured")
+            Dim oBOMView As Inventor.BOMView
+            oBOMView = oBOM.BOMViews.Item("Structured")
 
-        '-------------------------
-        Dim oRow As BOMRow
-        Dim oCompDef As ComponentDefinition
-        Dim oPropSet As PropertySet
-        Dim i, j As Integer
+            '-------------------------
+            Dim oRow As BOMRow
+            Dim oCompDef As ComponentDefinition
+            Dim oPropSet As PropertySet
+            Dim i, j As Integer
 
-        For i = 1 To oBOMView.BOMRows.Count
-            G1_row_cnt += 1
+            For i = 1 To oBOMView.BOMRows.Count
+                G1_row_cnt += 1
+                Increm_progressbar()
 
-            '================= Design Tracking Properties ==========================
-            oRow = oBOMView.BOMRows.Item(i)
-            oCompDef = oRow.ComponentDefinitions.Item(1)
+                '================= Design Tracking Properties ==========================
+                oRow = oBOMView.BOMRows.Item(i)
+                oCompDef = oRow.ComponentDefinitions.Item(1)
 
-            oPropSet = oCompDef.Document.PropertySets.Item("Design Tracking Properties")
-            DataGridView1.Rows.Add()
+                oPropSet = oCompDef.Document.PropertySets.Item("Design Tracking Properties")
+                DataGridView1.Rows.Add()
 
-            DataGridView1.Rows.Item(G1_row_cnt).Cells(0).Value = filen
-            DataGridView1.Rows.Item(G1_row_cnt).Cells(1).Value = oRow.ItemNumber
-            DataGridView1.Rows.Item(G1_row_cnt).Cells(2).Value = oRow.ItemQuantity
+                DataGridView1.Rows.Item(G1_row_cnt).Cells(0).Value = filen
+                DataGridView1.Rows.Item(G1_row_cnt).Cells(1).Value = oRow.ItemNumber
+                DataGridView1.Rows.Item(G1_row_cnt).Cells(2).Value = oRow.ItemQuantity
 
-            Dim design_track() As String =
-            {"Part Number",
-            "Description",
-            "Stock Number",
-            "Part Icon"}
-            If oPropSet.Count = 0 Then
-                TextBox2.Text &= "The are NO 'Design Tracking' properties present in this file" & vbCrLf
-            Else
-                For j = 0 To design_track.Length - 1
-                    Try
-                        DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 3).Value = "+"
-                        DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 3).Value = oPropSet.Item(design_track(j)).Value
-                    Catch Ex As Exception
-                        DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 3).Value = "?"
-                        TextBox2.Text &= design_track(j) & " not found" & vbCrLf
-                    End Try
-                Next
-            End If
+                Dim design_track() As String =
+                {"Part Number",
+                "Description",
+                "Stock Number",
+                "Part Icon"}
+                If oPropSet.Count = 0 Then
+                    TextBox2.Text &= "The are NO 'Design Tracking' properties present in this file" & vbCrLf
+                Else
+                    For j = 0 To design_track.Length - 1
+                        Try
+                            DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 3).Value = "+"
+                            DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 3).Value = oPropSet.Item(design_track(j)).Value
+                        Catch Ex As Exception
+                            DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 3).Value = "?"
+                            TextBox2.Text &= fpath & ", " & design_track(j) & " not found" & vbCrLf
+                        End Try
+                    Next
+                End If
 
-            '================== CUSTOM Properties ============================
-            Dim custom() As String =
-            {"DOC_NUMBER",
-            "ITEM_NR",
-            "DOC_STATUS",
-            "DOC_REV",
-            "PART_MATERIAL",
-            "IT_TP",
-            "LG"}
+                '================== CUSTOM Properties ============================
+                Dim custom() As String =
+                {"DOC_NUMBER",
+                "ITEM_NR",
+                "DOC_STATUS",
+                "DOC_REV",
+                "PART_MATERIAL",
+                "IT_TP",
+                "LG"}
 
-            oPropSet = oCompDef.Document.PropertySets.Item("Inventor User Defined Properties")
-            If oPropSet.Count = 0 Then
-                TextBox2.Text &= "The are NO 'Custom' properties present in this file" & vbCrLf
-            Else
-                For j = 0 To custom.Length - 1
-                    Try
-                        DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 6).Value = "+"
-                        DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 6).Value = oPropSet.Item(custom(j)).Value
-                    Catch Ex As Exception
-                        DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 6).Value = "?"
-                        TextBox2.Text &= "Custom property " & custom(j) & " not found" & vbCrLf
-                    End Try
-                Next
-            End If
+                oPropSet = oCompDef.Document.PropertySets.Item("Inventor User Defined Properties")
+                If oPropSet.Count = 0 Then
+                    TextBox2.Text &= "The are NO 'Custom' properties present in this file" & vbCrLf
+                Else
+                    For j = 0 To custom.Length - 1
+                        Try
+                            DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 6).Value = "+"
+                            DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 6).Value = oPropSet.Item(custom(j)).Value
+                        Catch Ex As Exception
+                            DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 6).Value = "?"
+                            TextBox2.Text &= fpath & ", " & "Custom property " & custom(j) & " not found" & vbCrLf
+                        End Try
+                    Next
+                End If
 
-            '========== Inventor Summary Information ===============
-            Dim summary() As String =
-            {"Title",
-            "Subject",
-            "Author",
-            "Comments"}
-            oPropSet = oCompDef.Document.PropertySets.Item("Inventor Summary Information")
-            If oPropSet.Count = 0 Then
-                TextBox2.Text &= "The are NO 'Inventor Summary Information' present in this file" & vbCrLf
-            Else
-                For j = 0 To summary.Length - 1
-                    Try
-                        DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 14).Value = "+"
-                        DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 14).Value = oPropSet.Item(summary(j)).Value
-                    Catch Ex As Exception
-                        DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 14).Value = "?"
-                        TextBox2.Text &= "Inventor Summary " & summary(j) & " not found" & vbCrLf
-                    End Try
-                Next
-            End If
+                '========== Inventor Summary Information ===============
+                Dim summary() As String =
+                {"Title",
+                "Subject",
+                "Author",
+                "Comments"}
+                oPropSet = oCompDef.Document.PropertySets.Item("Inventor Summary Information")
+                If oPropSet.Count = 0 Then
+                    TextBox2.Text &= "The are NO 'Inventor Summary Information' present in this file" & vbCrLf
+                Else
+                    For j = 0 To summary.Length - 1
+                        Try
+                            DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 14).Value = "+"
+                            DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 14).Value = oPropSet.Item(summary(j)).Value
+                        Catch Ex As Exception
+                            DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 14).Value = "?"
+                            TextBox2.Text &= fpath & ", " & "Inventor Summary " & summary(j) & " not found" & vbCrLf
+                        End Try
+                    Next
+                End If
 
-        Next
-        'Catch Ex As Exception
-        'TextBox2.Text &= "No BOM in this IAM model"
-        'Finally
-        'End Try
+            Next
+        Catch Ex As Exception
+            TextBox2.Text &= fpath & ", " & "No BOM in this IAM model " & vbCrLf
+        Finally
+        End Try
+        ProgressBar3.Visible = False
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
@@ -510,10 +513,13 @@ Public Class Form1
     End Sub
     Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
         Button9.BackColor = System.Drawing.Color.LightGreen
+        ProgressBar2.Visible = True
         Find_IDW()
         Button9.BackColor = System.Drawing.Color.Transparent
+        ProgressBar2.Visible = False
     End Sub
     Private Sub Find_IDW()
+        Dim idw_counter As Integer = 0
         Inventor_running()
         Button9.BackColor = System.Drawing.Color.LightGreen
         G2_row_cnt = -1  'Reset row counter
@@ -528,11 +534,13 @@ Public Class Form1
                 Dim extension As String = IO.Path.GetExtension(fileName)
                 If extension = ".idw" Then
                     Read_title_Block_idw(fileName)
+                    idw_counter += 1
                 End If
             Next fileName
         Else
             MessageBox.Show(pathfile & " is not a valid file or directory.")
         End If
+        TextBox2.Text &= "Find IDW's encountered " & idw_counter.ToString & " files" & vbCrLf
         Button9.BackColor = System.Drawing.Color.Transparent
     End Sub
     'Read IDW Title Block
@@ -922,6 +930,7 @@ Public Class Form1
     End Sub
     Private Sub Extract_dxf_from_IDW()
         'Extract DXF file from the IDW
+        Dim ipt_counter As Integer = 0
         Inventor_running()
         Button16.BackColor = System.Drawing.Color.LightGreen
         G5_row_cnt = 0
@@ -937,12 +946,14 @@ Public Class Form1
                 ext = IO.Path.GetExtension(fileName)
                 If ext = ".ipt" Then
                     ExportSketchDXF2(fileName)
+                    ipt_counter += 1
                 End If
             Next fileName
             DataGridView1.AutoResizeColumns()
         Else
             MessageBox.Show("Directory does not exist")
         End If
+        TextBox2.Text &= "Extract_dxf encountered " & ipt_counter.ToString & " ipt files" & vbCrLf
         Button16.BackColor = System.Drawing.Color.Transparent
     End Sub
 
@@ -978,10 +989,17 @@ Public Class Form1
         For Each row In DataGridView5.Rows
             Increm_progressbar()
             If row.Cells(0).Value <> Nothing Then
-                'art = row.Cells(0).Value.ToString
-                'row.Cells(2).Value = Find_dwg_pos(DataGridView2, art)
-                old_f = row.Cells(1).Value.ToString
-                new_f = row.Cells(2).Value.ToString
+
+                If row.Cells(1).Value <> Nothing Then   'Preventing exceptions
+                    old_f = row.Cells(1).Value.ToString
+                Else
+                    old_f = "-"
+                End If
+                If row.Cells(2).Value <> Nothing Then   'Preventing exceptions
+                    new_f = row.Cells(2).Value.ToString
+                Else
+                    new_f = "-"
+                End If
 
                 new_ff = TextBox34.Text & "\" & new_f   'Full path required
                 If IO.File.Exists(new_ff) And ask_once = False Then
@@ -1023,7 +1041,6 @@ Public Class Form1
         Dim pos As Integer
         Dim plate_thick As Double
 
-
         For Each row As DataGridViewRow In dtg.Rows
             Increm_progressbar()
             If row.Cells.Item(6).Value = Axxxxx Then
@@ -1059,10 +1076,10 @@ Public Class Form1
 
         If found = True Then
             If Not CheckBox1.Checked Then
-                TextBox2.Text &= "Lookup drwg + pos for Artikel " & Axxxxx & " found" & vbCrLf
+                TextBox2.Text &= "IDW parts list, lookup drwg + pos for Artikel " & Axxxxx & " found" & vbCrLf
             End If
         Else
-            TextBox2.Text &= "Lookup drwg + pos for Artikel " & Axxxxx & " NOT found" & vbCrLf
+            TextBox2.Text &= "IDW parts list, lookup drwg + pos for Artikel " & Axxxxx & " NOT found" & vbCrLf
         End If
     End Sub
     Private Function Isolate_thickness(str As String) As Integer
@@ -1081,10 +1098,15 @@ Public Class Form1
         Return (exi)
     End Function
 
-
     Private Sub Increm_progressbar()
         ProgressBar1.Value += 1
-        If ProgressBar1.Value = 99 Then ProgressBar1.Value = 0
+        ProgressBar2.Value += 1
+        ProgressBar3.Value += 1
+        If ProgressBar1.Value = 99 Then
+            ProgressBar1.Value = 0  'Extract dxf from ipt's
+            ProgressBar2.Value = 0  'Find IDW
+            ProgressBar3.Value = 0  'IAM BOM
+        End If
     End Sub
 
     Private Sub Button19_Click(sender As Object, e As EventArgs) Handles Button19.Click
