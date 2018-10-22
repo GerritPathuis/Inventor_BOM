@@ -184,6 +184,7 @@ Partial Class Form1
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.Label22 = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.TabPage6.SuspendLayout()
         Me.GroupBox8.SuspendLayout()
@@ -1630,6 +1631,7 @@ Partial Class Form1
         '
         'TabPage9
         '
+        Me.TabPage9.Controls.Add(Me.Label22)
         Me.TabPage9.Controls.Add(Me.CheckBox5)
         Me.TabPage9.Controls.Add(Me.CheckBox4)
         Me.TabPage9.Controls.Add(Me.Label21)
@@ -1649,7 +1651,6 @@ Partial Class Form1
         'CheckBox5
         '
         Me.CheckBox5.AutoSize = True
-        Me.CheckBox5.Enabled = False
         Me.CheckBox5.Location = New System.Drawing.Point(76, 200)
         Me.CheckBox5.Name = "CheckBox5"
         Me.CheckBox5.Size = New System.Drawing.Size(150, 17)
@@ -1725,6 +1726,15 @@ Partial Class Form1
         '
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
         Me.ContextMenuStrip1.Size = New System.Drawing.Size(61, 4)
+        '
+        'Label22
+        '
+        Me.Label22.AutoSize = True
+        Me.Label22.Location = New System.Drawing.Point(24, 335)
+        Me.Label22.Name = "Label22"
+        Me.Label22.Size = New System.Drawing.Size(193, 13)
+        Me.Label22.TabIndex = 8
+        Me.Label22.Text = "The file destination is the work directory"
         '
         'Form1
         '
@@ -1959,4 +1969,5 @@ Partial Class Form1
     Friend WithEvents CheckBox5 As CheckBox
     Friend WithEvents ProgressBar2 As ProgressBar
     Friend WithEvents ProgressBar3 As ProgressBar
+    Friend WithEvents Label22 As Label
 End Class
