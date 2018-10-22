@@ -112,11 +112,16 @@ Public Class Form1
                 filepath5 = "c:\Temp"
             Case "GerritP"                          'Work
                 filepath2 = "C:\Inventor test files\KarelBakker2"
-                filepath5 = "c:\temp"
+                filepath5 = "c:\Temp"
             Case Else                               'Karel Bakker
                 filepath2 = "E:\Protmp\Procad"
-                filepath5 = "N:\CAD"
+                filepath5 = "c:\Temp"
         End Select
+
+        Try 'Create directory 
+            If (Not System.IO.Directory.Exists("c:\Temp")) Then System.IO.Directory.CreateDirectory("c:\Temp")
+        Catch ex As Exception
+        End Try
 
         '======== Work directory's ==========
         TextBox5.Text = filepath2

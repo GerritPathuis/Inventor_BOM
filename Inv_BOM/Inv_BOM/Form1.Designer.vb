@@ -1524,7 +1524,7 @@ Partial Class Form1
         '
         Me.TextBox35.Location = New System.Drawing.Point(91, 54)
         Me.TextBox35.Name = "TextBox35"
-        Me.TextBox35.Size = New System.Drawing.Size(160, 20)
+        Me.TextBox35.Size = New System.Drawing.Size(364, 20)
         Me.TextBox35.TabIndex = 47
         Me.TextBox35.Text = "N:\CAD"
         '
@@ -1553,7 +1553,7 @@ Partial Class Form1
         Me.TextBox38.Enabled = False
         Me.TextBox38.Location = New System.Drawing.Point(91, 28)
         Me.TextBox38.Name = "TextBox38"
-        Me.TextBox38.Size = New System.Drawing.Size(160, 20)
+        Me.TextBox38.Size = New System.Drawing.Size(364, 20)
         Me.TextBox38.TabIndex = 36
         Me.TextBox38.Text = "C:\Inventor test files\Test2"
         '
