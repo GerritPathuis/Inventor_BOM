@@ -173,6 +173,7 @@ Partial Class Form1
         Me.Label16 = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.TabPage9 = New System.Windows.Forms.TabPage()
+        Me.Label22 = New System.Windows.Forms.Label()
         Me.CheckBox5 = New System.Windows.Forms.CheckBox()
         Me.CheckBox4 = New System.Windows.Forms.CheckBox()
         Me.Label21 = New System.Windows.Forms.Label()
@@ -184,7 +185,6 @@ Partial Class Form1
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.Label22 = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.TabPage6.SuspendLayout()
         Me.GroupBox8.SuspendLayout()
@@ -1400,7 +1400,7 @@ Partial Class Form1
         '
         'TextBox3
         '
-        Me.TextBox3.Location = New System.Drawing.Point(254, 29)
+        Me.TextBox3.Location = New System.Drawing.Point(254, 35)
         Me.TextBox3.Name = "TextBox3"
         Me.TextBox3.Size = New System.Drawing.Size(141, 20)
         Me.TextBox3.TabIndex = 14
@@ -1648,6 +1648,15 @@ Partial Class Form1
         Me.TabPage9.Text = "idw->dwg, pdf"
         Me.TabPage9.UseVisualStyleBackColor = True
         '
+        'Label22
+        '
+        Me.Label22.AutoSize = True
+        Me.Label22.Location = New System.Drawing.Point(24, 335)
+        Me.Label22.Name = "Label22"
+        Me.Label22.Size = New System.Drawing.Size(193, 13)
+        Me.Label22.TabIndex = 8
+        Me.Label22.Text = "The file destination is the work directory"
+        '
         'CheckBox5
         '
         Me.CheckBox5.AutoSize = True
@@ -1726,15 +1735,6 @@ Partial Class Form1
         '
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
         Me.ContextMenuStrip1.Size = New System.Drawing.Size(61, 4)
-        '
-        'Label22
-        '
-        Me.Label22.AutoSize = True
-        Me.Label22.Location = New System.Drawing.Point(24, 335)
-        Me.Label22.Name = "Label22"
-        Me.Label22.Size = New System.Drawing.Size(193, 13)
-        Me.Label22.TabIndex = 8
-        Me.Label22.Text = "The file destination is the work directory"
         '
         'Form1
         '

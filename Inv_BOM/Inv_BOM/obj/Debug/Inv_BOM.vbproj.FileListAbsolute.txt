@@ -47,3 +47,6 @@ C:\Repos\Inventor_BOM\Inventor_BOM\Inv_BOM\Inv_BOM\obj\Debug\Inv_BOM.exe
 C:\Repos\Inventor_BOM\Inventor_BOM\Inv_BOM\Inv_BOM\obj\Debug\Inv_BOM.xml
 C:\Repos\Inventor_BOM\Inventor_BOM\Inv_BOM\Inv_BOM\obj\Debug\Inv_BOM.pdb
 C:\Repos\Inventor_BOM\Inventor_BOM\Inv_BOM\Inv_BOM\obj\Debug\Inv_BOM.vbprojAssemblyReference.cache
+C:\Repos\Inventor_BOM\Inventor_BOM\Inv_BOM\Inv_BOM\bin\Debug\itextsharp.dll
+C:\Repos\Inventor_BOM\Inventor_BOM\Inv_BOM\Inv_BOM\bin\Debug\itextsharp.xml
+C:\Repos\Inventor_BOM\Inventor_BOM\Inv_BOM\Inv_BOM\obj\Debug\Inv_BOM.vbproj.CopyComplete

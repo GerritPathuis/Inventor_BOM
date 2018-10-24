@@ -347,7 +347,7 @@ Public Class Form1
         Button4.BackColor = System.Drawing.Color.LightGreen
         SaveFileDialog1.Title = "Please Select a File"
         SaveFileDialog1.InitialDirectory = filepath3
-        SaveFileDialog1.FileName = "_BOM" & "_" & TextBox3.Text & "_" & TextBox4.Text & ".xls"
+        SaveFileDialog1.FileName = "_IAM_BOM_List.xls"
         SaveFileDialog1.ShowDialog()
         Write_excel(DataGridView1)
         Button4.BackColor = System.Drawing.Color.Transparent
@@ -650,7 +650,7 @@ Public Class Form1
         Button7.BackColor = System.Drawing.Color.LightGreen
         SaveFileDialog1.Title = "Please Select a File"
         SaveFileDialog1.InitialDirectory = TextBox6.Text
-        SaveFileDialog1.FileName = "_Title_Blocks" & ".xls"
+        SaveFileDialog1.FileName = "IDW_BOM_List.xls"
         SaveFileDialog1.ShowDialog()
         Write_excel(DataGridView2)
         Button7.BackColor = System.Drawing.Color.Transparent
@@ -1065,7 +1065,7 @@ Public Class Form1
 
                 '======== thickness plate =======
                 Double.TryParse(kb.Thick, plate_thick)
-                If plate_thick < 0.1 Then TextBox2.Text &= "Plate thickness Artikel " & Axxxxx & " < 0.1 mm" & vbCrLf
+                If plate_thick < 0.1 Then TextBox2.Text &= "Plate thickness " & Axxxxx & " < 0.1 mm, " & row.Cells(7).Value.ToString & vbCrLf
 
                 '======== Plate in name ============
                 Check_for_plate(row.Cells(7).Value.ToString())
@@ -1089,9 +1089,11 @@ Public Class Form1
     End Sub
     Private Function Isolate_thickness(str As String) As Integer
         Dim delta As Int16
+        Dim str2, str3 As String
 
-        str = str.Substring(5, 3)
-        Int16.TryParse(str, delta)
+        str2 = str.Substring(5, 4)
+        str3 = System.Text.RegularExpressions.Regex.Replace(str2, "[^\d]", " ")
+        Int16.TryParse(str3, delta)
 
         Return delta.ToString
     End Function
