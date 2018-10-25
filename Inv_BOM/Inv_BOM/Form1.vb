@@ -148,7 +148,7 @@ Public Class Form1
     End Sub
     Private Sub Inventor_running()
         '-------- inventor must be running----
-        Me.Text = "Inventor BOM Extractor" & " (" & Pro_user & ") 22-10-2018"
+        Me.Text = "Inventor BOM Extractor" & " (" & Pro_user & ") 25-10-2018"
 
         Try
             invApp = System.Runtime.InteropServices.Marshal.GetActiveObject("Inventor.Application")
@@ -236,9 +236,9 @@ Public Class Form1
         End If
 
         '-------------READ TITLE BLOCK----------------------------------------
-        ' ---- Note: there is no title block in an IAmmodel file -------------
+        '---- Note: there is no title block in an IAM model file -------------
 
-        '---------- Read BOM --------------------------
+        '---------- Read BOM, in IAM model file --------------------------
         Try
             Dim oBOM As Inventor.BOM
             oBOM = oDoc.ComponentDefinition.BOM
@@ -306,9 +306,14 @@ Public Class Form1
                         Try
                             DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 6).Value = "+"
                             DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 6).Value = oPropSet.Item(custom(j)).Value
+
+                            '--- check PDM status of document ---
+                            If j = 2 And Not String.Compare(oPropSet.Item(custom(j)).Value.ToString, "Released") Then
+                                TextBox2.Text &= fpath & " document is NOT Released !!" & vbCrLf
+                            End If
                         Catch Ex As Exception
                             DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 6).Value = "?"
-                            TextBox2.Text &= fpath & ", " & "Custom property " & custom(j) & " not found" & vbCrLf
+                            'TextBox2.Text &= fpath & ", " & "Custom property " & custom(j) & " not found" & vbCrLf
                         End Try
                     Next
                 End If
@@ -329,7 +334,7 @@ Public Class Form1
                             DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 14).Value = oPropSet.Item(summary(j)).Value
                         Catch Ex As Exception
                             DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 14).Value = "?"
-                            TextBox2.Text &= fpath & ", " & "Inventor Summary " & summary(j) & " not found" & vbCrLf
+                            'TextBox2.Text &= fpath & ", " & "Inventor Summary " & summary(j) & " not found" & vbCrLf
                         End Try
                     Next
                 End If
@@ -934,7 +939,7 @@ Public Class Form1
         Extract_dxf_from_IDW()
     End Sub
     Private Sub Extract_dxf_from_IDW()
-        'Extract DXF file from the IDW
+        'Extract DXF file from the IDW is name contains Plate
         Dim ipt_counter As Integer = 0
         Inventor_running()
         Button16.BackColor = System.Drawing.Color.LightGreen
@@ -949,7 +954,7 @@ Public Class Form1
             For Each fileName In fileEntries
                 Increm_progressbar()
                 ext = IO.Path.GetExtension(fileName)
-                If ext = ".ipt" Then
+                If ext = ".ipt" And fileName.ToUpper.Contains("PLATE") Then
                     ExportSketchDXF2(fileName)
                     ipt_counter += 1
                 End If
@@ -972,7 +977,7 @@ Public Class Form1
 
         For Each row In DataGridView5.Rows
             If row.Cells(0).Value <> Nothing Then
-                art = row.Cells(0).Value.ToString
+                art = row.Cells(0).Value.ToString   'Artikel Axxxxxx
                 Find_dwg_pos(DataGridView2, art)
                 row.Cells(2).Value = kb.actie
                 row.Cells(3).Value = kb.Materi
@@ -1368,7 +1373,16 @@ Public Class Form1
         TextBox41.Text = ""
     End Sub
 
-
+    Private Sub Button18_Click(sender As Object, e As EventArgs) Handles Button18.Click
+        Button18.BackColor = System.Drawing.Color.LightGreen
+        SaveFileDialog1.Title = "Please Select a File"
+        SaveFileDialog1.InitialDirectory = filepath3
+        SaveFileDialog1.FileName = "_Error_log.txt"
+        SaveFileDialog1.ShowDialog()
+        MessageBox.Show(SaveFileDialog1.FileName)
+        My.Computer.FileSystem.WriteAllText(SaveFileDialog1.FileName, TextBox2.Text, False)
+        Button18.BackColor = System.Drawing.Color.Transparent
+    End Sub
 End Class
 
 

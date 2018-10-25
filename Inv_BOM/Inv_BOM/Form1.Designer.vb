@@ -155,6 +155,7 @@ Partial Class Form1
         Me.DataGridViewTextBoxColumn14 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn15 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.TabPage7 = New System.Windows.Forms.TabPage()
+        Me.Button18 = New System.Windows.Forms.Button()
         Me.TextBox2 = New System.Windows.Forms.TextBox()
         Me.TabPage8 = New System.Windows.Forms.TabPage()
         Me.GroupBox11 = New System.Windows.Forms.GroupBox()
@@ -1449,6 +1450,7 @@ Partial Class Form1
         '
         'TabPage7
         '
+        Me.TabPage7.Controls.Add(Me.Button18)
         Me.TabPage7.Controls.Add(Me.TextBox2)
         Me.TabPage7.Location = New System.Drawing.Point(4, 22)
         Me.TabPage7.Name = "TabPage7"
@@ -1457,6 +1459,15 @@ Partial Class Form1
         Me.TabPage7.TabIndex = 6
         Me.TabPage7.Text = "Error/Trace log"
         Me.TabPage7.UseVisualStyleBackColor = True
+        '
+        'Button18
+        '
+        Me.Button18.Location = New System.Drawing.Point(479, 407)
+        Me.Button18.Name = "Button18"
+        Me.Button18.Size = New System.Drawing.Size(186, 30)
+        Me.Button18.TabIndex = 1
+        Me.Button18.Text = "Write log file  to TXT file"
+        Me.Button18.UseVisualStyleBackColor = True
         '
         'TextBox2
         '
@@ -1970,4 +1981,5 @@ Partial Class Form1
     Friend WithEvents ProgressBar2 As ProgressBar
     Friend WithEvents ProgressBar3 As ProgressBar
     Friend WithEvents Label22 As Label
+    Friend WithEvents Button18 As Button
 End Class
