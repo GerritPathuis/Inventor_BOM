@@ -522,13 +522,21 @@ Public Class Form1
         End If
     End Sub
     Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
+        Dim cnt As String
+
         Button9.BackColor = System.Drawing.Color.LightGreen
         ProgressBar2.Visible = True
-        Find_IDW()
+        cnt = Find_IDW()
+        If cnt = 0 Then
+            MessageBox.Show("WARNING NO IDW files found in the Work directory !!")
+        Else
+            TextBox2.Text &= cnt & " IDW files found in the Work directory"
+        End If
+
         Button9.BackColor = System.Drawing.Color.Transparent
         ProgressBar2.Visible = False
     End Sub
-    Private Sub Find_IDW()
+    Private Function Find_IDW() As Integer
         Dim idw_counter As Integer = 0
         Inventor_running()
         Button9.BackColor = System.Drawing.Color.LightGreen
@@ -538,21 +546,25 @@ Public Class Form1
         Dim pathfile As String = TextBox6.Text
 
         If Directory.Exists(pathfile) Then
+
             Dim fileEntries As String() = Directory.GetFiles(pathfile)
             For Each fileName In fileEntries
+                TextBox42.Text = fileName
                 Increm_progressbar()
                 Dim extension As String = IO.Path.GetExtension(fileName)
                 If extension = ".idw" Then
                     Read_title_Block_idw(fileName)
                     idw_counter += 1
+                    Label24.Text = "IDW " & idw_counter.ToString
                 End If
             Next fileName
         Else
             MessageBox.Show(pathfile & " is not a valid file or directory.")
         End If
-        TextBox2.Text &= "Find IDW's encountered " & idw_counter.ToString & " files" & vbCrLf
         Button9.BackColor = System.Drawing.Color.Transparent
-    End Sub
+        TextBox42.Text = " "
+        Return (idw_counter)
+    End Function
     'Read IDW Title Block
     Public Sub Read_title_Block_idw(ByVal path As String)
         'http://adndevblog.typepad.com/manufacturing/2012/12/inventor-change-text-items-in-titleblockdefinition.html
@@ -741,6 +753,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button12_Click(sender As Object, e As EventArgs) Handles Button12.Click
+        Dim iam_cnt As Integer = 0
         Inventor_running()
         Button12.BackColor = System.Drawing.Color.LightGreen
         DataGridView1.ClearSelection()
@@ -751,11 +764,16 @@ Public Class Form1
         Dim ext As String
         For Each fileName In fileEntries
             Increm_progressbar()
+            TextBox43.Text = fileName
             ext = IO.Path.GetExtension(fileName)
             If ext = ".iam" Then
+                iam_cnt += 1
+                Label12.Text = "IAM " & iam_cnt.ToString
                 Qbom(fileName)
             End If
         Next fileName
+
+        TextBox43.Text = " "
         DataGridView1.AutoResizeColumns()
         Button12.BackColor = System.Drawing.Color.Transparent
     End Sub
@@ -936,9 +954,11 @@ Public Class Form1
     End Sub
 
     Private Sub Button16_Click(sender As Object, e As EventArgs) Handles Button16.Click
-        Extract_dxf_from_IDW()
+        Dim cnt As Integer
+        cnt = Extract_dxf_from_IDW()
+        If cnt = 0 Then MessageBox.Show("WARNING NO Dxf's extracted from IDW files")
     End Sub
-    Private Sub Extract_dxf_from_IDW()
+    Private Function Extract_dxf_from_IDW() As Integer
         'Extract DXF file from the IDW is name contains Plate
         Dim ipt_counter As Integer = 0
         Inventor_running()
@@ -952,11 +972,13 @@ Public Class Form1
             Dim fileName As String
             Dim ext As String
             For Each fileName In fileEntries
+                TextBox42.Text = fileName
                 Increm_progressbar()
                 ext = IO.Path.GetExtension(fileName)
                 If ext = ".ipt" And fileName.ToUpper.Contains("PLATE") Then
                     ExportSketchDXF2(fileName)
                     ipt_counter += 1
+                    Label25.Text = "IPT " & ipt_counter.ToString
                 End If
             Next fileName
             DataGridView1.AutoResizeColumns()
@@ -965,7 +987,9 @@ Public Class Form1
         End If
         TextBox2.Text &= "Extract_dxf encountered " & ipt_counter.ToString & " ipt files" & vbCrLf
         Button16.BackColor = System.Drawing.Color.Transparent
-    End Sub
+        TextBox42.Text = " "
+        Return (ipt_counter)
+    End Function
 
     Private Sub Find_artikel()
         'Find the the artikel on the assembly drawing (IDW)
@@ -987,7 +1011,7 @@ Public Class Form1
         Next
         DataGridView5.AutoResizeColumns()
     End Sub
-    Private Sub Rename_dxf()
+    Private Function Rename_dxf() As Integer
         'Find the the artikel on the assembly drawing (IDW)
         'Print result in DataGridView5
         'DataGridView5 contains old and new file name
@@ -995,6 +1019,7 @@ Public Class Form1
         Dim old_f, new_f, new_ff As String
         Dim delete_file As Boolean
         Dim ask_once As Boolean = False
+        Dim dxf_cnt As Integer = 0
 
         For Each row In DataGridView5.Rows
             Increm_progressbar()
@@ -1012,6 +1037,7 @@ Public Class Form1
                 End If
 
                 new_ff = TextBox34.Text & "\" & new_f   'Full path required
+                TextBox42.Text = new_ff
                 If IO.File.Exists(new_ff) And ask_once = False Then
                     delete_file = Question_replace_dxf_files()
                     ask_once = True
@@ -1023,8 +1049,10 @@ Public Class Form1
                         If Not CheckBox1.Checked Then TextBox2.Text &= "Dxf file " & old_f & " deleted " & vbCrLf
                     End If
 
-                        If Not IO.File.Exists(new_ff) Then
+                    If Not IO.File.Exists(new_ff) Then
                         My.Computer.FileSystem.RenameFile(old_f, new_f)
+                        dxf_cnt += 1
+                        Label26.Text = "DXF " & dxf_cnt.ToString
                         If Not CheckBox1.Checked Then TextBox2.Text &= "Dxf file " & new_f & " renamed " & vbCrLf
                     End If
                 Else
@@ -1033,7 +1061,9 @@ Public Class Form1
             End If
         Next
         DataGridView5.AutoResizeColumns()
-    End Sub
+        TextBox42.Text = " "
+        Return (dxf_cnt)
+    End Function
 
     Private Function Question_replace_dxf_files() As Boolean
         Dim result As DialogResult = DialogResult.No
@@ -1122,6 +1152,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button19_Click(sender As Object, e As EventArgs) Handles Button19.Click
+        Dim cnt As Integer
 
         '==========WVB button======
         TextBox2.Clear()
@@ -1132,10 +1163,12 @@ Public Class Form1
 
         TextBox2.Text &= "============= Find the IDW's =======================" & vbCrLf
         Button19.Text = "Find the IDW's..."
-        Find_IDW()
+        cnt = Find_IDW()
+        If cnt = 0 Then MessageBox.Show("WARNING NO IDW files found in the Work directory !!")
         TextBox2.Text &= "============= Extract dxf from IDW ==================" & vbCrLf
         Button19.Text = "Extract dxf from idw's..."
-        Extract_dxf_from_IDW()
+        cnt = Extract_dxf_from_IDW()
+        If cnt = 0 Then MessageBox.Show("WARNING NO DXF files Extraxted from idw's !!")
         TextBox2.Text &= "============= Find artikel drwg + pos and rename ====" & vbCrLf
         Button19.Text = "Lookup artikel dwg and pos..."
         Find_artikel()
