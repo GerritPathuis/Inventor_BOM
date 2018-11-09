@@ -67,6 +67,9 @@ Partial Class Form1
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.GroupBox5 = New System.Windows.Forms.GroupBox()
+        Me.TextBox43 = New System.Windows.Forms.TextBox()
+        Me.GroupBox14 = New System.Windows.Forms.GroupBox()
+        Me.Label12 = New System.Windows.Forms.Label()
         Me.ProgressBar3 = New System.Windows.Forms.ProgressBar()
         Me.TextBox8 = New System.Windows.Forms.TextBox()
         Me.Button4 = New System.Windows.Forms.Button()
@@ -119,6 +122,7 @@ Partial Class Form1
         Me.DataGridViewTextBoxColumn19 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn20 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
+        Me.TextBox42 = New System.Windows.Forms.TextBox()
         Me.GroupBox13 = New System.Windows.Forms.GroupBox()
         Me.Label26 = New System.Windows.Forms.Label()
         Me.Label25 = New System.Windows.Forms.Label()
@@ -189,10 +193,7 @@ Partial Class Form1
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.TextBox42 = New System.Windows.Forms.TextBox()
-        Me.GroupBox14 = New System.Windows.Forms.GroupBox()
-        Me.Label12 = New System.Windows.Forms.Label()
-        Me.TextBox43 = New System.Windows.Forms.TextBox()
+        Me.Label23 = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.TabPage6.SuspendLayout()
         Me.GroupBox8.SuspendLayout()
@@ -206,6 +207,7 @@ Partial Class Form1
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.GroupBox5.SuspendLayout()
+        Me.GroupBox14.SuspendLayout()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage3.SuspendLayout()
         CType(Me.SplitContainer2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -240,7 +242,6 @@ Partial Class Form1
         CType(Me.NumericUpDown2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NumericUpDown1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage9.SuspendLayout()
-        Me.GroupBox14.SuspendLayout()
         Me.SuspendLayout()
         '
         'TextBox1
@@ -675,6 +676,33 @@ Partial Class Form1
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.Text = "Read BOM from the IAM model files"
         '
+        'TextBox43
+        '
+        Me.TextBox43.Location = New System.Drawing.Point(9, 102)
+        Me.TextBox43.Name = "TextBox43"
+        Me.TextBox43.Size = New System.Drawing.Size(699, 20)
+        Me.TextBox43.TabIndex = 41
+        '
+        'GroupBox14
+        '
+        Me.GroupBox14.Controls.Add(Me.Label23)
+        Me.GroupBox14.Controls.Add(Me.Label12)
+        Me.GroupBox14.Location = New System.Drawing.Point(599, 14)
+        Me.GroupBox14.Name = "GroupBox14"
+        Me.GroupBox14.Size = New System.Drawing.Size(110, 62)
+        Me.GroupBox14.TabIndex = 40
+        Me.GroupBox14.TabStop = False
+        Me.GroupBox14.Text = "File count"
+        '
+        'Label12
+        '
+        Me.Label12.AutoSize = True
+        Me.Label12.Location = New System.Drawing.Point(6, 20)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(26, 13)
+        Me.Label12.TabIndex = 2
+        Me.Label12.Text = "IAM"
+        '
         'ProgressBar3
         '
         Me.ProgressBar3.Location = New System.Drawing.Point(9, 82)
@@ -1002,7 +1030,7 @@ Partial Class Form1
         Me.Button8.Name = "Button8"
         Me.Button8.Size = New System.Drawing.Size(130, 41)
         Me.Button8.TabIndex = 21
-        Me.Button8.Text = "List files"
+        Me.Button8.Text = "Go list files"
         Me.Button8.UseVisualStyleBackColor = True
         '
         'TextBox7
@@ -1130,6 +1158,13 @@ Partial Class Form1
         Me.GroupBox4.TabIndex = 21
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Extract dxf from sheetmetal IPT's"
+        '
+        'TextBox42
+        '
+        Me.TextBox42.Location = New System.Drawing.Point(14, 155)
+        Me.TextBox42.Name = "TextBox42"
+        Me.TextBox42.Size = New System.Drawing.Size(691, 20)
+        Me.TextBox42.TabIndex = 41
         '
         'GroupBox13
         '
@@ -1789,38 +1824,14 @@ Partial Class Form1
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
         Me.ContextMenuStrip1.Size = New System.Drawing.Size(61, 4)
         '
-        'TextBox42
+        'Label23
         '
-        Me.TextBox42.Location = New System.Drawing.Point(14, 155)
-        Me.TextBox42.Name = "TextBox42"
-        Me.TextBox42.Size = New System.Drawing.Size(691, 20)
-        Me.TextBox42.TabIndex = 41
-        '
-        'GroupBox14
-        '
-        Me.GroupBox14.Controls.Add(Me.Label12)
-        Me.GroupBox14.Location = New System.Drawing.Point(622, 19)
-        Me.GroupBox14.Name = "GroupBox14"
-        Me.GroupBox14.Size = New System.Drawing.Size(87, 45)
-        Me.GroupBox14.TabIndex = 40
-        Me.GroupBox14.TabStop = False
-        Me.GroupBox14.Text = "File count"
-        '
-        'Label12
-        '
-        Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(6, 20)
-        Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(26, 13)
-        Me.Label12.TabIndex = 2
-        Me.Label12.Text = "IAM"
-        '
-        'TextBox43
-        '
-        Me.TextBox43.Location = New System.Drawing.Point(9, 102)
-        Me.TextBox43.Name = "TextBox43"
-        Me.TextBox43.Size = New System.Drawing.Size(699, 20)
-        Me.TextBox43.TabIndex = 41
+        Me.Label23.AutoSize = True
+        Me.Label23.Location = New System.Drawing.Point(6, 40)
+        Me.Label23.Name = "Label23"
+        Me.Label23.Size = New System.Drawing.Size(63, 13)
+        Me.Label23.TabIndex = 3
+        Me.Label23.Text = "Sheet metal"
         '
         'Form1
         '
@@ -1850,6 +1861,8 @@ Partial Class Form1
         Me.SplitContainer1.ResumeLayout(False)
         Me.GroupBox5.ResumeLayout(False)
         Me.GroupBox5.PerformLayout()
+        Me.GroupBox14.ResumeLayout(False)
+        Me.GroupBox14.PerformLayout()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage3.ResumeLayout(False)
         Me.SplitContainer2.Panel1.ResumeLayout(False)
@@ -1894,8 +1907,6 @@ Partial Class Form1
         CType(Me.NumericUpDown1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage9.ResumeLayout(False)
         Me.TabPage9.PerformLayout()
-        Me.GroupBox14.ResumeLayout(False)
-        Me.GroupBox14.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -2068,4 +2079,5 @@ Partial Class Form1
     Friend WithEvents GroupBox14 As GroupBox
     Friend WithEvents Label12 As Label
     Friend WithEvents TextBox43 As TextBox
+    Friend WithEvents Label23 As Label
 End Class

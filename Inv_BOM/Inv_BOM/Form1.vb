@@ -33,6 +33,7 @@ Public Class Form1
     End Structure
     Public kb As Laserpart
     Dim invApp As Inventor.Application = Nothing
+    'Public Property vbColor As Object
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -84,6 +85,7 @@ Public Class Form1
         DataGridView3.Columns(0).HeaderText = "File"
         DataGridView3.Columns(1).HeaderText = "D_no"
         DataGridView3.Columns(2).HeaderText = "A_no"
+        DataGridView3.Columns(3).HeaderText = "Flat pattern"
 
         DataGridView4.ColumnCount = 20
         DataGridView4.RowCount = view_rows
@@ -151,7 +153,7 @@ Public Class Form1
         Me.Text = "Inventor BOM Extractor" & " (" & Pro_user & ") 25-10-2018"
 
         Try
-            invApp = System.Runtime.InteropServices.Marshal.GetActiveObject("Inventor.Application")
+            invApp = CType(System.Runtime.InteropServices.Marshal.GetActiveObject("Inventor.Application"), Inventor.Application)
         Catch 'Inventor not started
             System.Windows.Forms.MessageBox.Show("Start an Inventor session")
             Exit Sub
@@ -207,6 +209,7 @@ Public Class Form1
     Private Sub Qbom(ByVal fpath As String)
         Dim information As System.IO.FileInfo
         Dim filen As String
+        Dim doc_status As String
 
         '-------- inventor must be running----
         Dim p() As Process
@@ -223,9 +226,9 @@ Public Class Form1
 
         Dim oDoc As Inventor.Document
         Dim invApp As Inventor.Application
-        invApp = Marshal.GetActiveObject("Inventor.Application")
+        invApp = CType(Marshal.GetActiveObject("Inventor.Application"), Inventor.Application)
 
-        invApp.SilentOperation = vbTrue
+        invApp.SilentOperation = CBool(vbTrue)
         oDoc = invApp.Documents.Open(fpath, False)
 
         '--------- determine object type -------
@@ -308,8 +311,11 @@ Public Class Form1
                             DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 6).Value = oPropSet.Item(custom(j)).Value
 
                             '--- check PDM status of document ---
-                            If j = 2 And Not String.Compare(oPropSet.Item(custom(j)).Value.ToString, "Released") Then
+                            doc_status = oPropSet.Item(custom(j)).Value.ToString
+                            If CBool(CInt(j = 2)) And String.Equals(doc_status, "In work") Then
                                 TextBox2.Text &= fpath & " document is NOT Released !!" & vbCrLf
+                                DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 6).Style.BackColor = System.Drawing.Color.Red
+                                DataGridView1.Rows.Item(G1_row_cnt).Cells(0).Style.BackColor = System.Drawing.Color.Red
                             End If
                         Catch Ex As Exception
                             DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 6).Value = "?"
@@ -340,6 +346,8 @@ Public Class Form1
                 End If
 
             Next
+            Remove_empty_rows(DataGridView1)
+            DataGridView1.Sort(DataGridView1.Columns(10), System.ComponentModel.ListSortDirection.Descending)
         Catch Ex As Exception
             TextBox2.Text &= fpath & ", " & "No BOM in this IAM model " & vbCrLf
         Finally
@@ -364,9 +372,9 @@ Public Class Form1
         Dim fname As String
         Dim str As String
 
-        xlApp = CreateObject("Excel.Application")
+        xlApp = CType(CreateObject("Excel.Application"), Excel.Application)
         xlWorkBook = xlApp.Workbooks.Add(Type.Missing)
-        xlWorksheet = xlWorkBook.Worksheets(1)
+        xlWorksheet = CType(xlWorkBook.Worksheets(1), Worksheet)
 
         xlApp.Visible = False
         xlApp.DisplayAlerts = False 'Suppress excel messages
@@ -430,8 +438,8 @@ Public Class Form1
         Dim invApp As Inventor.Application
         Dim oDoc As Inventor.Document
 
-        invApp = Marshal.GetActiveObject("Inventor.Application")
-        invApp.SilentOperation = vbTrue
+        invApp = CType(Marshal.GetActiveObject("Inventor.Application"), Inventor.Application)
+        invApp.SilentOperation = CBool(vbTrue)
         oDoc = invApp.Documents.Open(filepath1, False)
 
         Dim Docs As DocumentsEnumerator = oDoc.AllReferencedDocuments
@@ -526,8 +534,8 @@ Public Class Form1
 
         Button9.BackColor = System.Drawing.Color.LightGreen
         ProgressBar2.Visible = True
-        cnt = Find_IDW()
-        If cnt = 0 Then
+        cnt = CType(Find_IDW(), String)
+        If CInt(cnt) = 0 Then
             MessageBox.Show("WARNING NO IDW files found in the Work directory !!")
         Else
             TextBox2.Text &= cnt & " IDW files found in the Work directory"
@@ -572,10 +580,10 @@ Public Class Form1
         Dim invApp As Inventor.Application
         Dim oDoc As Inventor.DrawingDocument
 
-        invApp = Marshal.GetActiveObject("Inventor.Application")
-        invApp.SilentOperation = vbTrue
+        invApp = CType(Marshal.GetActiveObject("Inventor.Application"), Inventor.Application)
+        invApp.SilentOperation = CBool(vbTrue)
 
-        oDoc = invApp.Documents.Open(path, False)
+        oDoc = CType(invApp.Documents.Open(path, False), DrawingDocument)
 
         'MessageBox.Show("Active document=" & oDoc.DisplayName)
         'MessageBox.Show("Active sheet=" & oDoc.ActiveSheet.Name)
@@ -616,7 +624,7 @@ Public Class Form1
 
         '============== Read The parts List=========================================
         ' Make sure a parts list is selected.
-        Dim partList As Object
+        Dim partList As Inventor.PartsList
         '----------- does partlist exist ?------------
         If oDoc.ActiveSheet.PartsLists.Count > 0 Then
             partList = oDoc.ActiveSheet.PartsLists.Item(1)
@@ -633,11 +641,11 @@ Public Class Form1
                     DataGridView2.Rows.Item(G2_row_cnt).Cells(2).Value = q_A00
                     DataGridView2.Rows.Item(G2_row_cnt).Cells(3).Value = q_D00
 
-                    For ii = 1 To partList.PartsListcolumns.Count 'WAS 4
+                    For ii = 1 To partList.PartsListcolumns.Count
                         str = partList.PartsListRows(jj).Item(ii).Value.ToString
 
                         '--------Check is this an artikel number-------
-                        If (ii + 3) = 6 Then
+                        If ((ii + 3) = 6) Then
                             If Isartikel(str) = False Then TextBox2.Text &= "IDW_drwg " & q_D00 & " BOM problem " & str & " is NOT an artikel number" & vbCrLf
                         End If
                         '-------- update datagrid---------
@@ -646,6 +654,7 @@ Public Class Form1
                 Next jj
             End If
         End If
+        Remove_empty_rows(DataGridView2)
         DataGridView2.AutoResizeColumns()
     End Sub
 
@@ -674,6 +683,9 @@ Public Class Form1
     End Sub
 
     Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
+        List_files()
+    End Sub
+    Private Sub List_files()
         Inventor_running()
         Button8.BackColor = System.Drawing.Color.LightGreen
         Dim cnt As Integer = 0   'Reset counter
@@ -695,8 +707,8 @@ Public Class Form1
                 fext = ".*"
         End Select
         DataGridView3.Rows.Clear()
-        DataGridView3.Columns(0).Width = 300
-        DataGridView3.Columns(1).Width = 150
+        DataGridView3.Columns(0).Width = 100
+        DataGridView3.Columns(1).Width = 130
 
         If Directory.Exists(TextBox6.Text) Then
             Dim fileEntries As String() = Directory.GetFiles(TextBox6.Text)
@@ -711,11 +723,11 @@ Public Class Form1
                     DataGridView3.Rows.Item(cnt).Cells(0).Value = fileName
                     cnt += 1
                 End If
-                '=============== extra for Sheet metal ==============
+                '=============== extra for Sheet metal parts ==============
                 If RadioButton8.Checked And String.Equals(extension, ".ipt") Then
                     Dim invApp As Inventor.Application
-                    invApp = Marshal.GetActiveObject("Inventor.Application")
-                    invApp.SilentOperation = vbTrue
+                    invApp = CType(Marshal.GetActiveObject("Inventor.Application"), Inventor.Application)
+                    invApp.SilentOperation = CBool(vbTrue)
                     Dim oPartDoc As Inventor.Document
                     oPartDoc = invApp.Documents.Open(fileName, False)
 
@@ -725,11 +737,17 @@ Public Class Form1
                         If oPartDoc.SubType = "{9C464203-9BAE-11D3-8BAD-0060B0CE6BB4}" Then
                             oFlatPattern = oPartDoc.ComponentDefinition.FlatPattern
                             If oFlatPattern Is Nothing Then
-                                DataGridView3.Rows.Item(cnt - 1).Cells(3).Value = "NO Flat pattern"
+                                DataGridView3.Rows.Item(cnt - 1).Cells(3).Value = "Sheet metal, NO Flat pattern"
+                                DataGridView3.Rows.Item(cnt - 1).Cells(3).Style.BackColor = System.Drawing.Color.Red
+                                DataGridView3.Rows.Item(cnt - 1).Cells(0).Style.BackColor = System.Drawing.Color.Red
                             Else
                                 DataGridView3.Rows.Item(cnt - 1).Cells(3).Value = "Contains Flat pattern"
+                                DataGridView3.Rows.Item(cnt - 1).Cells(3).Style.BackColor = System.Drawing.Color.White
+                                DataGridView3.Rows.Item(cnt - 1).Cells(0).Style.BackColor = System.Drawing.Color.White
                             End If
                         End If
+                    Else
+                        DataGridView3.Rows.Item(cnt - 1).Cells(3).Value = "Part"
                     End If
                 End If
             Next fileName
@@ -737,9 +755,24 @@ Public Class Form1
         Else
             MessageBox.Show(TextBox6.Text & " is not a valid directory.")
         End If
+        Remove_empty_rows(DataGridView3)
+        DataGridView3.Sort(DataGridView3.Columns(3), System.ComponentModel.ListSortDirection.Descending)
         DataGridView3.AutoResizeColumns()
         Button8.BackColor = System.Drawing.Color.Transparent
     End Sub
+    Private Sub Remove_empty_rows(grid As DataGridView)
+        For r As Integer = grid.Rows.Count - 2 To 10 Step -1
+            Dim empty As Boolean = True
+            For Each cell As DataGridViewCell In grid.Rows(r).Cells
+                If Not IsNothing(cell.Value) Then
+                    empty = False
+                    Exit For
+                End If
+            Next
+            If empty Then grid.Rows.RemoveAt(r)
+        Next
+    End Sub
+
 
     Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
         Inventor_running()
@@ -774,6 +807,7 @@ Public Class Form1
         Next fileName
 
         TextBox43.Text = " "
+        Remove_empty_rows(DataGridView1)
         DataGridView1.AutoResizeColumns()
         Button12.BackColor = System.Drawing.Color.Transparent
     End Sub
@@ -783,22 +817,22 @@ Public Class Form1
         'https://forums.autodesk.com/t5/inventor-customization/vb-net-export-files-and-then-can-not-change-project/td-p/7404351
         'Dim oDocument As Inventor.Document
         Dim invApp As Inventor.Application
-        invApp = Marshal.GetActiveObject("Inventor.Application")
-        invApp.SilentOperation = vbTrue
+        invApp = CType(Marshal.GetActiveObject("Inventor.Application"), Inventor.Application)
+        invApp.SilentOperation = CBool(vbTrue)
 
         Dim oDrawDoc As Inventor.DrawingDocument
-        oDrawDoc = invApp.Documents.Open(filepath1, False)
+        oDrawDoc = CType(invApp.Documents.Open(filepath1, False), DrawingDocument)
         Dim oRefDoc As Document
 
         For Each oRefDoc In oDrawDoc.ReferencedDocuments
             Increm_progressbar()
             If oRefDoc.DocumentType = DocumentTypeEnum.kPartDocumentObject Then
-                Dim model As Inventor.PartDocument = invApp.Documents.Open("C:\Inventor_tst\Test_Copy.ipt", False)
+                Dim model As Inventor.PartDocument = CType(invApp.Documents.Open("C:\Inventor_tst\Test_Copy.ipt", False), PartDocument)
                 'model.SaveAs("c:\Inventor_tst/Test_Copy.stp", True)
                 model.SaveAs("c:\Inventor_tst/Test_Copy.dxf", True)
                 invApp.ActiveDocument.Close()
             ElseIf oRefDoc.DocumentType = DocumentTypeEnum.kAssemblyDocumentObject Then
-                Dim sestava As Inventor.AssemblyDocument = invApp.Documents.Open("C:\Inventor_tst\Test_Copy.iam", False)
+                Dim sestava As Inventor.AssemblyDocument = CType(invApp.Documents.Open("C:\Inventor_tst\Test_Copy.iam", False), AssemblyDocument)
                 sestava.SaveAs("C:\Inventor_tst\Test_Copy.stp", True)
                 invApp.ActiveDocument.Close()
             End If
@@ -809,8 +843,8 @@ Public Class Form1
         'https://forums.autodesk.com/t5/inventor-customization/flat-pattern-to-dxf/m-p/7033961#M71803
         'https://knowledge.autodesk.com/search-result/caas/CloudHelp/cloudhelp/2018/ENU/Inventor-API/files/WriteFlatPatternAsDXF-Sample-htm.html
         Dim invApp As Inventor.Application
-        invApp = Marshal.GetActiveObject("Inventor.Application")
-        invApp.SilentOperation = vbTrue
+        invApp = CType(Marshal.GetActiveObject("Inventor.Application"), Inventor.Application)
+        invApp.SilentOperation = CBool(vbTrue)
 
         If IO.File.Exists(file_path) Then ' This pathfile is a file.
             Dim oPartDoc As Inventor.Document
@@ -829,7 +863,7 @@ Public Class Form1
                 Else
                     oFlatPattern = oPartDoc.ComponentDefinition.FlatPattern
                     If oFlatPattern Is Nothing Then
-                        If Not CheckBox1.Checked Then TextBox2.Text &= "IPT " & file_path & " does NOT contain a flat pattern" & vbCrLf
+                        If Not CheckBox1.Checked Then TextBox2.Text &= "IPT sheet metal part " & file_path & " does NOT contain a flat pattern" & vbCrLf
                         Exit Sub
                         End If
                     End If
@@ -857,7 +891,7 @@ Public Class Form1
             For Each prop In customPropSet
                 If prop.Name = "ITEM_NR" Then
                     If prop.ToString.Length > 0 Then
-                        artikel = oPartDoc.PropertySets("Inventor User Defined Properties").Item("ITEM_NR").Value
+                        artikel = CType(oPartDoc.PropertySets("Inventor User Defined Properties").Item("ITEM_NR").Value, String)
                     Else
                         artikel = "Axxx"
                     End If
@@ -907,10 +941,10 @@ Public Class Form1
     Private Sub Read_idw_parts(ByVal fpath As String)
         Dim oDoc As Inventor.DrawingDocument
         Dim invApp As Inventor.Application
-        invApp = Marshal.GetActiveObject("Inventor.Application")
+        invApp = CType(Marshal.GetActiveObject("Inventor.Application"), Inventor.Application)
 
-        invApp.SilentOperation = vbTrue
-        oDoc = invApp.Documents.Open(fpath, False)  'Not visible
+        invApp.SilentOperation = CBool(vbTrue)
+        oDoc = CType(invApp.Documents.Open(fpath, False), DrawingDocument)  'Not visible
 
         '--------- determine object type -------
         Dim eDocumentType As DocumentTypeEnum = oDoc.DocumentType
@@ -998,9 +1032,9 @@ Public Class Form1
 
         Dim art As String
         Dim ask_once As Boolean = False
-
-        For Each row In DataGridView5.Rows
-            If row.Cells(0).Value <> Nothing Then
+        DataGridView5.AllowUserToAddRows = False
+        For Each row As System.Windows.Forms.DataGridViewRow In DataGridView5.Rows
+            If row.Cells(0).Value IsNot Nothing Then
                 art = row.Cells(0).Value.ToString   'Artikel Axxxxxx
                 Find_dwg_pos(DataGridView2, art)
                 row.Cells(2).Value = kb.actie
@@ -1009,6 +1043,7 @@ Public Class Form1
                 row.Cells(5).Value = kb.Count
             End If
         Next
+        Remove_empty_rows(DataGridView5)
         DataGridView5.AutoResizeColumns()
     End Sub
     Private Function Rename_dxf() As Integer
@@ -1021,16 +1056,16 @@ Public Class Form1
         Dim ask_once As Boolean = False
         Dim dxf_cnt As Integer = 0
 
-        For Each row In DataGridView5.Rows
+        For Each row As System.Windows.Forms.DataGridViewRow In DataGridView5.Rows
             Increm_progressbar()
-            If row.Cells(0).Value <> Nothing Then
-
-                If row.Cells(1).Value <> Nothing Then   'Preventing exceptions
+            If row.Cells(0).Value IsNot Nothing Then    'Artikel
+                If row.Cells(1).Value IsNot Nothing Then   'Preventing exceptions
                     old_f = row.Cells(1).Value.ToString
                 Else
                     old_f = "-"
                 End If
-                If row.Cells(2).Value <> Nothing Then   'Preventing exceptions
+
+                If row.Cells(2).Value IsNot Nothing Then   'Preventing exceptions
                     new_f = row.Cells(2).Value.ToString
                 Else
                     new_f = "-"
@@ -1038,27 +1073,27 @@ Public Class Form1
 
                 new_ff = TextBox34.Text & "\" & new_f   'Full path required
                 TextBox42.Text = new_ff
-                If IO.File.Exists(new_ff) And ask_once = False Then
-                    delete_file = Question_replace_dxf_files()
-                    ask_once = True
-                End If
-
-                If new_f.Length > 1 Then    'Make sure file name exist
-                    If delete_file = True Then
-                        IO.File.Delete(new_ff)
-                        If Not CheckBox1.Checked Then TextBox2.Text &= "Dxf file " & old_f & " deleted " & vbCrLf
+                    If IO.File.Exists(new_ff) And ask_once = False Then
+                        delete_file = Question_replace_dxf_files()
+                        ask_once = True
                     End If
 
-                    If Not IO.File.Exists(new_ff) Then
-                        My.Computer.FileSystem.RenameFile(old_f, new_f)
-                        dxf_cnt += 1
-                        Label26.Text = "DXF " & dxf_cnt.ToString
-                        If Not CheckBox1.Checked Then TextBox2.Text &= "Dxf file " & new_f & " renamed " & vbCrLf
+                    If new_f.Length > 1 Then    'Make sure file name exist
+                        If delete_file = True Then
+                            IO.File.Delete(new_ff)
+                            If Not CheckBox1.Checked Then TextBox2.Text &= "Dxf file " & old_f & " deleted " & vbCrLf
+                        End If
+
+                        If Not IO.File.Exists(new_ff) Then
+                            My.Computer.FileSystem.RenameFile(old_f, new_f)
+                            dxf_cnt += 1
+                            Label26.Text = "DXF " & dxf_cnt.ToString
+                            If Not CheckBox1.Checked Then TextBox2.Text &= "Dxf file " & new_f & " renamed " & vbCrLf
+                        End If
+                    Else
+                        TextBox2.Text &= "Dxf file " & old_f & "Failed NO new name !" & vbCrLf
                     End If
-                Else
-                    TextBox2.Text &= "Dxf file " & old_f & "Failed NO new name !" & vbCrLf
                 End If
-            End If
         Next
         DataGridView5.AutoResizeColumns()
         TextBox42.Text = " "
@@ -1083,12 +1118,12 @@ Public Class Form1
 
         For Each row As DataGridViewRow In dtg.Rows
             Increm_progressbar()
-            If row.Cells.Item(6).Value = Axxxxx Then
+            If String.Equals(row.Cells.Item(6).Value, Axxxxx) Then           '????? was =
                 found = True
                 actie = TextBox31.Text & "_"                    'Project
                 actie &= TextBox33.Text & "_"                   'Tnumber
                 actie &= row.Cells(3).Value.ToString() & "_"    'Drwg= 
-                pos = row.Cells(4).Value                        'Pos= 
+                pos = CInt(row.Cells(4).Value)                  'Pos= 
                 actie &= pos.ToString("D2")
                 If Not CheckBox3.Checked Then
                     actie &= "_" & row.Cells(6).Value.ToString() 'Artikel=  
@@ -1096,7 +1131,7 @@ Public Class Form1
                 actie &= ".dxf"
 
                 kb.Count = row.Cells(5).Value.ToString()        'Quantity
-                kb.Thick = Isolate_thickness(row.Cells(7).Value.ToString())
+                kb.Thick = CType(Isolate_thickness(row.Cells(7).Value.ToString()), String)
 
                 '======== thickness plate =======
                 Double.TryParse(kb.Thick, plate_thick)
@@ -1110,8 +1145,8 @@ Public Class Form1
 
                 kb.Materi = row.Cells(10).Value.ToString()
                 kb.actie = actie
-                    Exit For
-                End If
+                Exit For
+            End If
         Next
 
         If found = True Then
@@ -1130,12 +1165,12 @@ Public Class Form1
         str3 = System.Text.RegularExpressions.Regex.Replace(str2, "[^\d]", " ")
         Int16.TryParse(str3, delta)
 
-        Return delta.ToString
+        Return CInt(delta.ToString)
     End Function
     Private Function Check_for_plate(str As String) As Boolean
         Dim exi As Boolean
         str = str.Substring(0, 5)
-        exi = String.Compare(str.ToUpper, "PLATE")
+        exi = CBool(String.Compare(str.ToUpper, "PLATE"))
         'MessageBox.Show(str & "-" & exi.ToString)
         Return (exi)
     End Function
@@ -1173,7 +1208,7 @@ Public Class Form1
         Button19.Text = "Lookup artikel dwg and pos..."
         Find_artikel()
         TextBox2.Text &= "============= Rename dxf file ======================" & vbCrLf
-        Button19.Text = "Rename dxg file..."
+        Button19.Text = "Rename dxf file..."
         Rename_dxf()
         Button19.Text = "WVB"
         ProgressBar1.Visible = False
@@ -1217,8 +1252,8 @@ Public Class Form1
         Dim dest As String
         Dim q_file As String = "-"  'File name
 
-        invApp = Marshal.GetActiveObject("Inventor.Application")
-        invApp.SilentOperation = vbTrue
+        invApp = CType(Marshal.GetActiveObject("Inventor.Application"), Inventor.Application)
+        invApp.SilentOperation = CBool(vbTrue)
         oDoc = invApp.Documents.Open(fileName, False)
 
         ' Set a reference to the active sheet.
@@ -1237,8 +1272,8 @@ Public Class Form1
         Dim sText As String = TextBox36.Text
 
         Dim oGeneralNote As GeneralNote
-        x = NumericUpDown1.Value
-        y = NumericUpDown2.Value
+        x = CInt(NumericUpDown1.Value)
+        y = CInt(NumericUpDown2.Value)
         f_size = NumericUpDown3.Value
         oGeneralNote = oGeneralNotes.AddFitted(oTG.CreatePoint2d(x, y), "-")
         oGeneralNote.FormattedText = "<StyleOverride FontSize = '" & f_size.ToString & "'>" & TextBox36.Text & "</StyleOverride>"
@@ -1287,22 +1322,22 @@ Public Class Form1
         Dim oDoc As Inventor.DrawingDocument
         Dim i As Long
 
-        invApp = Marshal.GetActiveObject("Inventor.Application")
-        invApp.SilentOperation = vbTrue
+        invApp = CType(Marshal.GetActiveObject("Inventor.Application"), Inventor.Application)
+        invApp.SilentOperation = CBool(vbTrue)
 
-        oDoc = invApp.Documents.Open(path, False)
+        oDoc = CType(invApp.Documents.Open(path, False), DrawingDocument)
 
         TextBox40.Text = oDoc.DisplayName
         TextBox41.Text = oDoc.ActiveSheet.Name
 
         ' ==== saveAs as pdf ============
-        If CheckBox4.Checked Then oDoc.SaveAs(path.Substring(0, path.Length - 5) & ".pdf", vbTrue)
+        If CheckBox4.Checked Then oDoc.SaveAs(path.Substring(0, path.Length - 5) & ".pdf", CBool(vbTrue))
 
         ' ==== SaveCopyAs as dwg =======
         If CheckBox5.Checked Then
             For i = 1 To invApp.ApplicationAddIns.Count
-                If invApp.ApplicationAddIns.Item(i).ClassIdString = "{C24E3AC2-122E-11D5-8E91-0010B541CD80}" Then
-                    oDWGAddIn = invApp.ApplicationAddIns.Item(i)
+                If invApp.ApplicationAddIns.Item(CInt(i)).ClassIdString = "{C24E3AC2-122E-11D5-8E91-0010B541CD80}" Then
+                    oDWGAddIn = CType(invApp.ApplicationAddIns.Item(CInt(i)), TranslatorAddIn)
                     Exit For
                 End If
             Next
@@ -1353,28 +1388,28 @@ Public Class Form1
         Dim invApp As Inventor.Application
         Dim oDoc As Inventor.DrawingDocument
 
-        invApp = Marshal.GetActiveObject("Inventor.Application")
-        invApp.SilentOperation = vbTrue
+        invApp = CType(Marshal.GetActiveObject("Inventor.Application"), Inventor.Application)
+        invApp.SilentOperation = CBool(vbTrue)
 
-        oDoc = invApp.Documents.Open(path, False)
+        oDoc = CType(invApp.Documents.Open(path, False), DrawingDocument)
         TextBox40.Text = oDoc.DisplayName
         TextBox41.Text = oDoc.ActiveSheet.Name
         ' ==== saveAs as pdf ============
-        If CheckBox4.Checked Then oDoc.SaveAs(path.Substring(0, path.Length - 5) & ".pdf", vbTrue)
+        If CheckBox4.Checked Then oDoc.SaveAs(path.Substring(0, path.Length - 5) & ".pdf", CBool(vbTrue))
 
         ' ==== SaveCopyAs as dwg =======
         If CheckBox5.Checked Then
 
             ' ==== SaveCopyAs as dwg =======
             Dim DWGAddIn As TranslatorAddIn
-        DWGAddIn = invApp.ApplicationAddIns.ItemById("{C24E3AC2-122E-11D5-8E91-0010B541CD80}")
+            DWGAddIn = CType(invApp.ApplicationAddIns.ItemById("{C24E3AC2-122E-11D5-8E91-0010B541CD80}"), TranslatorAddIn)
 
-        If DWGAddIn Is Nothing Then
-            MessageBox.Show("DWG add-in not found.")
-            Exit Sub
-        End If
+            If DWGAddIn Is Nothing Then
+                MessageBox.Show("DWG add-in not found.")
+                Exit Sub
+            End If
 
-        Dim oContext As TranslationContext
+            Dim oContext As TranslationContext
         oContext = invApp.TransientObjects.CreateTranslationContext
         oContext.Type = IOMechanismEnum.kFileBrowseIOMechanism
 
