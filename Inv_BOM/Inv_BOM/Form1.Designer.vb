@@ -69,6 +69,7 @@ Partial Class Form1
         Me.GroupBox5 = New System.Windows.Forms.GroupBox()
         Me.TextBox43 = New System.Windows.Forms.TextBox()
         Me.GroupBox14 = New System.Windows.Forms.GroupBox()
+        Me.Label23 = New System.Windows.Forms.Label()
         Me.Label12 = New System.Windows.Forms.Label()
         Me.ProgressBar3 = New System.Windows.Forms.ProgressBar()
         Me.TextBox8 = New System.Windows.Forms.TextBox()
@@ -193,7 +194,7 @@ Partial Class Form1
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.Label23 = New System.Windows.Forms.Label()
+        Me.Label27 = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.TabPage6.SuspendLayout()
         Me.GroupBox8.SuspendLayout()
@@ -694,6 +695,15 @@ Partial Class Form1
         Me.GroupBox14.TabStop = False
         Me.GroupBox14.Text = "File count"
         '
+        'Label23
+        '
+        Me.Label23.AutoSize = True
+        Me.Label23.Location = New System.Drawing.Point(6, 40)
+        Me.Label23.Name = "Label23"
+        Me.Label23.Size = New System.Drawing.Size(63, 13)
+        Me.Label23.TabIndex = 3
+        Me.Label23.Text = "Sheet metal"
+        '
         'Label12
         '
         Me.Label12.AutoSize = True
@@ -803,6 +813,7 @@ Partial Class Form1
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.Label27)
         Me.SplitContainer2.Panel1.Controls.Add(Me.ProgressBar2)
         Me.SplitContainer2.Panel1.Controls.Add(Me.Button15)
         Me.SplitContainer2.Panel1.Controls.Add(Me.Button7)
@@ -1824,14 +1835,14 @@ Partial Class Form1
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
         Me.ContextMenuStrip1.Size = New System.Drawing.Size(61, 4)
         '
-        'Label23
+        'Label27
         '
-        Me.Label23.AutoSize = True
-        Me.Label23.Location = New System.Drawing.Point(6, 40)
-        Me.Label23.Name = "Label23"
-        Me.Label23.Size = New System.Drawing.Size(63, 13)
-        Me.Label23.TabIndex = 3
-        Me.Label23.Text = "Sheet metal"
+        Me.Label27.AutoSize = True
+        Me.Label27.Location = New System.Drawing.Point(574, 20)
+        Me.Label27.Name = "Label27"
+        Me.Label27.Size = New System.Drawing.Size(59, 13)
+        Me.Label27.TabIndex = 39
+        Me.Label27.Text = "IDW count"
         '
         'Form1
         '
@@ -2080,4 +2091,5 @@ Partial Class Form1
     Friend WithEvents Label12 As Label
     Friend WithEvents TextBox43 As TextBox
     Friend WithEvents Label23 As Label
+    Friend WithEvents Label27 As Label
 End Class

@@ -204,15 +204,17 @@ Public Class Form1
         G1_row_cnt = 0
         Qbom(filepath1)
         Button3.BackColor = System.Drawing.Color.Transparent
+        DataGridView1.Sort(DataGridView1.Columns(10), System.ComponentModel.ListSortDirection.Descending)
     End Sub
-
+    'Read assembly make part summary
     Private Sub Qbom(ByVal fpath As String)
         Dim invApp As Inventor.Application
-        Dim oDoc As Inventor.AssemblyDocument
-        Dim oBOM As Inventor.BOM
+        Dim oDoc As Inventor.Document
+        Dim oBOM As BOM
         Dim oBOMView As BOMView
         Dim oBOMRow As BOMRow
         Dim oCompDef As ComponentDefinition
+        Dim odef As AssemblyComponentDefinition
         Dim oPropSets As PropertySets
         Dim oPropSet As PropertySet
         Dim information As System.IO.FileInfo
@@ -234,11 +236,13 @@ Public Class Form1
         filen = information.Name
         invApp = CType(Marshal.GetActiveObject("Inventor.Application"), Inventor.Application)
 
-        invApp.SilentOperation = CBool(vbTrue)
+        invApp.SilentOperation = True
         oDoc = invApp.Documents.Open(fpath, False)
 
-        '--------- determine object type -------
+        '--------- determine object type ---------
+        '------ jump out when not a assembly !!-----
         Dim eDocumentType As DocumentTypeEnum = oDoc.DocumentType
+
         If eDocumentType <> DocumentTypeEnum.kAssemblyDocumentObject Then
             MessageBox.Show("Please Select a IAM file ")
             Exit Sub
@@ -247,11 +251,17 @@ Public Class Form1
         '-------------READ TITLE BLOCK----------------------------------------
         '---- Note: there is no title block in an IAM model file -------------
         '---------- Read BOM, in IAM model file --------------------------
+        'Loopt vast als er een base model is !!!!!!!!!!!!
         Try
+            odef = oDoc.ComponentDefinition
             oBOM = oDoc.ComponentDefinition.BOM
-            oBOM.StructuredViewFirstLevelOnly = True
-            oBOM.StructuredViewEnabled = True
-            oBOMView = oBOM.BOMViews.Item("Structured")
+
+            oBOM.StructuredViewFirstLevelOnly = False
+            oBOM.PartsOnlyViewEnabled = True
+            ' oBOM.StructuredViewEnabled = True
+
+            'oBOMView = oBOM.BOMViews.Item("Structured")
+            oBOMView = oBOM.BOMViews.Item("Parts Only")
             '-------------------------
 
             For i = 1 To oBOMView.BOMRows.Count
@@ -264,8 +274,8 @@ Public Class Form1
 
                 oPropSets = oDoc.PropertySets
                 oPropSet = oPropSets.Item("Design Tracking Properties")
-                DataGridView1.Rows.Add()
 
+                DataGridView1.Rows.Add()
                 DataGridView1.Rows.Item(G1_row_cnt).Cells(0).Value = filen
                 DataGridView1.Rows.Item(G1_row_cnt).Cells(1).Value = oBOMRow.ItemNumber
                 DataGridView1.Rows.Item(G1_row_cnt).Cells(2).Value = oBOMRow.ItemQuantity
@@ -275,13 +285,12 @@ Public Class Form1
                 "Description",
                 "Stock Number",
                 "Part Icon"}
-                If oPropSet.Count = 0 Then
+                If oPropSet.Count < 1 Then
                     TextBox2.Text &= "The are NO 'Design Tracking' properties present in this file" & vbCrLf
                 Else
                     For j = 0 To design_track.Length - 1
                         Try
-                            DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 3).Value = "+"
-                            DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 3).Value = oPropSet.Item(design_track(j)).Value
+                            DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 3).Value = oPropSet.Item(design_track(j)).Value.ToString
                         Catch Ex As Exception
                             DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 3).Value = "?"
                             TextBox2.Text &= fpath & ", " & design_track(j) & " not found" & vbCrLf
@@ -305,8 +314,7 @@ Public Class Form1
                 Else
                     For j = 0 To custom.Length - 1
                         Try
-                            DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 6).Value = "+"
-                            DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 6).Value = oPropSet.Item(custom(j)).Value
+                            DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 6).Value = oPropSet.Item(custom(j)).Value.ToString
 
                             '--- check PDM status of document ---
                             doc_status = oPropSet.Item(custom(j)).Value.ToString
@@ -334,18 +342,14 @@ Public Class Form1
                 Else
                     For j = 0 To summary.Length - 1
                         Try
-                            DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 14).Value = "+"
-                            DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 14).Value = oPropSet.Item(summary(j)).Value
+                            DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 14).Value = oPropSet.Item(summary(j)).Value.ToString
                         Catch Ex As Exception
                             DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 14).Value = "?"
                             'TextBox2.Text &= fpath & ", " & "Inventor Summary " & summary(j) & " not found" & vbCrLf
                         End Try
                     Next
                 End If
-
             Next
-            Remove_empty_rows(DataGridView1)
-            DataGridView1.Sort(DataGridView1.Columns(10), System.ComponentModel.ListSortDirection.Descending)
         Catch Ex As Exception
             TextBox2.Text &= fpath & ", " & "No BOM in this IAM model " & vbCrLf
         Finally
@@ -552,7 +556,6 @@ Public Class Form1
         Dim pathfile As String = TextBox6.Text
 
         If Directory.Exists(pathfile) Then
-
             Dim fileEntries As String() = Directory.GetFiles(pathfile)
             For Each fileName In fileEntries
                 TextBox42.Text = fileName
@@ -561,6 +564,7 @@ Public Class Form1
                 If extension = ".idw" Then
                     Read_title_Block_idw(fileName)
                     idw_counter += 1
+                    Label27.Text = "IDW " & idw_counter.ToString
                     Label24.Text = "IDW " & idw_counter.ToString
                 End If
             Next fileName
@@ -577,24 +581,11 @@ Public Class Form1
 
         Dim invApp As Inventor.Application
         Dim oDoc As Inventor.DrawingDocument
-
-        invApp = CType(Marshal.GetActiveObject("Inventor.Application"), Inventor.Application)
-        invApp.SilentOperation = CBool(vbTrue)
-
-        oDoc = CType(invApp.Documents.Open(path, False), DrawingDocument)
-
-        'MessageBox.Show("Active document=" & oDoc.DisplayName)
-        'MessageBox.Show("Active sheet=" & oDoc.ActiveSheet.Name)
-
-        '=================================================================================
-        'https://forums.autodesk.com/t5/inventor-customization/copy-titleblock-prompted-entries-to-custom-iproperty/td-p/7491136
-
+        Dim partList As Inventor.PartsList
         Dim oSheet As Sheet
-        oSheet = oDoc.ActiveSheet
         Dim oTB1 As TitleBlock
-        oTB1 = oSheet.TitleBlock
         Dim titleDef As TitleBlockDefinition
-        titleDef = oTB1.Definition
+
         Dim oPrompt As Inventor.TextBox = Nothing
         Dim q_file As String = "-"  'File name
         Dim q_desc As String = "-"  'Description
@@ -602,8 +593,23 @@ Public Class Form1
         Dim q_D00 As String = "-"   'Assembly Drawing nummer
         Dim q_mat As String = "-"
 
+        invApp = CType(Marshal.GetActiveObject("Inventor.Application"), Inventor.Application)
+        invApp.SilentOperation = CBool(vbTrue)
+        oDoc = CType(invApp.Documents.Open(path, False), DrawingDocument)
+
+        'MessageBox.Show("Active document=" & oDoc.DisplayName)
+        'MessageBox.Show("Active sheet=" & oDoc.ActiveSheet.Name)
+        'MessageBox.Show("Active document type= " & oDoc.DocumentType.ToString)
+
+        '=================================================================================
+        'https://forums.autodesk.com/t5/inventor-customization/copy-titleblock-prompted-entries-to-custom-iproperty/td-p/7491136
+        oSheet = oDoc.ActiveSheet
+        oTB1 = oSheet.TitleBlock
+        titleDef = oTB1.Definition
+
         ' Find the Prompted Entry called DESCRIPTION in the Title Block
         For Each defText As Inventor.TextBox In titleDef.Sketch.TextBoxes
+            If defText Is Nothing Then Exit Sub
             Increm_progressbar()
             q_file = IO.Path.GetFileName(path)          '=File naam (short)
 
@@ -622,36 +628,39 @@ Public Class Form1
 
         '============== Read The parts List=========================================
         ' Make sure a parts list is selected.
-        Dim partList As Inventor.PartsList
         '----------- does partlist exist ?------------
+
         If oDoc.ActiveSheet.PartsLists.Count > 0 Then
-            partList = oDoc.ActiveSheet.PartsLists.Item(1)
+                partList = oDoc.ActiveSheet.PartsLists.Item(1)
 
-            If (TypeOf partList Is PartsList) Then
-                Dim counter As Integer = 1
-                Dim str As String
+                If (TypeOf partList Is PartsList) Then
+                    Dim counter As Integer = 1
+                    Dim str As String
+                Try
+                    For jj = 1 To partList.PartsListRows.Count
+                        G2_row_cnt += 1
+                        DataGridView2.Rows.Add()
+                        DataGridView2.Rows.Item(G2_row_cnt).Cells(0).Value = q_file
+                        DataGridView2.Rows.Item(G2_row_cnt).Cells(1).Value = q_desc
+                        DataGridView2.Rows.Item(G2_row_cnt).Cells(2).Value = q_A00
+                        DataGridView2.Rows.Item(G2_row_cnt).Cells(3).Value = q_D00
 
-                For jj = 1 To partList.PartsListRows.Count
-                    G2_row_cnt += 1
-                    DataGridView2.Rows.Add()
-                    DataGridView2.Rows.Item(G2_row_cnt).Cells(0).Value = q_file
-                    DataGridView2.Rows.Item(G2_row_cnt).Cells(1).Value = q_desc
-                    DataGridView2.Rows.Item(G2_row_cnt).Cells(2).Value = q_A00
-                    DataGridView2.Rows.Item(G2_row_cnt).Cells(3).Value = q_D00
-
-                    For ii = 1 To partList.PartsListcolumns.Count
-                        str = partList.PartsListRows(jj).Item(ii).Value.ToString
-
-                        '--------Check is this an artikel number-------
-                        If ((ii + 3) = 6) Then
-                            If Isartikel(str) = False Then TextBox2.Text &= "IDW_drwg " & q_D00 & " BOM problem " & str & " is NOT an artikel number" & vbCrLf
-                        End If
-                        '-------- update datagrid---------
-                        DataGridView2.Rows.Item(G2_row_cnt).Cells(ii + 3).Value = str
-                    Next ii
-                Next jj
+                        For ii = 1 To partList.PartsListColumns.Count
+                            str = partList.PartsListRows(jj).Item(ii).Value.ToString
+                            '--------Check is this an artikel number-------
+                            If ((ii + 3) = 6) Then
+                                If Isartikel(str) = False Then TextBox2.Text &= "IDW_drwg " & q_D00 & " BOM problem " & str & " is NOT an artikel number" & vbCrLf
+                            End If
+                            '-------- update datagrid---------
+                            DataGridView2.Rows.Item(G2_row_cnt).Cells(ii + 3).Value = str
+                        Next ii
+                    Next jj
+                Catch ex As Exception
+                    MessageBox.Show("Problem Read_title_Block_idw, " & ex.Message)
+                End Try
             End If
-        End If
+            End If
+
         Remove_empty_rows(DataGridView2)
         DataGridView2.AutoResizeColumns()
     End Sub
@@ -689,12 +698,10 @@ Public Class Form1
         Dim oFlatPattern As FlatPattern
         Dim fileEntries As String() = Directory.GetFiles(TextBox6.Text)
 
-
         Dim cnt As Integer = 0   'Reset counter
         Dim fext As String = ".dxf"
         Dim extension As String
         Dim fileName As String
-
 
         Inventor_running()
         Button8.BackColor = System.Drawing.Color.LightGreen
