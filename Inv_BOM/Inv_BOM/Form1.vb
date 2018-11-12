@@ -207,9 +207,18 @@ Public Class Form1
     End Sub
 
     Private Sub Qbom(ByVal fpath As String)
+        Dim invApp As Inventor.Application
+        Dim oDoc As Inventor.AssemblyDocument
+        Dim oBOM As Inventor.BOM
+        Dim oBOMView As BOMView
+        Dim oBOMRow As BOMRow
+        Dim oCompDef As ComponentDefinition
+        Dim oPropSets As PropertySets
+        Dim oPropSet As PropertySet
         Dim information As System.IO.FileInfo
         Dim filen As String
         Dim doc_status As String
+        Dim i, j As Integer
 
         '-------- inventor must be running----
         Dim p() As Process
@@ -223,9 +232,6 @@ Public Class Form1
         '------- get file info -----------
         information = My.Computer.FileSystem.GetFileInfo(fpath)
         filen = information.Name
-
-        Dim oDoc As Inventor.Document
-        Dim invApp As Inventor.Application
         invApp = CType(Marshal.GetActiveObject("Inventor.Application"), Inventor.Application)
 
         invApp.SilentOperation = CBool(vbTrue)
@@ -240,37 +246,29 @@ Public Class Form1
 
         '-------------READ TITLE BLOCK----------------------------------------
         '---- Note: there is no title block in an IAM model file -------------
-
         '---------- Read BOM, in IAM model file --------------------------
         Try
-            Dim oBOM As Inventor.BOM
             oBOM = oDoc.ComponentDefinition.BOM
             oBOM.StructuredViewFirstLevelOnly = True
             oBOM.StructuredViewEnabled = True
-
-            Dim oBOMView As Inventor.BOMView
             oBOMView = oBOM.BOMViews.Item("Structured")
-
             '-------------------------
-            Dim oRow As BOMRow
-            Dim oCompDef As ComponentDefinition
-            Dim oPropSet As PropertySet
-            Dim i, j As Integer
 
             For i = 1 To oBOMView.BOMRows.Count
                 G1_row_cnt += 1
                 Increm_progressbar()
 
                 '================= Design Tracking Properties ==========================
-                oRow = oBOMView.BOMRows.Item(i)
-                oCompDef = oRow.ComponentDefinitions.Item(1)
+                oBOMRow = oBOMView.BOMRows.Item(i)
+                oCompDef = oBOMRow.ComponentDefinitions.Item(1)
 
-                oPropSet = oCompDef.Document.PropertySets.Item("Design Tracking Properties")
+                oPropSets = oDoc.PropertySets
+                oPropSet = oPropSets.Item("Design Tracking Properties")
                 DataGridView1.Rows.Add()
 
                 DataGridView1.Rows.Item(G1_row_cnt).Cells(0).Value = filen
-                DataGridView1.Rows.Item(G1_row_cnt).Cells(1).Value = oRow.ItemNumber
-                DataGridView1.Rows.Item(G1_row_cnt).Cells(2).Value = oRow.ItemQuantity
+                DataGridView1.Rows.Item(G1_row_cnt).Cells(1).Value = oBOMRow.ItemNumber
+                DataGridView1.Rows.Item(G1_row_cnt).Cells(2).Value = oBOMRow.ItemQuantity
 
                 Dim design_track() As String =
                 {"Part Number",
@@ -686,12 +684,20 @@ Public Class Form1
         List_files()
     End Sub
     Private Sub List_files()
-        Inventor_running()
-        Button8.BackColor = System.Drawing.Color.LightGreen
+        Dim invApp As Inventor.Application
+        Dim oPartDoc As Inventor.PartDocument
+        Dim oFlatPattern As FlatPattern
+        Dim fileEntries As String() = Directory.GetFiles(TextBox6.Text)
+
+
         Dim cnt As Integer = 0   'Reset counter
         Dim fext As String = ".dxf"
         Dim extension As String
+        Dim fileName As String
 
+
+        Inventor_running()
+        Button8.BackColor = System.Drawing.Color.LightGreen
         Select Case True
             Case RadioButton5.Checked
                 fext = ".dxf"
@@ -711,9 +717,9 @@ Public Class Form1
         DataGridView3.Columns(1).Width = 130
 
         If Directory.Exists(TextBox6.Text) Then
-            Dim fileEntries As String() = Directory.GetFiles(TextBox6.Text)
             ' list files found in the directory.
-            Dim fileName As String
+            invApp = CType(Marshal.GetActiveObject("Inventor.Application"), Inventor.Application)
+            invApp.SilentOperation = CBool(vbTrue)
 
             For Each fileName In fileEntries
                 Increm_progressbar()
@@ -725,17 +731,12 @@ Public Class Form1
                 End If
                 '=============== extra for Sheet metal parts ==============
                 If RadioButton8.Checked And String.Equals(extension, ".ipt") Then
-                    Dim invApp As Inventor.Application
-                    invApp = CType(Marshal.GetActiveObject("Inventor.Application"), Inventor.Application)
-                    invApp.SilentOperation = CBool(vbTrue)
-                    Dim oPartDoc As Inventor.Document
-                    oPartDoc = invApp.Documents.Open(fileName, False)
-
-                    Dim oFlatPattern As FlatPattern
+                    oPartDoc = CType(invApp.Documents.Open(fileName, False), PartDocument)
 
                     If oPartDoc.DocumentType = DocumentTypeEnum.kPartDocumentObject Then
                         If oPartDoc.SubType = "{9C464203-9BAE-11D3-8BAD-0060B0CE6BB4}" Then
                             oFlatPattern = oPartDoc.ComponentDefinition.FlatPattern
+
                             If oFlatPattern Is Nothing Then
                                 DataGridView3.Rows.Item(cnt - 1).Cells(3).Value = "Sheet metal, NO Flat pattern"
                                 DataGridView3.Rows.Item(cnt - 1).Cells(3).Style.BackColor = System.Drawing.Color.Red
@@ -843,14 +844,20 @@ Public Class Form1
         'https://forums.autodesk.com/t5/inventor-customization/flat-pattern-to-dxf/m-p/7033961#M71803
         'https://knowledge.autodesk.com/search-result/caas/CloudHelp/cloudhelp/2018/ENU/Inventor-API/files/WriteFlatPatternAsDXF-Sample-htm.html
         Dim invApp As Inventor.Application
+        Dim oPartDoc As Inventor.Document
+        Dim oFlatPattern As FlatPattern
+        Dim oDataIO As DataIO
+        Dim customPropSet As PropertySet
+        'Dim prop As PropertySet
+        Dim oDXF_fileNAME, oDWG_FfileNAME As String
+        Dim strPath As String
+        Dim sOut As String
+        Dim artikel As String = ""
+
         invApp = CType(Marshal.GetActiveObject("Inventor.Application"), Inventor.Application)
         invApp.SilentOperation = CBool(vbTrue)
-
         If IO.File.Exists(file_path) Then ' This pathfile is a file.
-            Dim oPartDoc As Inventor.Document
             oPartDoc = invApp.Documents.Open(file_path, False)
-
-            Dim oFlatPattern As FlatPattern
 
             'Pre-processing check: The Active document must be a Sheet metal Part with a flat pattern
             If oPartDoc.DocumentType <> DocumentTypeEnum.kPartDocumentObject Then
@@ -862,15 +869,15 @@ Public Class Form1
                     Exit Sub
                 Else
                     oFlatPattern = oPartDoc.ComponentDefinition.FlatPattern
+                    'oFlatPattern = CType(oPartDoc.ComponentDefinition, FlatPattern)
                     If oFlatPattern Is Nothing Then
                         If Not CheckBox1.Checked Then TextBox2.Text &= "IPT sheet metal part " & file_path & " does NOT contain a flat pattern" & vbCrLf
                         Exit Sub
-                        End If
                     End If
+                End If
             End If
 
             'Processing:
-            Dim oDataIO As DataIO
             oDataIO = oPartDoc.ComponentDefinition.DataIO
 
             'Dim strPartNum As String
@@ -878,54 +885,52 @@ Public Class Form1
             'Dim strRev As String
             'strRev = oPartDoc.PropertySets("Inventor Summary Information").Item("Revision Number").Value
 
-
             '============= Check to see if the specified property exists.
             'http://modthemachine.typepad.com/my_weblog/2010/02/custom-iproperties.html
             'https://forums.windowssecrets.com/showthread.php/13785-Existing-CustomDocumentProperties-(VBA-Word)
             'https://www.office-forums.com/threads/how-can-i-check-to-see-if-a-customdocumentproperties-exists.1865599/
 
-            Dim artikel As String = ""
-            Dim customPropSet As PropertySet
+
             customPropSet = oPartDoc.PropertySets.Item("Inventor User Defined Properties")
-
-            For Each prop In customPropSet
-                If prop.Name = "ITEM_NR" Then
-                    If prop.ToString.Length > 0 Then
-                        artikel = CType(oPartDoc.PropertySets("Inventor User Defined Properties").Item("ITEM_NR").Value, String)
-                    Else
-                        artikel = "Axxx"
+            Try
+                For Each prop In customPropSet
+                    If prop.Name = "ITEM_NR" Then
+                        If prop.ToString.Length > 0 Then
+                            artikel = CType(oPartDoc.PropertySets("Inventor User Defined Properties").Item("ITEM_NR").Value, String)
+                        Else
+                            artikel = "Axxx"
+                        End If
                     End If
-                End If
-            Next prop
+                Next prop
+            Catch ex As Exception
+                MessageBox.Show("Problem with ITEM_NR, " & ex.Message)
+            End Try
 
-            Dim oDXF_fileNAME, oDWG_FfileNAME As String
-            Dim strPath As String
-            Dim sOut As String
             strPath = TextBox34.Text & "\"  'Must end with a "\"
-            oDXF_fileNAME = strPath & TextBox31.Text & "_" & TextBox33.Text & "_" & artikel & ".dxf"
-            oDWG_FfileNAME = strPath & TextBox31.Text & "_" & TextBox33.Text & "_" & artikel & ".dwg"
+                oDXF_fileNAME = strPath & TextBox31.Text & "_" & TextBox33.Text & "_" & artikel & ".dxf"
+                oDWG_FfileNAME = strPath & TextBox31.Text & "_" & TextBox33.Text & "_" & artikel & ".dwg"
 
-            'Write dxf file
-            sOut = "FLAT PATTERN DXF?AcadVersion=R12"
-            oDataIO.WriteDataToFile(sOut, oDXF_fileNAME)
+                'Write dxf file
+                sOut = "FLAT PATTERN DXF?AcadVersion=R12"
+                oDataIO.WriteDataToFile(sOut, oDXF_fileNAME)
 
-            'Write dwg file
-            If CheckBox2.Checked Then
-                sOut = "FLAT PATTERN DWG?AcadVersion=2000"
-                oDataIO.WriteDataToFile(sOut, oDWG_FfileNAME) 'Write dwg
-            End If
+                'Write dwg file
+                If CheckBox2.Checked Then
+                    sOut = "FLAT PATTERN DWG?AcadVersion=2000"
+                    oDataIO.WriteDataToFile(sOut, oDWG_FfileNAME) 'Write dwg
+                End If
 
-            DataGridView5.Rows.Item(G5_row_cnt).Cells(0).Value = artikel
-            DataGridView5.Rows.Item(G5_row_cnt).Cells(1).Value = oDXF_fileNAME
+                DataGridView5.Rows.Item(G5_row_cnt).Cells(0).Value = artikel
+                DataGridView5.Rows.Item(G5_row_cnt).Cells(1).Value = oDXF_fileNAME
 
-            'Plate thickness
-            'Material sort
-            'Part Count
+                'Plate thickness
+                'Material sort
+                'Part Count
 
-            G5_row_cnt += 1
-            If Not CheckBox1.Checked Then TextBox2.Text &= "Dxf file " & oDXF_fileNAME & " is written to work directory " & vbCrLf
-        Else
-            MessageBox.Show("DXF File does noet exist")
+                G5_row_cnt += 1
+                If Not CheckBox1.Checked Then TextBox2.Text &= "Dxf file " & oDXF_fileNAME & " is written to work directory " & vbCrLf
+            Else
+                MessageBox.Show("DXF File does noet exist")
         End If
     End Sub
 
@@ -955,7 +960,7 @@ Public Class Form1
 
         'http://beinginventive.typepad.com/files/ExportPartslistToExcel/ExportPartslistToExcel.txt
         ' Make sure a parts list is selected.
-        Dim partList As Object
+        Dim partList As PartsList
         If oDoc.ActiveSheet.PartsLists.Count > 0 Then
             partList = oDoc.ActiveSheet.PartsLists.Item(1)
 
