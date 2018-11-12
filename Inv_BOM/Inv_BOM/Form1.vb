@@ -209,12 +209,13 @@ Public Class Form1
     'Read assembly make part summary
     Private Sub Qbom(ByVal fpath As String)
         Dim invApp As Inventor.Application
-        Dim oDoc As Inventor.Document
+        Dim oDoc As Inventor.AssemblyDocument
         Dim oBOM As BOM
         Dim oBOMView As BOMView
         Dim oBOMRow As BOMRow
         Dim oCompDef As ComponentDefinition
-        Dim odef As AssemblyComponentDefinition
+        Dim eDocumentType As DocumentTypeEnum
+        'Dim odef As AssemblyComponentDefinition
         Dim oPropSets As PropertySets
         Dim oPropSet As PropertySet
         Dim information As System.IO.FileInfo
@@ -237,11 +238,12 @@ Public Class Form1
         invApp = CType(Marshal.GetActiveObject("Inventor.Application"), Inventor.Application)
 
         invApp.SilentOperation = True
-        oDoc = invApp.Documents.Open(fpath, False)
+        oDoc = CType(invApp.Documents.Open(fpath, False), AssemblyDocument)
+
 
         '--------- determine object type ---------
         '------ jump out when not a assembly !!-----
-        Dim eDocumentType As DocumentTypeEnum = oDoc.DocumentType
+        eDocumentType = oDoc.DocumentType
 
         If eDocumentType <> DocumentTypeEnum.kAssemblyDocumentObject Then
             MessageBox.Show("Please Select a IAM file ")
@@ -253,14 +255,9 @@ Public Class Form1
         '---------- Read BOM, in IAM model file --------------------------
         'Loopt vast als er een base model is !!!!!!!!!!!!
         Try
-            odef = oDoc.ComponentDefinition
             oBOM = oDoc.ComponentDefinition.BOM
-
-            oBOM.StructuredViewFirstLevelOnly = False
+            oBOM.StructuredViewFirstLevelOnly = True
             oBOM.PartsOnlyViewEnabled = True
-            ' oBOM.StructuredViewEnabled = True
-
-            'oBOMView = oBOM.BOMViews.Item("Structured")
             oBOMView = oBOM.BOMViews.Item("Parts Only")
             '-------------------------
 
@@ -269,8 +266,8 @@ Public Class Form1
                 Increm_progressbar()
 
                 '================= Design Tracking Properties ==========================
-                oBOMRow = oBOMView.BOMRows.Item(i)
-                oCompDef = oBOMRow.ComponentDefinitions.Item(1)
+                oBOMRow = oBOMView.BOMRows(i)
+                oCompDef = oBOMRow.ComponentDefinitions(1)
 
                 oPropSets = oDoc.PropertySets
                 oPropSet = oPropSets.Item("Design Tracking Properties")
@@ -308,7 +305,7 @@ Public Class Form1
                 "IT_TP",
                 "LG"}
 
-                oPropSet = oCompDef.Document.PropertySets.Item("Inventor User Defined Properties")
+                oPropSet = oPropSets.Item("Inventor User Defined Properties")
                 If oPropSet.Count = 0 Then
                     TextBox2.Text &= "The are NO 'Custom' properties present in this file" & vbCrLf
                 Else
@@ -336,7 +333,7 @@ Public Class Form1
                 "Subject",
                 "Author",
                 "Comments"}
-                oPropSet = oCompDef.Document.PropertySets.Item("Inventor Summary Information")
+                oPropSet = oPropSets.Item("Inventor Summary Information")
                 If oPropSet.Count = 0 Then
                     TextBox2.Text &= "The are NO 'Inventor Summary Information' present in this file" & vbCrLf
                 Else
@@ -705,6 +702,11 @@ Public Class Form1
 
         Inventor_running()
         Button8.BackColor = System.Drawing.Color.LightGreen
+        DataGridView3.Rows.Clear()
+        DataGridView3.Columns(0).Width = 450
+        DataGridView3.Columns(1).Width = 60
+        DataGridView3.Columns(2).Width = 60
+
         Select Case True
             Case RadioButton5.Checked
                 fext = ".dxf"
@@ -719,9 +721,7 @@ Public Class Form1
             Case RadioButton10.Checked
                 fext = ".*"
         End Select
-        DataGridView3.Rows.Clear()
-        DataGridView3.Columns(0).Width = 100
-        DataGridView3.Columns(1).Width = 130
+
 
         If Directory.Exists(TextBox6.Text) Then
             ' list files found in the directory.
@@ -851,7 +851,7 @@ Public Class Form1
         'https://forums.autodesk.com/t5/inventor-customization/flat-pattern-to-dxf/m-p/7033961#M71803
         'https://knowledge.autodesk.com/search-result/caas/CloudHelp/cloudhelp/2018/ENU/Inventor-API/files/WriteFlatPatternAsDXF-Sample-htm.html
         Dim invApp As Inventor.Application
-        Dim oPartDoc As Inventor.Document
+        Dim oPartDoc As Inventor.partDocument
         Dim oFlatPattern As FlatPattern
         Dim oDataIO As DataIO
         Dim customPropSet As PropertySet
@@ -1258,7 +1258,12 @@ Public Class Form1
 
         Dim sNote As String = "<StyleOverride Font='Arial' FontSize='0.5' Bold='True'>" + "Sample note" + "</StyleOverride>"
         Dim invApp As Inventor.Application
-        Dim oDoc As Inventor.Document
+        Dim oDoc As Inventor.DrawingDocument
+        Dim oActiveSheet As Sheet
+        Dim oGeneralNotes As GeneralNotes
+        Dim oTG As TransientGeometry
+        Dim oGeneralNote As GeneralNote
+
         Dim x, y As Integer
         Dim f_size As Double
         Dim dest As String
@@ -1266,24 +1271,20 @@ Public Class Form1
 
         invApp = CType(Marshal.GetActiveObject("Inventor.Application"), Inventor.Application)
         invApp.SilentOperation = CBool(vbTrue)
-        oDoc = invApp.Documents.Open(fileName, False)
+        oDoc = CType(invApp.Documents.Open(fileName, False), DrawingDocument)
 
         ' Set a reference to the active sheet.
-        Dim oActiveSheet As Sheet
         oActiveSheet = oDoc.ActiveSheet
-
         ' Set a reference to the GeneralNotes object
-        Dim oGeneralNotes As GeneralNotes
         oGeneralNotes = oActiveSheet.DrawingNotes.GeneralNotes
 
-        Dim oTG As TransientGeometry
         oTG = invApp.TransientGeometry
 
         ' Create text with simple string as input. Since this doesn't use
         ' any text overrides, it will default to the active text style.
         Dim sText As String = TextBox36.Text
 
-        Dim oGeneralNote As GeneralNote
+
         x = CInt(NumericUpDown1.Value)
         y = CInt(NumericUpDown2.Value)
         f_size = NumericUpDown3.Value
