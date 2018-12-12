@@ -84,6 +84,7 @@ Partial Class Form1
         Me.Column5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.Label27 = New System.Windows.Forms.Label()
         Me.ProgressBar2 = New System.Windows.Forms.ProgressBar()
         Me.Button15 = New System.Windows.Forms.Button()
         Me.Button7 = New System.Windows.Forms.Button()
@@ -194,7 +195,6 @@ Partial Class Form1
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.Label27 = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.TabPage6.SuspendLayout()
         Me.GroupBox8.SuspendLayout()
@@ -828,6 +828,15 @@ Partial Class Form1
         Me.SplitContainer2.SplitterDistance = 97
         Me.SplitContainer2.TabIndex = 20
         '
+        'Label27
+        '
+        Me.Label27.AutoSize = True
+        Me.Label27.Location = New System.Drawing.Point(574, 20)
+        Me.Label27.Name = "Label27"
+        Me.Label27.Size = New System.Drawing.Size(59, 13)
+        Me.Label27.TabIndex = 39
+        Me.Label27.Text = "IDW count"
+        '
         'ProgressBar2
         '
         Me.ProgressBar2.Location = New System.Drawing.Point(5, 82)
@@ -1324,7 +1333,7 @@ Partial Class Form1
         Me.Button16.Name = "Button16"
         Me.Button16.Size = New System.Drawing.Size(338, 32)
         Me.Button16.TabIndex = 26
-        Me.Button16.Text = "Extract dxf's from work directory"
+        Me.Button16.Text = "Extract dxf's from ipt files containing PLATE in the work directory"
         Me.Button16.UseVisualStyleBackColor = True
         '
         'Label5
@@ -1834,15 +1843,6 @@ Partial Class Form1
         '
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
         Me.ContextMenuStrip1.Size = New System.Drawing.Size(61, 4)
-        '
-        'Label27
-        '
-        Me.Label27.AutoSize = True
-        Me.Label27.Location = New System.Drawing.Point(574, 20)
-        Me.Label27.Name = "Label27"
-        Me.Label27.Size = New System.Drawing.Size(59, 13)
-        Me.Label27.TabIndex = 39
-        Me.Label27.Text = "IDW count"
         '
         'Form1
         '

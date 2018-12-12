@@ -36,7 +36,6 @@ Public Class Form1
     'Public Property vbColor As Object
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
         DataGridView1.ColumnCount = 30
         DataGridView1.RowCount = view_rows
         DataGridView1.ColumnHeadersVisible = True
@@ -150,7 +149,7 @@ Public Class Form1
     End Sub
     Private Sub Inventor_running()
         '-------- inventor must be running----
-        Me.Text = "Inventor BOM Extractor" & " (" & Pro_user & ") 25-10-2018"
+        Me.Text = "Inventor BOM Extractor" & " (" & Pro_user & ") 12-12-2018"
 
         Try
             invApp = CType(System.Runtime.InteropServices.Marshal.GetActiveObject("Inventor.Application"), Inventor.Application)
@@ -1001,10 +1000,10 @@ Public Class Form1
 
     Private Sub Button16_Click(sender As Object, e As EventArgs) Handles Button16.Click
         Dim cnt As Integer
-        cnt = Extract_dxf_from_IDW()
+        cnt = Extract_dxf_from_IPT()
         If cnt = 0 Then MessageBox.Show("WARNING NO Dxf's extracted from IDW files")
     End Sub
-    Private Function Extract_dxf_from_IDW() As Integer
+    Private Function Extract_dxf_from_IPT() As Integer
         'Extract DXF file from the IDW is name contains Plate
         Dim ipt_counter As Integer = 0
         Inventor_running()
@@ -1085,27 +1084,27 @@ Public Class Form1
 
                 new_ff = TextBox34.Text & "\" & new_f   'Full path required
                 TextBox42.Text = new_ff
-                    If IO.File.Exists(new_ff) And ask_once = False Then
-                        delete_file = Question_replace_dxf_files()
-                        ask_once = True
-                    End If
-
-                    If new_f.Length > 1 Then    'Make sure file name exist
-                        If delete_file = True Then
-                            IO.File.Delete(new_ff)
-                            If Not CheckBox1.Checked Then TextBox2.Text &= "Dxf file " & old_f & " deleted " & vbCrLf
-                        End If
-
-                        If Not IO.File.Exists(new_ff) Then
-                            My.Computer.FileSystem.RenameFile(old_f, new_f)
-                            dxf_cnt += 1
-                            Label26.Text = "DXF " & dxf_cnt.ToString
-                            If Not CheckBox1.Checked Then TextBox2.Text &= "Dxf file " & new_f & " renamed " & vbCrLf
-                        End If
-                    Else
-                        TextBox2.Text &= "Dxf file " & old_f & "Failed NO new name !" & vbCrLf
-                    End If
+                If IO.File.Exists(new_ff) And ask_once = False Then
+                    delete_file = Question_replace_dxf_files()
+                    ask_once = True
                 End If
+
+                If new_f.Length > 1 Then    'Make sure file name exist
+                    If delete_file = True Then
+                        IO.File.Delete(new_ff)
+                        If Not CheckBox1.Checked Then TextBox2.Text &= "Dxf file " & old_f & " deleted " & vbCrLf
+                    End If
+
+                    If Not IO.File.Exists(new_ff) Then
+                        My.Computer.FileSystem.RenameFile(old_f, new_f)
+                        dxf_cnt += 1
+                        Label26.Text = "DXF " & dxf_cnt.ToString
+                        If Not CheckBox1.Checked Then TextBox2.Text &= "Dxf file " & new_f & " renamed " & vbCrLf
+                    End If
+                Else
+                    TextBox2.Text &= "Dxf file " & old_f & "Failed NO new name !" & vbCrLf
+                End If
+            End If
         Next
         DataGridView5.AutoResizeColumns()
         TextBox42.Text = " "
@@ -1214,7 +1213,7 @@ Public Class Form1
         If cnt = 0 Then MessageBox.Show("WARNING NO IDW files found in the Work directory !!")
         TextBox2.Text &= "============= Extract dxf from IDW ==================" & vbCrLf
         Button19.Text = "Extract dxf from idw's..."
-        cnt = Extract_dxf_from_IDW()
+        cnt = Extract_dxf_from_IPT()
         If cnt = 0 Then MessageBox.Show("WARNING NO DXF files Extraxted from idw's !!")
         TextBox2.Text &= "============= Find artikel drwg + pos and rename ====" & vbCrLf
         Button19.Text = "Lookup artikel dwg and pos..."
