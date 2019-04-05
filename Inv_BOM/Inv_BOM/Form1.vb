@@ -132,6 +132,7 @@ Public Class Form1
         TextBox9.Text = filepath2
         TextBox35.Text = filepath2
 
+        TextBox31.Text = "P" & DateTime.Now.ToString("yy") & ".10"
         '======== Destination directory's ==========
         TextBox34.Text = filepath5
         TextBox35.Text = filepath5
