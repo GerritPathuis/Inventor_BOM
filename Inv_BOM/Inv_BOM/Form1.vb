@@ -149,7 +149,7 @@ Public Class Form1
     End Sub
     Private Sub Inventor_running()
         '-------- inventor must be running----
-        Me.Text = "Inventor BOM Extractor" & " (" & Pro_user & ") 12-12-2018"
+        Me.Text = "Inventor BOM Extractor" & " (" & Pro_user & ") 05-04-2019"
 
         Try
             invApp = CType(System.Runtime.InteropServices.Marshal.GetActiveObject("Inventor.Application"), Inventor.Application)
@@ -205,7 +205,7 @@ Public Class Form1
         Button3.BackColor = System.Drawing.Color.Transparent
         DataGridView1.Sort(DataGridView1.Columns(10), System.ComponentModel.ListSortDirection.Descending)
     End Sub
-    'Read assembly make part summary
+    'Read assembly make part summary from IAM (Autodesk Inventor assembly file) 
     Private Sub Qbom(ByVal fpath As String)
         Dim invApp As Inventor.Application
         Dim oDoc As Inventor.AssemblyDocument
@@ -222,6 +222,7 @@ Public Class Form1
         Dim doc_status As String
         Dim i, j As Integer
 
+
         '-------- inventor must be running----
         Dim p() As Process
         p = Process.GetProcessesByName("Inventor")
@@ -229,6 +230,7 @@ Public Class Form1
             MessageBox.Show("Inventor Is Not running")
             Exit Sub
         End If
+
 
         ProgressBar3.Visible = True
         '------- get file info -----------
@@ -248,6 +250,16 @@ Public Class Form1
             MessageBox.Show("Please Select a IAM file ")
             Exit Sub
         End If
+
+        '--------- test section -------
+        'Dim objDrawDoc As DrawingDocument = CType(oDoc.ActiveDocument, AssemblyDocument)
+        'Dim colTitleBlkDefs As TitleBlockDefinitions = objDrawDoc.TitleBlockDefinitions
+
+        'If colTitleBlkDefs.Count = Nothing Then
+        '    MessageBox.Show("NO Titleblock resent ")
+        '    Exit Sub
+        'End If
+        '-------- end test section
 
         '-------------READ TITLE BLOCK----------------------------------------
         '---- Note: there is no title block in an IAM model file -------------
@@ -347,7 +359,10 @@ Public Class Form1
                 End If
             Next
         Catch Ex As Exception
-            TextBox2.Text &= fpath & ", " & "No BOM in this IAM model " & vbCrLf
+            Form2.Show()
+            'TextBox2.Text &= fpath & ", " & "No BOM in this IAM model " & vbCrLf
+            Form2.TextBox1.Text &= fpath & ", " & "No BOM in this IAM model " & vbCrLf
+            Return
         Finally
         End Try
         ProgressBar3.Visible = False
@@ -1020,7 +1035,8 @@ Public Class Form1
                 TextBox42.Text = fileName
                 Increm_progressbar()
                 ext = IO.Path.GetExtension(fileName)
-                If ext = ".ipt" And fileName.ToUpper.Contains("PLATE") Then
+                'If ext = ".ipt" And fileName.ToUpper.Contains("PLATE") Then
+                If ext = ".ipt" Then
                     ExportSketchDXF2(fileName)
                     ipt_counter += 1
                     Label25.Text = "IPT " & ipt_counter.ToString

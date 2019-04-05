@@ -50,3 +50,4 @@ C:\Repos\Inventor_BOM\Inventor_BOM\Inv_BOM\Inv_BOM\obj\Debug\Inv_BOM.vbprojAssem
 C:\Repos\Inventor_BOM\Inventor_BOM\Inv_BOM\Inv_BOM\bin\Debug\itextsharp.dll
 C:\Repos\Inventor_BOM\Inventor_BOM\Inv_BOM\Inv_BOM\bin\Debug\itextsharp.xml
 C:\Repos\Inventor_BOM\Inventor_BOM\Inv_BOM\Inv_BOM\obj\Debug\Inv_BOM.vbproj.CopyComplete
+C:\Repos\Inventor_BOM\Inventor_BOM\Inv_BOM\Inv_BOM\obj\Debug\Inv_BOM.Form2.resources

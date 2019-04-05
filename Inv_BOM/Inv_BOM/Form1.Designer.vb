@@ -195,6 +195,7 @@ Partial Class Form1
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.Label28 = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.TabPage6.SuspendLayout()
         Me.GroupBox8.SuspendLayout()
@@ -662,6 +663,7 @@ Partial Class Form1
         '
         'GroupBox5
         '
+        Me.GroupBox5.Controls.Add(Me.Label28)
         Me.GroupBox5.Controls.Add(Me.TextBox43)
         Me.GroupBox5.Controls.Add(Me.GroupBox14)
         Me.GroupBox5.Controls.Add(Me.ProgressBar3)
@@ -688,9 +690,9 @@ Partial Class Form1
         '
         Me.GroupBox14.Controls.Add(Me.Label23)
         Me.GroupBox14.Controls.Add(Me.Label12)
-        Me.GroupBox14.Location = New System.Drawing.Point(599, 14)
+        Me.GroupBox14.Location = New System.Drawing.Point(629, 14)
         Me.GroupBox14.Name = "GroupBox14"
-        Me.GroupBox14.Size = New System.Drawing.Size(110, 62)
+        Me.GroupBox14.Size = New System.Drawing.Size(80, 62)
         Me.GroupBox14.TabIndex = 40
         Me.GroupBox14.TabStop = False
         Me.GroupBox14.Text = "File count"
@@ -1844,6 +1846,15 @@ Partial Class Form1
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
         Me.ContextMenuStrip1.Size = New System.Drawing.Size(61, 4)
         '
+        'Label28
+        '
+        Me.Label28.AutoSize = True
+        Me.Label28.Location = New System.Drawing.Point(425, 22)
+        Me.Label28.Name = "Label28"
+        Me.Label28.Size = New System.Drawing.Size(184, 13)
+        Me.Label28.TabIndex = 42
+        Me.Label28.Text = "Locks on base models (No title block)"
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2092,4 +2103,5 @@ Partial Class Form1
     Friend WithEvents TextBox43 As TextBox
     Friend WithEvents Label23 As Label
     Friend WithEvents Label27 As Label
+    Friend WithEvents Label28 As Label
 End Class
