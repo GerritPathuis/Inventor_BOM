@@ -1155,11 +1155,11 @@ Public Class Form1
             '---------- Initial values ----
             kb.Proj = ""
             kb.Tmun = ""
-            kb.Artnum = ""
+            kb.Artnum = Axxxxx
             kb.Thick = ""
             kb.Materi = ""
             kb.Count = ""
-            kb.actie = TextBox31.Text & "-" & TextBox33.Text & "_" & "Not-found"
+            kb.actie = TextBox31.Text & "-" & TextBox33.Text & "_" & Axxxxx & "_Not-found"
 
             If String.Equals(row.Cells.Item(6).Value, Axxxxx) Then           '????? was =
                 found = True
