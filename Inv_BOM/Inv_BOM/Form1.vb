@@ -4,6 +4,8 @@ Imports System.Runtime.InteropServices
 Imports Inventor
 Imports Microsoft.Office.Interop.Excel
 Imports Microsoft.Office.Interop
+Imports System.Threading
+Imports System.Globalization
 
 '==================================
 'API samples
@@ -36,6 +38,9 @@ Public Class Form1
     'Public Property vbColor As Object
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Thread.CurrentThread.CurrentCulture = New CultureInfo("en-US")
+        Thread.CurrentThread.CurrentUICulture = New CultureInfo("en-US")
+
         DataGridView1.ColumnCount = 30
         DataGridView1.RowCount = view_rows
         DataGridView1.ColumnHeadersVisible = True
@@ -643,11 +648,11 @@ Public Class Form1
         '----------- does partlist exist ?------------
 
         If oDoc.ActiveSheet.PartsLists.Count > 0 Then
-                partList = oDoc.ActiveSheet.PartsLists.Item(1)
+            partList = oDoc.ActiveSheet.PartsLists.Item(1)
 
-                If (TypeOf partList Is PartsList) Then
-                    Dim counter As Integer = 1
-                    Dim str As String
+            If (TypeOf partList Is PartsList) Then
+                Dim counter As Integer = 1
+                Dim str As String
                 Try
                     For jj = 1 To partList.PartsListRows.Count
                         G2_row_cnt += 1
@@ -671,7 +676,7 @@ Public Class Form1
                     MessageBox.Show("Problem Read_title_Block_idw, " & ex.Message)
                 End Try
             End If
-            End If
+        End If
 
         Remove_empty_rows(DataGridView2)
         DataGridView2.AutoResizeColumns()
@@ -866,7 +871,7 @@ Public Class Form1
         'https://forums.autodesk.com/t5/inventor-customization/flat-pattern-to-dxf/m-p/7033961#M71803
         'https://knowledge.autodesk.com/search-result/caas/CloudHelp/cloudhelp/2018/ENU/Inventor-API/files/WriteFlatPatternAsDXF-Sample-htm.html
         Dim invApp As Inventor.Application
-        Dim oPartDoc As Inventor.partDocument
+        Dim oPartDoc As Inventor.PartDocument
         Dim oFlatPattern As FlatPattern
         Dim oDataIO As DataIO
         Dim customPropSet As PropertySet
@@ -929,30 +934,30 @@ Public Class Form1
             End Try
 
             strPath = TextBox34.Text & "\"  'Must end with a "\"
-                oDXF_fileNAME = strPath & TextBox31.Text & "_" & TextBox33.Text & "_" & artikel & ".dxf"
-                oDWG_FfileNAME = strPath & TextBox31.Text & "_" & TextBox33.Text & "_" & artikel & ".dwg"
+            oDXF_fileNAME = strPath & TextBox31.Text & "_" & TextBox33.Text & "_" & artikel & ".dxf"
+            oDWG_FfileNAME = strPath & TextBox31.Text & "_" & TextBox33.Text & "_" & artikel & ".dwg"
 
-                'Write dxf file
-                sOut = "FLAT PATTERN DXF?AcadVersion=R12"
-                oDataIO.WriteDataToFile(sOut, oDXF_fileNAME)
+            'Write dxf file
+            sOut = "FLAT PATTERN DXF?AcadVersion=R12"
+            oDataIO.WriteDataToFile(sOut, oDXF_fileNAME)
 
-                'Write dwg file
-                If CheckBox2.Checked Then
-                    sOut = "FLAT PATTERN DWG?AcadVersion=2000"
-                    oDataIO.WriteDataToFile(sOut, oDWG_FfileNAME) 'Write dwg
-                End If
+            'Write dwg file
+            If CheckBox2.Checked Then
+                sOut = "FLAT PATTERN DWG?AcadVersion=2000"
+                oDataIO.WriteDataToFile(sOut, oDWG_FfileNAME) 'Write dwg
+            End If
 
-                DataGridView5.Rows.Item(G5_row_cnt).Cells(0).Value = artikel
-                DataGridView5.Rows.Item(G5_row_cnt).Cells(1).Value = oDXF_fileNAME
+            DataGridView5.Rows.Item(G5_row_cnt).Cells(0).Value = artikel
+            DataGridView5.Rows.Item(G5_row_cnt).Cells(1).Value = oDXF_fileNAME
 
-                'Plate thickness
-                'Material sort
-                'Part Count
+            'Plate thickness
+            'Material sort
+            'Part Count
 
-                G5_row_cnt += 1
-                If Not CheckBox1.Checked Then TextBox2.Text &= "Dxf file " & oDXF_fileNAME & " is written to work directory " & vbCrLf
-            Else
-                MessageBox.Show("DXF File does noet exist")
+            G5_row_cnt += 1
+            If Not CheckBox1.Checked Then TextBox2.Text &= "Dxf file " & oDXF_fileNAME & " is written to work directory " & vbCrLf
+        Else
+            MessageBox.Show("DXF File does noet exist")
         End If
     End Sub
 
@@ -1064,7 +1069,7 @@ Public Class Form1
         For Each row As System.Windows.Forms.DataGridViewRow In DataGridView5.Rows
             If row.Cells(0).Value IsNot Nothing Then
                 art = row.Cells(0).Value.ToString   'Artikel Axxxxxx
-                Find_dwg_pos(DataGridView2, art)
+                Find_dwg_pos(DataGridView2, art)    'Find the position
                 row.Cells(2).Value = kb.actie
                 row.Cells(3).Value = kb.Materi
                 row.Cells(4).Value = kb.Thick
@@ -1141,11 +1146,21 @@ Public Class Form1
     Private Sub Find_dwg_pos(ByVal dtg As DataGridView, ByVal Axxxxx As String) 'As String
         Dim actie As String = " "
         Dim found As Boolean = False
-        Dim pos As Integer
-        Dim plate_thick As Double
+        Dim pos As Integer = 0
+        Dim plate_thick As Double = 0
 
         For Each row As DataGridViewRow In dtg.Rows
             Increm_progressbar()
+
+            '---------- Initial values ----
+            kb.Proj = ""
+            kb.Tmun = ""
+            kb.Artnum = ""
+            kb.Thick = ""
+            kb.Materi = ""
+            kb.Count = ""
+            kb.actie = TextBox31.Text & "-" & TextBox33.Text & "_" & "Not-found"
+
             If String.Equals(row.Cells.Item(6).Value, Axxxxx) Then           '????? was =
                 found = True
                 actie = TextBox31.Text & "_"                    'Project
@@ -1188,7 +1203,6 @@ Public Class Form1
     Private Function Isolate_thickness(str As String) As Integer
         Dim delta As Int16
         Dim str2, str3 As String
-
 
         If str.Length >= 8 Then
             str2 = str.Substring(5, 3)
@@ -1322,7 +1336,7 @@ Public Class Form1
 
     Private Sub Button17_Click(sender As Object, e As EventArgs) Handles Button17.Click
         'http://adndevblog.typepad.com/manufacturing/2012/08/save-a-drawing-to-dwg-dxf-format-using-additional-options-in-an-ini-file.html
-        sts()
+        Sts()
     End Sub
 
     Private Sub Sts()
@@ -1445,16 +1459,16 @@ Public Class Form1
             End If
 
             Dim oContext As TranslationContext
-        oContext = invApp.TransientObjects.CreateTranslationContext
-        oContext.Type = IOMechanismEnum.kFileBrowseIOMechanism
+            oContext = invApp.TransientObjects.CreateTranslationContext
+            oContext.Type = IOMechanismEnum.kFileBrowseIOMechanism
 
-        ' Create a NameValueMap object
-        Dim oOptions As NameValueMap
-        oOptions = invApp.TransientObjects.CreateNameValueMap
+            ' Create a NameValueMap object
+            Dim oOptions As NameValueMap
+            oOptions = invApp.TransientObjects.CreateNameValueMap
 
-        ' Create a DataMedium object
-        Dim oDataMedium As DataMedium
-        oDataMedium = invApp.TransientObjects.CreateDataMedium
+            ' Create a DataMedium object
+            Dim oDataMedium As DataMedium
+            oDataMedium = invApp.TransientObjects.CreateDataMedium
 
             ' Check whether the translator has 'SaveCopyAs' options
             If DWGAddIn.HasSaveCopyAsOptions(oDoc, oContext, oOptions) Then
