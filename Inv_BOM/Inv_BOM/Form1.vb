@@ -1159,7 +1159,7 @@ Public Class Form1
             kb.Thick = ""
             kb.Materi = ""
             kb.Count = ""
-            kb.actie = TextBox31.Text & "-" & TextBox33.Text & "_" & Axxxxx & "_Not-found"
+            kb.actie = TextBox31.Text & "-" & TextBox33.Text & "_" & Axxxxx & "_Not-found.dxf"
 
             If String.Equals(row.Cells.Item(6).Value, Axxxxx) Then           '????? was =
                 found = True
