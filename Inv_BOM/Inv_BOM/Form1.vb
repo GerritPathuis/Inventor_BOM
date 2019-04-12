@@ -1189,9 +1189,15 @@ Public Class Form1
         Dim delta As Int16
         Dim str2, str3 As String
 
-        str2 = str.Substring(5, 4)
-        str3 = System.Text.RegularExpressions.Regex.Replace(str2, "[^\d]", " ")
-        Int16.TryParse(str3, delta)
+
+        If str.Length >= 8 Then
+            str2 = str.Substring(5, 3)
+            str3 = System.Text.RegularExpressions.Regex.Replace(str2, "[^\d]", " ")
+            Int16.TryParse(str3, delta)
+        Else
+            delta = 0
+        End If
+        'MessageBox.Show("str=" & str & ", length=" & str.Length.ToString & ", dikte= " & delta.ToString)
 
         Return CInt(delta.ToString)
     End Function
