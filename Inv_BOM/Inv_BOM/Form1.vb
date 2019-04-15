@@ -23,6 +23,8 @@ Public Class Form1
     Public Const view_rows = 1000
     Public dxf_file_name(,) As String   '(old name, new name)  
     Dim Pro_user As String
+    Public BOM_counter As Integer
+    Dim idw_counter As Integer
 
     Public Structure Laserpart
         Public Proj As String
@@ -245,17 +247,17 @@ Public Class Form1
         invApp = CType(Marshal.GetActiveObject("Inventor.Application"), Inventor.Application)
 
         invApp.SilentOperation = True
-        oDoc = CType(invApp.Documents.Open(fpath, False), AssemblyDocument)
-
 
         '--------- determine object type ---------
         '------ jump out when not a assembly !!-----
-        eDocumentType = oDoc.DocumentType
-
-        If eDocumentType <> DocumentTypeEnum.kAssemblyDocumentObject Then
+        Try
+            oDoc = CType(invApp.Documents.Open(fpath, False), AssemblyDocument)
+        Catch ex As Exception
             MessageBox.Show("Please Select a IAM file ")
             Exit Sub
-        End If
+        End Try
+
+        eDocumentType = oDoc.DocumentType
 
         '--------- test section -------
         'Dim objDrawDoc As DrawingDocument = CType(oDoc.ActiveDocument, AssemblyDocument)
@@ -568,7 +570,8 @@ Public Class Form1
         ProgressBar2.Visible = False
     End Sub
     Private Function Find_IDW() As Integer
-        Dim idw_counter As Integer = 0
+        idw_counter = 0
+        BOM_counter = 0
         Inventor_running()
         Button9.BackColor = System.Drawing.Color.LightGreen
         G2_row_cnt = -1  'Reset row counter
@@ -654,6 +657,8 @@ Public Class Form1
             oSheet.Activate()
             '----------- does partlist exist ?------------
             If oDoc.ActiveSheet.PartsLists.Count > 0 Then
+                BOM_counter += 1
+                Label29.Text = "BOM " & BOM_counter.ToString
                 partList = oDoc.ActiveSheet.PartsLists.Item(1)
                 If (TypeOf partList Is PartsList) Then
                     Dim counter As Integer = 1
@@ -986,14 +991,14 @@ Public Class Form1
         invApp = CType(Marshal.GetActiveObject("Inventor.Application"), Inventor.Application)
 
         invApp.SilentOperation = CBool(vbTrue)  'Not visible
-        oDoc = CType(invApp.Documents.Open(fpath, False), DrawingDocument)
 
         '--------- determine object type -------
-        Dim eDocumentType As DocumentTypeEnum = oDoc.DocumentType
-        If eDocumentType <> DocumentTypeEnum.kDrawingDocumentObject Then
+        Try
+            oDoc = CType(invApp.Documents.Open(fpath, False), DrawingDocument)
+        Catch ex As Exception
             MessageBox.Show("Please Select a IDW file ")
             Exit Sub
-        End If
+        End Try
 
         'http://beinginventive.typepad.com/files/ExportPartslistToExcel/ExportPartslistToExcel.txt
         'https://forums.autodesk.com/t5/inventor-customization/change-drawing-sheet-name-to-match-active-file-name/td-p/6572706
@@ -1250,10 +1255,12 @@ Public Class Form1
         ProgressBar1.Value += 1
         ProgressBar2.Value += 1
         ProgressBar3.Value += 1
+        ProgressBar4.Value += 1
         If ProgressBar1.Value = 99 Then
             ProgressBar1.Value = 0  'Extract dxf from ipt's
             ProgressBar2.Value = 0  'Find IDW
             ProgressBar3.Value = 0  'IAM BOM
+            ProgressBar4.Value = 0  'idw->pdf
         End If
     End Sub
 
@@ -1403,53 +1410,54 @@ Public Class Form1
         TextBox41.Text = oDoc.ActiveSheet.Name
 
         ' ==== saveAs as pdf ============
-        If CheckBox4.Checked Then oDoc.SaveAs(path.Substring(0, path.Length - 5) & ".pdf", CBool(vbTrue))
+        'If CheckBox4.Checked Then oDoc.SaveAs(path.Substring(0, path.Length - 5) & ".pdf", CBool(vbTrue))
 
         ' ==== SaveCopyAs as dwg =======
-        If CheckBox5.Checked Then
-            For i = 1 To invApp.ApplicationAddIns.Count
-                If invApp.ApplicationAddIns.Item(CInt(i)).ClassIdString = "{C24E3AC2-122E-11D5-8E91-0010B541CD80}" Then
-                    oDWGAddIn = CType(invApp.ApplicationAddIns.Item(CInt(i)), TranslatorAddIn)
-                    Exit For
-                End If
-            Next
-
-            If oDWGAddIn Is Nothing Then
-                MessageBox.Show("DWG add-in not found.")
-                Exit Sub
+        'If CheckBox5.Checked Then
+        For i = 1 To invApp.ApplicationAddIns.Count
+            If invApp.ApplicationAddIns.Item(CInt(i)).ClassIdString = "{C24E3AC2-122E-11D5-8E91-0010B541CD80}" Then
+                oDWGAddIn = CType(invApp.ApplicationAddIns.Item(CInt(i)), TranslatorAddIn)
+                Exit For
             End If
+        Next
 
-            ' Check to make sure the add-in is activated.
-            If Not oDWGAddIn.Activated Then
-                oDWGAddIn.Activate()
-            End If
+        If oDWGAddIn Is Nothing Then
+            MessageBox.Show("DWG add-in not found.")
+            Exit Sub
+        End If
 
-            ' Create a name-value map to supply information to the translator.
-            Dim oNameValueMap As NameValueMap
+        ' Check to make sure the add-in is activated.
+        If Not oDWGAddIn.Activated Then
+            oDWGAddIn.Activate()
+        End If
+
+        ' Create a name-value map to supply information to the translator.
+        Dim oNameValueMap As NameValueMap
             oNameValueMap = invApp.TransientObjects.CreateNameValueMap()
 
-            Dim strIniFile As String
-            strIniFile = "C:\Temp\dwgout2.ini"
+        Dim strIniFile As String
+        strIniFile = "C:\Temp\dwgout2.ini"
 
-            ' Create the name-value that specifies the ini file to use
-            If IO.File.Exists(strIniFile) Then
-                oNameValueMap.Add("Export_Acad_IniFile", strIniFile)
-            Else
-                MessageBox.Show(strIniFile & " Ini file does not exist")
+        ' Create the name-value that specifies the ini file to use
+        If IO.File.Exists(strIniFile) Then
+            oNameValueMap.Add("Export_Acad_IniFile", strIniFile)
+        Else
+            MessageBox.Show(strIniFile & " Ini file does not exist")
             End If
 
-            ' Create a translation context and define that we want to output to a file.
-            Dim oContext As TranslationContext
-            oContext = invApp.TransientObjects.CreateTranslationContext
+        ' Create a translation context and define that we want to output to a file.
+        Dim oContext As TranslationContext
+        oContext = invApp.TransientObjects.CreateTranslationContext
             oContext.Type = IOMechanismEnum.kFileBrowseIOMechanism
 
-            ' Define the type of output by  specifying the filename.
-            Dim oOutputFile As DataMedium
-            oOutputFile = invApp.TransientObjects.CreateDataMedium
-            oOutputFile.FileName = path.Substring(0, path.Length - 5) & ".dwg"
+        ' Define the type of output by  specifying the filename.
+        Dim oOutputFile As DataMedium
+        oOutputFile = invApp.TransientObjects.CreateDataMedium
+        oOutputFile.FileName = path.Substring(0, path.Length - 5) & ".dwg"
 
-            oDWGAddIn.SaveCopyAs(oDoc, oContext, oNameValueMap, oOutputFile)
-        End If
+        oDWGAddIn.SaveCopyAs(oDoc, oContext, oNameValueMap, oOutputFile)
+        'End If
+
         TextBox40.Text = ""
         TextBox41.Text = ""
     End Sub
@@ -1467,13 +1475,13 @@ Public Class Form1
         TextBox40.Text = oDoc.DisplayName
         TextBox41.Text = oDoc.ActiveSheet.Name
         ' ==== saveAs as pdf ============
-        If CheckBox4.Checked Then oDoc.SaveAs(path.Substring(0, path.Length - 5) & ".pdf", CBool(vbTrue))
+        'If CheckBox4.Checked Then oDoc.SaveAs(path.Substring(0, path.Length - 5) & ".pdf", CBool(vbTrue))
 
         ' ==== SaveCopyAs as dwg =======
-        If CheckBox5.Checked Then
+        'If CheckBox5.Checked Then
 
-            ' ==== SaveCopyAs as dwg =======
-            Dim DWGAddIn As TranslatorAddIn
+        ' ==== SaveCopyAs as dwg =======
+        Dim DWGAddIn As TranslatorAddIn
             DWGAddIn = CType(invApp.ApplicationAddIns.ItemById("{C24E3AC2-122E-11D5-8E91-0010B541CD80}"), TranslatorAddIn)
 
             If DWGAddIn Is Nothing Then
@@ -1481,8 +1489,8 @@ Public Class Form1
                 Exit Sub
             End If
 
-            Dim oContext As TranslationContext
-            oContext = invApp.TransientObjects.CreateTranslationContext
+        Dim oContext As TranslationContext
+        oContext = invApp.TransientObjects.CreateTranslationContext
             oContext.Type = IOMechanismEnum.kFileBrowseIOMechanism
 
             ' Create a NameValueMap object
@@ -1508,8 +1516,8 @@ Public Class Form1
 
             'Publish document.
             DWGAddIn.SaveCopyAs(oDoc, oContext, oOptions, oDataMedium)
-        End If
-        TextBox40.Text = "Done"
+            ' End If
+            TextBox40.Text = "Done"
         TextBox41.Text = ""
     End Sub
 
@@ -1524,6 +1532,95 @@ Public Class Form1
         Button18.BackColor = System.Drawing.Color.Transparent
     End Sub
 
+    Private Function Create_PDF_from_IDW() As Integer
+        Dim oDoc As Inventor.DrawingDocument
+        idw_counter = 0
+        Inventor_running()
+        Button21.BackColor = System.Drawing.Color.LightGreen
+        ProgressBar4.Visible = True
+
+        'Select work directory
+        Dim pathfile As String = TextBox6.Text
+
+        invApp = CType(Marshal.GetActiveObject("Inventor.Application"), Inventor.Application)
+        invApp.SilentOperation = CBool(vbTrue)
+
+        If Directory.Exists(pathfile) Then
+            Dim fileEntries As String() = Directory.GetFiles(pathfile)
+            For Each fileName In fileEntries
+                TextBox45.Text = fileName
+                Increm_progressbar()
+                Dim extension As String = IO.Path.GetExtension(fileName)
+                If extension = ".idw" Then
+                    idw_counter += 1
+                    Button21.Text = "Read IDW's in Work directory and copy as a pdf file .. " & idw_counter.ToString
+                    oDoc = invApp.Documents.Open(fileName, False)
+                    SaveAsPDF(oDoc, System.IO.Path.ChangeExtension(fileName, "pdf"))
+                    oDoc.Close(True) ' Close the drawing. 
+                End If
+            Next fileName
+        Else
+            MessageBox.Show(pathfile & " is not a valid file or directory.")
+        End If
+        Button21.BackColor = System.Drawing.Color.Transparent
+        Button21.Text = "Read IDW's in Work directory and copy as a pdf file"
+        ProgressBar4.Visible = False
+
+        Return (idw_counter)
+    End Function
+
+    ' Function that given an Inventor drawing and a filename, exports the drawing to a PDF file.
+    '   DrawingDoc - Input DrawingDocument object that is the drawing to export.
+    '   Filename - Input filename that of the PDF file to be created.
+    ' 
+    ' Returns True if successful and False if it fails.
+    Private Function SaveAsPDF(ByVal DrawingDoc As Inventor.DrawingDocument, ByVal Filename As String) As Boolean
+        Try
+            Dim invApp As Inventor.Application = DrawingDoc.Parent
+
+            ' Get the PDF translator Add-In.
+            Dim PDFAddIn As Inventor.TranslatorAddIn
+            PDFAddIn = invApp.ApplicationAddIns.ItemById("{0AC6FD96-2F4D-42CE-8BE0-8AEA580399E4}")
+
+            Dim oContext As Inventor.TranslationContext
+            oContext = invApp.TransientObjects.CreateTranslationContext
+            oContext.Type = Inventor.IOMechanismEnum.kFileBrowseIOMechanism
+
+            ' Create a NameValueMap object
+            Dim oOptions As Inventor.NameValueMap
+            oOptions = invApp.TransientObjects.CreateNameValueMap
+
+            ' Create a DataMedium object
+            Dim oDataMedium As Inventor.DataMedium
+            oDataMedium = invApp.TransientObjects.CreateDataMedium
+
+            ' Check whether the translator has 'SaveCopyAs' options
+            If PDFAddIn.HasSaveCopyAsOptions(DrawingDoc, oContext, oOptions) Then
+                ' Options for drawings...
+                oOptions.Value("All_Color_AS_Black") = 0
+                oOptions.Value("Sheet_Range") = Inventor.PrintRangeEnum.kPrintAllSheets
+
+                'oOptions.Value("Remove_Line_Weights") = 0
+                'oOptions.Value("Vector_Resolution") = 400
+                'oOptions.Value("Custom_Begin_Sheet") = 2
+                'oOptions.Value("Custom_End_Sheet") = 4
+            End If
+
+            'Set the destination file name
+            oDataMedium.FileName = Filename
+
+            'Publish document.
+            Call PDFAddIn.SaveCopyAs(DrawingDoc, oContext, oOptions, oDataMedium)
+
+            Return True
+        Catch ex As Exception
+            Return False
+        End Try
+    End Function
+
+    Private Sub Button21_Click(sender As Object, e As EventArgs) Handles Button21.Click
+        Create_PDF_from_IDW()
+    End Sub
 End Class
 
 
