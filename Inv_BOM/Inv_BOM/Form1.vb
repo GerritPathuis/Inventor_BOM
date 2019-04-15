@@ -441,7 +441,11 @@ Public Class Form1
     End Sub
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
         Inventor_running()
+        Button5.Text = "List all properties.....WAIT"
+        Button5.BackColor = System.Drawing.Color.LightGreen
         List_all_properties()
+        Button5.Text = "List all properties"
+        Button5.BackColor = System.Drawing.Color.Transparent
     End Sub
     'see https://forums.autodesk.com/t5/inventor-customization/ilogic-list-all-custom-properties/td-p/6218163
     Private Sub List_all_properties()
@@ -645,38 +649,40 @@ Public Class Form1
 
         '============== Read The parts List=========================================
         ' Make sure a parts list is selected.
-        '----------- does partlist exist ?------------
+        'Iterate through all sheets looking for the partslist
+        For Each oSheet In oDoc.Sheets
+            oSheet.Activate()
+            '----------- does partlist exist ?------------
+            If oDoc.ActiveSheet.PartsLists.Count > 0 Then
+                partList = oDoc.ActiveSheet.PartsLists.Item(1)
+                If (TypeOf partList Is PartsList) Then
+                    Dim counter As Integer = 1
+                    Dim str As String
+                    Try
+                        For jj = 1 To partList.PartsListRows.Count
+                            G2_row_cnt += 1
+                            DataGridView2.Rows.Add()
+                            DataGridView2.Rows.Item(G2_row_cnt).Cells(0).Value = q_file
+                            DataGridView2.Rows.Item(G2_row_cnt).Cells(1).Value = q_desc
+                            DataGridView2.Rows.Item(G2_row_cnt).Cells(2).Value = q_A00
+                            DataGridView2.Rows.Item(G2_row_cnt).Cells(3).Value = q_D00
 
-        If oDoc.ActiveSheet.PartsLists.Count > 0 Then
-            partList = oDoc.ActiveSheet.PartsLists.Item(1)
-
-            If (TypeOf partList Is PartsList) Then
-                Dim counter As Integer = 1
-                Dim str As String
-                Try
-                    For jj = 1 To partList.PartsListRows.Count
-                        G2_row_cnt += 1
-                        DataGridView2.Rows.Add()
-                        DataGridView2.Rows.Item(G2_row_cnt).Cells(0).Value = q_file
-                        DataGridView2.Rows.Item(G2_row_cnt).Cells(1).Value = q_desc
-                        DataGridView2.Rows.Item(G2_row_cnt).Cells(2).Value = q_A00
-                        DataGridView2.Rows.Item(G2_row_cnt).Cells(3).Value = q_D00
-
-                        For ii = 1 To partList.PartsListColumns.Count
-                            str = partList.PartsListRows(jj).Item(ii).Value.ToString
-                            '--------Check is this an artikel number-------
-                            If ((ii + 3) = 6) Then
-                                If Isartikel(str) = False Then TextBox2.Text &= "IDW_drwg " & q_D00 & " BOM problem " & str & " is NOT an artikel number" & vbCrLf
-                            End If
-                            '-------- update datagrid---------
-                            DataGridView2.Rows.Item(G2_row_cnt).Cells(ii + 3).Value = str
-                        Next ii
-                    Next jj
-                Catch ex As Exception
-                    MessageBox.Show("Problem Read_title_Block_idw, " & ex.Message)
-                End Try
+                            For ii = 1 To partList.PartsListColumns.Count
+                                str = partList.PartsListRows(jj).Item(ii).Value.ToString
+                                '--------Check is this an artikel number-------
+                                If ((ii + 3) = 6) Then
+                                    If Isartikel(str) = False Then TextBox2.Text &= "IDW_drwg " & q_D00 & " BOM problem " & str & " is NOT an artikel number" & vbCrLf
+                                End If
+                                '-------- update datagrid---------
+                                DataGridView2.Rows.Item(G2_row_cnt).Cells(ii + 3).Value = str
+                            Next ii
+                        Next jj
+                    Catch ex As Exception
+                        MessageBox.Show("Problem Read_title_Block_idw, " & ex.Message)
+                    End Try
+                End If
             End If
-        End If
+        Next
 
         Remove_empty_rows(DataGridView2)
         DataGridView2.AutoResizeColumns()
@@ -968,15 +974,19 @@ Public Class Form1
 
     Private Sub Button14_Click(sender As Object, e As EventArgs) Handles Button14.Click
         Inventor_running()
+        Button14.Text = "Read Parts list from IDW...WAIT"
+        Button14.BackColor = System.Drawing.Color.LightGreen
         Read_idw_parts(TextBox1.Text)
+        Button14.Text = "Read Parts list from IDW"
+        Button14.BackColor = System.Drawing.Color.Transparent
     End Sub
     Private Sub Read_idw_parts(ByVal fpath As String)
         Dim oDoc As Inventor.DrawingDocument
         Dim invApp As Inventor.Application
         invApp = CType(Marshal.GetActiveObject("Inventor.Application"), Inventor.Application)
 
-        invApp.SilentOperation = CBool(vbTrue)
-        oDoc = CType(invApp.Documents.Open(fpath, False), DrawingDocument)  'Not visible
+        invApp.SilentOperation = CBool(vbTrue)  'Not visible
+        oDoc = CType(invApp.Documents.Open(fpath, False), DrawingDocument)
 
         '--------- determine object type -------
         Dim eDocumentType As DocumentTypeEnum = oDoc.DocumentType
@@ -986,30 +996,38 @@ Public Class Form1
         End If
 
         'http://beinginventive.typepad.com/files/ExportPartslistToExcel/ExportPartslistToExcel.txt
+        'https://forums.autodesk.com/t5/inventor-customization/change-drawing-sheet-name-to-match-active-file-name/td-p/6572706
+
         ' Make sure a parts list is selected.
         Dim partList As PartsList
-        If oDoc.ActiveSheet.PartsLists.Count > 0 Then
-            partList = oDoc.ActiveSheet.PartsLists.Item(1)
+        Dim oSheet As Sheet
 
-            If (TypeOf partList Is PartsList) Then  'Parts-list exists ?
-                'Expand legacy parts list to all levels
-                Dim counter As Integer = 1
-                Dim i, j As Integer
+        For Each oSheet In oDoc.Sheets
+            oSheet.Activate()
+            If oDoc.ActiveSheet.PartsLists.Count > 0 Then
 
-                '------ Column names ------------- 
-                DataGridView4.Rows.Add()
-                For i = 1 To partList.PartsListColumns.Count
-                    DataGridView4.Columns(i - 1).HeaderText = partList.PartsListColumns.Item(i).Title.ToString
-                Next
+                '-----------------------------------------------
+                partList = oDoc.ActiveSheet.PartsLists.Item(1)
+                If (TypeOf partList Is PartsList) Then  'Parts-list exists ?
+                    'Expand legacy parts list to all levels
+                    Dim counter As Integer = 1
+                    Dim i, j As Integer
 
-                '------ Column content ------------- 
-                For j = 1 To partList.PartsListRows.Count
+                    '------ Column names ------------- 
+                    DataGridView4.Rows.Add()
                     For i = 1 To partList.PartsListColumns.Count
-                        DataGridView4.Rows.Item(j - 1).Cells(i - 1).Value = partList.PartsListRows(j).Item(i).Value.ToString
+                        DataGridView4.Columns(i - 1).HeaderText = partList.PartsListColumns.Item(i).Title.ToString
                     Next
-                Next
+
+                    '------ Column content ------------- 
+                    For j = 1 To partList.PartsListRows.Count
+                        For i = 1 To partList.PartsListColumns.Count
+                            DataGridView4.Rows.Item(j - 1).Cells(i - 1).Value = partList.PartsListRows(j).Item(i).Value.ToString
+                        Next
+                    Next
+                End If
             End If
-        End If
+        Next
         DataGridView4.AutoResizeColumns()
     End Sub
 
