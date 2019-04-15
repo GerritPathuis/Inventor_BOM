@@ -155,7 +155,7 @@ Public Class Form1
     End Sub
     Private Sub Inventor_running()
         '-------- inventor must be running----
-        Me.Text = "Inventor BOM Extractor" & " (" & Pro_user & ") 05-04-2019"
+        Me.Text = "Inventor BOM Extractor" & " (" & Pro_user & ") 15-04-2019"
 
         Try
             invApp = CType(System.Runtime.InteropServices.Marshal.GetActiveObject("Inventor.Application"), Inventor.Application)
@@ -1200,20 +1200,25 @@ Public Class Form1
             TextBox2.Text &= "IDW BOM list, lookup drwg + pos for Artikel " & Axxxxx & " NOT found" & vbCrLf
         End If
     End Sub
-    Private Function Isolate_thickness(str As String) As Integer
-        Dim delta As Int16
+    Private Function Isolate_thickness(str As String) As Double
+        Dim delta As Double
         Dim str2, str3 As String
+        Dim acceptedChars() As Char = "0123456789,.".ToCharArray
 
-        If str.Length >= 8 Then
-            str2 = str.Substring(5, 3)
-            str3 = System.Text.RegularExpressions.Regex.Replace(str2, "[^\d]", " ")
-            Int16.TryParse(str3, delta)
+        If str.Length >= 9 Then
+            str2 = str.Substring(6, 5)
+
+            'take only the accepted character
+            str3 = (From ch As Char In str2 Select ch Where acceptedChars.Contains(ch)).ToArray
+            'replace comma with point
+            str3 = System.Text.RegularExpressions.Regex.Replace(str3, "[,]", ".")
+
+            Double.TryParse(str3, delta)
         Else
             delta = 0
         End If
-        'MessageBox.Show("str=" & str & ", length=" & str.Length.ToString & ", dikte= " & delta.ToString)
 
-        Return CInt(delta.ToString)
+        Return (delta)
     End Function
     Private Function Check_for_plate(str As String) As Boolean
         Dim exi As Boolean
@@ -1500,6 +1505,7 @@ Public Class Form1
         My.Computer.FileSystem.WriteAllText(SaveFileDialog1.FileName, TextBox2.Text, False)
         Button18.BackColor = System.Drawing.Color.Transparent
     End Sub
+
 End Class
 
 
