@@ -25,6 +25,7 @@ Public Class Form1
     Dim Pro_user As String
     Public BOM_counter As Integer
     Dim idw_counter As Integer
+    Dim pdf_counter As Integer
 
     Public Structure Laserpart
         Public Proj As String
@@ -1535,36 +1536,42 @@ Public Class Form1
     Private Function Create_PDF_from_IDW() As Integer
         Dim oDoc As Inventor.DrawingDocument
         idw_counter = 0
+        pdf_counter = 0
         Inventor_running()
         Button21.BackColor = System.Drawing.Color.LightGreen
         ProgressBar4.Visible = True
 
         'Select work directory
         Dim pathfile As String = TextBox6.Text
+        Dim target As String
 
         invApp = CType(Marshal.GetActiveObject("Inventor.Application"), Inventor.Application)
         invApp.SilentOperation = CBool(vbTrue)
 
         If Directory.Exists(pathfile) Then
-            Dim fileEntries As String() = Directory.GetFiles(pathfile)
+            Dim fileEntries As String() = Directory.GetFiles(pathfile, "*.idw", SearchOption.AllDirectories)
             For Each fileName In fileEntries
                 TextBox45.Text = fileName
                 Increm_progressbar()
-                Dim extension As String = IO.Path.GetExtension(fileName)
-                If extension = ".idw" Then
+                target = fileName.Replace(".idw", ".pdf")
+
+                If System.IO.File.Exists(target) Then
+                    pdf_counter += 1
+                    Label34.Text = pdf_counter.ToString
+                Else
                     idw_counter += 1
-                    Button21.Text = "Read IDW's in Work directory and copy as a pdf file .. " & idw_counter.ToString
                     oDoc = invApp.Documents.Open(fileName, False)
                     SaveAsPDF(oDoc, System.IO.Path.ChangeExtension(fileName, "pdf"))
-                    oDoc.Close(True) ' Close the drawing. 
+                    oDoc.Close(True) ' Close the drawing.
+                    Label33.Text = idw_counter.ToString
                 End If
             Next fileName
         Else
             MessageBox.Show(pathfile & " is not a valid file or directory.")
         End If
         Button21.BackColor = System.Drawing.Color.Transparent
-        Button21.Text = "Read IDW's in Work directory and copy as a pdf file"
         ProgressBar4.Visible = False
+
 
         Return (idw_counter)
     End Function

@@ -194,13 +194,18 @@ Partial Class Form1
         Me.TextBox39 = New System.Windows.Forms.TextBox()
         Me.Button17 = New System.Windows.Forms.Button()
         Me.TabPage10 = New System.Windows.Forms.TabPage()
+        Me.Label31 = New System.Windows.Forms.Label()
+        Me.TextBox45 = New System.Windows.Forms.TextBox()
+        Me.ProgressBar4 = New System.Windows.Forms.ProgressBar()
         Me.Label30 = New System.Windows.Forms.Label()
         Me.Button21 = New System.Windows.Forms.Button()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ProgressBar4 = New System.Windows.Forms.ProgressBar()
-        Me.TextBox45 = New System.Windows.Forms.TextBox()
+        Me.Label32 = New System.Windows.Forms.Label()
+        Me.Label33 = New System.Windows.Forms.Label()
+        Me.Label34 = New System.Windows.Forms.Label()
+        Me.GroupBox15 = New System.Windows.Forms.GroupBox()
         Me.TabControl1.SuspendLayout()
         Me.TabPage6.SuspendLayout()
         Me.GroupBox8.SuspendLayout()
@@ -250,6 +255,7 @@ Partial Class Form1
         CType(Me.NumericUpDown1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage9.SuspendLayout()
         Me.TabPage10.SuspendLayout()
+        Me.GroupBox15.SuspendLayout()
         Me.SuspendLayout()
         '
         'TextBox1
@@ -1856,6 +1862,7 @@ Partial Class Form1
         '
         'TabPage10
         '
+        Me.TabPage10.Controls.Add(Me.GroupBox15)
         Me.TabPage10.Controls.Add(Me.TextBox45)
         Me.TabPage10.Controls.Add(Me.ProgressBar4)
         Me.TabPage10.Controls.Add(Me.Label30)
@@ -1868,28 +1875,21 @@ Partial Class Form1
         Me.TabPage10.Text = "idw-> pdf"
         Me.TabPage10.UseVisualStyleBackColor = True
         '
-        'Label30
+        'Label31
         '
-        Me.Label30.AutoSize = True
-        Me.Label30.Location = New System.Drawing.Point(236, 182)
-        Me.Label30.Name = "Label30"
-        Me.Label30.Size = New System.Drawing.Size(193, 13)
-        Me.Label30.TabIndex = 10
-        Me.Label30.Text = "The file destination is the work directory"
+        Me.Label31.AutoSize = True
+        Me.Label31.Location = New System.Drawing.Point(15, 25)
+        Me.Label31.Name = "Label31"
+        Me.Label31.Size = New System.Drawing.Size(98, 13)
+        Me.Label31.TabIndex = 41
+        Me.Label31.Text = "New pdf files count"
         '
-        'Button21
+        'TextBox45
         '
-        Me.Button21.Location = New System.Drawing.Point(229, 113)
-        Me.Button21.Name = "Button21"
-        Me.Button21.Size = New System.Drawing.Size(314, 57)
-        Me.Button21.TabIndex = 9
-        Me.Button21.Text = "Read IDW's in Work directory and copy as a pdf file"
-        Me.Button21.UseVisualStyleBackColor = True
-        '
-        'ContextMenuStrip1
-        '
-        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(61, 4)
+        Me.TextBox45.Location = New System.Drawing.Point(8, 75)
+        Me.TextBox45.Name = "TextBox45"
+        Me.TextBox45.Size = New System.Drawing.Size(793, 20)
+        Me.TextBox45.TabIndex = 40
         '
         'ProgressBar4
         '
@@ -1898,12 +1898,69 @@ Partial Class Form1
         Me.ProgressBar4.Size = New System.Drawing.Size(798, 15)
         Me.ProgressBar4.TabIndex = 39
         '
-        'TextBox45
+        'Label30
         '
-        Me.TextBox45.Location = New System.Drawing.Point(8, 75)
-        Me.TextBox45.Name = "TextBox45"
-        Me.TextBox45.Size = New System.Drawing.Size(793, 20)
-        Me.TextBox45.TabIndex = 40
+        Me.Label30.AutoSize = True
+        Me.Label30.Location = New System.Drawing.Point(170, 203)
+        Me.Label30.Name = "Label30"
+        Me.Label30.Size = New System.Drawing.Size(193, 13)
+        Me.Label30.TabIndex = 10
+        Me.Label30.Text = "The file destination is the work directory"
+        '
+        'Button21
+        '
+        Me.Button21.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button21.Location = New System.Drawing.Point(173, 113)
+        Me.Button21.Name = "Button21"
+        Me.Button21.Size = New System.Drawing.Size(370, 74)
+        Me.Button21.TabIndex = 9
+        Me.Button21.Text = "Read IDW's in Work directory and sub-directories" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "then create as a pdf file"
+        Me.Button21.UseVisualStyleBackColor = True
+        '
+        'ContextMenuStrip1
+        '
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(61, 4)
+        '
+        'Label32
+        '
+        Me.Label32.AutoSize = True
+        Me.Label32.Location = New System.Drawing.Point(15, 47)
+        Me.Label32.Name = "Label32"
+        Me.Label32.Size = New System.Drawing.Size(112, 13)
+        Me.Label32.TabIndex = 42
+        Me.Label32.Text = "Existing pdf files count"
+        '
+        'Label33
+        '
+        Me.Label33.AutoSize = True
+        Me.Label33.Location = New System.Drawing.Point(133, 25)
+        Me.Label33.Name = "Label33"
+        Me.Label33.Size = New System.Drawing.Size(13, 13)
+        Me.Label33.TabIndex = 43
+        Me.Label33.Text = "0"
+        '
+        'Label34
+        '
+        Me.Label34.AutoSize = True
+        Me.Label34.Location = New System.Drawing.Point(133, 47)
+        Me.Label34.Name = "Label34"
+        Me.Label34.Size = New System.Drawing.Size(13, 13)
+        Me.Label34.TabIndex = 44
+        Me.Label34.Text = "0"
+        '
+        'GroupBox15
+        '
+        Me.GroupBox15.Controls.Add(Me.Label31)
+        Me.GroupBox15.Controls.Add(Me.Label34)
+        Me.GroupBox15.Controls.Add(Me.Label32)
+        Me.GroupBox15.Controls.Add(Me.Label33)
+        Me.GroupBox15.Location = New System.Drawing.Point(564, 113)
+        Me.GroupBox15.Name = "GroupBox15"
+        Me.GroupBox15.Size = New System.Drawing.Size(174, 74)
+        Me.GroupBox15.TabIndex = 45
+        Me.GroupBox15.TabStop = False
+        Me.GroupBox15.Text = "File count"
         '
         'Form1
         '
@@ -1981,6 +2038,8 @@ Partial Class Form1
         Me.TabPage9.PerformLayout()
         Me.TabPage10.ResumeLayout(False)
         Me.TabPage10.PerformLayout()
+        Me.GroupBox15.ResumeLayout(False)
+        Me.GroupBox15.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -2161,4 +2220,9 @@ Partial Class Form1
     Friend WithEvents Button21 As Button
     Friend WithEvents ProgressBar4 As ProgressBar
     Friend WithEvents TextBox45 As TextBox
+    Friend WithEvents Label31 As Label
+    Friend WithEvents Label32 As Label
+    Friend WithEvents Label34 As Label
+    Friend WithEvents Label33 As Label
+    Friend WithEvents GroupBox15 As GroupBox
 End Class
