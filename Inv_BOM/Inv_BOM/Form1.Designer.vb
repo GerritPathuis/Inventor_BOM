@@ -194,7 +194,11 @@ Partial Class Form1
         Me.TextBox39 = New System.Windows.Forms.TextBox()
         Me.Button17 = New System.Windows.Forms.Button()
         Me.TabPage10 = New System.Windows.Forms.TabPage()
+        Me.GroupBox15 = New System.Windows.Forms.GroupBox()
         Me.Label31 = New System.Windows.Forms.Label()
+        Me.Label34 = New System.Windows.Forms.Label()
+        Me.Label32 = New System.Windows.Forms.Label()
+        Me.Label33 = New System.Windows.Forms.Label()
         Me.TextBox45 = New System.Windows.Forms.TextBox()
         Me.ProgressBar4 = New System.Windows.Forms.ProgressBar()
         Me.Label30 = New System.Windows.Forms.Label()
@@ -202,10 +206,6 @@ Partial Class Form1
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.Label32 = New System.Windows.Forms.Label()
-        Me.Label33 = New System.Windows.Forms.Label()
-        Me.Label34 = New System.Windows.Forms.Label()
-        Me.GroupBox15 = New System.Windows.Forms.GroupBox()
         Me.TabControl1.SuspendLayout()
         Me.TabPage6.SuspendLayout()
         Me.GroupBox8.SuspendLayout()
@@ -696,9 +696,10 @@ Partial Class Form1
         'Label28
         '
         Me.Label28.AutoSize = True
-        Me.Label28.Location = New System.Drawing.Point(425, 22)
+        Me.Label28.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label28.Location = New System.Drawing.Point(413, 22)
         Me.Label28.Name = "Label28"
-        Me.Label28.Size = New System.Drawing.Size(184, 13)
+        Me.Label28.Size = New System.Drawing.Size(221, 13)
         Me.Label28.TabIndex = 42
         Me.Label28.Text = "Locks on base models (No title block)"
         '
@@ -762,7 +763,7 @@ Partial Class Form1
         Me.Button4.Name = "Button4"
         Me.Button4.Size = New System.Drawing.Size(238, 31)
         Me.Button4.TabIndex = 18
-        Me.Button4.Text = "Write BOM to excel file"
+        Me.Button4.Text = "Save to Excel file"
         Me.Button4.UseVisualStyleBackColor = False
         '
         'Label3
@@ -780,7 +781,7 @@ Partial Class Form1
         Me.Button12.Name = "Button12"
         Me.Button12.Size = New System.Drawing.Size(238, 31)
         Me.Button12.TabIndex = 16
-        Me.Button12.Text = "Process work Directory"
+        Me.Button12.Text = "Read BOM in IAM, Process work Directory"
         Me.Button12.UseVisualStyleBackColor = True
         '
         'DataGridView1
@@ -882,29 +883,29 @@ Partial Class Form1
         '
         'Button15
         '
-        Me.Button15.Location = New System.Drawing.Point(535, 63)
+        Me.Button15.Location = New System.Drawing.Point(713, 59)
         Me.Button15.Name = "Button15"
-        Me.Button15.Size = New System.Drawing.Size(75, 23)
+        Me.Button15.Size = New System.Drawing.Size(75, 31)
         Me.Button15.TabIndex = 20
         Me.Button15.Text = "Clear Grid"
         Me.Button15.UseVisualStyleBackColor = True
         '
         'Button7
         '
-        Me.Button7.Location = New System.Drawing.Point(192, 59)
+        Me.Button7.Location = New System.Drawing.Point(352, 59)
         Me.Button7.Name = "Button7"
-        Me.Button7.Size = New System.Drawing.Size(182, 31)
+        Me.Button7.Size = New System.Drawing.Size(141, 31)
         Me.Button7.TabIndex = 18
-        Me.Button7.Text = "Write Title block info  to Excel File"
+        Me.Button7.Text = "Save to Excel File"
         Me.Button7.UseVisualStyleBackColor = True
         '
         'Button9
         '
         Me.Button9.Location = New System.Drawing.Point(11, 59)
         Me.Button9.Name = "Button9"
-        Me.Button9.Size = New System.Drawing.Size(175, 31)
+        Me.Button9.Size = New System.Drawing.Size(283, 31)
         Me.Button9.TabIndex = 15
-        Me.Button9.Text = "Process work Directory"
+        Me.Button9.Text = "Read Tilte block and Parts list  in the work directory"
         Me.Button9.UseVisualStyleBackColor = True
         '
         'Label4
@@ -1875,6 +1876,19 @@ Partial Class Form1
         Me.TabPage10.Text = "idw-> pdf"
         Me.TabPage10.UseVisualStyleBackColor = True
         '
+        'GroupBox15
+        '
+        Me.GroupBox15.Controls.Add(Me.Label31)
+        Me.GroupBox15.Controls.Add(Me.Label34)
+        Me.GroupBox15.Controls.Add(Me.Label32)
+        Me.GroupBox15.Controls.Add(Me.Label33)
+        Me.GroupBox15.Location = New System.Drawing.Point(564, 113)
+        Me.GroupBox15.Name = "GroupBox15"
+        Me.GroupBox15.Size = New System.Drawing.Size(174, 74)
+        Me.GroupBox15.TabIndex = 45
+        Me.GroupBox15.TabStop = False
+        Me.GroupBox15.Text = "File count"
+        '
         'Label31
         '
         Me.Label31.AutoSize = True
@@ -1883,6 +1897,33 @@ Partial Class Form1
         Me.Label31.Size = New System.Drawing.Size(98, 13)
         Me.Label31.TabIndex = 41
         Me.Label31.Text = "New pdf files count"
+        '
+        'Label34
+        '
+        Me.Label34.AutoSize = True
+        Me.Label34.Location = New System.Drawing.Point(133, 47)
+        Me.Label34.Name = "Label34"
+        Me.Label34.Size = New System.Drawing.Size(13, 13)
+        Me.Label34.TabIndex = 44
+        Me.Label34.Text = "0"
+        '
+        'Label32
+        '
+        Me.Label32.AutoSize = True
+        Me.Label32.Location = New System.Drawing.Point(15, 47)
+        Me.Label32.Name = "Label32"
+        Me.Label32.Size = New System.Drawing.Size(112, 13)
+        Me.Label32.TabIndex = 42
+        Me.Label32.Text = "Existing pdf files count"
+        '
+        'Label33
+        '
+        Me.Label33.AutoSize = True
+        Me.Label33.Location = New System.Drawing.Point(133, 25)
+        Me.Label33.Name = "Label33"
+        Me.Label33.Size = New System.Drawing.Size(13, 13)
+        Me.Label33.TabIndex = 43
+        Me.Label33.Text = "0"
         '
         'TextBox45
         '
@@ -1921,46 +1962,6 @@ Partial Class Form1
         '
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
         Me.ContextMenuStrip1.Size = New System.Drawing.Size(61, 4)
-        '
-        'Label32
-        '
-        Me.Label32.AutoSize = True
-        Me.Label32.Location = New System.Drawing.Point(15, 47)
-        Me.Label32.Name = "Label32"
-        Me.Label32.Size = New System.Drawing.Size(112, 13)
-        Me.Label32.TabIndex = 42
-        Me.Label32.Text = "Existing pdf files count"
-        '
-        'Label33
-        '
-        Me.Label33.AutoSize = True
-        Me.Label33.Location = New System.Drawing.Point(133, 25)
-        Me.Label33.Name = "Label33"
-        Me.Label33.Size = New System.Drawing.Size(13, 13)
-        Me.Label33.TabIndex = 43
-        Me.Label33.Text = "0"
-        '
-        'Label34
-        '
-        Me.Label34.AutoSize = True
-        Me.Label34.Location = New System.Drawing.Point(133, 47)
-        Me.Label34.Name = "Label34"
-        Me.Label34.Size = New System.Drawing.Size(13, 13)
-        Me.Label34.TabIndex = 44
-        Me.Label34.Text = "0"
-        '
-        'GroupBox15
-        '
-        Me.GroupBox15.Controls.Add(Me.Label31)
-        Me.GroupBox15.Controls.Add(Me.Label34)
-        Me.GroupBox15.Controls.Add(Me.Label32)
-        Me.GroupBox15.Controls.Add(Me.Label33)
-        Me.GroupBox15.Location = New System.Drawing.Point(564, 113)
-        Me.GroupBox15.Name = "GroupBox15"
-        Me.GroupBox15.Size = New System.Drawing.Size(174, 74)
-        Me.GroupBox15.TabIndex = 45
-        Me.GroupBox15.TabStop = False
-        Me.GroupBox15.Text = "File count"
         '
         'Form1
         '
