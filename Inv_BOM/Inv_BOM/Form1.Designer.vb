@@ -148,6 +148,7 @@ Partial Class Form1
         Me.TextBox5 = New System.Windows.Forms.TextBox()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.SplitContainer4 = New System.Windows.Forms.SplitContainer()
+        Me.Button20 = New System.Windows.Forms.Button()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.RadioButton4 = New System.Windows.Forms.RadioButton()
         Me.RadioButton3 = New System.Windows.Forms.RadioButton()
@@ -1420,6 +1421,7 @@ Partial Class Form1
         '
         'SplitContainer4.Panel1
         '
+        Me.SplitContainer4.Panel1.Controls.Add(Me.Button20)
         Me.SplitContainer4.Panel1.Controls.Add(Me.GroupBox1)
         Me.SplitContainer4.Panel1.Controls.Add(Me.GroupBox3)
         Me.SplitContainer4.Panel1.Controls.Add(Me.Button1)
@@ -1434,6 +1436,15 @@ Partial Class Form1
         Me.SplitContainer4.Size = New System.Drawing.Size(803, 467)
         Me.SplitContainer4.SplitterDistance = 205
         Me.SplitContainer4.TabIndex = 21
+        '
+        'Button20
+        '
+        Me.Button20.Location = New System.Drawing.Point(282, 148)
+        Me.Button20.Name = "Button20"
+        Me.Button20.Size = New System.Drawing.Size(75, 31)
+        Me.Button20.TabIndex = 21
+        Me.Button20.Text = "Clear Grid"
+        Me.Button20.UseVisualStyleBackColor = True
         '
         'GroupBox1
         '
@@ -2226,4 +2237,5 @@ Partial Class Form1
     Friend WithEvents Label34 As Label
     Friend WithEvents Label33 As Label
     Friend WithEvents GroupBox15 As GroupBox
+    Friend WithEvents Button20 As Button
 End Class

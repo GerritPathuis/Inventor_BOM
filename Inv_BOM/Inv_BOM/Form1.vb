@@ -210,12 +210,12 @@ Public Class Form1
         Button3.BackColor = System.Drawing.Color.LightGreen
         DataGridView1.ClearSelection()
         G1_row_cnt = 0
-        Qbom(filepath1)         'Make part summary from IAM
+        Qbom(filepath1, DataGridView4)         'Make part summary from IAM
         Button3.BackColor = System.Drawing.Color.Transparent
         DataGridView1.Sort(DataGridView1.Columns(10), System.ComponentModel.ListSortDirection.Descending)
     End Sub
     'Make part summary from IAM (Autodesk Inventor assembly file) 
-    Private Sub Qbom(ByVal fpath As String)
+    Private Sub Qbom(ByVal fpath As String, ByVal grid As DataGridView)
         Dim invApp As Inventor.Application
         Dim oDoc As Inventor.AssemblyDocument
         Dim oBOM As BOM
@@ -247,7 +247,6 @@ Public Class Form1
             MessageBox.Show("Please Select a IAM file ")
             Exit Sub
         End Try
-
 
         '--------- test section -------
         'Dim objDrawDoc As DrawingDocument = CType(oDoc.ActiveDocument, AssemblyDocument)
@@ -283,10 +282,10 @@ Public Class Form1
                     oPropSets = oDoc.PropertySets
                     oPropSet = oPropSets.Item("Design Tracking Properties")
 
-                    DataGridView1.Rows.Add()
-                    DataGridView1.Rows.Item(G1_row_cnt).Cells(0).Value = filen
-                    DataGridView1.Rows.Item(G1_row_cnt).Cells(1).Value = oBOMRow.ItemNumber
-                    DataGridView1.Rows.Item(G1_row_cnt).Cells(2).Value = oBOMRow.ItemQuantity
+                    grid.Rows.Add()
+                    grid.Rows.Item(G1_row_cnt).Cells(0).Value = filen
+                    grid.Rows.Item(G1_row_cnt).Cells(1).Value = oBOMRow.ItemNumber
+                    grid.Rows.Item(G1_row_cnt).Cells(2).Value = oBOMRow.ItemQuantity
 
                     Dim design_track() As String =
                     {"Part Number",
@@ -298,9 +297,9 @@ Public Class Form1
                     Else
                         For j = 0 To design_track.Length - 1
                             Try
-                                DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 3).Value = oPropSet.Item(design_track(j)).Value.ToString
+                                grid.Rows.Item(G1_row_cnt).Cells(j + 3).Value = oPropSet.Item(design_track(j)).Value.ToString
                             Catch Ex As Exception
-                                DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 3).Value = "?"
+                                grid.Rows.Item(G1_row_cnt).Cells(j + 3).Value = "?"
                                 TextBox2.Text &= fpath & ", " & design_track(j) & " not found" & vbCrLf
                             End Try
                         Next
@@ -322,17 +321,17 @@ Public Class Form1
                     Else
                         For j = 0 To custom.Length - 1
                             Try
-                                DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 6).Value = oPropSet.Item(custom(j)).Value.ToString
+                                grid.Rows.Item(G1_row_cnt).Cells(j + 6).Value = oPropSet.Item(custom(j)).Value.ToString
 
                                 '--- check PDM status of document ---
                                 doc_status = oPropSet.Item(custom(j)).Value.ToString
                                 If CBool(CInt(j = 2)) And String.Equals(doc_status, "In work") Then
                                     TextBox2.Text &= fpath & " document is NOT Released !!" & vbCrLf
-                                    DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 6).Style.BackColor = System.Drawing.Color.Red
+                                    grid.Rows.Item(G1_row_cnt).Cells(j + 6).Style.BackColor = System.Drawing.Color.Red
                                     'DataGridView1.Rows.Item(G1_row_cnt).Cells(0).Style.BackColor = System.Drawing.Color.Red
                                 End If
                             Catch Ex As Exception
-                                DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 6).Value = "?"
+                                grid.Rows.Item(G1_row_cnt).Cells(j + 6).Value = "?"
                                 'TextBox2.Text &= fpath & ", " & "Custom property " & custom(j) & " not found" & vbCrLf
                             End Try
                         Next
@@ -350,14 +349,14 @@ Public Class Form1
                     Else
                         For j = 0 To summary.Length - 1
                             Try
-                                DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 14).Value = oPropSet.Item(summary(j)).Value.ToString
+                                grid.Rows.Item(G1_row_cnt).Cells(j + 14).Value = oPropSet.Item(summary(j)).Value.ToString
                             Catch Ex As Exception
-                                DataGridView1.Rows.Item(G1_row_cnt).Cells(j + 14).Value = "?"
+                                grid.Rows.Item(G1_row_cnt).Cells(j + 14).Value = "?"
                                 'TextBox2.Text &= fpath & ", " & "Inventor Summary " & summary(j) & " not found" & vbCrLf
                             End Try
                         Next
                     End If
-                    DataGridView1.FirstDisplayedScrollingRowIndex = G1_row_cnt
+                    grid.FirstDisplayedScrollingRowIndex = G1_row_cnt
                 Next
                 oDoc.Close()
             End If
@@ -796,16 +795,25 @@ Public Class Form1
         Button8.BackColor = System.Drawing.Color.Transparent
     End Sub
     Private Sub Remove_empty_rows(grid As DataGridView)
-        For r As Integer = grid.Rows.Count - 2 To 10 Step -1
-            Dim empty As Boolean = True
-            For Each cell As DataGridViewCell In grid.Rows(r).Cells
-                If Not IsNothing(cell.Value) Then
-                    empty = False
-                    Exit For
-                End If
-            Next
-            If empty Then grid.Rows.RemoveAt(r)
-        Next
+        Dim blank As Boolean = True
+        Dim i As Integer
+
+        'This sub is extremely slow PROBLEM  
+
+        'For Each _row As DataGridViewRow In grid.Rows
+        '    blank = True
+        '    MessageBox.Show(_row.ToString)
+        '        For i = 0 To _row.Cells.Count - 1
+        '            If _row.Cells(i).Value IsNot Nothing AndAlso _row.Cells(i).Value <> "" Then
+        '                blank = False
+        '                Exit For
+        '            End If
+        '        Next
+        '    If blank Then
+        '        If Not _row.IsNewRow Then grid.Rows.RemoveAt(i)
+        '    End If
+        'Next
+
     End Sub
     Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
         Inventor_running()
@@ -834,7 +842,7 @@ Public Class Form1
             TextBox43.Text = fileName
             iam_cnt += 1
             Label12.Text = "IAM " & iam_cnt.ToString
-            Qbom(fileName)  'Make part summary from IAM
+            Qbom(fileName, DataGridView1)  'Make part summary from IAM
         Next fileName
 
         TextBox43.Text = " "
@@ -1613,6 +1621,12 @@ Public Class Form1
 
     Private Sub Button21_Click(sender As Object, e As EventArgs) Handles Button21.Click
         Create_PDF_from_IDW()
+    End Sub
+
+    Private Sub Button20_Click(sender As Object, e As EventArgs) Handles Button20.Click
+        Inventor_running()
+        DataGridView4.Rows.Clear()
+        DataGridView4.RowCount = view_rows
     End Sub
 End Class
 
