@@ -727,9 +727,9 @@ Partial Class Form1
         Me.Label23.AutoSize = True
         Me.Label23.Location = New System.Drawing.Point(6, 40)
         Me.Label23.Name = "Label23"
-        Me.Label23.Size = New System.Drawing.Size(63, 13)
+        Me.Label23.Size = New System.Drawing.Size(32, 13)
         Me.Label23.TabIndex = 3
-        Me.Label23.Text = "Sheet metal"
+        Me.Label23.Text = "Lines"
         '
         'Label12
         '
@@ -1966,7 +1966,7 @@ Partial Class Form1
         Me.Button21.Name = "Button21"
         Me.Button21.Size = New System.Drawing.Size(370, 74)
         Me.Button21.TabIndex = 9
-        Me.Button21.Text = "Read IDW's in Work directory and sub-directories" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "then create as a pdf file"
+        Me.Button21.Text = "Read IDW's in Work directory and sub-directories" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "then create the pdf file"
         Me.Button21.UseVisualStyleBackColor = True
         '
         'ContextMenuStrip1

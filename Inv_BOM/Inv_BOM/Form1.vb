@@ -20,12 +20,13 @@ Public Class Form1
     Public G1_row_cnt As Integer
     Public G2_row_cnt As Integer
     Public G5_row_cnt As Integer
-    Public Const view_rows = 1000
+    Public Const view_rows = 8
     Public dxf_file_name(,) As String   '(old name, new name)  
     Dim Pro_user As String
     Public BOM_counter As Integer
     Dim idw_counter As Integer
     Dim pdf_counter As Integer
+    Dim line_counter As Integer
 
     Public Structure Laserpart
         Public Proj As String
@@ -35,6 +36,7 @@ Public Class Form1
         Public Materi As String
         Public Count As String
         Public actie As String
+        Public found As Boolean
     End Structure
     Public kb As Laserpart
     Dim invApp As Inventor.Application = Nothing
@@ -47,7 +49,7 @@ Public Class Form1
         DataGridView1.ColumnCount = 30
         DataGridView1.RowCount = view_rows
         DataGridView1.ColumnHeadersVisible = True
-        DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
+        DataGridView1.AutoSize = False
 
         DataGridView1.Columns(0).HeaderText = "File"
         DataGridView1.Columns(1).HeaderText = "Item "
@@ -55,7 +57,6 @@ Public Class Form1
         DataGridView1.Columns(3).HeaderText = "Part"
         DataGridView1.Columns(4).HeaderText = "Desc"
         DataGridView1.Columns(5).HeaderText = "Stock"
-
         DataGridView1.Columns(6).HeaderText = "DOC_NUMBER"
         DataGridView1.Columns(7).HeaderText = "ITEM_NR"
         DataGridView1.Columns(8).HeaderText = "DOC_STATUS"
@@ -70,7 +71,7 @@ Public Class Form1
         DataGridView1.Columns(17).HeaderText = "Comments"
 
         DataGridView2.ColumnCount = 20
-        DataGridView2.RowCount = view_rows   'was 20
+        DataGridView2.RowCount = view_rows
         DataGridView2.Columns(0).HeaderText = "File"
         DataGridView2.Columns(1).HeaderText = "Assembly"
         DataGridView2.Columns(2).HeaderText = "IDW_Assy"
@@ -101,7 +102,7 @@ Public Class Form1
         DataGridView4.Columns(2).HeaderText = "A_no"
 
         DataGridView5.ColumnCount = 10
-        DataGridView5.RowCount = view_rows    'was 20
+        DataGridView5.RowCount = view_rows
         DataGridView5.Columns(0).HeaderText = "Artikel"
         DataGridView5.Columns(1).HeaderText = "Old dxf file name"
         DataGridView5.Columns(2).HeaderText = "New dxf file name"
@@ -158,7 +159,7 @@ Public Class Form1
     End Sub
     Private Sub Inventor_running()
         '-------- inventor must be running----
-        Me.Text = "Inventor BOM Extractor" & " (" & Pro_user & ") 15-04-2019"
+        Me.Text = "Inventor BOM Extractor" & " (" & Pro_user & ") 17-04-2019"
 
         Try
             invApp = CType(System.Runtime.InteropServices.Marshal.GetActiveObject("Inventor.Application"), Inventor.Application)
@@ -210,9 +211,11 @@ Public Class Form1
         Button3.BackColor = System.Drawing.Color.LightGreen
         DataGridView1.ClearSelection()
         G1_row_cnt = 0
+        line_counter = 0
         Qbom(filepath1, DataGridView4)         'Make part summary from IAM
         Button3.BackColor = System.Drawing.Color.Transparent
-        DataGridView1.Sort(DataGridView1.Columns(10), System.ComponentModel.ListSortDirection.Descending)
+        Remove_empty_rows(DataGridView4)
+        DataGridView4.Sort(DataGridView4.Columns(10), System.ComponentModel.ListSortDirection.Descending)
     End Sub
     'Make part summary from IAM (Autodesk Inventor assembly file) 
     Private Sub Qbom(ByVal fpath As String, ByVal grid As DataGridView)
@@ -230,7 +233,6 @@ Public Class Form1
         Dim doc_status As String
         Dim i, j As Integer
 
-        Inventor_running()
         ProgressBar3.Visible = True
 
         '------- get file info -----------
@@ -248,18 +250,6 @@ Public Class Form1
             Exit Sub
         End Try
 
-        '--------- test section -------
-        'Dim objDrawDoc As DrawingDocument = CType(oDoc.ActiveDocument, AssemblyDocument)
-        'MessageBox.Show(fpath)
-        'Dim objDrawDoc As AssemblyDocument = oDoc.ActiveDocument
-        'Dim colTitleBlkDefs As TitleBlockDefinitions = objDrawDoc.TitleBlockDefinitions
-
-        'If colTitleBlkDefs.Count = Nothing Then
-        '    MessageBox.Show("NO Titleblock present in " & fpath)
-        '    Exit Sub
-        'End If
-        '-------- end test section
-
         '-------------READ TITLE BLOCK----------------------------------------
         '---- Note: there is NO title block in an IAM model file -------------
         '---------- Read BOM, in IAM model file --------------------------
@@ -273,16 +263,16 @@ Public Class Form1
             If oBOMView.BOMRows.Count > 0 Then
                 For i = 1 To oBOMView.BOMRows.Count
                     G1_row_cnt += 1
+                    line_counter += 1
                     Increm_progressbar()
+                    grid.Rows.Add()
 
                     '================= Design Tracking Properties ==========================
                     oBOMRow = oBOMView.BOMRows(i)
                     oCompDef = oBOMRow.ComponentDefinitions(1)
-
                     oPropSets = oDoc.PropertySets
                     oPropSet = oPropSets.Item("Design Tracking Properties")
 
-                    grid.Rows.Add()
                     grid.Rows.Item(G1_row_cnt).Cells(0).Value = filen
                     grid.Rows.Item(G1_row_cnt).Cells(1).Value = oBOMRow.ItemNumber
                     grid.Rows.Item(G1_row_cnt).Cells(2).Value = oBOMRow.ItemQuantity
@@ -298,6 +288,8 @@ Public Class Form1
                         For j = 0 To design_track.Length - 1
                             Try
                                 grid.Rows.Item(G1_row_cnt).Cells(j + 3).Value = oPropSet.Item(design_track(j)).Value.ToString
+                                'Update label23 when we work on datagridview1
+                                If grid.ToString = DataGridView1.ToString Then Label23.Text = "line " & line_counter.ToString
                             Catch Ex As Exception
                                 grid.Rows.Item(G1_row_cnt).Cells(j + 3).Value = "?"
                                 TextBox2.Text &= fpath & ", " & design_track(j) & " not found" & vbCrLf
@@ -446,13 +438,8 @@ Public Class Form1
     End Sub
     'see https://forums.autodesk.com/t5/inventor-customization/ilogic-list-all-custom-properties/td-p/6218163
     Private Sub List_all_properties()
-        '-------- inventor must be running----
-        Dim p() As Process
-        p = Process.GetProcessesByName("Inventor")
-        If p.Count = 0 Then
-            MessageBox.Show("Inventor is not running")
-            Exit Sub
-        End If
+
+        Inventor_running()
 
         '-------- Now list properties--------
         Dim invApp As Inventor.Application
@@ -685,7 +672,6 @@ Public Class Form1
         Next
         oDoc.Close()
         Remove_empty_rows(DataGridView2)
-        DataGridView2.AutoResizeColumns()
     End Sub
 
     Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click
@@ -729,9 +715,7 @@ Public Class Form1
         Inventor_running()
         Button8.BackColor = System.Drawing.Color.LightGreen
         DataGridView3.Rows.Clear()
-        DataGridView3.Columns(0).Width = 450
-        DataGridView3.Columns(1).Width = 60
-        DataGridView3.Columns(2).Width = 60
+        DataGridView3.RowCount = view_rows
 
         Select Case True
             Case RadioButton5.Checked
@@ -791,29 +775,22 @@ Public Class Form1
         End If
         Remove_empty_rows(DataGridView3)
         DataGridView3.Sort(DataGridView3.Columns(3), System.ComponentModel.ListSortDirection.Descending)
-        DataGridView3.AutoResizeColumns()
         Button8.BackColor = System.Drawing.Color.Transparent
     End Sub
     Private Sub Remove_empty_rows(grid As DataGridView)
-        Dim blank As Boolean = True
-        Dim i As Integer
+        'grid.AutoSize = False 'AUTOSIZE MUST BE OFF
 
-        'This sub is extremely slow PROBLEM  
-
-        'For Each _row As DataGridViewRow In grid.Rows
-        '    blank = True
-        '    MessageBox.Show(_row.ToString)
-        '        For i = 0 To _row.Cells.Count - 1
-        '            If _row.Cells(i).Value IsNot Nothing AndAlso _row.Cells(i).Value <> "" Then
-        '                blank = False
-        '                Exit For
-        '            End If
-        '        Next
-        '    If blank Then
-        '        If Not _row.IsNewRow Then grid.Rows.RemoveAt(i)
-        '    End If
-        'Next
-
+        For r As Integer = grid.Rows.Count - 1 To 0 Step -1
+            Dim empty As Boolean = True
+            For Each cell As DataGridViewCell In grid.Rows(r).Cells
+                If Not IsNothing(cell.Value) Then
+                    empty = False
+                    Exit For
+                End If
+            Next
+            If empty And Not grid.Rows(r).IsNewRow Then grid.Rows.RemoveAt(r)
+        Next
+        grid.AutoResizeColumns()
     End Sub
     Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
         Inventor_running()
@@ -848,8 +825,6 @@ Public Class Form1
         TextBox43.Text = " "
         Remove_empty_rows(DataGridView1)
 
-        DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
-        DataGridView1.AutoResizeColumns()
         Button12.BackColor = System.Drawing.Color.Transparent
     End Sub
 
@@ -960,6 +935,7 @@ Public Class Form1
                 oDataIO.WriteDataToFile(sOut, oDWG_FfileNAME) 'Write dwg
             End If
 
+            DataGridView5.Rows.Add()
             DataGridView5.Rows.Item(G5_row_cnt).Cells(0).Value = artikel
             DataGridView5.Rows.Item(G5_row_cnt).Cells(1).Value = oDXF_fileNAME
 
@@ -986,12 +962,13 @@ Public Class Form1
         Read_idw_parts(TextBox1.Text)
         Button14.Text = "Read Parts list from IDW"
         Button14.BackColor = System.Drawing.Color.Transparent
+        Remove_empty_rows(DataGridView4)
     End Sub
     Private Sub Read_idw_parts(ByVal fpath As String)
         Dim oDoc As Inventor.DrawingDocument
         Dim invApp As Inventor.Application
-        invApp = CType(Marshal.GetActiveObject("Inventor.Application"), Inventor.Application)
 
+        invApp = CType(Marshal.GetActiveObject("Inventor.Application"), Inventor.Application)
         invApp.SilentOperation = CBool(vbTrue)  'Not visible
 
         '--------- determine object type -------
@@ -1028,6 +1005,7 @@ Public Class Form1
 
                     '------ Column content ------------- 
                     For j = 1 To partList.PartsListRows.Count
+                        DataGridView4.Rows.Add()
                         For i = 1 To partList.PartsListColumns.Count
                             DataGridView4.Rows.Item(j - 1).Cells(i - 1).Value = partList.PartsListRows(j).Item(i).Value.ToString
                         Next
@@ -1036,21 +1014,21 @@ Public Class Form1
             End If
         Next
         oDoc.Close()
-        DataGridView4.AutoResizeColumns()
+        Remove_empty_rows(DataGridView4)
     End Sub
 
     Private Sub Button15_Click(sender As Object, e As EventArgs) Handles Button15.Click
         Inventor_running()
         DataGridView2.Rows.Clear()
-        DataGridView2.RowCount = view_rows    'was 20
+        DataGridView2.RowCount = view_rows
     End Sub
 
     Private Sub Button16_Click(sender As Object, e As EventArgs) Handles Button16.Click
         Dim cnt As Integer
-        cnt = Extract_dxf_from_IPT()
+        cnt = Extract_dxf_from_IPT(DataGridView5)
         If cnt = 0 Then MessageBox.Show("WARNING NO Dxf's extracted from IDW files")
     End Sub
-    Private Function Extract_dxf_from_IPT() As Integer
+    Private Function Extract_dxf_from_IPT(ByVal grid As DataGridView) As Integer
         'Extract DXF file from the IDW is name contains Plate
         Dim ipt_counter As Integer = 0
         Dim fileName As String
@@ -1062,7 +1040,7 @@ Public Class Form1
         If IO.Directory.Exists(TextBox5.Text) Then ' This pathfile is a file.
             Dim fileEntries As String() = Directory.GetFiles(TextBox5.Text, "*.ipt")
             ' Process the list of files found in the directory.
-            DataGridView1.ClearSelection()
+            grid.ClearSelection()
             For Each fileName In fileEntries
                 TextBox42.Text = fileName
                 Increm_progressbar()
@@ -1070,13 +1048,14 @@ Public Class Form1
                 ipt_counter += 1
                 Label25.Text = "IPT " & ipt_counter.ToString
             Next fileName
-            DataGridView1.AutoResizeColumns()
+
         Else
             MessageBox.Show("Directory does not exist")
         End If
         TextBox2.Text &= "Extract_dxf encountered " & ipt_counter.ToString & " ipt files" & vbCrLf
         Button16.BackColor = System.Drawing.Color.Transparent
         TextBox42.Text = " "
+        Remove_empty_rows(grid)
         Return (ipt_counter)
     End Function
 
@@ -1093,13 +1072,13 @@ Public Class Form1
                 art = row.Cells(0).Value.ToString   'Artikel Axxxxxx
                 Find_dwg_pos(DataGridView2, art)    'Find the position
                 row.Cells(2).Value = kb.actie
+                If kb.found = False Then row.Cells(2).Style.BackColor = System.Drawing.Color.Aqua
                 row.Cells(3).Value = kb.Materi
                 row.Cells(4).Value = kb.Thick
                 row.Cells(5).Value = kb.Count
             End If
         Next
         Remove_empty_rows(DataGridView5)
-        DataGridView5.AutoResizeColumns()
     End Sub
     Private Function Rename_dxf() As Integer
         'Find the the artikel on the assembly drawing (IDW)
@@ -1150,7 +1129,7 @@ Public Class Form1
                 End If
             End If
         Next
-        DataGridView5.AutoResizeColumns()
+        Remove_empty_rows(DataGridView5)
         TextBox42.Text = " "
         Return (dxf_cnt)
     End Function
@@ -1167,7 +1146,6 @@ Public Class Form1
     'Find drawing name en postion of the artikel
     Private Sub Find_dwg_pos(ByVal dtg As DataGridView, ByVal Axxxxx As String) 'As String
         Dim actie As String = " "
-        Dim found As Boolean = False
         Dim pos As Integer = 0
         Dim plate_thick As Double = 0
 
@@ -1182,9 +1160,10 @@ Public Class Form1
             kb.Materi = ""
             kb.Count = ""
             kb.actie = TextBox31.Text & "-" & TextBox33.Text & "_" & Axxxxx & "_Not-found.dxf"
+            kb.found = False
 
-            If String.Equals(row.Cells.Item(6).Value, Axxxxx) Then           '????? was =
-                found = True
+            If String.Equals(row.Cells.Item(6).Value, Axxxxx) Then    '????? was =
+                kb.found = True
                 actie = TextBox31.Text & "_"                    'Project
                 actie &= TextBox33.Text & "_"                   'Tnumber
                 actie &= row.Cells(3).Value.ToString() & "_"    'Drwg= 
@@ -1214,7 +1193,7 @@ Public Class Form1
             End If
         Next
 
-        If found = True Then
+        If kb.found = True Then
             If Not CheckBox1.Checked Then
                 TextBox2.Text &= "IDW BOM list, lookup drwg + pos for Artikel " & Axxxxx & " found" & vbCrLf
             End If
@@ -1271,7 +1250,7 @@ Public Class Form1
         ProgressBar1.Visible = True
         Button19.BackColor = System.Drawing.Color.LightGreen
         DataGridView5.Rows.Clear()
-        DataGridView5.RowCount = view_rows    'was 20
+        DataGridView5.RowCount = view_rows
 
         TextBox2.Text &= "============= Find the IDW's =======================" & vbCrLf
         Button19.Text = "Find the IDW's..."
@@ -1279,7 +1258,7 @@ Public Class Form1
         If cnt = 0 Then MessageBox.Show("WARNING NO IDW files found in the Work directory !!")
         TextBox2.Text &= "============= Extract dxf from IDW ==================" & vbCrLf
         Button19.Text = "Extract dxf from idw's..."
-        cnt = Extract_dxf_from_IPT()
+        cnt = Extract_dxf_from_IPT(DataGridView5)
         If cnt = 0 Then MessageBox.Show("WARNING NO DXF files Extraxted from idw's !!")
         TextBox2.Text &= "============= Find artikel drwg + pos and rename ====" & vbCrLf
         Button19.Text = "Lookup artikel dwg and pos..."
