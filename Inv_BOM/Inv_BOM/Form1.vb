@@ -121,7 +121,7 @@ Public Class Form1
                 filepath2 = "C:\Inventor_tst"
                 filepath5 = "c:\Temp"
             Case "GerritP"                          'Work
-                filepath2 = "C:\Inventor test files\KarelBakker2"
+                filepath2 = "C:\Inventor test files\KarelBakker5 18.1119"
                 filepath5 = "c:\Temp"
             Case Else                               'Karel Bakker
                 filepath2 = "E:\Protmp\Procad"
@@ -1206,7 +1206,7 @@ Public Class Form1
         Dim str2, str3 As String
         Dim acceptedChars() As Char = "0123456789,.".ToCharArray
 
-        If str.Length >= 9 Then
+        If str.Length >= 11 Then
             str2 = str.Substring(6, 5)
 
             'take only the accepted character
