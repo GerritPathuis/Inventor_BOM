@@ -121,7 +121,7 @@ Public Class Form1
                 filepath2 = "C:\Inventor_tst"
                 filepath5 = "c:\Temp"
             Case "GerritP"                          'Work
-                filepath2 = "C:\Inventor test files\KarelBakker5 18.1119"
+                filepath2 = "C:\Inventor test files\KarelBakker6 19.1001"
                 filepath5 = "c:\Temp"
             Case Else                               'Karel Bakker
                 filepath2 = "E:\Protmp\Procad"
@@ -609,8 +609,16 @@ Public Class Form1
         '=================================================================================
         'https://forums.autodesk.com/t5/inventor-customization/copy-titleblock-prompted-entries-to-custom-iproperty/td-p/7491136
         oSheet = oDoc.ActiveSheet
+
+        If IsNothing(oSheet.TitleBlock) Then
+            MessageBox.Show("IDW Titleblock is missing on " & path)
+            TextBox2.Text &= "IDW Titleblock is missing on " & path & vbCrLf
+            Exit Sub
+        End If
+
         oTB1 = oSheet.TitleBlock
         titleDef = oTB1.Definition
+
 
         ' Find the Prompted Entry called DESCRIPTION in the Title Block
         For Each defText As Inventor.TextBox In titleDef.Sketch.TextBoxes
