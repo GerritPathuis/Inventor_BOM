@@ -204,11 +204,11 @@ Partial Class Form1
         Me.ProgressBar4 = New System.Windows.Forms.ProgressBar()
         Me.Label30 = New System.Windows.Forms.Label()
         Me.Button21 = New System.Windows.Forms.Button()
+        Me.TabPage11 = New System.Windows.Forms.TabPage()
+        Me.TextBox46 = New System.Windows.Forms.TextBox()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.TabPage11 = New System.Windows.Forms.TabPage()
-        Me.TextBox46 = New System.Windows.Forms.TextBox()
         Me.TabControl1.SuspendLayout()
         Me.TabPage6.SuspendLayout()
         Me.GroupBox8.SuspendLayout()
@@ -325,10 +325,10 @@ Partial Class Form1
         '
         Me.TabPage6.Controls.Add(Me.GroupBox8)
         Me.TabPage6.Controls.Add(Me.GroupBox7)
-        Me.TabPage6.Location = New System.Drawing.Point(4, 40)
+        Me.TabPage6.Location = New System.Drawing.Point(4, 22)
         Me.TabPage6.Name = "TabPage6"
         Me.TabPage6.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage6.Size = New System.Drawing.Size(809, 455)
+        Me.TabPage6.Size = New System.Drawing.Size(809, 473)
         Me.TabPage6.TabIndex = 5
         Me.TabPage6.Text = "Directory"
         Me.TabPage6.UseVisualStyleBackColor = True
@@ -1973,11 +1973,6 @@ Partial Class Form1
         Me.Button21.Text = "Read IDW's in Work directory and sub-directories" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "then create the pdf file"
         Me.Button21.UseVisualStyleBackColor = True
         '
-        'ContextMenuStrip1
-        '
-        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(61, 4)
-        '
         'TabPage11
         '
         Me.TabPage11.Controls.Add(Me.TextBox46)
@@ -1991,12 +1986,18 @@ Partial Class Form1
         '
         'TextBox46
         '
+        Me.TextBox46.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TextBox46.Location = New System.Drawing.Point(6, 6)
         Me.TextBox46.Multiline = True
         Me.TextBox46.Name = "TextBox46"
         Me.TextBox46.ScrollBars = System.Windows.Forms.ScrollBars.Both
         Me.TextBox46.Size = New System.Drawing.Size(611, 328)
         Me.TextBox46.TabIndex = 0
+        '
+        'ContextMenuStrip1
+        '
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(61, 4)
         '
         'Form1
         '

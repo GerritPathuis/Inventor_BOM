@@ -156,10 +156,14 @@ Public Class Form1
         TextBox39.Text &= "You can create the ini file Using the Options dialog which can be reached " & vbCrLf
         TextBox39.Text &= "From the 'SaveCopyAs' dialog, when the *.dwg file format are selected."
 
-        TextBox46.Text = "The IDW files must have a title block." & vbCrLf & vbCrLf
-        TextBox46.Text &= "If the Customer Tille bock is required add it as a sketch-symbol." & vbCrLf
-        TextBox46.Text &= "do not touch the VTK Title block" & vbCrLf
-        TextBox46.Text &= "The description, D-number and A-number is read from the Title block" & vbCrLf
+        TextBox46.Text = "The IDW files." & vbCrLf
+        TextBox46.Text &= "IDW must contains a VTK Title block and in most cases a Part-list (BOM)." & vbCrLf
+        TextBox46.Text &= "If the Customer Tille bock is required add it as a SKETCH-SYMBOL " & vbCrLf
+        TextBox46.Text &= "and do not touch the VTK Title block." & vbCrLf
+        TextBox46.Text &= "Description, D-number and A-number are read from the Title block." & vbCrLf
+        TextBox46.Text &= vbCrLf
+        TextBox46.Text &= "The IPT files." & vbCrLf
+        TextBox46.Text &= "The dfx files are extracted from the ipt files." & vbCrLf
 
         Inventor_running()
     End Sub
