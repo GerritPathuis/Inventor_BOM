@@ -207,6 +207,8 @@ Partial Class Form1
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.TabPage11 = New System.Windows.Forms.TabPage()
+        Me.TextBox46 = New System.Windows.Forms.TextBox()
         Me.TabControl1.SuspendLayout()
         Me.TabPage6.SuspendLayout()
         Me.GroupBox8.SuspendLayout()
@@ -257,6 +259,7 @@ Partial Class Form1
         Me.TabPage9.SuspendLayout()
         Me.TabPage10.SuspendLayout()
         Me.GroupBox15.SuspendLayout()
+        Me.TabPage11.SuspendLayout()
         Me.SuspendLayout()
         '
         'TextBox1
@@ -309,6 +312,7 @@ Partial Class Form1
         Me.TabControl1.Controls.Add(Me.TabPage8)
         Me.TabControl1.Controls.Add(Me.TabPage9)
         Me.TabControl1.Controls.Add(Me.TabPage10)
+        Me.TabControl1.Controls.Add(Me.TabPage11)
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TabControl1.Location = New System.Drawing.Point(0, 0)
         Me.TabControl1.Multiline = True
@@ -321,10 +325,10 @@ Partial Class Form1
         '
         Me.TabPage6.Controls.Add(Me.GroupBox8)
         Me.TabPage6.Controls.Add(Me.GroupBox7)
-        Me.TabPage6.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage6.Location = New System.Drawing.Point(4, 40)
         Me.TabPage6.Name = "TabPage6"
         Me.TabPage6.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage6.Size = New System.Drawing.Size(809, 473)
+        Me.TabPage6.Size = New System.Drawing.Size(809, 455)
         Me.TabPage6.TabIndex = 5
         Me.TabPage6.Text = "Directory"
         Me.TabPage6.UseVisualStyleBackColor = True
@@ -1611,7 +1615,7 @@ Partial Class Form1
         Me.TabPage7.Padding = New System.Windows.Forms.Padding(3)
         Me.TabPage7.Size = New System.Drawing.Size(809, 473)
         Me.TabPage7.TabIndex = 6
-        Me.TabPage7.Text = "Error/Trace log"
+        Me.TabPage7.Text = "Trace log"
         Me.TabPage7.UseVisualStyleBackColor = True
         '
         'Button18
@@ -1974,6 +1978,26 @@ Partial Class Form1
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
         Me.ContextMenuStrip1.Size = New System.Drawing.Size(61, 4)
         '
+        'TabPage11
+        '
+        Me.TabPage11.Controls.Add(Me.TextBox46)
+        Me.TabPage11.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage11.Name = "TabPage11"
+        Me.TabPage11.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage11.Size = New System.Drawing.Size(809, 473)
+        Me.TabPage11.TabIndex = 10
+        Me.TabPage11.Text = "Remarks"
+        Me.TabPage11.UseVisualStyleBackColor = True
+        '
+        'TextBox46
+        '
+        Me.TextBox46.Location = New System.Drawing.Point(6, 6)
+        Me.TextBox46.Multiline = True
+        Me.TextBox46.Name = "TextBox46"
+        Me.TextBox46.ScrollBars = System.Windows.Forms.ScrollBars.Both
+        Me.TextBox46.Size = New System.Drawing.Size(611, 328)
+        Me.TextBox46.TabIndex = 0
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2052,6 +2076,8 @@ Partial Class Form1
         Me.TabPage10.PerformLayout()
         Me.GroupBox15.ResumeLayout(False)
         Me.GroupBox15.PerformLayout()
+        Me.TabPage11.ResumeLayout(False)
+        Me.TabPage11.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -2238,4 +2264,6 @@ Partial Class Form1
     Friend WithEvents Label33 As Label
     Friend WithEvents GroupBox15 As GroupBox
     Friend WithEvents Button20 As Button
+    Friend WithEvents TabPage11 As TabPage
+    Friend WithEvents TextBox46 As TextBox
 End Class

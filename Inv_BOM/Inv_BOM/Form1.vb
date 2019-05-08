@@ -155,6 +155,12 @@ Public Class Form1
         TextBox39.Text &= "to set additional options for the AutoCAD dwg Or dxf that will be created." & vbCrLf
         TextBox39.Text &= "You can create the ini file Using the Options dialog which can be reached " & vbCrLf
         TextBox39.Text &= "From the 'SaveCopyAs' dialog, when the *.dwg file format are selected."
+
+        TextBox46.Text = "The IDW files must have a title block." & vbCrLf & vbCrLf
+        TextBox46.Text &= "If the Customer Tille bock is required add it as a sketch-symbol." & vbCrLf
+        TextBox46.Text &= "do not touch the VTK Title block" & vbCrLf
+        TextBox46.Text &= "The description, D-number and A-number is read from the Title block" & vbCrLf
+
         Inventor_running()
     End Sub
     Private Sub Inventor_running()
@@ -611,33 +617,37 @@ Public Class Form1
         oSheet = oDoc.ActiveSheet
 
         If IsNothing(oSheet.TitleBlock) Then
-            MessageBox.Show("IDW Titleblock is missing on " & path)
+            'MessageBox.Show("IDW Titleblock is missing on " & path)
             TextBox2.Text &= "IDW Titleblock is missing on " & path & vbCrLf
-            Exit Sub
-        End If
-
-        oTB1 = oSheet.TitleBlock
-        titleDef = oTB1.Definition
-
-
-        ' Find the Prompted Entry called DESCRIPTION in the Title Block
-        For Each defText As Inventor.TextBox In titleDef.Sketch.TextBoxes
-            If defText Is Nothing Then Exit Sub
-            Increm_progressbar()
             q_file = IO.Path.GetFileName(path)          '=File naam (short)
+            q_desc = "NO Title block"
+            q_A00 = "NO Title block"
+            q_D00 = "NO Title block"
+        Else
+            oTB1 = oSheet.TitleBlock
+            titleDef = oTB1.Definition
 
-            Select Case defText.Text
-                Case "<DESCRIPTION>"        'Description
-                    oPrompt = defText
-                    q_desc = oTB1.GetResultText(oPrompt)
-                Case "<ITEM_NR>"            '=A0000
-                    oPrompt = defText
-                    q_A00 = oTB1.GetResultText(oPrompt)
-                Case "<DOC_NUMBER>"         '=D0000
-                    oPrompt = defText
-                    q_D00 = oTB1.GetResultText(oPrompt)
-            End Select
-        Next
+
+            ' Find the Prompted Entry called DESCRIPTION in the Title Block
+            ' ==== read article number and drawing number
+            For Each defText As Inventor.TextBox In titleDef.Sketch.TextBoxes
+                If defText Is Nothing Then Exit Sub
+                Increm_progressbar()
+                q_file = IO.Path.GetFileName(path)          '=File naam (short)
+
+                Select Case defText.Text
+                    Case "<DESCRIPTION>"        'Description
+                        oPrompt = defText
+                        q_desc = oTB1.GetResultText(oPrompt)
+                    Case "<ITEM_NR>"            '=A0000
+                        oPrompt = defText
+                        q_A00 = oTB1.GetResultText(oPrompt)
+                    Case "<DOC_NUMBER>"         '=D0000
+                        oPrompt = defText
+                        q_D00 = oTB1.GetResultText(oPrompt)
+                End Select
+            Next
+        End If
 
         '============== Read The parts List=========================================
         ' Make sure a parts list is selected.
