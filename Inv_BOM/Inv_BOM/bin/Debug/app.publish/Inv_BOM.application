@@ -14,7 +14,7 @@
     <framework targetVersion="4.6.1" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="Inv_BOM.exe.manifest" size="4620">
+    <dependentAssembly dependencyType="install" codebase="Application Files\Inv_BOM_1_0_1_53\Inv_BOM.exe.manifest" size="4620">
       <assemblyIdentity name="Inv_BOM.exe" version="1.0.1.53" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
